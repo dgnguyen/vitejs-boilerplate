@@ -6,7 +6,8 @@ const ENDPOINT = {
 
 export const ROUTES = {
   APP_ROOT: '/',
-  SIGNUP: '/signup',
+  DASHBOARD: '/dashboard',
+  TRANSACTION: '/transaction',
   LOGIN: '/login',
 } as const;
 

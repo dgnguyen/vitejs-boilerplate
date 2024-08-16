@@ -1,10 +1,13 @@
-import AppLayout from '@/layout/AppLayout';
+import React from 'react'
+
+import { BrowserRouter as Router } from 'react-router-dom'
+import Layout from './layout'
 
 function App() {
   return (
-    <AppLayout>
-      <h1>Vitejs + React + TypeScript + Rudux Thunk + Material UI Boilerplate</h1>
-    </AppLayout>
+    <Router>
+      <Layout />
+    </Router>
   )
 }
 
