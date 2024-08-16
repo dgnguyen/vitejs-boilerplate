@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { BrowserRouter as Router } from 'react-router-dom'
-import Layout from './layout'
+import Layout from 'layout/AppLayout'
 
 function App() {
   return (

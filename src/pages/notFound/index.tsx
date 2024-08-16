@@ -1,5 +1,5 @@
-import AppLayout from '@/layout/AppLayout';
-import { Wrapper } from './style';
+import AppLayout from 'layout/AppLayout'
+import { Wrapper } from './style'
 
 const NotFound = () => {
   return (
@@ -7,8 +7,8 @@ const NotFound = () => {
       <Wrapper>
         <h1>Page Not Pound</h1>
       </Wrapper>
-      </AppLayout>
-  );
-};
+    </AppLayout>
+  )
+}
 
-export default NotFound;
+export default NotFound

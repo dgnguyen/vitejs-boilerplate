@@ -1,11 +1,14 @@
-import { Wrapper } from './style';
+import Body from './Body'
+import Menu from './Menu'
+import { Wrapper } from './style'
 
-const AppLayout = (props: { children?: JSX.Element }) => {
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Wrapper>
-     <>{props.children}</>
+      <Menu />
+      <Body>{children}</Body>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default AppLayout;
+export default AppLayout

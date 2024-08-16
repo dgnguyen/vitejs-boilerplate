@@ -12,7 +12,7 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.DASHBOARD,
-    element: <AuthRoute component={Dashboard} />,
+    element: <AuthRoute element={<Dashboard />} />,
   },
   {
     path: '/*',
