@@ -1,14 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 
-import { store } from './redux/store';
-import { theme } from './constants/theme';
-import Router from './router';
+import { store } from './redux/store'
+import { theme } from './constants/theme'
+import Router from './router'
 
-import './styles/app.css';
+import './styles/app.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -20,4 +20,4 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       </CssVarsProvider>
     </Provider>
   </React.StrictMode>
-);
+)

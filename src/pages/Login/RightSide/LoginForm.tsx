@@ -6,15 +6,12 @@ import { Link, Button } from '@mui/material'
 import { ROUTES } from 'constants/endpoint'
 import { Form, Formik } from 'formik'
 import { useSelector } from 'react-redux'
-import { useAppDispatch } from "redux/hooks"
+import { useAppDispatch } from 'redux/hooks'
 import { useNavigate } from 'react-router-dom'
 
 import { isSuperAdminOrAdmin } from 'helpers/auth'
 import loginSchema from '../../../schema/loginSchema'
-import {
-  loginUser,
-  loadingLogin
-} from 'redux/reducers/user'
+import { loginUser, loadingLogin } from 'redux/reducers/user'
 
 import styles from './styles.module.scss'
 
@@ -27,13 +24,11 @@ const LoginForm = () => {
   const onSubmit = async (values: any, action: any) => {
     try {
       await dispatch(loginUser(values))
-      navigate(
-        isSuperAdminOrAdmin() ? ROUTES.DASHBOARD : ROUTES.TRANSACTION
-      )
+      navigate(isSuperAdminOrAdmin() ? ROUTES.DASHBOARD : ROUTES.TRANSACTION)
     } catch (e) {
       action.setErrors({
         email: 'Email is not correct',
-        password: 'Password is not correct'
+        password: 'Password is not correct',
       })
     }
   }
@@ -46,44 +41,50 @@ const LoginForm = () => {
         onSubmit(values, actions)
       }}
     >
-      {props => (
-        <Form className="login-form" onSubmit={props.handleSubmit}>
+      {(props) => (
+        <Form
+          className='login-form'
+          onSubmit={props.handleSubmit}
+        >
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor='email'>Email</label>
             <div className={styles.input_group}>
               <input
-                id="email"
+                id='email'
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.email}
-                type="text"
-                name="email"
+                type='text'
+                name='email'
                 className={
                   props.touched.email && props.errors.email ? 'error_input' : ''
                 }
               />
               {props.touched.email && props.errors.email && (
-                <span className="error_text">{props.errors.email}</span>
+                <span className='error_text'>{props.errors.email}</span>
               )}
             </div>
           </div>
           <div className={styles.password_wrap}>
-            <label htmlFor="password">Password</label>
+            <label htmlFor='password'>Password</label>
             <div className={styles.input_group}>
               <input
-                id="password"
+                id='password'
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.password}
                 type={!show ? 'password' : 'text'}
-                name="password"
+                name='password'
                 className={
                   props.touched.password && props.errors.password
                     ? 'error_input'
                     : ''
                 }
               />
-              <div className={styles.eye} onClick={() => setShow(!show)}>
+              <div
+                className={styles.eye}
+                onClick={() => setShow(!show)}
+              >
                 {!show ? (
                   <i className={'icon icon-Hide'}> </i>
                 ) : (
@@ -92,27 +93,27 @@ const LoginForm = () => {
               </div>
             </div>
             {props.touched.password && props.errors.password && (
-              <span className="error_text">{props.errors.password}</span>
+              <span className='error_text'>{props.errors.password}</span>
             )}
           </div>
           <Button
-            key="loginButton"
-            type="submit"
+            key='loginButton'
+            type='submit'
             disabled={loginIsLoading}
             // loading={loginIsLoading}
-            variant="contained"
+            variant='contained'
             fullWidth
-          // loadingPosition="start"
+            // loadingPosition="start"
           >
             <span>Login</span>
           </Button>
           <Link
             sx={{
               textAlign: 'left',
-              marginTop: 2
+              marginTop: 2,
             }}
-            component="button"
-            variant="body2"
+            component='button'
+            variant='body2'
             onClick={() => navigate(ROUTES.FORGOT_PASSWORD)}
           >
             Forgot your password{' '}

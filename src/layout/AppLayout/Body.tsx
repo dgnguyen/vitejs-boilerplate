@@ -5,16 +5,15 @@ import Topbar from './Topbar'
 const Body = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
-      className="body-wrapper"
-      component="main"
+      className='body-topbar-wrapper'
+      component='main'
       sx={{
         flexGrow: 1,
-        width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` }
+        width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
       }}
-
     >
       <Topbar />
-      {children}
+      <Box className='body-wrapper'>{children}</Box>
     </Box>
   )
 }

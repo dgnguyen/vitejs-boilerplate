@@ -17,6 +17,6 @@ export function useClickOutside(callback: () => void) {
   }, [callback])
 
   return {
-    ref
+    ref,
   }
 }

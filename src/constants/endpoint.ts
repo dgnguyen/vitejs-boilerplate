@@ -7,6 +7,7 @@ const ENDPOINT = {
 export const ROUTES = {
   APP_ROOT: '/',
   DASHBOARD: '/dashboard',
+  DASHBOARD_AGENT: '/dashboard/agent',
   TRANSACTION: '/transaction',
   PLAYER: '/player',
   PLAYER_TRACKING: '/player_tracking',

@@ -8,7 +8,10 @@ const LeftSide = () => {
   return (
     <div className={styles.login_page_left}>
       <div className={styles.img_wrap}>
-        <img src={Laptop} alt="" />
+        <img
+          src={Laptop}
+          alt=''
+        />
       </div>
     </div>
   )

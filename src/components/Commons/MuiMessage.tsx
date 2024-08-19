@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography'
 
 const MuiMessage = ({
   message,
-  error
+  error,
 }: {
   message: string
   error: boolean
@@ -13,7 +13,7 @@ const MuiMessage = ({
         marginY: 1,
         fontSize: '14px',
         color: error ? 'var(--red)' : 'var(--blue)',
-        marginBottom: 2
+        marginBottom: 2,
       }}
     >
       {message}

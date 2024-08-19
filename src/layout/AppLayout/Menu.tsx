@@ -18,19 +18,26 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
-import { DRAWER_WIDTH } from "constants/layout"
+import { DRAWER_WIDTH } from 'constants/layout'
 import { isSuperAdmin } from 'helpers/auth'
 import { getDrawerItems } from './helpers'
 import { useNavigate } from 'react-router-dom'
 
 const DrawerContent = () => {
   const navigate = useNavigate()
+  const rootPathname = `/${window.location.pathname.split('/')?.[1]}`
   return (
     <div>
       <List>
         {getDrawerItems().map((item, index) => (
-          <ListItem key={item.label} disablePadding >
-            <ListItemButton onClick={() => navigate(item.href)} selected={window.location.pathname === item.href}>
+          <ListItem
+            key={item.label}
+            disablePadding
+          >
+            <ListItemButton
+              onClick={() => navigate(item.href)}
+              selected={rootPathname === item.href}
+            >
               {/* <ListItemIcon>
 
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -44,26 +51,27 @@ const DrawerContent = () => {
   )
 }
 
-
 const Menu = () => {
   const menuItems = getDrawerItems()
 
-
   return (
-    <Box className="menu-wrapper">
+    <Box className='menu-wrapper'>
       <CssBaseline />
 
       <Box
-        component="nav"
+        component='nav'
         sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
+        aria-label='mailbox folders'
       >
         <Drawer
-          variant="permanent"
+          variant='permanent'
           sx={{
-
             display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { justifyContent: "center", boxSizing: 'border-box', width: DRAWER_WIDTH },
+            '& .MuiDrawer-paper': {
+              justifyContent: 'center',
+              boxSizing: 'border-box',
+              width: DRAWER_WIDTH,
+            },
           }}
           open
         >

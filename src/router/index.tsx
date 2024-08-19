@@ -4,6 +4,7 @@ import Login from 'pages/Login'
 import NotFound from 'pages/notFound'
 import Dashboard from 'pages/Dashboard'
 import AuthRoute from './AuthRoute'
+import Transaction from 'pages/Transaction'
 
 const allRoutes: RouteObject[] = [
   {
@@ -13,6 +14,10 @@ const allRoutes: RouteObject[] = [
   {
     path: ROUTES.DASHBOARD,
     element: <AuthRoute element={<Dashboard />} />,
+  },
+  {
+    path: ROUTES.TRANSACTION,
+    element: <AuthRoute element={<Transaction />} />,
   },
   {
     path: '/*',

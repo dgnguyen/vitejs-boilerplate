@@ -35,7 +35,7 @@ const ForgotPwdForm = () => {
     } catch (e) {
       setError(true)
       action.setErrors({
-        email: 'Email is not correct'
+        email: 'Email is not correct',
       })
     } finally {
       setLoading(false)
@@ -51,18 +51,21 @@ const ForgotPwdForm = () => {
           onSubmit(values, actions)
         }}
       >
-        {props => (
-          <Form className="login-form" onSubmit={props.handleSubmit}>
+        {(props) => (
+          <Form
+            className='login-form'
+            onSubmit={props.handleSubmit}
+          >
             <div>
-              <label htmlFor="email">Email to reset password</label>
+              <label htmlFor='email'>Email to reset password</label>
               <div className={styles.input_group}>
                 <input
-                  id="email"
+                  id='email'
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.email}
-                  type="text"
-                  name="email"
+                  type='text'
+                  name='email'
                   className={
                     props.touched.email && props.errors.email
                       ? 'error_input'
@@ -70,34 +73,39 @@ const ForgotPwdForm = () => {
                   }
                 />
                 {props.touched.email && props.errors.email && (
-                  <span className="error_text">{props.errors.email}</span>
+                  <span className='error_text'>{props.errors.email}</span>
                 )}
               </div>
             </div>
 
             <Button
-              type="submit"
-              variant="contained"
+              type='submit'
+              variant='contained'
               fullWidth
-              key="sendMailResetPwd"
+              key='sendMailResetPwd'
               sx={{ marginY: 2 }}
               // loadingPosition="start"
               disabled={loading}
-            // loading={loading}
+              // loading={loading}
             >
               Send
             </Button>
           </Form>
         )}
       </Formik>
-      {message && <MuiMessage message={message} error={error} />}
+      {message && (
+        <MuiMessage
+          message={message}
+          error={error}
+        />
+      )}
       <Link
         sx={{
           textAlign: 'left',
-          marginTop: 2
+          marginTop: 2,
         }}
-        component="button"
-        variant="body2"
+        component='button'
+        variant='body2'
         onClick={() => navigate(ROUTES.APP_ROOT)}
       >
         Return to login page{' '}

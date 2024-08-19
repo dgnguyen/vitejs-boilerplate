@@ -1,7 +1,12 @@
 import { Box } from '@mui/material'
+import DashboardHeader from './DashboardHeader'
 
 const Dashboard = () => {
-  return (<Box>Dashboard</Box>)
+  return (
+    <Box>
+      <DashboardHeader />
+    </Box>
+  )
 }
 
 export default Dashboard

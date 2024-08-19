@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import Logo from 'assets/images/logo.png'
 
 import ForgotPwdForm from './ForgotPwdForm'
@@ -22,11 +21,13 @@ function withHOC<P extends object>(
       <div className={styles.logosDiv}>
         <div className={styles.logo}>
           <div className={styles.powered}>Powered by</div>
-          <img src={Logo} alt="logo" />
+          <img
+            src={Logo}
+            alt='logo'
+          />
         </div>
         <h1 className={styles.title}>Welcome to Powerball</h1>
-        <div className={styles.logoClient}>
-        </div>
+        <div className={styles.logoClient}></div>
       </div>
       <div className={styles.form_wrapper}>
         <WrappedComponent {...(props as P)} />
@@ -38,7 +39,7 @@ function withHOC<P extends object>(
 }
 
 const RightSide: React.FC<WithHOCProps> = ({
-  isForgotPwdPage
+  isForgotPwdPage,
 }: WithHOCProps) => {
   if (isForgotPwdPage) {
     return <ForgotPwdForm />

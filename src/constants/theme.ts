@@ -1,10 +1,10 @@
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 declare module '@mui/material/styles/createPalette' {
   interface CommonColors {
-    darkGrey: string;
-    background: string;
-    lightGrey: string;
+    darkGrey: string
+    background: string
+    lightGrey: string
   }
 }
 
@@ -40,6 +40,6 @@ export const theme = extendTheme({
       },
     },
   },
-});
+})
 
-export type Theme = typeof theme;
+export type Theme = typeof theme
