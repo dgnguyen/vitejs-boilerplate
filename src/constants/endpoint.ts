@@ -8,6 +8,12 @@ export const ROUTES = {
   APP_ROOT: '/',
   DASHBOARD: '/dashboard',
   TRANSACTION: '/transaction',
+  PLAYER: '/player',
+  PLAYER_TRACKING: '/player_tracking',
+  AGENT: '/agent',
+  AGENT_TRACKING: '/agent_tracking',
+  MARKET: '/market',
+  ACCOUNT: '/account',
   FORGOT_PASSWORD: '/forgot-password',
 } as const
 

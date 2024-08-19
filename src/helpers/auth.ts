@@ -31,6 +31,10 @@ export const isSuperAdmin = () => {
   return getUser().role === 1
 }
 
+export function haveRightToAccess(role: number) {
+  return !!(getUser().role <= role)
+}
+
 export const isSuperAdminOrAdmin = () => getUser().role <= 2
 
 export const removeToken = () => {
