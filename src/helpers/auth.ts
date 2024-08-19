@@ -1,55 +1,59 @@
 type IUser = {
-  userId: number;
-  partnerId: number;
-  name: string;
-  surname: string;
-  login: string;
-  groupPermissionId: number;
-  token: string;
-  loginExpirationDate: string;
-};
+  userId: number
+  partnerId: number
+  name: string
+  surname: string
+  login: string
+  groupPermissionId: number
+  token: string
+  loginExpirationDate: string
+}
 
 export const setToken = (token: string) => {
-  localStorage.setItem('token', token);
-};
+  localStorage.setItem('token', token)
+}
 
 export const getToken = () => {
-  return localStorage.getItem('token');
-};
+  return localStorage.getItem('token')
+}
 
 export const isAuthenticated = () => {
-  return !!getToken(); // && getExpiresAt();
-};
+  return !!getToken() // && getExpiresAt();
+}
 
-export const isAdmin = () => getUser().role === 2;
+export const isMasterAgent = () => getUser().role === 3
+
+export const isAgent = () => getUser().role === 4
+
+export const isAdmin = () => getUser().role === 2
 
 export const isSuperAdmin = () => {
-  return getUser().role === 1;
-};
+  return getUser().role === 1
+}
 
-export const isSuperAdminOrAdmin = () => getUser().role <= 2;
+export const isSuperAdminOrAdmin = () => getUser().role <= 2
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
-};
+  localStorage.removeItem('token')
+}
 
 export const setUser = (user: IUser) => {
-  localStorage.setItem('user', JSON.stringify(user));
-};
+  localStorage.setItem('user', JSON.stringify(user))
+}
 
 export const getUser = () => {
-  return JSON.parse(localStorage.getItem('user') || '{"token":"","role":0}');
-};
+  return JSON.parse(localStorage.getItem('user') || '{"token":"","role":0}')
+}
 
 export const setExpiresAt = (date: string) => {
-  return localStorage.setItem('expires_at', date);
-};
+  return localStorage.setItem('expires_at', date)
+}
 
 export const getExpiresAt = () => {
-  const date = localStorage.getItem('expires_at');
-  let expiresAt;
+  const date = localStorage.getItem('expires_at')
+  let expiresAt
 
-  if (date) expiresAt = Date.parse(date);
+  if (date) expiresAt = Date.parse(date)
 
-  if (expiresAt) return new Date().getTime() < expiresAt;
-};
+  if (expiresAt) return new Date().getTime() < expiresAt
+}
