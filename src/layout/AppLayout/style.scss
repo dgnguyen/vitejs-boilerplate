@@ -1,0 +1,18 @@
+// width: ${({ menuIsOpen }) => (menuIsOpen ? 'calc(100% - 300px)' : '100%')};
+// margin-left: ${({ menuIsOpen }) => (menuIsOpen ? 300 : 0)}px;
+
+.app-wrapper {
+  display: flex;
+  transition: all 0.3s;
+  height: 100vh;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.body-topbar-wrapper {
+  background: var(--bg-color);
+}
+
+.body-wrapper {
+  padding: 16px;
+}

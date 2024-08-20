@@ -1,0 +1,26 @@
+.login_page_left {
+  display: flex;
+  justify-content: center;
+  background-color: #5863ff;
+  padding-top: 333px;
+  padding-bottom: 230px;
+  height: 100%;
+}
+.img_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+.text {
+  max-width: 587px;
+  margin-top: 36px;
+  width: 100%;
+  color: white;
+  text-align: center;
+}

@@ -1,0 +1,18 @@
+:root {
+  //colors
+  --white: #ffffff;
+  --bg-color: #f0f5f9;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+hr {
+  margin-block: 1.6rem;
+  border-bottom: 1px solid var(--blue-border-color);
+}
