@@ -8,15 +8,21 @@ import { store } from './redux/store'
 import { theme } from './constants/theme'
 import Router from './router'
 
+import 'api'
 import './styles/app.css'
+import Contexts from 'context'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <CssVarsProvider theme={theme}>
+
         <BrowserRouter>
-          <Router />
+          <Contexts>
+            <Router />
+          </Contexts>
         </BrowserRouter>
+
       </CssVarsProvider>
     </Provider>
   </React.StrictMode>
