@@ -21,7 +21,6 @@ const DashboardHeader = () => {
         )}
         <Button
           variant={getStyledButton(ROUTES.DASHBOARD_AGENT)}
-
           data-testid='button-dashboardByAgent'
           onClick={() => navigate(ROUTES.DASHBOARD_AGENT)}
         >
