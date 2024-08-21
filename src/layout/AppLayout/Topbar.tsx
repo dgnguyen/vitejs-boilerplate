@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
 import { useAppDispatch } from 'redux/store'
 import { logout } from 'redux/reducers/user'
+import { useNavigate } from 'react-router-dom'
 
 const pages = ['Products', 'Pricing', 'Blog']
 
@@ -24,9 +25,11 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
+  const navigate = useNavigate()
 
   function handleLogout() {
     dispatch(logout())
+    navigate("/")
   }
 
   const settings = [
@@ -38,7 +41,6 @@ function ResponsiveAppBar() {
       label: "Logout",
       onClick: () => handleLogout()
     }
-    // 'Profile', 'Logout'
   ]
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

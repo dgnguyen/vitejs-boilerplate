@@ -13,17 +13,15 @@ import './styles/app.css'
 import Contexts from 'context'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <CssVarsProvider theme={theme}>
-
-        <BrowserRouter>
-          <Contexts>
-            <Router />
-          </Contexts>
-        </BrowserRouter>
-
-      </CssVarsProvider>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <CssVarsProvider theme={theme}>
+      <BrowserRouter>
+        <Contexts>
+          <Router />
+        </Contexts>
+      </BrowserRouter>
+    </CssVarsProvider>
+  </Provider>
+  // </React.StrictMode >
 )

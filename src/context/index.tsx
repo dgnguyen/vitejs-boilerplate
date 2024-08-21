@@ -1,4 +1,4 @@
-import { LoginContextProvider } from "context/LoginContext"
+import { UserContextProvider } from "context/UserContext"
 
 const Contexts = (props: any) => {
   const {
@@ -7,9 +7,9 @@ const Contexts = (props: any) => {
 
 
   return (
-    <LoginContextProvider>
+    <UserContextProvider>
       {children}
-    </LoginContextProvider>
+    </UserContextProvider>
   )
 }
 

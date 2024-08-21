@@ -4,3 +4,41 @@
     gap: 16px;
   }
 }
+
+.dashboard-actions-wrapper {
+  margin: 16px 0;
+  display: flex;
+  gap: 16px;
+}
+
+.dashboard-content-wrapper {
+  .card_wrap_dashboard,
+  .main_statistics_data {
+    padding: 60px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: 20px;
+
+    > div {
+      padding: 20px 20px 40px 20px;
+
+      > span:nth-of-type(2) {
+        text-align: center;
+        margin-top: 20px;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+  .card_wrap_dashboard {
+    > div {
+      &:nth-child(4) {
+        > span:nth-of-type(2) {
+          display: block;
+        }
+      }
+    }
+  }
+}

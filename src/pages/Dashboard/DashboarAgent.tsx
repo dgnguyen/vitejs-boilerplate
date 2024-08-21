@@ -7,24 +7,27 @@ import { dashboardFilterSelector, getDashboardDataAction } from 'redux/reducers/
 import { useSelector } from 'react-redux'
 import DashboardContent from './DashboardContent'
 
-const Dashboard = () => {
+const DashboardByAgent = () => {
   const dispatch = useAppDispatch()
   const filterDashboard = useSelector(dashboardFilterSelector)
   const {
     dateRange: {
       startDate,
       endDate,
-    }, isTester
+    },
+    isTester,
+    agentSelected
   } = filterDashboard
   useEffect(() => {
     dispatch(
       getDashboardDataAction(
         new Date(startDate),
         new Date(endDate),
-        JSON.parse(isTester)
+        JSON.parse(isTester),
+        agentSelected,
       )
     )
-  }, [startDate, endDate, isTester, dispatch])
+  }, [startDate, endDate, isTester, agentSelected, dispatch])
   return (
     <Box>
       <DashboardHeader />
@@ -34,4 +37,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default DashboardByAgent

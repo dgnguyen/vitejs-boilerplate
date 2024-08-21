@@ -1,15 +1,19 @@
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import DataPicker from 'components/DataPicker'
+import { useSelector } from 'react-redux'
+import { useAppDispatch } from "redux/store"
+import { dashboardFilterSelector, DateRange, resetDashboardFilter, resetDate, setAgent, setDate, setIsTester } from 'redux/reducers/dashboard'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
-import { useFetchAgents } from 'hooks/useFetchAgents'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { dashboardDateRangeSelector, DateRange, resetDate, setDate } from 'redux/reducers/dashboard'
+import AgentSelect from 'components/AgentSelect'
+
+import "./style.scss"
+import { ROUTES } from 'constants/endpoint'
+import TesterSelect from 'components/TesterSelect'
 
 const DashboardActions = () => {
-  const dispatch = useDispatch()
-  const dateRange = useSelector(dashboardDateRangeSelector)
-
+  const dispatch = useAppDispatch()
+  const dasboardFilter = useSelector(dashboardFilterSelector)
+  const { dateRange, agentSelected, isTester } = dasboardFilter
 
   async function handleDateChange(startDate?: string | Date, endDate?: string | Date) {
     if (startDate && endDate) {
@@ -23,15 +27,22 @@ const DashboardActions = () => {
     }
   }
 
-  const { agents } = useFetchAgents()
+  function handleReset() {
+    dispatch(resetDashboardFilter())
+  }
 
-  const agentOptions = [
+  const handleChangeAgent = (event: SelectChangeEvent) => {
+    dispatch(setAgent(event.target.value))
+  }
 
-  ]
+  const handleChangeIsTester = (event: SelectChangeEvent) => {
+    dispatch(setIsTester(event.target.value))
+  }
+
 
 
   return (
-    <Box sx={{ marginY: 2 }}>
+    <Box className="dashboard-actions-wrapper">
       <Box sx={{ width: 200 }}>
         <DataPicker
           changeHandler={handleDateChange}
@@ -39,24 +50,21 @@ const DashboardActions = () => {
           oneMonthSelection
         />
       </Box>
-      {/* {
-        isSuperAdminOrAdmin() && (
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Age"
-              onChange={handleChange}
-            >
-            {
-              agentOptions.
-            }
-            </Select>
-          </FormControl>
-        )
-      } */}
+      {
+        isSuperAdminOrAdmin() && window.location.pathname === ROUTES.DASHBOARD_AGENT &&
+        <AgentSelect
+          agentSelected={agentSelected}
+          handleChange={handleChangeAgent}
+        />
+      }
+      <TesterSelect
+        isTester={isTester}
+        handleChangeIsTester={handleChangeIsTester}
+      />
+
+      <Button variant="contained" data-testid="resetFilterDashboard" onClick={handleReset}>
+        Reset
+      </Button>
     </Box>
   )
 }
