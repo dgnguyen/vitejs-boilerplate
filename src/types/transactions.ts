@@ -1,0 +1,58 @@
+// import { TRListType } from '../components/Accordion'
+
+export enum SearchTypeValue {
+  BC_TRANSACTION = 1,
+  BET_AMOUNT = 2,
+  ROUND_ID = 3,
+  MOA_TRANSACTION = 4,
+  BC_PLAYERID = 5,
+}
+
+export type DateType = {
+  startDate: Date
+  endDate: Date
+}
+
+export type ISearchValuesTransactions = {
+  id: string
+  searchType: SearchTypeValue
+  TransactionStatus: string | number
+  isTester: string
+  date: DateType
+  page: number
+  take: number
+  selectedGameType: number[]
+  totalCount: number
+  hasMore: boolean
+}
+
+export type SettingsTransactions = {
+  length: number
+  hasMore: boolean
+}
+
+export type ITransactions = {
+  loading: boolean
+  loadingPage: boolean
+  errors: boolean
+  settings: SettingsTransactions
+  // data: TRListType[]
+  data: any //totype
+  searchValues: ISearchValuesTransactions
+  isExporting: boolean
+}
+
+export type DateRange = {
+  startDate: Date | string
+  endDate: Date | string
+}
+
+export type StatusTransaction = 0 | 1 | 2 | 3 | 4
+
+export type UpdateCMSDataWS = {
+  betLogId: string
+  status: StatusTransaction
+  externalTransactionId: number
+  winAmount: number
+  gameResult: string
+}[]

@@ -15,6 +15,8 @@ import AdbIcon from '@mui/icons-material/Adb'
 import { useAppDispatch } from 'redux/store'
 import { logout } from 'redux/reducers/user'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from 'context/UserContext'
+import { stringAvatar } from './helpers'
 
 const pages = ['Products', 'Pricing', 'Blog']
 
@@ -58,6 +60,8 @@ function ResponsiveAppBar() {
     setAnchorElUser(null)
   }
 
+  const { currentUser } = useUser() as any
+
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
@@ -69,8 +73,7 @@ function ResponsiveAppBar() {
                 sx={{ p: 0 }}
               >
                 <Avatar
-                  alt='Remy Sharp'
-                  src='/static/images/avatar/2.jpg'
+                  {...stringAvatar(`${currentUser?.firstName} ${currentUser?.lastName}`)}
                 />
               </IconButton>
             </Tooltip>

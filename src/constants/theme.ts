@@ -32,7 +32,7 @@ export const theme = extendTheme({
           background: '#f5f6fe',
         },
         primary: {
-          main: '#4285F4',
+          main: '#5863FF',
         },
         secondary: {
           main: '#27C59A',

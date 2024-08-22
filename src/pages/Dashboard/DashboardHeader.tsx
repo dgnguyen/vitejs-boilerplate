@@ -24,7 +24,7 @@ const DashboardHeader = () => {
           data-testid='button-dashboardByAgent'
           onClick={() => navigate(ROUTES.DASHBOARD_AGENT)}
         >
-          Dashboard
+          Dashboard by Agent
         </Button>
       </Box>
     </Box>

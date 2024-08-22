@@ -11,6 +11,9 @@ import {
   subMonths,
 } from 'date-fns'
 import { API_ENDPOINT } from 'api/endpoint'
+import { partnerFromUrl } from 'helpers/exportExcel'
+import { API_BASE_URL } from 'constants/endpoint'
+import { isSuperAdminOrAdmin } from 'helpers/auth'
 
 export type IBetLog = {
   betAmount: number
@@ -41,7 +44,7 @@ export interface DateRange {
 export interface DahsboardState {
   filter: {
     dateRange: DateRange
-    agentSelected: number[] | null
+    agentSelected: string
     isTester: string
   }
   loading: boolean
@@ -57,7 +60,7 @@ const initialStateDateRange = {
 
 export const initialStateFilter = {
   dateRange: initialStateDateRange,
-  agentSelected: null,
+  agentSelected: 'all',
   isTester: 'false',
 }
 const initialState: DahsboardState = {
@@ -102,6 +105,51 @@ export const dashboardReducer = createSlice({
   },
 })
 
+export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    try {
+      dispatch(setLoading(true))
+
+      const startDateFormatted = format(startDate, 'yyyy-MM-dd')
+      const endDateFormatted = format(endDate, 'yyyy-MM-dd')
+      // const optionalBody
+      await axios
+        .post(
+          `${API_BASE_URL}/AdminTransaction/exportDashboard`,
+          {
+            SearchFrom: startDateFormatted,
+            SearchTo: endDateFormatted,
+            // ...(isTester ? { isTester } : {}),
+            // ...(partnerId ? { partnerId } : {}),
+          },
+          { responseType: 'blob' }
+        )
+        .then(async (response) => {
+          const url = window.URL.createObjectURL(
+            new Blob([response.data], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            })
+          )
+          const link = document.createElement('a')
+          link.href = url
+          link.setAttribute(
+            'download',
+            `${partnerFromUrl.toUpperCase()}_${
+              startDateFormatted === endDateFormatted
+                ? startDateFormatted
+                : `${startDateFormatted}/${endDateFormatted}`
+            }.xlsx`
+          )
+          document.body.appendChild(link)
+          link.click()
+        })
+        .finally(() => dispatch(setLoading(false)))
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
+
 export const getDashboardDataAction = (
   startDate: Date,
   endDate: Date,
@@ -116,12 +164,13 @@ export const getDashboardDataAction = (
         searchTo: format(endDate, 'yyyy-MM-dd'),
         isTester: isTestUser,
       }
-      const payload = agentSelected
-        ? {
-            ...payloadCore,
-            partnerId: agentSelected.split(','),
-          }
-        : payloadCore
+      const payload =
+        agentSelected && agentSelected !== 'all' && isSuperAdminOrAdmin()
+          ? {
+              ...payloadCore,
+              partnerId: [agentSelected],
+            }
+          : payloadCore
       await axios
         .post(`${API_ENDPOINT.GET_DASHBOARD}`, payload)
         .then(
