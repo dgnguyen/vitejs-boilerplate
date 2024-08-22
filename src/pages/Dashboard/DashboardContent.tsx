@@ -1,13 +1,36 @@
 import { Box, CircularProgress, Divider } from '@mui/material'
 import { useSelector } from 'react-redux'
-import { dashboardDataSelector, dashboardErrorSelector, dashboardLoadingPageSelector } from 'redux/reducers/dashboard'
+import { dashboardDataSelector, dashboardErrorSelector, dashboardFilterSelector, dashboardLoadingPageSelector, getDashboardDataAction } from 'redux/reducers/dashboard'
 
 import Card from "components/Card"
 import { thousandSeparator } from 'helpers/currency'
 
 import "./style.scss"
+import { useAppDispatch } from 'redux/store'
+import { useEffect } from 'react'
 
 const DashboardContent = () => {
+
+  const dispatch = useAppDispatch()
+  const filterDashboard = useSelector(dashboardFilterSelector)
+  const {
+    dateRange: {
+      startDate,
+      endDate,
+    },
+    isTester,
+  } = filterDashboard
+  useEffect(() => {
+    dispatch(
+      getDashboardDataAction(
+        new Date(startDate),
+        new Date(endDate),
+        JSON.parse(isTester),
+        filterDashboard?.agentSelected,
+      )
+    )
+  }, [startDate, endDate, filterDashboard?.agentSelected, , isTester, dispatch])
+
   const loadingPage = useSelector(dashboardLoadingPageSelector)
   const errorMsg = useSelector(dashboardErrorSelector)
   const data = useSelector(dashboardDataSelector)
@@ -16,7 +39,6 @@ const DashboardContent = () => {
   if (errorMsg) return <Box>{errorMsg}</Box>
 
   return (
-
     <Box className="dashboard-content-wrapper">
       <Box sx={{
         height: "calc(100% - 240px)",

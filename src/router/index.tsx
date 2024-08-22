@@ -18,7 +18,7 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.DASHBOARD_AGENT,
-    element: <AuthRoute element={<DashboardAgent />} />,
+    element: <AuthRoute element={<Dashboard />} />,
   },
   {
     path: ROUTES.TRANSACTION,

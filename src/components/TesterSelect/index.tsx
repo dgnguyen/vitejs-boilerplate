@@ -1,6 +1,7 @@
 import { useFetchAgents } from 'hooks/useFetchAgents'
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { IAgent } from 'types/dashboard'
+import { isTesterSelectOptions } from "constants/filters"
 
 type SelectProps = {
   label: string,
@@ -12,11 +13,7 @@ const TesterSelect = ({ isTester, handleChangeIsTester }: {
   handleChangeIsTester: (event: SelectChangeEvent) => void
 }) => {
 
-  const isTestSelectOptions = [
-    { value: 'false', label: 'Real' },
-    { value: 'true', label: 'Test' },
-    { value: 'null', label: 'Real & Test' }
-  ]
+
 
   return (
     <Box className="select-wrapper">
@@ -27,7 +24,7 @@ const TesterSelect = ({ isTester, handleChangeIsTester }: {
           onChange={handleChangeIsTester}
         >
           {
-            isTestSelectOptions.map((item, index) => (
+            isTesterSelectOptions.map((item, index) => (
               <MenuItem key={index} value={item.value}>{item.label}</MenuItem>
             ))
           }

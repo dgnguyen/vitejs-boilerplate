@@ -2,18 +2,21 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEve
 import DataPicker from 'components/DataPicker'
 import { useSelector } from 'react-redux'
 import { useAppDispatch } from "redux/store"
-import { dashboardFilterSelector, DateRange, resetDashboardFilter, resetDate, setAgent, setDate, setIsTester } from 'redux/reducers/dashboard'
+import { dashboardFilterSelector, dashboardLoadingSelector, DateRange, resetDashboardFilter, resetDate, setAgent, setDate, setIsTester } from 'redux/reducers/dashboard'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
 import AgentSelect from 'components/AgentSelect'
 
 import "./style.scss"
 import { ROUTES } from 'constants/endpoint'
 import TesterSelect from 'components/TesterSelect'
+import ExportExcel from 'components/ExportExcel'
 
 const DashboardActions = () => {
   const dispatch = useAppDispatch()
   const dasboardFilter = useSelector(dashboardFilterSelector)
   const { dateRange, agentSelected, isTester } = dasboardFilter
+
+  const loadingDashboard = useSelector(dashboardLoadingSelector)
 
   async function handleDateChange(startDate?: string | Date, endDate?: string | Date) {
     if (startDate && endDate) {
@@ -65,6 +68,16 @@ const DashboardActions = () => {
       <Button variant="contained" data-testid="resetFilterDashboard" onClick={handleReset}>
         Reset
       </Button>
+      <Box marginLeft="auto">
+        <ExportExcel
+          id="export-excel-dashboard"
+          disableSearch={loadingDashboard}
+          optionalData={{
+            startDate: dateRange.startDate,
+            endDate: dateRange.endDate
+          }}
+        />
+      </Box>
     </Box>
   )
 }
