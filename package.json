@@ -16,7 +16,12 @@
     "lint": "eslint . --ext .ts,.tsx",
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "test": "vitest",
-    "prepare": "husky install"
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --max-warnings=0 --no-ignore"
+    ]
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
