@@ -15,11 +15,14 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx",
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
-    "test": "vitest"
+    "test": "vitest",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@microsoft/signalr": "^8.0.7",
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "@mui/system": "^5.16.7",
@@ -71,7 +74,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^15.9.0",
-    "husky": "^9.1.4",
+    "husky": "^9.1.5",
     "jsdom": "^24.1.1",
     "lint-staged": "^15.2.9",
     "prettier": "^3.3.3",

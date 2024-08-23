@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
 
-
 export const UserContext = React.createContext({
   currentUser: null,
   login: (user: any) => { },
@@ -24,10 +23,8 @@ export const UserContextProvider = ({ children }: { children: React.ReactNode })
   }
 
 
-
-
   return (
-    <UserContext.Provider value={{ currentUser, login, }}>
+    <UserContext.Provider value={{ currentUser, login }}>
       {children}
     </UserContext.Provider>
   )

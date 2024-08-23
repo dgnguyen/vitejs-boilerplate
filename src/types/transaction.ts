@@ -24,6 +24,8 @@ export type ISearchValuesTransactions = {
   selectedGameType: number[]
   totalCount: number
   hasMore: boolean
+  selectedAllGames: boolean
+  agentSelected: string
 }
 
 export type SettingsTransactions = {
@@ -56,3 +58,44 @@ export type UpdateCMSDataWS = {
   winAmount: number
   gameResult: string
 }[]
+
+type RowRecord = {
+  betLogId: string
+  partnerId: string
+  transactionDate: string
+  playerId: string
+  platformPlayerId: string
+  coefficient: string
+  betAmount: string
+  currency: string
+  winAmount: number | null
+  status: StatusTransaction
+}
+
+type content = {
+  tickets: {
+    externalRoundId: string
+    marketName: string
+    eventName: string
+    coefficent: string
+    currency: string
+    gameResult: string
+    minRate: number | null | string
+    maxRate: number | null | string
+  }[]
+}
+
+type contentRecord = {
+  externalRoundId: string
+  marketName: string
+  eventName: string
+  coefficent: string
+  currency: string
+  gameResult: string
+}
+
+type AccordionProps = {
+  data: RowRecord & content
+}
+
+export type TRListType = RowRecord & content

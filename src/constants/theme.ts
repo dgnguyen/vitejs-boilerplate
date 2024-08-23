@@ -13,10 +13,18 @@ export const theme = extendTheme({
     allVariants: {
       fontFamily: 'sans-serif',
       textTransform: 'none',
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: '17px',
     },
+    h2: {
+      fontSize: '24px',
+      lineHeight: '24px',
+      fontWeight: 'bold',
+    },
+    h3: {
+      fontSize: '22px',
+      lineHeight: '22px',
+      fontWeight: 'bold',
+    },
+
     button: {
       textTransform: 'none',
     },

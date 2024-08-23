@@ -2,7 +2,7 @@ import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { AppDispatch, RootState } from 'redux/store'
-import { removeToken, removeUser, setToken, setUser } from 'helpers/auth'
+import { removeUser, setToken, setUser } from 'helpers/auth'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -10,6 +10,7 @@ export const userSlice = createSlice({
     loading: false,
     errors: false,
     token: '',
+    logout: false,
   },
   reducers: {
     loginAttempt: (state) => {
@@ -29,6 +30,7 @@ export const userSlice = createSlice({
       state.loading = false
       state.errors = false
       state.token = ''
+      state.logout = true
     },
   },
 })
@@ -68,7 +70,6 @@ export const logout = () => {
 
       removeUser()
       dispatch(logoutSuccess())
-
       return response
     } catch (e) {
       console.error(e)
@@ -78,4 +79,5 @@ export const logout = () => {
 }
 
 export const loadingLogin = (state: RootState) => state.user.loading
+export const logoutUser = (state: RootState) => state.user.logout
 export default userSlice.reducer
