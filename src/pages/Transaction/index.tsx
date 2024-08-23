@@ -6,6 +6,8 @@ import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import { setAgentTransaction, setSearchValue, transactionIsLoadingSelector, transactionIsPageLoadingSelector, transactionSearchValuesSelector } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
+import FilterTransaction from './FilterTransaction'
+import "./style.scss"
 
 const Transaction = () => {
   const searchValues = useSelector(transactionSearchValuesSelector)
@@ -48,6 +50,7 @@ const Transaction = () => {
           />
         }
       </Box>
+      <FilterTransaction />
     </Box>
   )
 }

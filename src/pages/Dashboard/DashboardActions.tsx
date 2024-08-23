@@ -51,7 +51,7 @@ const DashboardActions = () => {
 
   return (
     <Box className="dashboard-actions-wrapper">
-      <Box sx={{ width: 200 }}>
+      <Box>
         <DataPicker
           changeHandler={handleDateChange}
           initialSetDate={dateRange}
