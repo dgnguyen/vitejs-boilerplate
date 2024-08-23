@@ -31,7 +31,6 @@ export function useFetchAgents() {
   }
 
   useEffect(() => {
-    console.log('go here once')
     fetchAgents()
     // return () => setAgents([])
   }, [])

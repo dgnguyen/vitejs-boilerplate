@@ -25,6 +25,7 @@ export type ISearchValuesTransactions = {
   totalCount: number
   hasMore: boolean
   selectedAllGames: boolean
+  agentSelected: string
 }
 
 export type SettingsTransactions = {

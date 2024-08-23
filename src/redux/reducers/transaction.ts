@@ -26,6 +26,7 @@ const initialSearchValues: ISearchValuesTransactions = {
   hasMore: false,
   selectedGameType: [],
   selectedAllGames: true,
+  agentSelected: 'all',
 }
 
 const initialState: ITransactions = {
@@ -102,6 +103,9 @@ export const transactionReducer = createSlice({
         }
       }
     },
+    setAgentTransaction: (state, action) => {
+      state.searchValues.agentSelected = action.payload
+    },
     resetSearchValues: (state) => {
       state.searchValues = initialSearchValues
     },
@@ -127,4 +131,5 @@ export const {
   resetSearchValues,
   resetTransactionState,
   setLoadingExport,
+  setAgentTransaction,
 } = transactionReducer.actions
