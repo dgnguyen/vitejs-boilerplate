@@ -150,19 +150,21 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
   }
 }
 
-export const getDashboardDataAction = (
-  startDate: Date,
-  endDate: Date,
-  isTestUser: null | boolean,
-  agentSelected?: any
-) => {
-  return async (dispatch: AppDispatch) => {
+export const getDashboardDataAction = () => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const {
+      filter: {
+        dateRange: { startDate, endDate },
+        isTester,
+        agentSelected,
+      },
+    } = getState()?.dashboard
     try {
       dispatch(setLoadingPage(true))
       const payloadCore = {
         searchFrom: format(startDate, 'yyyy-MM-dd'),
         searchTo: format(endDate, 'yyyy-MM-dd'),
-        isTester: isTestUser,
+        isTester,
       }
       const payload =
         agentSelected && agentSelected !== 'all' && isSuperAdminOrAdmin()

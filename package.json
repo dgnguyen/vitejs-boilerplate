@@ -15,11 +15,13 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx",
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@microsoft/signalr": "^8.0.7",
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "@mui/system": "^5.16.7",

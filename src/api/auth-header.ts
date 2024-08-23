@@ -1,4 +1,5 @@
 import axios from 'axios'
+import httpStatus from 'constants/httpStatus'
 
 import { getToken } from 'helpers/auth'
 
@@ -14,6 +15,15 @@ function authHeader() {
 
     return config
   })
+  axios.interceptors.response.use(
+    //redirect to login page if unauthorize
+    (response) => response,
+    (error) => {
+      if (error.response.status === httpStatus.UNAUTHORIZED) {
+        window.location.href = '/'
+      }
+    }
+  )
 }
 
 export default authHeader

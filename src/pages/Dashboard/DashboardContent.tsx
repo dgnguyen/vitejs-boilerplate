@@ -22,14 +22,9 @@ const DashboardContent = () => {
   } = filterDashboard
   useEffect(() => {
     dispatch(
-      getDashboardDataAction(
-        new Date(startDate),
-        new Date(endDate),
-        JSON.parse(isTester),
-        filterDashboard?.agentSelected,
-      )
+      getDashboardDataAction()
     )
-  }, [startDate, endDate, filterDashboard?.agentSelected, , isTester, dispatch])
+  }, [startDate, endDate, filterDashboard?.agentSelected, window.location.pathname, isTester, dispatch])
 
   const loadingPage = useSelector(dashboardLoadingPageSelector)
   const errorMsg = useSelector(dashboardErrorSelector)

@@ -1,4 +1,5 @@
 import { UserContextProvider } from "context/UserContext"
+import { GamesContextProvider } from './GamesContext'
 
 const Contexts = (props: any) => {
   const {
@@ -7,9 +8,11 @@ const Contexts = (props: any) => {
 
 
   return (
-    <UserContextProvider>
-      {children}
-    </UserContextProvider>
+    <GamesContextProvider>
+      <UserContextProvider>
+        {children}
+      </UserContextProvider>
+    </GamesContextProvider>
   )
 }
 

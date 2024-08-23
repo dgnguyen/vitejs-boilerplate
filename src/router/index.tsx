@@ -3,7 +3,6 @@ import { ROUTES } from '../constants/endpoint'
 import Login from 'pages/Login'
 import NotFound from 'pages/notFound'
 import Dashboard from 'pages/Dashboard'
-import DashboardAgent from 'pages/Dashboard/DashboarAgent'
 import AuthRoute from './AuthRoute'
 import Transaction from 'pages/Transaction'
 

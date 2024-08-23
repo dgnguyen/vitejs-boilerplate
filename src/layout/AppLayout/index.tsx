@@ -4,6 +4,7 @@ import Menu from './Menu'
 import './style.scss'
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {
+
   return (
     <Box className='app-wrapper'>
       <Menu />

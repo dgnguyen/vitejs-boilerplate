@@ -1,16 +1,14 @@
 import { API_ENDPOINT } from 'api/endpoint'
-import { handleRestAPI, HTTP_REQUEST } from 'api/rest'
 import axios from 'axios'
+import httpStatus from 'constants/httpStatus'
+import { useUser } from 'context/UserContext'
 import { useEffect, useState } from 'react'
-import { logout } from 'redux/reducers/user'
-import { useAppDispatch } from 'redux/store'
 
 export function useFetchAgents() {
   const [agents, setAgents] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
-  const dispatch = useAppDispatch()
   async function fetchAgents() {
     try {
       setLoading(true)
@@ -24,7 +22,7 @@ export function useFetchAgents() {
         setAgents(data?.data)
       }
     } catch (err: any) {
-      if (err?.response?.status === 401) dispatch(logout())
+      console.error({ err })
       setError(true)
       console.error(err)
     } finally {
@@ -33,9 +31,9 @@ export function useFetchAgents() {
   }
 
   useEffect(() => {
-    // console.log('go here once')
+    console.log('go here once')
     fetchAgents()
-    return () => setAgents([])
+    // return () => setAgents([])
   }, [])
 
   return {
