@@ -8,7 +8,7 @@ pipeline {
     skipStagesAfterUnstable()
   }
   environment {
-    GCR_REPO = "asia.gcr.io/prj-gke-asia-northeast3-3e7d/powerball-cms"
+    GCR_REPO = "asia.gcr.io/prj-gke-asia-northeast3-3e7d/cp10-front-cms"
     ENV = "${env.GIT_BRANCH}"
     ENV_FILE_CP10_STG = "REACT_APP_MAIN_API=https://cp10-runningball-stg.axolotl18.com"
     ENV_FILE_CP10_DEV = "REACT_APP_MAIN_API=https://cp10-runningball-dev.axolotl18.com"
