@@ -10,7 +10,7 @@ RUN yarn install
 COPY . .
 RUN yarn build
 FROM nginx:alpine
-COPY --from=nodebuild /client-portal/build /usr/share/nginx/html
+COPY --from=nodebuild /client-portal/dist /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
