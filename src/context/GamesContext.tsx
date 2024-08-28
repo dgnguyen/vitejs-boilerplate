@@ -2,7 +2,7 @@ import axios from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
 import React, { useContext, useEffect, useState } from 'react'
 
-interface GamesProps {
+export interface GamesProps {
   id: number
   name: string
   repeatAfterSeconds: number

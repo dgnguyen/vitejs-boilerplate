@@ -45,16 +45,13 @@ const Card: React.FC<TProps> = ({
     <Box className={cx("card", className)}>
       <Box sx={{ display: "flex" }}>
         {icon && arrayIcon[icon]}
-        <Box
-          className="title"
-          style={icon ? { textAlign: 'center' } : {}}
-        >
+        <Box className="title">
           {title}
         </Box>
       </Box>
-      <Box sx={{ minHeight: '50px' }}>
+      <Box sx={{ minHeight: '25px' }}>
         <Box className={"price"}>{price}</Box>
-        {!!currency && <Box className="currency">{currency}</Box>}
+        <Box className="currency">{currency}</Box>
       </Box>
       <Box className="date">{date}</Box>
     </Box>

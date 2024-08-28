@@ -33,6 +33,14 @@ export type SettingsTransactions = {
   hasMore: boolean
 }
 
+export type IDashboardTransaction = {
+  ggr: number
+  ggrInPercent: number
+  totalBetAmount: number
+  totalCount: number
+  totalWinAmount: number
+}
+
 export type ITransactions = {
   loading: boolean
   loadingPage: boolean
@@ -42,6 +50,7 @@ export type ITransactions = {
   data: any //totype
   searchValues: ISearchValuesTransactions
   isExporting: boolean
+  dashboard?: IDashboardTransaction
 }
 
 export type DateRange = {

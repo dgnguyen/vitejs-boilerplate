@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
   border-top: 1px solid #c7ccdb;
+  background-color: white;
   .lost {
     color: #faa500;
   }
@@ -30,13 +31,19 @@
   padding-right: 22px;
   svg {
     width: 15px;
+    cursor: pointer;
+    margin-left: 8px;
   }
 }
 
-.contentHeader {
-  span {
-    color: #c7ccdb;
-    font-weight: 500;
+.accordionContent {
+  background: white;
+
+  .contentHeader {
+    span {
+      color: var(--color-grey);
+      font-weight: 500;
+    }
   }
 }
 
