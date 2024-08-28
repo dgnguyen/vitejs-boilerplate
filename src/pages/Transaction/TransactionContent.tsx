@@ -25,7 +25,7 @@ const TransactionContent = () => {
   const { inputRef, height } = useSetHeightInfiniteScroll()
   useEffect(() => {
     dispatch(getTransactions())
-  }, [agentSelected, selectedGameType, searchType])
+  }, [agentSelected, selectedGameType])
 
   if (errorLoadTransaction) {
     return (

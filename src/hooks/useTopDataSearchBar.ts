@@ -17,17 +17,9 @@ import { DateRange } from 'types/transaction'
 export default function useTopDataSearchBar() {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const {
-    date,
-    searchType,
-    isTester,
-    selectedGameType,
-    selectedAllGames,
-    agentSelected,
-  } = searchValues
+  const { date, searchType, isTester } = searchValues
 
   const [searchState, setSearchState] = useState<string>('')
-  console.log({ searchState })
 
   const loginIsLoading = useSelector(loadingLogin)
   const loadingPage = useSelector(transactionIsPageLoadingSelector)
@@ -37,6 +29,7 @@ export default function useTopDataSearchBar() {
   const handleSearchState = (e: React.ChangeEvent<HTMLInputElement>) => {
     // const re = /^[0-9\b]+$/
     // if (e.target.value === '' || re.test(e.target.value)) {
+    // if (typeof e === 'string') setSearchState(e)
     setSearchState(e.target.value)
     // }
   }
@@ -90,14 +83,14 @@ export default function useTopDataSearchBar() {
     dispatch(setAndLoadData('searchType', searchType, true))
   }
 
-  const handleChangeStatus = (status: number | string) => {
+  const handleChangeStatus = (event: SelectChangeEvent) => {
     dispatch(setSearchValue({ key: 'id', val: searchState }))
-    dispatch(setAndLoadData('TransactionStatus', status, true))
+    dispatch(setAndLoadData('TransactionStatus', event.target.value, true))
   }
 
-  const handleChangeIsTester = (isTester: string) => {
+  const handleChangeIsTester = (event: SelectChangeEvent) => {
     dispatch(setSearchValue({ key: 'id', val: searchState }))
-    dispatch(setAndLoadData('isTester', isTester, true))
+    dispatch(setAndLoadData('isTester', event.target.value, true))
   }
 
   return {

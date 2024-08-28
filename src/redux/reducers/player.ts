@@ -31,6 +31,7 @@ const initialSearchValues: ISearchValuesPlayers = {
   page: 1,
   take: 20,
   totalCount: 0,
+  agentSelected: null,
 }
 
 const initialState = {
@@ -82,8 +83,14 @@ export const playerReducer = createSlice({
     setLoadingExport: (state, { payload }) => {
       state.isExporting = payload
     },
-    setSearchValue: (state, { payload: { key, val } }) => {
+    setSearchValues: (state, { payload: { key, val } }) => {
       state.searchValues = { ...state.searchValues, [key]: val }
+    },
+    setIsTesterPlayer: (state, { payload }) => {
+      state.searchValues.isTester = payload
+    },
+    setSelectAgent: (state, { payload }) => {
+      state.searchValues.agentSelected = payload
     },
 
     resetPlayersState: () => {
@@ -134,10 +141,10 @@ export const setAndLoadPlayersData = (
 ) => {
   return async (dispatch: AppDispatch) => {
     if (fromStartOfThePage) {
-      await dispatch(setSearchValue({ key: 'page', val: 1 }))
+      await dispatch(setSearchValues({ key: 'page', val: 1 }))
     }
 
-    await dispatch(setSearchValue({ key, val }))
+    await dispatch(setSearchValues({ key, val }))
     await dispatch(getPlayersAction())
   }
 }
@@ -169,8 +176,13 @@ export const exportPlayers =
       .finally(() => dispatch(setLoadingExport(false)))
   }
 
-export const { setSearchValue, setLoadingExport, resetPlayersState } =
-  playerReducer.actions
+export const {
+  setSearchValues,
+  setSelectAgent,
+  setIsTesterPlayer,
+  setLoadingExport,
+  resetPlayersState,
+} = playerReducer.actions
 
 export const getLoadingExportSelector = (state: RootState) => {
   return state?.player?.isExporting

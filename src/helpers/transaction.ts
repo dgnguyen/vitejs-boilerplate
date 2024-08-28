@@ -11,7 +11,7 @@ export const searchTypeOptions = [
   { value: SearchTypeValue.betAmount, label: 'Bet Amount' },
   { value: SearchTypeValue.roundId, label: 'Round ID' },
   { value: SearchTypeValue.moaTransaction, label: 'MoA Transaction ID' },
-  { value: SearchTypeValue.agentPlayerId, label: 'agent player ID' },
+  { value: SearchTypeValue.agentPlayerId, label: 'Agent player ID' },
 ]
 
 export const TRStatusSelectOptions = [

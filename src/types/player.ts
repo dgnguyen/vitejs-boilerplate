@@ -4,4 +4,5 @@ export type ISearchValuesPlayers = {
   page: number
   take: number
   totalCount: number
+  agentSelected: string | null
 }

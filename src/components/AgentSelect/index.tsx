@@ -8,7 +8,7 @@ type SelectProps = {
 }[]
 
 const AgentSelect = ({ agentSelected, handleChange }: {
-  agentSelected: string,
+  agentSelected: string | null,
   handleChange: (event: SelectChangeEvent) => void
 }) => {
   const { agents } = useFetchAgents()

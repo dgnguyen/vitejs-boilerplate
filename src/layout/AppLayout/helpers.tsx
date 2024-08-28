@@ -1,5 +1,12 @@
 import { USER_ROLE } from 'constants/auth'
 import { ROUTES } from 'constants/endpoint'
+import Account from "assets/images/menu/Account.svg"
+import Dashboard from "assets/images/menu/Dashboard.svg"
+import Agent from "assets/images/menu/Agent.svg"
+import Market from "assets/images/menu/Market.svg"
+import Player from "assets/images/menu/Player.svg"
+import PlayerTracking from "assets/images/menu/PlayerTracking.svg"
+import Transaction from "assets/images/menu/Transaction.svg"
 import {
   isAdmin,
   isSuperAdmin,
@@ -8,51 +15,58 @@ import {
   getUser,
 } from 'helpers/auth'
 
+type MenuItemProps = {
+  label: string
+  icon: any
+  href: string
+  enable: boolean
+}
+
 export const getDrawerItems = () => {
   const menuItems = [
     {
       label: 'Dashboard',
-      icon: 'dashboard',
+      icon: <Dashboard />,
       href: ROUTES.DASHBOARD,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
     {
       label: 'Transaction',
-      icon: 'transaction',
+      icon: <Transaction />,
       href: ROUTES.TRANSACTION,
       enable: true,
     },
     {
       label: 'Player',
-      icon: 'player',
+      icon: <Player />,
       href: ROUTES.PLAYER,
       enable: true,
     },
     {
       label: 'Player Tracking',
-      icon: 'player',
+      icon: <PlayerTracking />,
       href: ROUTES.PLAYER_TRACKING,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
     {
       label: 'Agent',
-      icon: 'agent',
+      icon: <Agent />,
       href: ROUTES.AGENT,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
     {
       label: 'Market',
-      icon: 'market',
+      icon: <Market />,
       href: ROUTES.MARKET,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
     {
       label: 'Account',
-      icon: 'account',
+      icon: <Account />,
       href: ROUTES.ACCOUNT,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
-  ]
+  ] as MenuItemProps[]
   return menuItems
 }
 

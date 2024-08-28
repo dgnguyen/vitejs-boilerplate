@@ -10,7 +10,6 @@ export const userSlice = createSlice({
     loading: false,
     errors: false,
     token: '',
-    logout: false,
   },
   reducers: {
     loginAttempt: (state) => {
@@ -30,7 +29,6 @@ export const userSlice = createSlice({
       state.loading = false
       state.errors = false
       state.token = ''
-      state.logout = true
     },
   },
 })
@@ -79,5 +77,5 @@ export const logout = () => {
 }
 
 export const loadingLogin = (state: RootState) => state.user.loading
-export const logoutUser = (state: RootState) => state.user.logout
+// export const logoutUser = (state: RootState) => state.user.logout
 export default userSlice.reducer
