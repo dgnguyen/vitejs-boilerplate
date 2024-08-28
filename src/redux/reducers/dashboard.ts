@@ -164,7 +164,7 @@ export const getDashboardDataAction = () => {
       const payloadCore = {
         searchFrom: format(startDate, 'yyyy-MM-dd'),
         searchTo: format(endDate, 'yyyy-MM-dd'),
-        isTester,
+        ...(isTester !== 'null' ? { isTester } : {}),
       }
       const payload =
         agentSelected && agentSelected !== 'all' && isSuperAdminOrAdmin()

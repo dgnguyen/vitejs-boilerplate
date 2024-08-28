@@ -1,7 +1,7 @@
 // @import '../../scss/varible';
 .card {
   border-radius: 10px;
-  padding: 10px 32px 25px 24px;
+  padding: 8px;
   background-color: white;
   position: relative;
   color: var(--color-text-dark);
@@ -9,6 +9,7 @@
   .title {
     margin-top: 10px;
     width: 100%;
+    text-align: center;
   }
 
   .price {
@@ -16,11 +17,12 @@
     font-size: 24px;
     font-weight: 700;
     margin-top: 9px;
-    color: var(--blue-primary);
+    color: var(--color-text-dark);
   }
   .currency {
-    margin-top: 16px;
+    // margin-top: 16px;
     text-align: center;
+    height: 16px;
   }
   .date {
     &:before {

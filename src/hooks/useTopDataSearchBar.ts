@@ -27,6 +27,7 @@ export default function useTopDataSearchBar() {
   } = searchValues
 
   const [searchState, setSearchState] = useState<string>('')
+  console.log({ searchState })
 
   const loginIsLoading = useSelector(loadingLogin)
   const loadingPage = useSelector(transactionIsPageLoadingSelector)
@@ -42,10 +43,10 @@ export default function useTopDataSearchBar() {
 
   const [toggleDatePickerReset, setToggleDatePickerReset] = useState(false)
 
-  useEffect(() => {
-    dispatch(resetSearchValues())
-    // dispatch(setAndLoadData('selectedGameType', selectGame))
-  }, [selectedAllGames])
+  // useEffect(() => {
+  //   dispatch(resetSearchValues())
+  //   dispatch(setAndLoadData('selectedGameType', selectGame))
+  // }, [selectedAllGames])
 
   const handleDateChange = async (
     startDate?: Date | string,

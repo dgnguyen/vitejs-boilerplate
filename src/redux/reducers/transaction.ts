@@ -50,6 +50,7 @@ const initialState: ITransactions = {
     hasMore: true,
   },
   data: [] as TRListType[],
+  dashboard: undefined,
   searchValues: initialSearchValues,
   isExporting: false,
 }
@@ -75,6 +76,7 @@ export const transactionReducer = createSlice({
           state.searchValues.page === 1
             ? action.payload.data
             : [...state.data, ...action.payload.data]
+        state.dashboard = action.payload?.dashboard
         state.loadingPage = false
         state.searchValues = {
           ...state.searchValues,
@@ -141,6 +143,7 @@ export const getTransactions = createAsyncThunk(
         TransactionStatus,
         isTester,
         selectedGameType,
+        agentSelected,
       },
       // eslint-disable-next-line no-unsafe-optional-chaining
     } = (getState() as RootState)?.transaction
@@ -166,6 +169,7 @@ export const getTransactions = createAsyncThunk(
           id: id ? Number(id) : null,
           ...(id ? { searchType: searchTypeValue } : {}),
           gametypeID: selectedGameType,
+          partnerId: agentSelected !== 'all' ? [agentSelected] : null,
         },
         replacer
       )
@@ -180,8 +184,11 @@ export const getTransactions = createAsyncThunk(
         }
       )
 
+      const { transactionsList, ...rest } = response2?.data
+
       return {
-        data: response2.data.transactionsList,
+        data: transactionsList,
+        dashboard: rest,
         settings: {
           totalCount: response2.data.totalCount,
           hasMore: Math.ceil(response2.data.totalCount / take) > page,
@@ -225,6 +232,16 @@ export const transactionIsPageLoadingSelector = (state: RootState) =>
 export const selectTransactions = (state: RootState) => state.transaction.data
 export const transactionSearchValuesSelector = (state: RootState) =>
   state.transaction.searchValues
+
+export const errorLoadTransactions = (state: RootState) =>
+  state.transaction.errors
+
+export const transactionDataSelector = (state: RootState) =>
+  state.transaction.data
+
+export const transactionDashboardSelector = (state: RootState) =>
+  state.transaction.dashboard
+
 export default transactionReducer.reducer
 
 export const {

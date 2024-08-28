@@ -3,6 +3,9 @@ import { useGames } from 'context/GamesContext'
 
 import "./style.scss"
 import { useEffect, useState } from 'react'
+import { setSearchValue } from 'redux/reducers/transaction'
+import { useDispatch } from 'react-redux'
+import { useAppDispatch } from 'redux/store'
 
 const GameSelect = ({
   handleSelectGame,
@@ -15,28 +18,54 @@ const GameSelect = ({
   selectedAllGames?: boolean
   setSelectedAllGames?: (e: string | null) => void
 }) => {
-
+  const dispatch = useAppDispatch()
   const { gamesList, loadingGames, errorGames } = useGames()
   const [selectGames, setSelectGames] = useState<any[]>([])
+  const gamesListId = gamesList.map(item => item.id.toString())
 
   useEffect(() => {
+    console.log({ selectGames, selectedAllGames, gamesList })
     if (selectGames.length > 0 &&
       selectGames.length === gamesList.length
     ) {
       setSelectedAllGames?.("all")
     }
-
+    if (selectedAllGames && selectGames.length < gamesList.length) {
+      setSelectGames(gamesListId)
+    }
   }, [selectGames])
+
+  function handleSelectAllGames() {
+    setSelectGames(gamesListId)
+    dispatch(setSearchValue({ key: "selectedGameType", val: gamesListId }))
+  }
+
+  useEffect(() => {
+    if (gamesList?.length > 0) {
+      handleSelectAllGames()
+    }
+  }, [gamesList])
 
   function toggleSelectGames(gameId: string) {
     if (gameId === "all") {
       const newValue = gameId === "all" && !selectedAllGames ? "all" : ""
-      if (newValue === "all") setSelectGames([])
+      if (newValue === "all") {
+        handleSelectAllGames()
+      }
       setSelectedAllGames?.(newValue)
     }
     else {
+      // if (selectedAllGames) {
+      //   const newSelectedGames = gamesList?.filter((id) => id.toString() !== gameId.toString())?.map(item => item.id)
+      //   console.log('go here', { newSelectedGames, selectGames, gamesList, gameId })
+
+      //   setSelectGames(newSelectedGames)
+      //   setSelectedAllGames?.(null)
+      //   handleSelectGame(newSelectedGames)
+      //   return
+      // }
       const toggleSelectGame = selectGames?.includes(gameId)
-        ? (selectGames).filter(item => item !== gameId)
+        ? (selectGames).filter(item => item.toString() !== gameId)
         : [...selectGames, gameId]
       setSelectGames(toggleSelectGame)
       setSelectedAllGames?.(null)
@@ -69,7 +98,7 @@ const GameSelect = ({
             onClick={() => !disabled && toggleSelectGames(game?.id.toString())}
             disabled={disabled}
             variant={
-              selectedAllGames || selectGames.includes(game?.id.toString()) ? "contained" : "outlined"
+              selectGames.includes(game?.id.toString()) ? "contained" : "outlined"
             }
           >
             {game.name}

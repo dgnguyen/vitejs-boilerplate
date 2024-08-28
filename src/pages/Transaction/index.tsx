@@ -8,6 +8,7 @@ import { setAgentTransaction, setSearchValue, transactionIsLoadingSelector, tran
 import { useAppDispatch } from 'redux/store'
 import FilterTransaction from './FilterTransaction'
 import "./style.scss"
+import TransactionContent from './TransactionContent'
 
 const Transaction = () => {
   const searchValues = useSelector(transactionSearchValuesSelector)
@@ -28,7 +29,9 @@ const Transaction = () => {
 
   const handleChangeAgent = (event: SelectChangeEvent) => {
     dispatch(setAgentTransaction(event.target.value))
+
   }
+
 
 
   return (
@@ -51,6 +54,7 @@ const Transaction = () => {
         }
       </Box>
       <FilterTransaction />
+      <TransactionContent />
     </Box>
   )
 }

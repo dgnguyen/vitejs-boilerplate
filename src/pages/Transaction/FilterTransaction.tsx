@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux'
 import { transactionSearchValuesSelector } from 'redux/reducers/transaction'
 import useTopDataSearchBar from 'hooks/useTopDataSearchBar'
 import { searchTypeOptions, TRStatusSelectOptions } from 'helpers/transaction'
+import { Refresh } from "@mui/icons-material"
+import ExportExcel from 'components/ExportExcel'
 
 const FilterTransaction = () => {
   const dispatch = useAppDispatch()
@@ -26,13 +28,14 @@ const FilterTransaction = () => {
     resetFilter,
     handleDateChange,
   } = useTopDataSearchBar()
-  console.log('====================================')
-  console.log({ searchState, date })
-  console.log('====================================')
+
+  function handleRefresh() {
+    dispatch(handleSearch)
+  }
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: 1 }}>
+      <Box className="filter-wrapper">
         <TextField
           // inputMode="numeric"
           // pattern="[0-9]*"
@@ -43,19 +46,21 @@ const FilterTransaction = () => {
           placeholder={'Search by ID'}
           onChange={handleSearchState}
           value={searchState}
+
           // onKeyDown={e => {
           //   if (e.key === 'Enter' && !disableSearch) {
           //     handleSearch()
           //   }
           // }}
-          style={{ width: '160px' }}
+          className='searchTextInput bgWhite'
+          sx={{ width: '160px' }}
         />
         <Select
           // style={{ width: '190px' }}
           value={searchType.toString()}
 
           onChange={handleChangeSearchType}
-        // className={'color-light-blue'}
+          className='bgWhite'
         >
           {searchTypeOptions.map(searchType => (
             <MenuItem key={searchType.value} value={searchType.value}>
@@ -92,7 +97,24 @@ const FilterTransaction = () => {
         >
           <SearchSVG />
         </Button>
+        <Button variant="contained" data-testid="resetFilterTransaction" onClick={resetFilter}>
+          Reset
+        </Button>
+        <Box marginLeft="auto" display="flex" gap={2}>
+          <Button variant="contained" data-testid="refreshTransactions" onClick={handleRefresh}>
+            <Refresh />
+          </Button>
+          <ExportExcel
+            id="export-excel-dashboard"
+            disableSearch={disableSearch}
+            optionalData={{
+              startDate: date.startDate,
+              endDate: date.endDate
+            }}
+          />
+        </Box>
       </Box>
+
     </Box>
   )
 }
