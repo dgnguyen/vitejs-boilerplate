@@ -9,10 +9,12 @@ import { useAppDispatch } from 'redux/store'
 import FilterTransaction from './FilterTransaction'
 import "./style.scss"
 import TransactionContent from './TransactionContent'
+import PageTitle from 'components/Commons/PageTitle'
 
 const Transaction = () => {
-  const searchValues = useSelector(transactionSearchValuesSelector)
   const dispatch = useAppDispatch()
+
+  const searchValues = useSelector(transactionSearchValuesSelector)
   const { agentSelected, selectedAllGames } = searchValues
   const transactionLoading = useSelector(transactionIsLoadingSelector)
   const transactionPageLoading = useSelector(transactionIsPageLoadingSelector)
@@ -36,7 +38,7 @@ const Transaction = () => {
 
   return (
     <Box>
-      <Typography variant='h2'>Transaction</Typography>
+      <PageTitle title="Transaction" />
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
         selectedAllGames={selectedAllGames}

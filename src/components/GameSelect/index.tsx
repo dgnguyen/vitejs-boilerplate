@@ -24,7 +24,6 @@ const GameSelect = ({
   const gamesListId = gamesList.map(item => item.id.toString())
 
   useEffect(() => {
-    console.log({ selectGames, selectedAllGames, gamesList })
     if (selectGames.length > 0 &&
       selectGames.length === gamesList.length
     ) {

@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { ResponseBlob } from 'components/ExportExcel/helpers'
+import { FORMAT_DATE } from 'constants/date'
 import { API_BASE_URL } from 'constants/endpoint'
 import { isTesterSelectOptions } from 'constants/filters'
 import { format } from 'date-fns'
+import { handleExportRequest } from 'helpers/exportExcel'
 import {
   initialDateState,
   searchTypeOptions,
   TRStatusSelectOptions,
 } from 'helpers/transaction'
+import moment from 'moment'
 import { AppDispatch, RootState } from 'redux/store'
 import {
   DateRange,
@@ -225,6 +229,86 @@ export const setAndLoadData = (
   }
 }
 
+export const exportTransactions =
+  (cb: (res: ResponseBlob, name: string) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    const { searchValues } = (getState() as RootState)?.transaction
+
+    dispatch(setLoadingExport(true))
+    const url = `${API_BASE_URL}/v2/AdminTransaction/exportTransactions`
+    const {
+      id,
+      date: { startDate: startD, endDate: endD },
+      searchType,
+      selectedGameType,
+      isTester,
+    } = searchValues
+
+    const startDate = startD && format(new Date(startD), 'yyyy-MM-dd')
+    const endDate = endD && format(new Date(endD), 'yyyy-MM-dd')
+
+    handleExportRequest({
+      url,
+      params: {
+        startDate,
+        isTester:
+          isTester === 'true' ? true : isTester === 'false' ? false : null,
+        endDate,
+        id: id || null,
+        searchType: id ? searchType : 0,
+        gametypeID: selectedGameType,
+      },
+    })
+      .then(async (response: any) => {
+        const isTestAccountName = isTester ? 'realAccount' : 'testAccount'
+        const exportTransactionName = id
+          ? `ExportTransactionId-${id}`
+          : 'ExportAllTransactions'
+        const dateRange = `From-${moment(startDate).format(
+          FORMAT_DATE
+        )}To${moment(endDate).format(FORMAT_DATE)}`
+        const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}.xlsx`
+        cb(response, fileName)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => dispatch(setLoadingExport(false)))
+  }
+
+export const exportSpecificPlayersTransactions =
+  (cb: (res: any, name: string) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    const { searchValues } = (getState() as RootState)?.transaction
+    const {
+      date: { startDate: startD, endDate: endD },
+      id,
+      selectedGameType,
+    } = searchValues
+    const startDate = startD && format(new Date(startD), 'yyyy-MM-dd')
+    const endDate = endD && format(new Date(endD), 'yyyy-MM-dd')
+
+    dispatch(setLoadingExport(true))
+    const url = `${API_BASE_URL}/v2/AdminTransaction/exportSpecificPlayerTransactions`
+    handleExportRequest({
+      url,
+      params: {
+        id,
+        startDate,
+        endDate,
+        gameTypeID: selectedGameType,
+        searchType: 4, // Search by Agent player id
+      },
+    })
+      .then(async (response: any) => {
+        const dateRange = `From${moment(startDate).format(
+          FORMAT_DATE
+        )}To${moment(endDate).format(FORMAT_DATE)}`
+        const fileName = `ExportPlayersTransactionsId-${id}_${dateRange}.xlsx`
+        cb(response, fileName)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => dispatch(setLoadingExport(false)))
+  }
+
 export const transactionIsLoadingSelector = (state: RootState) =>
   state.transaction.loading
 export const transactionIsPageLoadingSelector = (state: RootState) =>
@@ -241,6 +325,10 @@ export const transactionDataSelector = (state: RootState) =>
 
 export const transactionDashboardSelector = (state: RootState) =>
   state.transaction.dashboard
+
+export const getLoadingExportTransactionSelector = (state: RootState) => {
+  return state.transaction.isExporting
+}
 
 export default transactionReducer.reducer
 

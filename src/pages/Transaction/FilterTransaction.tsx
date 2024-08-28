@@ -37,23 +37,16 @@ const FilterTransaction = () => {
     <Box>
       <Box className="filter-wrapper">
         <TextField
-          // inputMode="numeric"
-          // pattern="[0-9]*"
-          // className={styles.search_input}
-          // type="number"
-          // min={1}
-          // step={1}
-          placeholder={'Search by ID'}
+          placeholder={`Search by ${searchTypeOptions.find(item => item.value === searchType)?.label}`}
           onChange={handleSearchState}
           value={searchState}
-
-          // onKeyDown={e => {
+          // onKeyDown={(e: any) => {
           //   if (e.key === 'Enter' && !disableSearch) {
-          //     handleSearch()
+          //     handleSearchState(e)
           //   }
           // }}
           className='searchTextInput bgWhite'
-          sx={{ width: '160px' }}
+          sx={{ width: '250px' }}
         />
         <Select
           // style={{ width: '190px' }}
@@ -76,24 +69,26 @@ const FilterTransaction = () => {
           reset={toggleDatePickerReset}
           disabled={disableSearch}
         />
-        {/* <Select
-          value={TransactionStatus}
-          options={TRStatusSelectOptions}
+        <Select
+          value={TransactionStatus.toString()}
           onChange={handleChangeStatus}
           disabled={disableSearch}
           style={{ width: '90px' }}
-        />
+        >
+          {
+            TRStatusSelectOptions.map(status => (
+              <MenuItem value={status.value}>{status.label}</MenuItem>
+            ))
+          }
+        </Select>
         <TesterSelect
           isTester={isTester}
           handleChangeIsTester={handleChangeIsTester}
-        /> */}
+        />
         <Button
-          // buttonStyle={'secondary'}
-          // className={styles.trans_btn_search}
           onClick={handleSearch}
           disabled={disableSearch}
           variant='contained'
-        // svgOnly={true}
         >
           <SearchSVG />
         </Button>
@@ -105,7 +100,7 @@ const FilterTransaction = () => {
             <Refresh />
           </Button>
           <ExportExcel
-            id="export-excel-dashboard"
+            id="export-excel-transactions"
             disableSearch={disableSearch}
             optionalData={{
               startDate: date.startDate,

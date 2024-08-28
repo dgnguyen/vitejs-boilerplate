@@ -26,6 +26,7 @@ import { setupDownload } from './helpers'
 
 import './index.scss'
 import { useAppDispatch } from 'redux/store'
+import { exportTransactions, getLoadingExportTransactionSelector } from 'redux/reducers/transaction'
 
 export type OptionalData = {
   transactionId?: string
@@ -47,18 +48,17 @@ const ExportExcel = (props: Props) => {
   const { disableSearch, id, optionalData } = props
   const dispatch = useAppDispatch()
   const isExportingPlayer = useSelector(getLoadingExportSelector)
-  // const isExportingTransaction = useSelector(
-  //   getLoadingExportTransactionSelector
-  // )
+  const isExportingTransaction = useSelector(
+    getLoadingExportTransactionSelector
+  )
 
-  const isExporting = isExportingPlayer
-  // || isExportingTransaction
+  const isExporting = isExportingPlayer || isExportingTransaction
 
   const handleExport = () => {
     switch (id) {
-      // case 'export-excel-transactions':
-      //   dispatch(exportTransactions(setupDownload))
-      //   break
+      case 'export-excel-transactions':
+        dispatch(exportTransactions(setupDownload))
+        break
       case 'export-excel-players':
         dispatch(exportPlayers(setupDownload))
         break

@@ -112,6 +112,11 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
 
       const startDateFormatted = format(startDate, 'yyyy-MM-dd')
       const endDateFormatted = format(endDate, 'yyyy-MM-dd')
+      const isTester = getState()?.dashboard?.filter.isTester
+      const partnerId =
+        getState()?.dashboard?.filter?.agentSelected === 'all'
+          ? null
+          : [getState()?.dashboard?.filter?.agentSelected]
       // const optionalBody
       await axios
         .post(
@@ -119,8 +124,8 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           {
             SearchFrom: startDateFormatted,
             SearchTo: endDateFormatted,
-            // ...(isTester ? { isTester } : {}),
-            // ...(partnerId ? { partnerId } : {}),
+            ...(isTester ? { isTester } : {}),
+            ...(partnerId ? { partnerId } : {}),
           },
           { responseType: 'blob' }
         )
