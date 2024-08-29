@@ -2,7 +2,6 @@ import { Box, CircularProgress, LinearProgress, Typography } from '@mui/material
 import Card from 'components/Card'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { dashboardDataSelector } from 'redux/reducers/dashboard'
 import { errorLoadTransactions, getTransactions, transactionDashboardSelector, transactionDataSelector, transactionIsLoadingSelector, transactionIsPageLoadingSelector, transactionSearchValuesSelector } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
 import { getDashboardCardTitle } from './helpers'
@@ -37,7 +36,7 @@ const TransactionContent = () => {
 
   return (
 
-    <Box className="transaction-wrapper">
+    <Box className="transaction-content-wrapper">
       <Box className="header-transaction-wrapper">
         {
           dashboardTransaction && Object.entries(dashboardTransaction).map(item => {
@@ -54,14 +53,12 @@ const TransactionContent = () => {
           })
         }
       </Box>
-
-      <Box className="transaction-table-header-wrapper">
-        {Object.values(header).map(col => (
-          <Box key={col}>{col}</Box>
-        ))}
-      </Box>
-
       <Box className="transaction-table-content-wrapper" ref={inputRef} sx={{ height: 'calc(100vh - 560px)' }}>
+        <Box className="transaction-table-header-wrapper">
+          {Object.values(header).map(col => (
+            <Box key={col}>{col}</Box>
+          ))}
+        </Box>
         <div id="scrollableDiv"
         //  className={styles.accordion}
         >

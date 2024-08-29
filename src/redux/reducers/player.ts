@@ -13,6 +13,8 @@ import { ISearchValuesPlayers } from 'types/player'
 import { API_BASE_URL } from 'constants/endpoint'
 
 export type IPlayer = {
+  agentName: string
+  fistActivity: string
   avgBetAmount: number
   bcPlayerId: number
   firstActivity: string
@@ -103,15 +105,15 @@ export const getPlayersAction = createAsyncThunk(
   'getPlayers',
   async (dispatch, { rejectWithValue, getState }) => {
     const {
-      searchValues: { id, page, take, isTester },
-    } = (getState() as RootState)?.player
+      data: { playerId, page, take, isTester },
+    } = (getState() as RootState)?.filter
 
     try {
       const json = JSON.stringify({
         page,
         take,
         ...(isTester !== 'null' ? { isTester } : {}),
-        playerId: id ? Number(id) : null,
+        playerId: playerId ? Number(playerId) : null,
       })
 
       const res = await axios.post(
@@ -119,7 +121,6 @@ export const getPlayersAction = createAsyncThunk(
         json,
         {
           headers: { 'Content-Type': 'application/json' },
-          timeout: 60000,
         }
       )
       return {
@@ -144,7 +145,7 @@ export const setAndLoadPlayersData = (
       await dispatch(setSearchValues({ key: 'page', val: 1 }))
     }
 
-    await dispatch(setSearchValues({ key, val }))
+    // await dispatch(setSearchValues({ key, val }))
     await dispatch(getPlayersAction())
   }
 }
@@ -187,5 +188,17 @@ export const {
 export const getLoadingExportSelector = (state: RootState) => {
   return state?.player?.isExporting
 }
+
+export const loadingPagePlayerSelector = (state: RootState) => {
+  return state?.player?.isLoadingPage
+}
+export const loadingPlayerSelector = (state: RootState) => {
+  return state?.player?.isLoadingData
+}
+export const errorPlayerSelector = (state: RootState) => {
+  return state?.player?.errors
+}
+
+export const playerDataSelector = (state: RootState) => state?.player?.data
 
 export default playerReducer.reducer
