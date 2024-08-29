@@ -3,7 +3,7 @@ import * as signalR from '@microsoft/signalr'
 const connection = new signalR.HubConnectionBuilder()
   .withUrl(`${process.env.REACT_APP_MAIN_API}/NotificationHub`, {
     skipNegotiation: true,
-    transport: signalR.HttpTransportType.WebSockets
+    transport: signalR.HttpTransportType.WebSockets,
   })
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Trace)

@@ -11,7 +11,7 @@ class CustomDateRange extends DateRange {
       preview: this.state.preview,
       onRangeFocusChange: this.handleRangeFocusChange,
       ...this.props,
-      onPreviewChange: value => {
+      onPreviewChange: (value) => {
         this.updatePreview(value ? this.calcNewSelection(value) : null)
       },
       showDateDisplay: false, // show input for date
@@ -19,14 +19,20 @@ class CustomDateRange extends DateRange {
       showSelectionPreview: true,
       displayMode: 'dateRange',
       onChange: this.setSelection,
-      updateRange: val => this.setSelection(val, false)
+      updateRange: (val) => this.setSelection(val, false),
     }
     const { onChange, ranges } = this.props
 
     return (
-      <div className="d-flex">
-        <DefinedRange onChange={onChange} ranges={ranges} />
-        <Calendar {...calendarProps} shownDate={new Date()} />
+      <div className='d-flex'>
+        <DefinedRange
+          onChange={onChange}
+          ranges={ranges}
+        />
+        <Calendar
+          {...calendarProps}
+          shownDate={new Date()}
+        />
         <Calendar
           {...calendarProps}
           date={new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)}

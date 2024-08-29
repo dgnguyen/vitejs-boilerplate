@@ -80,7 +80,7 @@ export default function useTopDataSearchBar() {
       return
     }
     dispatch(setSearchValue({ key: 'id', val: searchState }))
-    dispatch(setAndLoadData('searchType', searchType, true))
+    dispatch(setAndLoadData('searchType', event.target.value, true))
   }
 
   const handleChangeStatus = (event: SelectChangeEvent) => {

@@ -49,13 +49,13 @@
 
 .content,
 .contentHeader {
+  display: grid;
+  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
   span {
     padding-bottom: 16px;
     font-size: 14px;
     text-align: center;
   }
-  display: grid;
-  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
   .box1 {
     padding-left: 15px;
     grid-column: 1 / 4;

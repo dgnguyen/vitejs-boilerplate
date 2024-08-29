@@ -17,18 +17,21 @@ const Select = <T extends valueType>({
   options,
   onChange,
   className,
-  disabled = false
+  disabled = false,
 }: ISelect<T>) => {
   return (
     <select
       style={style}
       value={value}
-      onChange={e => onChange(e.target.value as T)}
+      onChange={(e) => onChange(e.target.value as T)}
       className={`${styles.select} ${className}`}
       disabled={disabled}
     >
       {options.map(({ value, label }) => (
-        <option value={value} key={label}>
+        <option
+          value={value}
+          key={label}
+        >
           {label}
         </option>
       ))}

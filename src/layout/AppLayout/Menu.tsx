@@ -37,12 +37,13 @@ const DrawerContent = () => {
             <ListItemButton
               onClick={() => navigate(item.href)}
               selected={rootPathname === item.href}
-
             >
-              <ListItemIcon sx={{
-                alignItems: "center",
-                display: "flex"
-              }}>
+              <ListItemIcon
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex',
+                }}
+              >
                 {item.icon}
               </ListItemIcon>
               <ListItemText primary={item.label} />

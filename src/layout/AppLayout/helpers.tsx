@@ -1,12 +1,12 @@
 import { USER_ROLE } from 'constants/auth'
 import { ROUTES } from 'constants/endpoint'
-import Account from "assets/images/menu/Account.svg"
-import Dashboard from "assets/images/menu/Dashboard.svg"
-import Agent from "assets/images/menu/Agent.svg"
-import Market from "assets/images/menu/Market.svg"
-import Player from "assets/images/menu/Player.svg"
-import PlayerTracking from "assets/images/menu/PlayerTracking.svg"
-import Transaction from "assets/images/menu/Transaction.svg"
+import Account from 'assets/images/menu/Account.svg'
+import Dashboard from 'assets/images/menu/Dashboard.svg'
+import Agent from 'assets/images/menu/Agent.svg'
+import Market from 'assets/images/menu/Market.svg'
+import Player from 'assets/images/menu/Player.svg'
+import PlayerTracking from 'assets/images/menu/PlayerTracking.svg'
+import Transaction from 'assets/images/menu/Transaction.svg'
 import {
   isAdmin,
   isSuperAdmin,

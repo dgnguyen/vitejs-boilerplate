@@ -2,14 +2,14 @@ import { Box, Button } from '@mui/material'
 import { ROUTES } from 'constants/endpoint'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useNavigate } from 'react-router-dom'
-import "./style.scss"
-import { getStyledButton } from "./helpers"
+import './style.scss'
+import { getStyledButton } from './helpers'
 
 const DashboardHeader = () => {
   const navigate = useNavigate()
   return (
-    <Box className="dashboard-header-wrapper">
-      <Box className="buttons-wrapper">
+    <Box className='dashboard-header-wrapper'>
+      <Box className='buttons-wrapper'>
         {isSuperAdminOrAdmin() && (
           <Button
             variant={getStyledButton(ROUTES.DASHBOARD)}

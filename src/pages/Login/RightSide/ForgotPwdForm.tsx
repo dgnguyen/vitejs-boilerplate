@@ -86,7 +86,7 @@ const ForgotPwdForm = () => {
               sx={{ marginY: 2 }}
               // loadingPosition="start"
               disabled={loading}
-            // loading={loading}
+              // loading={loading}
             >
               Send
             </Button>

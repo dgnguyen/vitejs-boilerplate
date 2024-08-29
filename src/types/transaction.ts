@@ -21,7 +21,7 @@ export type ISearchValuesTransactions = {
   date: DateType
   page: number
   take: number
-  selectedGameType: number[]
+  selectedGameType: number[] | null
   totalCount: number
   hasMore: boolean
   selectedAllGames: boolean

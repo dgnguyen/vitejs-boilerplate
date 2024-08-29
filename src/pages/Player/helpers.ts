@@ -1,5 +1,3 @@
-import transaction from 'redux/reducers/transaction'
-
 export const header = {
   playerId: 'RB Player ID',
   platformPlayerId: 'Agent Player ID',
