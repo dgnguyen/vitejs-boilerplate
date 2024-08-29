@@ -1,5 +1,5 @@
 import { useFetchAgents } from 'hooks/useFetchAgents'
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import { Box, FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { IAgent } from 'types/dashboard'
 import { isTesterSelectOptions } from "constants/filters"
 
@@ -18,8 +18,9 @@ const TesterSelect = ({ isTester, handleChangeIsTester }: {
   return (
     <Box className="select-wrapper">
       <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+
         <Select
-          id="tester-select"
+          id="isTester-select"
           value={isTester}
           onChange={handleChangeIsTester}
         >
