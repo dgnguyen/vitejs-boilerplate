@@ -5,6 +5,7 @@ import NotFound from 'pages/notFound'
 import Dashboard from 'pages/Dashboard'
 import AuthRoute from './AuthRoute'
 import Transaction from 'pages/Transaction'
+import Player from 'pages/Player'
 
 const allRoutes: RouteObject[] = [
   {
@@ -16,8 +17,16 @@ const allRoutes: RouteObject[] = [
     element: <AuthRoute element={<Dashboard />} />,
   },
   {
+    path: ROUTES.DASHBOARD_AGENT,
+    element: <AuthRoute element={<Dashboard />} />,
+  },
+  {
     path: ROUTES.TRANSACTION,
     element: <AuthRoute element={<Transaction />} />,
+  },
+  {
+    path: ROUTES.PLAYER,
+    element: <AuthRoute element={<Player />} />,
   },
   {
     path: '/*',
@@ -27,5 +36,6 @@ const allRoutes: RouteObject[] = [
 
 export default function Router() {
   const route = useRoutes(allRoutes)
+
   return route
 }

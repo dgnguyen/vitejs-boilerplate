@@ -8,9 +8,7 @@ import AppLayout from 'layout/AppLayout'
 
 const AuthRoute: FC<RouteProps> = (props) => {
   const { element } = props
-
   const route = <AppLayout>{element}</AppLayout>
-
   if (!auth.isAuthenticated()) {
     return <Navigate to={ROUTES.APP_ROOT} />
   }

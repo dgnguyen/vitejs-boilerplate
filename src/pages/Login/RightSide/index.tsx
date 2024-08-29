@@ -26,7 +26,7 @@ function withHOC<P extends object>(
             alt='logo'
           />
         </div>
-        <h1 className={styles.title}>Welcome to Powerball</h1>
+        <h1 className={styles.title}>Welcome to Powerball Global CMS</h1>
         <div className={styles.logoClient}></div>
       </div>
       <div className={styles.form_wrapper}>

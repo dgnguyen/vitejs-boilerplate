@@ -22,7 +22,7 @@ import { DRAWER_WIDTH } from 'constants/layout'
 import { isSuperAdmin } from 'helpers/auth'
 import { getDrawerItems } from './helpers'
 import { useNavigate } from 'react-router-dom'
-
+import { Troubleshoot } from '@mui/icons-material'
 const DrawerContent = () => {
   const navigate = useNavigate()
   const rootPathname = `/${window.location.pathname.split('/')?.[1]}`
@@ -37,11 +37,14 @@ const DrawerContent = () => {
             <ListItemButton
               onClick={() => navigate(item.href)}
               selected={rootPathname === item.href}
-            >
-              {/* <ListItemIcon>
 
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon> */}
+            >
+              <ListItemIcon sx={{
+                alignItems: "center",
+                display: "flex"
+              }}>
+                {item.icon}
+              </ListItemIcon>
               <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>

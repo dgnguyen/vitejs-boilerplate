@@ -28,7 +28,7 @@ const ForgotPwdForm = () => {
     setMessage('')
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_MAIN_API}/AdminUser/ResetPassword`,
+        `${import.meta.env.VITE_API_BASE_URL}/AdminUser/ResetPassword`,
         values
       )
       setMessage(response.data.message)
@@ -86,7 +86,7 @@ const ForgotPwdForm = () => {
               sx={{ marginY: 2 }}
               // loadingPosition="start"
               disabled={loading}
-              // loading={loading}
+            // loading={loading}
             >
               Send
             </Button>

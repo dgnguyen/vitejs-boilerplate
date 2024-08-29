@@ -57,3 +57,13 @@ body {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: var(--bg-grey);
 }
+
+.select-wrapper {
+  .MuiFormControl-root {
+    margin: 0;
+    .MuiInputBase-root {
+      background-color: white;
+      height: 50px;
+    }
+  }
+}

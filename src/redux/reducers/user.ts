@@ -2,7 +2,7 @@ import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 import { AppDispatch, RootState } from 'redux/store'
-import { removeToken, setToken, setUser } from 'helpers/auth'
+import { removeUser, setToken, setUser } from 'helpers/auth'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -40,12 +40,10 @@ export const loginUser = (formValues: any) => {
   return async (dispatch: AppDispatch) => {
     try {
       dispatch(loginAttempt())
-
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/AdminUser/login`,
         formValues
       )
-
       const token = response.data.token
       setToken(token)
       setUser(response.data)
@@ -65,13 +63,11 @@ export const logout = () => {
   return async (dispatch: AppDispatch) => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_MAIN_API}/AdminUser/logout`
+        `${import.meta.env.VITE_API_BASE_URL}/AdminUser/logout`
       )
 
-      removeToken()
-
+      removeUser()
       dispatch(logoutSuccess())
-
       return response
     } catch (e) {
       console.error(e)
@@ -81,4 +77,5 @@ export const logout = () => {
 }
 
 export const loadingLogin = (state: RootState) => state.user.loading
+// export const logoutUser = (state: RootState) => state.user.logout
 export default userSlice.reducer

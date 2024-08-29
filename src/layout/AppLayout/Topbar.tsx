@@ -12,15 +12,38 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import AdbIcon from '@mui/icons-material/Adb'
+import { useAppDispatch } from 'redux/store'
+import { logout } from 'redux/reducers/user'
+import { useNavigate } from 'react-router-dom'
+import { useUser } from 'context/UserContext'
+import { stringAvatar } from './helpers'
 
 const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+
 
 function ResponsiveAppBar() {
+  const dispatch = useAppDispatch()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
+  const navigate = useNavigate()
+
+  function handleLogout() {
+    dispatch(logout())
+    navigate("/")
+  }
+
+  const settings = [
+    {
+      label: "Profile",
+      onClick: () => { },
+    },
+    {
+      label: "Logout",
+      onClick: () => handleLogout()
+    }
+  ]
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -37,6 +60,8 @@ function ResponsiveAppBar() {
     setAnchorElUser(null)
   }
 
+  const { currentUser } = useUser() as any
+
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
@@ -48,8 +73,7 @@ function ResponsiveAppBar() {
                 sx={{ p: 0 }}
               >
                 <Avatar
-                  alt='Remy Sharp'
-                  src='/static/images/avatar/2.jpg'
+                  {...stringAvatar(`${currentUser?.firstName} ${currentUser?.lastName}`)}
                 />
               </IconButton>
             </Tooltip>
@@ -71,10 +95,13 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem
-                  key={setting}
-                  onClick={handleCloseUserMenu}
+                  key={setting.label}
+                  onClick={() => {
+                    setting.onClick()
+                    handleCloseUserMenu()
+                  }}
                 >
-                  <Typography textAlign='center'>{setting}</Typography>
+                  <Typography textAlign='center'>{setting.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>

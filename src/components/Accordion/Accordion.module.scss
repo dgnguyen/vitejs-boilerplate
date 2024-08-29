@@ -1,0 +1,73 @@
+.accordionRow {
+  display: grid;
+  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
+  border-top: 1px solid #c7ccdb;
+  background-color: white;
+  .lost {
+    color: #faa500;
+  }
+  .win,
+  .won {
+    color: #0acf97;
+  }
+  .error {
+    color: #dc4139;
+  }
+  .canceled {
+    color: #e52392;
+  }
+  .new {
+    color: #4e23ad;
+  }
+  span {
+    padding: 10px 2px;
+    color: #2a324b;
+    text-align: center;
+    white-space: break-spaces;
+  }
+}
+
+.arrowCol {
+  padding-right: 22px;
+  svg {
+    width: 15px;
+    cursor: pointer;
+    margin-left: 8px;
+  }
+}
+
+.accordionContent {
+  background: white;
+
+  .contentHeader {
+    span {
+      color: var(--color-grey);
+      font-weight: 500;
+    }
+  }
+}
+
+.content,
+.contentHeader {
+  span {
+    padding-bottom: 16px;
+    font-size: 14px;
+    text-align: center;
+  }
+  display: grid;
+  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
+  .box1 {
+    padding-left: 15px;
+    grid-column: 1 / 4;
+    text-align: left;
+  }
+  .box6 {
+    grid-column: 8 /10;
+  }
+}
+
+.ellipsisText {
+  white-space: inherit;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

@@ -1,6 +1,6 @@
 FROM node:18.18.0 AS nodebuild
 RUN mkdir -p /client-portal
-WORKDIR /client-portal/
+WORKDIR /client-portal
 COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .

@@ -2,6 +2,9 @@
   //colors
   --white: #ffffff;
   --bg-color: #f0f5f9;
+  --color-grey: #767b91;
+  --color-text-dark: #2a324b;
+  --blue-primary: #5863ff;
 }
 
 .d-flex {
@@ -15,4 +18,24 @@
 hr {
   margin-block: 1.6rem;
   border-bottom: 1px solid var(--blue-border-color);
+}
+
+// style for every input text
+.filter-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+  > div {
+    height: 48px;
+    &.bgWhite {
+      background-color: white;
+    }
+  }
+  .searchTextInput {
+    background-color: white;
+    input {
+      padding: 13px;
+    }
+  }
 }
