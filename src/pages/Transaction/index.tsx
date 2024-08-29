@@ -6,6 +6,7 @@ import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import {
   setAgentTransaction,
+  setAndLoadData,
   setSearchValue,
   transactionIsLoadingSelector,
   transactionIsPageLoadingSelector,
@@ -16,8 +17,12 @@ import FilterTransaction from './FilterTransaction'
 import './style.scss'
 import TransactionContent from './TransactionContent'
 import PageTitle from 'components/Commons/PageTitle'
+import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Transaction = () => {
+  const { playerId, isTester } = useParams()
+  const isPageTransactionPlayer = !!playerId
   const dispatch = useAppDispatch()
 
   const searchValues = useSelector(transactionSearchValuesSelector)
@@ -32,16 +37,17 @@ const Transaction = () => {
   }
 
   const handleSelectGame = (newSelectedGames: any) => {
-    dispatch(setSearchValue({ key: 'selectedGameType', val: newSelectedGames }))
+    dispatch(setAndLoadData('selectedGameType', newSelectedGames, true))
   }
 
   const handleChangeAgent = (event: SelectChangeEvent) => {
-    dispatch(setAgentTransaction(event.target.value))
+    dispatch(setAndLoadData('agentSelected', event.target.value, true))
   }
 
   return (
     <Box>
-      <PageTitle title='Transaction' />
+      <PageTitle title='Transaction' subTitle={isPageTransactionPlayer ? `Player Id: ${playerId} / Is Test: ${isTester ? "No" : "Yes"}` : ""} />
+
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
         selectedAllGames={selectedAllGames}
@@ -61,8 +67,8 @@ const Transaction = () => {
           />
         )}
       </Box>
-      <FilterTransaction />
-      <TransactionContent />
+      <FilterTransaction playerId={playerId} />
+      <TransactionContent playerId={playerId} />
     </Box>
   )
 }

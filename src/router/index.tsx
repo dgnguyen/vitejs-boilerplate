@@ -21,7 +21,12 @@ const allRoutes: RouteObject[] = [
     element: <AuthRoute element={<Dashboard />} />,
   },
   {
+    path: `${ROUTES.TRANSACTION}/:playerId/:isTester`,
+    element: <AuthRoute element={<Transaction />} />,
+  },
+  {
     path: ROUTES.TRANSACTION,
+
     element: <AuthRoute element={<Transaction />} />,
   },
   {

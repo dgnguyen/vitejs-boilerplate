@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux'
 import {
   errorLoadTransactions,
   getTransactions,
+  setAndLoadData,
+  setMultiSearchLoadTransaction,
+  setSearchValue,
   transactionDashboardSelector,
   transactionDataSelector,
   transactionIsLoadingSelector,
@@ -24,8 +27,9 @@ import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import EmptyData from 'components/EmptyData'
 import { thousandSeparator } from 'helpers/currency'
 import { header } from 'helpers/playerTransaction'
+import { SearchTypeValue } from 'helpers/transaction'
 
-const TransactionContent = () => {
+const TransactionContent = ({ playerId }: { playerId?: string }) => {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
   const { hasMore, agentSelected, selectedGameType, searchType } = searchValues
@@ -35,9 +39,18 @@ const TransactionContent = () => {
   const loadingPageTransaction = useSelector(transactionIsPageLoadingSelector)
   const errorLoadTransaction = useSelector(errorLoadTransactions)
   const { inputRef, height } = useSetHeightInfiniteScroll()
+
   useEffect(() => {
-    dispatch(getTransactions())
-  }, [agentSelected, selectedGameType])
+    if (playerId) {
+      dispatch(setMultiSearchLoadTransaction([
+        { id: playerId },
+        { searchType: SearchTypeValue.agentPlayerId }
+      ], true))
+    }
+    else {
+      dispatch(getTransactions())
+    }
+  }, [playerId])
 
   if (errorLoadTransaction) {
     return (
@@ -88,7 +101,7 @@ const TransactionContent = () => {
         </Box>
         <div
           id='scrollableDiv'
-          //  className={styles.accordion}
+        //  className={styles.accordion}
         >
           {loadingPageTransaction && <CircularProgress />}
           {!loadingPageTransaction && dataTransaction?.length > 0 && (

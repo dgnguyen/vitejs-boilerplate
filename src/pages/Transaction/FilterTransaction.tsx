@@ -11,25 +11,23 @@ import TesterSelect from 'components/TesterSelect'
 import SearchSVG from 'assets/images/search.svg'
 import { useAppDispatch } from 'redux/store'
 import { useSelector } from 'react-redux'
-import { transactionSearchValuesSelector } from 'redux/reducers/transaction'
+import { setSearchValue, transactionSearchValuesSelector } from 'redux/reducers/transaction'
 import useTopDataSearchBar from 'hooks/useTopDataSearchBar'
-import { searchTypeOptions, TRStatusSelectOptions } from 'helpers/transaction'
+import { searchTypeOptions, SearchTypeValue, TRStatusSelectOptions } from 'helpers/transaction'
 import { Refresh } from '@mui/icons-material'
 import ExportExcel from 'components/ExportExcel'
+import { useEffect } from 'react'
 
-const FilterTransaction = () => {
+const FilterTransaction = ({ playerId }: { playerId?: string }) => {
   const dispatch = useAppDispatch()
+  const isPageTransactionPlayer = !!playerId
 
   const searchValues = useSelector(transactionSearchValuesSelector)
   const {
-    id,
     searchType,
     isTester,
     date,
     TransactionStatus,
-    selectedGameType,
-    selectedAllGames,
-    agentSelected,
   } = searchValues
 
   const {
@@ -49,36 +47,43 @@ const FilterTransaction = () => {
     dispatch(handleSearch)
   }
 
+  useEffect(() => { }, [])
+
   return (
     <Box>
       <Box className='filter-wrapper'>
-        <TextField
-          placeholder={`Search by ${searchTypeOptions.find((item) => item.value === searchType)?.label}`}
-          onChange={handleSearchState}
-          value={searchState}
-          // onKeyDown={(e: any) => {
-          //   if (e.key === 'Enter' && !disableSearch) {
-          //     handleSearchState(e)
-          //   }
-          // }}
-          className='searchTextInput bgWhite'
-          sx={{ width: '250px' }}
-        />
-        <Select
-          // style={{ width: '190px' }}
-          value={searchType.toString()}
-          onChange={handleChangeSearchType}
-          className='bgWhite'
-        >
-          {searchTypeOptions.map((searchType) => (
-            <MenuItem
-              key={searchType.value}
-              value={searchType.value}
+        {!isPageTransactionPlayer &&
+          <>
+            <TextField
+              placeholder={`Search by ${searchTypeOptions.find((item) => item.value === searchType)?.label}`}
+              onChange={handleSearchState}
+              value={searchState}
+              // onKeyDown={(e: any) => {
+              //   if (e.key === 'Enter' && !disableSearch) {
+              //     handleSearchState(e)
+              //   }
+              // }}
+              className='searchTextInput bgWhite'
+              sx={{ width: '250px' }}
+            />
+
+            <Select
+              // style={{ width: '190px' }}
+              value={searchType.toString()}
+              onChange={handleChangeSearchType}
+              className='bgWhite'
             >
-              {searchType.label}
-            </MenuItem>
-          ))}
-        </Select>
+              {searchTypeOptions.map((searchType) => (
+                <MenuItem
+                  key={searchType.value}
+                  value={searchType.value}
+                >
+                  {searchType.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </>
+        }
         <DataPicker
           key={`datapickerFromTransaction`}
           changeHandler={handleDateChange}
@@ -103,10 +108,12 @@ const FilterTransaction = () => {
             </Select>
           </FormControl>
         </Box>
-        <TesterSelect
-          isTester={isTester}
-          handleChangeIsTester={handleChangeIsTester}
-        />
+        {!isPageTransactionPlayer &&
+          <TesterSelect
+            isTester={isTester}
+            handleChangeIsTester={handleChangeIsTester}
+          />
+        }
         <Button
           onClick={handleSearch}
           disabled={disableSearch}
@@ -114,13 +121,15 @@ const FilterTransaction = () => {
         >
           <SearchSVG />
         </Button>
-        <Button
-          variant='contained'
-          data-testid='resetFilterTransaction'
-          onClick={resetFilter}
-        >
-          Reset
-        </Button>
+        {!isPageTransactionPlayer &&
+          <Button
+            variant='contained'
+            data-testid='resetFilterTransaction'
+            onClick={resetFilter}
+          >
+            Reset
+          </Button>
+        }
         <Box
           marginLeft='auto'
           display='flex'
@@ -134,7 +143,7 @@ const FilterTransaction = () => {
             <Refresh />
           </Button>
           <ExportExcel
-            id='export-excel-transactions'
+            id={isPageTransactionPlayer ? 'export-excel-specific-player-transactions' : 'export-excel-transactions'}
             disableSearch={disableSearch}
             optionalData={{
               startDate: date.startDate,

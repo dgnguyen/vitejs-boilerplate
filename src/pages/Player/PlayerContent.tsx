@@ -23,6 +23,10 @@ import EmptyData from 'components/EmptyData'
 import Accordion from 'components/Accordion'
 import { FORMAT_DATE_TIME } from 'constants/date'
 import moment from 'moment'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from 'constants/endpoint'
+import { setSearchValue } from 'redux/reducers/transaction'
+import { SearchTypeValue } from 'helpers/transaction'
 
 const PlayerContent = () => {
   const dispatch = useAppDispatch()
@@ -33,10 +37,17 @@ const PlayerContent = () => {
   const loadingPage = useSelector(loadingPagePlayerSelector)
   const error = useSelector(errorPlayerSelector)
   const { inputRef, height } = useSetHeightInfiniteScroll()
-
+  const navigate = useNavigate()
   useEffect(() => {
     dispatch(getPlayersAction())
   }, [agentSelected])
+
+
+
+
+  function goToPlayerTransaction(playerId: number, isTester: boolean) {
+    navigate(`${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : "real"}`)
+  }
 
   if (error) {
     return (
@@ -69,7 +80,7 @@ const PlayerContent = () => {
       >
         <div
           id='scrollableDiv'
-          //  className={styles.accordion}
+        //  className={styles.accordion}
         >
           {loadingPage && <CircularProgress />}
           {!loadingPage && data?.length > 0 && (
@@ -89,7 +100,7 @@ const PlayerContent = () => {
                   <Box>{row?.playerId}</Box>
                   <Box>{row?.bcPlayerId}</Box>
                   <Box>{row?.agentName}</Box>
-                  <Box className='transactionCount'>
+                  <Box className='transactionCount' onClick={() => goToPlayerTransaction(row?.bcPlayerId, row?.isTester)}>
                     <Typography>{row?.transactionCount}</Typography>
                   </Box>
                   <Box>{row?.totalBetAmount}</Box>

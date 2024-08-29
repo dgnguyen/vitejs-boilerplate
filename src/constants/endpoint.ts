@@ -9,6 +9,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   DASHBOARD_AGENT: '/dashboard/agent',
   TRANSACTION: '/transaction',
+  TRANSACTION_PLAYER: '/transaction/player',
   PLAYER: '/player',
   PLAYER_TRACKING: '/player_tracking',
   AGENT: '/agent',

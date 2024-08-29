@@ -40,7 +40,7 @@ const initialSearchValues: ISearchValuesTransactions = {
   take: 20,
   totalCount: 0,
   hasMore: false,
-  selectedGameType: [],
+  selectedGameType: null,
   selectedAllGames: true,
   agentSelected: 'all',
 }
@@ -103,6 +103,15 @@ export const transactionReducer = createSlice({
     },
     setSearchValue: (state, { payload: { key, val } }) => {
       state.searchValues = { ...state.searchValues, [key]: val }
+    },
+    setMultipleSearchValues: (state, { payload }) => {
+      const payLoadSearchState = payload.reduce((acc: any, cur: any) => {
+        return {
+          ...acc,
+          ...cur,
+        }
+      }, {})
+      state.searchValues = { ...state.searchValues, ...payLoadSearchState }
     },
     updateTransactionThroughWS: (state, { payload }) => {
       for (const ub of state.data) {
@@ -170,7 +179,7 @@ export const getTransactions = createAsyncThunk(
           ...dateObj,
           ...(TransactionStatus !== 'null' ? { TransactionStatus } : {}),
           ...(isTester !== 'null' ? { isTester } : {}),
-          id: id ? Number(id) : null,
+          id: id || null,
           ...(id ? { searchType: searchTypeValue } : {}),
           gametypeID: selectedGameType,
           partnerId: agentSelected !== 'all' ? [agentSelected] : null,
@@ -229,13 +238,26 @@ export const setAndLoadData = (
   }
 }
 
+export const setMultiSearchLoadTransaction = (
+  updateSearchValues: any,
+  fromStartOfThePage = false
+) => {
+  return async (dispatch: AppDispatch) => {
+    if (fromStartOfThePage) {
+      await dispatch(setSearchValue({ key: 'page', val: 1 }))
+    }
+    await dispatch(setMultipleSearchValues(updateSearchValues))
+    await dispatch(getTransactions())
+  }
+}
+
 export const exportTransactions =
   (cb: (res: ResponseBlob, name: string) => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     const { searchValues } = (getState() as RootState)?.transaction
 
     dispatch(setLoadingExport(true))
-    const url = `${API_BASE_URL}/v2/AdminTransaction/exportTransactions`
+    const url = `${API_BASE_URL}/v3/AdminTransaction/exportTransactions`
     const {
       id,
       date: { startDate: startD, endDate: endD },
@@ -287,7 +309,7 @@ export const exportSpecificPlayersTransactions =
     const endDate = endD && format(new Date(endD), 'yyyy-MM-dd')
 
     dispatch(setLoadingExport(true))
-    const url = `${API_BASE_URL}/v2/AdminTransaction/exportSpecificPlayerTransactions`
+    const url = `${API_BASE_URL}/v3/AdminTransaction/exportSpecificPlayerTransactions`
     handleExportRequest({
       url,
       params: {
@@ -335,6 +357,7 @@ export default transactionReducer.reducer
 export const {
   updateTransactionThroughWS,
   setSearchValue,
+  setMultipleSearchValues,
   resetSearchValues,
   resetTransactionState,
   setLoadingExport,
