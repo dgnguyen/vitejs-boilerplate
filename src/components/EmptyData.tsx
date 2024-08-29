@@ -15,14 +15,16 @@ const EmptyData = ({ minHeight, sx }: Props) => {
       justifyContent="center"
       alignItems="center"
       minHeight={minHeight || 300}
-      sx={sx}
+      sx={{
+        ...sx, background: "white"
+      }}
     >
       <Typography color="gray" fontSize={24} sx={{
         textTransform: "none"
       }}>
         No data to display...
       </Typography>
-    </Box>
+    </Box >
   )
 }
 

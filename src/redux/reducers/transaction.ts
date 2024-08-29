@@ -179,7 +179,7 @@ export const getTransactions = createAsyncThunk(
       )
 
       const response2 = await axios.post(
-        `${API_BASE_URL}/v2/AdminTransaction/gettransactions`,
+        `${API_BASE_URL}/v3/AdminTransaction/gettransactions`,
         json,
         {
           headers: {
