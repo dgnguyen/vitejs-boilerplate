@@ -21,11 +21,15 @@ export const GamesContext = React.createContext({
 })
 
 const getInitialState = () => {
-  const gamesListLocal = localStorage.getItem("gamesList")
+  const gamesListLocal = localStorage.getItem('gamesList')
   return gamesListLocal ? JSON.parse(gamesListLocal) : []
 }
 
-export const GamesContextProvider = ({ children }: { children: React.ReactNode }) => {
+export const GamesContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
   const [loadingGames, setLoadingGames] = useState(false)
   const [gamesList, setGamesList] = useState(getInitialState())
   const [errorGames, setError] = useState(false)
@@ -40,8 +44,7 @@ export const GamesContextProvider = ({ children }: { children: React.ReactNode }
       const data = response?.data || null
 
       if (data) setGamesList(data)
-    }
-    catch (e) {
+    } catch (e) {
       console.error(e)
       setError(true)
       throw e
@@ -53,9 +56,9 @@ export const GamesContextProvider = ({ children }: { children: React.ReactNode }
     if (!getInitialState()?.length) fetchGames()
   }, [])
   useEffect(() => {
-    if (gamesList?.length > 0) localStorage.setItem("gamesList", JSON.stringify(gamesList))
+    if (gamesList?.length > 0)
+      localStorage.setItem('gamesList', JSON.stringify(gamesList))
   }, [gamesList])
-
 
   return (
     <GamesContext.Provider value={{ gamesList, errorGames, loadingGames }}>
@@ -67,6 +70,8 @@ export const GamesContextProvider = ({ children }: { children: React.ReactNode }
 export const useGames = () => {
   const { gamesList, errorGames, loadingGames } = useContext(GamesContext)
   return {
-    gamesList, errorGames, loadingGames
+    gamesList,
+    errorGames,
+    loadingGames,
   }
 }

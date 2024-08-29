@@ -7,7 +7,7 @@ import {
   ListItemText,
   MenuItem,
   Select,
-  Typography
+  Typography,
 } from '@mui/material'
 
 import { useSelector } from 'react-redux'
@@ -26,7 +26,10 @@ import { setupDownload } from './helpers'
 
 import './index.scss'
 import { useAppDispatch } from 'redux/store'
-import { exportTransactions, getLoadingExportTransactionSelector } from 'redux/reducers/transaction'
+import {
+  exportTransactions,
+  getLoadingExportTransactionSelector,
+} from 'redux/reducers/transaction'
 
 export type OptionalData = {
   transactionId?: string
@@ -36,10 +39,10 @@ export type OptionalData = {
 
 type Props = {
   id:
-  | 'export-excel-transactions'
-  | 'export-excel-players'
-  | 'export-excel-specific-player-transactions'
-  | 'export-excel-dashboard'
+    | 'export-excel-transactions'
+    | 'export-excel-players'
+    | 'export-excel-specific-player-transactions'
+    | 'export-excel-dashboard'
   disableSearch?: boolean
   optionalData?: OptionalData
 }
@@ -87,41 +90,50 @@ const ExportExcel = (props: Props) => {
         border: 'none',
         borderRadius: '10px',
         '& .MuiListItemIcon-root': {
-          minWidth: '20px !important'
+          minWidth: '20px !important',
         },
         '& .MuiButtonBase-root:nth-child(1)': {
-          display: 'none'
-        }
-      }
-    }
+          display: 'none',
+        },
+      },
+    },
   }
 
   return (
-    <FormControl className="exportWrapper" size="small">
+    <FormControl
+      className='exportWrapper'
+      size='small'
+    >
       <Select
-        className="export-excel"
-        id="runningGame-select"
-        value=""
+        className='export-excel'
+        id='runningGame-select'
+        value=''
         onChange={handleExport}
         displayEmpty
         MenuProps={menuProps}
         disabled={disableSearch}
       >
-        <MenuItem value="">
+        <MenuItem value=''>
           <ListItemIcon>
             {isExporting ? (
-              <CircularProgress size={14} sx={{ color: 'white' }} />
+              <CircularProgress
+                size={14}
+                sx={{ color: 'white' }}
+              />
             ) : (
               <ExportIcon />
             )}
           </ListItemIcon>
           <ListItemText>
-            <Typography color="white" fontSize={12}>
+            <Typography
+              color='white'
+              fontSize={12}
+            >
               Export
             </Typography>
           </ListItemText>
         </MenuItem>
-        <MenuItem value="excel">
+        <MenuItem value='excel'>
           <ListItemIcon>
             <ExcelIcon />
           </ListItemIcon>

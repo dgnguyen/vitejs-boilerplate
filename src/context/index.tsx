@@ -1,17 +1,12 @@
-import { UserContextProvider } from "context/UserContext"
+import { UserContextProvider } from 'context/UserContext'
 import { GamesContextProvider } from './GamesContext'
 
 const Contexts = (props: any) => {
-  const {
-    children,
-  } = props
-
+  const { children } = props
 
   return (
     <GamesContextProvider>
-      <UserContextProvider>
-        {children}
-      </UserContextProvider>
+      <UserContextProvider>{children}</UserContextProvider>
     </GamesContextProvider>
   )
 }

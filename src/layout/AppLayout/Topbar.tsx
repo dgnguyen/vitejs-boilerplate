@@ -20,7 +20,6 @@ import { stringAvatar } from './helpers'
 
 const pages = ['Products', 'Pricing', 'Blog']
 
-
 function ResponsiveAppBar() {
   const dispatch = useAppDispatch()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -31,18 +30,18 @@ function ResponsiveAppBar() {
 
   function handleLogout() {
     dispatch(logout())
-    navigate("/")
+    navigate('/')
   }
 
   const settings = [
     {
-      label: "Profile",
-      onClick: () => { },
+      label: 'Profile',
+      onClick: () => {},
     },
     {
-      label: "Logout",
-      onClick: () => handleLogout()
-    }
+      label: 'Logout',
+      onClick: () => handleLogout(),
+    },
   ]
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -73,7 +72,9 @@ function ResponsiveAppBar() {
                 sx={{ p: 0 }}
               >
                 <Avatar
-                  {...stringAvatar(`${currentUser?.firstName} ${currentUser?.lastName}`)}
+                  {...stringAvatar(
+                    `${currentUser?.firstName} ${currentUser?.lastName}`
+                  )}
                 />
               </IconButton>
             </Tooltip>

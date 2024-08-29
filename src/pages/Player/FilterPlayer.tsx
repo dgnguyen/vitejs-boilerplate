@@ -8,18 +8,18 @@ import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { resetFilter, setFilter } from 'redux/reducers/filter'
-import { setAndLoadPlayersData, setIsTesterPlayer, setSearchValues, setSelectAgent } from 'redux/reducers/player'
+import {
+  setAndLoadPlayersData,
+  setIsTesterPlayer,
+  setSearchValues,
+  setSelectAgent,
+} from 'redux/reducers/player'
 import { RootState, useAppDispatch } from 'redux/store'
-import SearchSVG from "assets/images/search.svg"
+import SearchSVG from 'assets/images/search.svg'
 
 const FilterPlayer = () => {
-  const {
-    searchValues,
-    isLoadingData,
-    isLoadingPage,
-    data,
-    hasMore
-  } = useSelector((state: RootState) => state.player)
+  const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
+    useSelector((state: RootState) => state.player)
   const dispatch = useAppDispatch()
   const { inputRef, height } = useSetHeightInfiniteScroll()
   const { agentSelected, isTester } = searchValues
@@ -31,12 +31,11 @@ const FilterPlayer = () => {
   }
 
   const handleChangeAgent = (event: SelectChangeEvent) => {
-    dispatch(setFilter({ key: "agentSelected", val: event.target.value }))
-
+    dispatch(setFilter({ key: 'agentSelected', val: event.target.value }))
   }
 
   const handleChangeIsTester = (event: SelectChangeEvent) => {
-    dispatch(setFilter({ key: "isTester", val: event.target.value }))
+    dispatch(setFilter({ key: 'isTester', val: event.target.value }))
   }
 
   const handleSearch = async () => {
@@ -52,12 +51,15 @@ const FilterPlayer = () => {
     dispatch(handleSearch)
   }
 
-  useEffect(() => () => {
-    dispatch(resetFilter())
-  }, [])
+  useEffect(
+    () => () => {
+      dispatch(resetFilter())
+    },
+    []
+  )
 
   return (
-    <Box className="filter-wrapper">
+    <Box className='filter-wrapper'>
       <TextField
         placeholder={`Search by player ID`}
         onChange={handleSearchState}
@@ -70,13 +72,12 @@ const FilterPlayer = () => {
         className='searchTextInput bgWhite'
         sx={{ width: '250px' }}
       />
-      {
-        isSuperAdminOrAdmin() &&
+      {isSuperAdminOrAdmin() && (
         <AgentSelect
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}
         />
-      }
+      )}
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}
@@ -88,12 +89,20 @@ const FilterPlayer = () => {
       >
         <SearchSVG />
       </Button>
-      <Box marginLeft="auto" display="flex" gap={2}>
-        <Button variant="contained" data-testid="refreshTransactions" onClick={handleRefresh}>
+      <Box
+        marginLeft='auto'
+        display='flex'
+        gap={2}
+      >
+        <Button
+          variant='contained'
+          data-testid='refreshTransactions'
+          onClick={handleRefresh}
+        >
           <Refresh />
         </Button>
         <ExportExcel
-          id="export-excel-players"
+          id='export-excel-players'
           disableSearch={disableSearch}
         />
       </Box>

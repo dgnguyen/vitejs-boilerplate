@@ -4,7 +4,6 @@ import DashboardActions from './DashboardActions'
 import DashboardContent from './DashboardContent'
 
 const DashboardByAgent = () => {
-
   return (
     <Box>
       <DashboardHeader />
