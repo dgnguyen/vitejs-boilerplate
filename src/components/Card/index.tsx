@@ -50,7 +50,7 @@ const Card: React.FC<TProps> = ({
         </Box>
       </Box>
       <Box sx={{ minHeight: '25px' }}>
-        <Box className={"price"}>{price}</Box>
+        <Box className={"price"}>{price || 0}</Box>
         <Box className="currency">{currency}</Box>
       </Box>
       <Box className="date">{date}</Box>

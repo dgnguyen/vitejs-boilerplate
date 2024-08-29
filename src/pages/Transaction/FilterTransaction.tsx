@@ -1,4 +1,4 @@
-import { Box, Button, MenuItem, Select, TextField } from '@mui/material'
+import { Box, Button, FormControl, MenuItem, Select, TextField } from '@mui/material'
 import DataPicker from 'components/DataPicker'
 import TesterSelect from 'components/TesterSelect'
 import SearchSVG from "assets/images/search.svg"
@@ -69,18 +69,21 @@ const FilterTransaction = () => {
           reset={toggleDatePickerReset}
           disabled={disableSearch}
         />
-        <Select
-          value={TransactionStatus.toString()}
-          onChange={handleChangeStatus}
-          disabled={disableSearch}
-          style={{ width: '90px' }}
-        >
-          {
-            TRStatusSelectOptions.map(status => (
-              <MenuItem value={status.value}>{status.label}</MenuItem>
-            ))
-          }
-        </Select>
+        <Box className="select-wrapper">
+          <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+            <Select
+              value={TransactionStatus.toString()}
+              onChange={handleChangeStatus}
+              disabled={disableSearch}
+            >
+              {
+                TRStatusSelectOptions.map(status => (
+                  <MenuItem value={status.value}>{status.label}</MenuItem>
+                ))
+              }
+            </Select>
+          </FormControl >
+        </Box>
         <TesterSelect
           isTester={isTester}
           handleChangeIsTester={handleChangeIsTester}
