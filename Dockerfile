@@ -1,6 +1,6 @@
 FROM node:18.18.0 AS nodebuild
 RUN mkdir -p /client-portal
-WORKDIR /client-portal/
+WORKDIR /client-portal
 COPY package.json .
 COPY yarn.lock .
 COPY tsconfig.json .
@@ -10,9 +10,9 @@ RUN yarn install
 COPY . .
 RUN yarn build
 FROM nginx:alpine
-COPY --from=nodebuild /client-portal/build /usr/share/nginx/html
-# COPY default.conf /etc/nginx/conf.d/default.conf
-# COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=nodebuild /client-portal/dist /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 
