@@ -4,15 +4,12 @@ import AgentSelect from 'components/AgentSelect'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
-import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { resetFilter, setFilter } from 'redux/reducers/filter'
 import {
+  resetPlayersState,
   setAndLoadPlayersData,
-  setIsTesterPlayer,
-  setSearchValues,
-  setSelectAgent,
+  setSearchValuesPlayer,
 } from 'redux/reducers/player'
 import { RootState, useAppDispatch } from 'redux/store'
 import SearchSVG from 'assets/images/search.svg'
@@ -21,25 +18,29 @@ const FilterPlayer = () => {
   const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
     useSelector((state: RootState) => state.player)
   const dispatch = useAppDispatch()
-  const { inputRef, height } = useSetHeightInfiniteScroll()
-  const { agentSelected, isTester } = searchValues
+  const { agentSelected, isTester, id } = searchValues
   const disableSearch = isLoadingData || isLoadingPage
   const [searchState, setSearchState] = useState<string>('')
+
+  useEffect(() => {
+    setSearchState(id)
+  }, [id])
+
 
   const handleSearchState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchState(e.target.value)
   }
 
   const handleChangeAgent = (event: SelectChangeEvent) => {
-    dispatch(setFilter({ key: 'agentSelected', val: event.target.value }))
+    dispatch(setSearchValuesPlayer({ key: 'agentSelected', val: event.target.value }))
   }
 
   const handleChangeIsTester = (event: SelectChangeEvent) => {
-    dispatch(setFilter({ key: 'isTester', val: event.target.value }))
+    dispatch(setAndLoadPlayersData('isTester', event.target.value, true))
   }
 
   const handleSearch = async () => {
-    dispatch(setFilter({ key: 'playerId', val: searchState }))
+    dispatch(setSearchValuesPlayer({ key: 'id', val: searchState }))
     try {
       await dispatch(setAndLoadPlayersData('page', 1))
     } catch (e) {
@@ -51,9 +52,13 @@ const FilterPlayer = () => {
     dispatch(handleSearch)
   }
 
+  function resetFilter() {
+    dispatch(resetPlayersState())
+  }
+
   useEffect(
     () => () => {
-      dispatch(resetFilter())
+      dispatch(resetPlayersState())
     },
     []
   )
@@ -88,6 +93,13 @@ const FilterPlayer = () => {
         variant='contained'
       >
         <SearchSVG />
+      </Button>
+      <Button
+        variant='contained'
+        data-testid='resetFilterPlayer'
+        onClick={resetFilter}
+      >
+        Reset
       </Button>
       <Box
         marginLeft='auto'
