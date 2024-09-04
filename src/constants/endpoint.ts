@@ -1,9 +1,5 @@
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
-const ENDPOINT = {
-  TEST: `${API_BASE_URL}/test`,
-} as const
-
 export const ROUTES = {
   APP_ROOT: '/',
   DASHBOARD: '/dashboard',
@@ -18,5 +14,3 @@ export const ROUTES = {
   ACCOUNT: '/account',
   FORGOT_PASSWORD: '/forgot-password',
 } as const
-
-export default ENDPOINT

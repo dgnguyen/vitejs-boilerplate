@@ -6,6 +6,7 @@ import Dashboard from 'pages/Dashboard'
 import AuthRoute from './AuthRoute'
 import Transaction from 'pages/Transaction'
 import Player from 'pages/Player'
+import PlayerTracking from 'pages/PlayerTracking'
 
 const allRoutes: RouteObject[] = [
   {
@@ -26,12 +27,15 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.TRANSACTION,
-
     element: <AuthRoute element={<Transaction />} />,
   },
   {
     path: ROUTES.PLAYER,
     element: <AuthRoute element={<Player />} />,
+  },
+  {
+    path: ROUTES.PLAYER_TRACKING,
+    element: <AuthRoute element={<PlayerTracking />} />,
   },
   {
     path: '/*',

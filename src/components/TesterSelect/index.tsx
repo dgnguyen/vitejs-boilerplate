@@ -1,4 +1,3 @@
-import { useFetchAgents } from 'hooks/useFetchAgents'
 import {
   Box,
   FormControl,

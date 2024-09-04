@@ -77,7 +77,6 @@ const Transaction = () => {
         <DateBlock />
         {isSuperAdminOrAdmin() && (
           <AgentSelect
-            agentSelected={agentSelected}
             handleChange={handleChangeAgent}
           />
         )}

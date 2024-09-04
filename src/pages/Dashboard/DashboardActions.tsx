@@ -82,7 +82,6 @@ const DashboardActions = () => {
       {isSuperAdminOrAdmin() &&
         window.location.pathname === ROUTES.DASHBOARD_AGENT && (
           <AgentSelect
-            agentSelected={agentSelected}
             handleChange={handleChangeAgent}
           />
         )}

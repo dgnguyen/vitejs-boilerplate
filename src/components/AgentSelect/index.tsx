@@ -15,10 +15,10 @@ type SelectProps = {
 }[]
 
 const AgentSelect = ({
-  agentSelected,
   handleChange,
+  disableSelectAll
 }: {
-  agentSelected: string | null
+  disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
 }) => {
   const { agents } = useFetchAgents()
@@ -44,16 +44,19 @@ const AgentSelect = ({
           labelId='select-agents-select-label'
           id='select-agents-select'
           // value={agentSelected?.toString()}
-          defaultValue='all'
+          // defaultValue='all'
+          {...(!disableSelectAll ? { defaultValue: 'all' } : {})}
           label='Select Agent'
           onChange={handleChange}
         >
-          <MenuItem
-            defaultChecked
-            value='all'
-          >
-            All
-          </MenuItem>
+          {!disableSelectAll &&
+            <MenuItem
+              defaultChecked
+              value='all'
+            >
+              All
+            </MenuItem>
+          }
           {agentsOptions.map((item, index) => (
             <MenuItem
               key={index}

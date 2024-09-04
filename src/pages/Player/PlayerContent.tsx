@@ -29,9 +29,6 @@ import { setSearchValue } from 'redux/reducers/transaction'
 import { SearchTypeValue } from 'helpers/transaction'
 
 const PlayerContent = () => {
-
-
-
   const dispatch = useAppDispatch()
   const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
     useSelector((state: RootState) => state.player)
