@@ -37,8 +37,8 @@ const initialSearchValues: ISearchValuesPlayers = {
 }
 
 const initialState = {
-  isLoadingData: true,
-  isLoadingPage: true,
+  isLoadingData: false,
+  isLoadingPage: false,
   errors: false,
   hasMore: false,
   data: [] as IPlayer[],
@@ -85,7 +85,7 @@ export const playerReducer = createSlice({
     setLoadingExport: (state, { payload }) => {
       state.isExporting = payload
     },
-    setSearchValues: (state, { payload: { key, val } }) => {
+    setSearchValuesPlayer: (state, { payload: { key, val } }) => {
       state.searchValues = { ...state.searchValues, [key]: val }
     },
     setIsTesterPlayer: (state, { payload }) => {
@@ -94,7 +94,9 @@ export const playerReducer = createSlice({
     setSelectAgent: (state, { payload }) => {
       state.searchValues.agentSelected = payload
     },
-
+    setPreviousSearchValues: (state, { payload }) => {
+      state.searchValues = payload
+    },
     resetPlayersState: () => {
       return initialState
     },
@@ -105,15 +107,15 @@ export const getPlayersAction = createAsyncThunk(
   'getPlayers',
   async (dispatch, { rejectWithValue, getState }) => {
     const {
-      data: { playerId, page, take, isTester },
-    } = (getState() as RootState)?.filter
+      searchValues: { id, page, take, isTester },
+    } = (getState() as RootState)?.player
 
     try {
       const json = JSON.stringify({
         page,
         take,
         ...(isTester !== 'null' ? { isTester } : {}),
-        playerId: playerId ? Number(playerId) : null,
+        playerId: id ? Number(id) : null,
       })
 
       const res = await axios.post(
@@ -142,10 +144,9 @@ export const setAndLoadPlayersData = (
 ) => {
   return async (dispatch: AppDispatch) => {
     if (fromStartOfThePage) {
-      await dispatch(setSearchValues({ key: 'page', val: 1 }))
+      await dispatch(setSearchValuesPlayer({ key: 'page', val: 1 }))
     }
-
-    // await dispatch(setSearchValues({ key, val }))
+    await dispatch(setSearchValuesPlayer({ key, val }))
     await dispatch(getPlayersAction())
   }
 }
@@ -178,11 +179,12 @@ export const exportPlayers =
   }
 
 export const {
-  setSearchValues,
+  setSearchValuesPlayer,
   setSelectAgent,
   setIsTesterPlayer,
   setLoadingExport,
   resetPlayersState,
+  setPreviousSearchValues,
 } = playerReducer.actions
 
 export const getLoadingExportSelector = (state: RootState) => {

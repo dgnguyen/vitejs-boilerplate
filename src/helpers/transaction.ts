@@ -2,7 +2,7 @@ export const SearchTypeValue = {
   agentTransaction: 1,
   betAmount: 5,
   roundId: 2,
-  moaTransaction: 3,
+  moaTransaction: 1,
   agentPlayerId: 4,
 }
 

@@ -4,6 +4,7 @@ import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import {
   setAgentTransaction,
   setAndLoadData,
@@ -17,18 +18,20 @@ import FilterTransaction from './FilterTransaction'
 import './style.scss'
 import TransactionContent from './TransactionContent'
 import PageTitle from 'components/Commons/PageTitle'
-import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ROUTES } from 'constants/endpoint'
 
 const Transaction = () => {
   const { playerId, isTester } = useParams()
   const isPageTransactionPlayer = !!playerId
   const dispatch = useAppDispatch()
+  const location = useLocation()
 
   const searchValues = useSelector(transactionSearchValuesSelector)
   const { agentSelected, selectedAllGames } = searchValues
   const transactionLoading = useSelector(transactionIsLoadingSelector)
   const transactionPageLoading = useSelector(transactionIsPageLoadingSelector)
+  const navigate = useNavigate()
 
   function setSelectedAllGames(selected: string | null) {
     dispatch(
@@ -44,10 +47,22 @@ const Transaction = () => {
     dispatch(setAndLoadData('agentSelected', event.target.value, true))
   }
 
+
+  function backToPlayerWithPreviousSearch() {
+    console.log({ transaction: location?.state?.searchValues })
+    navigate(ROUTES.PLAYER, {
+      state: {
+        searchValues: location?.state?.searchValues
+      }
+    })
+  }
+
   return (
     <Box>
-      <PageTitle title='Transaction' subTitle={isPageTransactionPlayer ? `Player Id: ${playerId} / Is Test: ${isTester ? "No" : "Yes"}` : ""} />
-
+      <Box display="flex" alignItems="center">
+        {isPageTransactionPlayer && <ChevronLeftIcon onClick={backToPlayerWithPreviousSearch} color="primary" fontSize="large" sx={{ cursor: "pointer", marginLeft: -1 }} />}
+        <PageTitle title='Transaction' subTitle={isPageTransactionPlayer ? `Player Id: ${playerId} / Is Test: ${isTester ? "No" : "Yes"}` : ""} />
+      </Box>
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
         selectedAllGames={selectedAllGames}

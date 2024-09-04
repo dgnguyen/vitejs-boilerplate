@@ -7,7 +7,6 @@ import {
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { filterDataSelector } from 'redux/reducers/filter'
 import {
   errorPlayerSelector,
   getPlayersAction,
@@ -15,38 +14,54 @@ import {
   loadingPagePlayerSelector,
   loadingPlayerSelector,
   playerDataSelector,
+  setPreviousSearchValues,
 } from 'redux/reducers/player'
-import { useAppDispatch } from 'redux/store'
+import { RootState, useAppDispatch } from 'redux/store'
 import { header } from './helpers'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import EmptyData from 'components/EmptyData'
 import Accordion from 'components/Accordion'
 import { FORMAT_DATE_TIME } from 'constants/date'
 import moment from 'moment'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { ROUTES } from 'constants/endpoint'
 import { setSearchValue } from 'redux/reducers/transaction'
 import { SearchTypeValue } from 'helpers/transaction'
 
 const PlayerContent = () => {
+
+
+
   const dispatch = useAppDispatch()
-  const filter = useSelector(filterDataSelector)
-  const { hasMore, agentSelected, selectedGameType, searchType } = filter
-  const data = useSelector(playerDataSelector)
+  const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
+    useSelector((state: RootState) => state.player)
+  const { agentSelected } = searchValues
+  // const filter = useSelector(filterDataSelector)
+  // const { hasMore, agentSelected, selectedGameType, searchType } = filter
+  // const data = useSelector(playerDataSelector)
   const loading = useSelector(loadingPlayerSelector)
   const loadingPage = useSelector(loadingPagePlayerSelector)
   const error = useSelector(errorPlayerSelector)
   const { inputRef, height } = useSetHeightInfiniteScroll()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location?.state?.searchValues)
+      dispatch(setPreviousSearchValues(location?.state?.searchValues))
+  }, [])
+
   useEffect(() => {
     dispatch(getPlayersAction())
   }, [agentSelected])
 
-
-
-
-  function goToPlayerTransaction(playerId: number, isTester: boolean) {
-    navigate(`${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : "real"}`)
+  function goToPlayerTransactionWithPreviousSearch(playerId: number, isTester: boolean) {
+    console.log({ searchValues })
+    navigate(`${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : "real"}`, {
+      state: {
+        searchValues
+      }
+    })
   }
 
   if (error) {
@@ -100,7 +115,7 @@ const PlayerContent = () => {
                   <Box>{row?.playerId}</Box>
                   <Box>{row?.bcPlayerId}</Box>
                   <Box>{row?.agentName}</Box>
-                  <Box className='transactionCount' onClick={() => goToPlayerTransaction(row?.bcPlayerId, row?.isTester)}>
+                  <Box className='transactionCount' onClick={() => goToPlayerTransactionWithPreviousSearch(row?.bcPlayerId, row?.isTester)}>
                     <Typography>{row?.transactionCount}</Typography>
                   </Box>
                   <Box>{row?.totalBetAmount}</Box>
