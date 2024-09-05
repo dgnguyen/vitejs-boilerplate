@@ -13,20 +13,17 @@ import {
   IPlayer,
   loadingPagePlayerSelector,
   loadingPlayerSelector,
-  playerDataSelector,
+  resetSearchValuesPlayer,
   setPreviousSearchValues,
 } from 'redux/reducers/player'
 import { RootState, useAppDispatch } from 'redux/store'
 import { header } from './helpers'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import EmptyData from 'components/EmptyData'
-import Accordion from 'components/Accordion'
 import { FORMAT_DATE_TIME } from 'constants/date'
 import moment from 'moment'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { ROUTES } from 'constants/endpoint'
-import { setSearchValue } from 'redux/reducers/transaction'
-import { SearchTypeValue } from 'helpers/transaction'
 
 const PlayerContent = () => {
   const dispatch = useAppDispatch()
@@ -51,6 +48,13 @@ const PlayerContent = () => {
   useEffect(() => {
     dispatch(getPlayersAction())
   }, [agentSelected])
+
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetSearchValuesPlayer())
+    }
+  }, [])
 
   function goToPlayerTransactionWithPreviousSearch(playerId: number, isTester: boolean) {
     console.log({ searchValues })

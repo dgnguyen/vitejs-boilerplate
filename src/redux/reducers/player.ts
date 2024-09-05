@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from 'redux/store'
 import { handleExportRequest } from 'helpers/exportExcel'
 import { ISearchValuesPlayers } from 'types/player'
 import { API_BASE_URL } from 'constants/endpoint'
+import { resetSearchValues } from './transaction'
 
 export type IPlayer = {
   agentName: string
@@ -96,6 +97,9 @@ export const playerReducer = createSlice({
     },
     setPreviousSearchValues: (state, { payload }) => {
       state.searchValues = payload
+    },
+    resetSearchValuesPlayer: (state) => {
+      state.searchValues = initialSearchValues
     },
     resetPlayersState: () => {
       return initialState
@@ -185,6 +189,7 @@ export const {
   setLoadingExport,
   resetPlayersState,
   setPreviousSearchValues,
+  resetSearchValuesPlayer,
 } = playerReducer.actions
 
 export const getLoadingExportSelector = (state: RootState) => {

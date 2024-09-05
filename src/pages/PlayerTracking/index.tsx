@@ -35,10 +35,6 @@ const PlayerTracking = () => {
   const playerTrackingData = useSelector((state: RootState) => state.playerTracking)
   const { data, loading, isLoadingPage, errors, hasMore, totalCount } = playerTrackingData
 
-  function handleChangeAgent() {
-
-  }
-
   useEffect(() => {
     dispatch(loadPlayersTracking())
     return () => setSnackbar(initialStateSnackbar)
