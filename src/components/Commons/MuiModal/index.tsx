@@ -10,7 +10,7 @@ const defaultStyle = {
   bgcolor: 'background.paper',
   p: 1,
   outline: 'none',
-  borderRadius: 'var(--radius-base)'
+  borderRadius: 'var(--radius-base)',
 }
 
 export type Props = {
@@ -24,23 +24,30 @@ export default function MuiModal({
   children,
   handleClose,
   open,
-  style = {}
+  style = {},
 }: Props) {
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
+      aria-labelledby='modal-modal-title'
+      aria-describedby='modal-modal-description'
     >
       <Box
         sx={{
           ...defaultStyle,
-          ...style
+          ...style,
         }}
       >
-        <Box width="100%" display="flex" justifyContent="flex-end">
-          <CloseIcon sx={{ cursor: 'pointer' }} onClick={handleClose} />
+        <Box
+          width='100%'
+          display='flex'
+          justifyContent='flex-end'
+        >
+          <CloseIcon
+            sx={{ cursor: 'pointer' }}
+            onClick={handleClose}
+          />
         </Box>
         <Box sx={{ padding: '8px 24px 32px 24px' }}>{children}</Box>
       </Box>

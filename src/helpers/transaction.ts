@@ -10,7 +10,10 @@ export const searchTypeOptions = [
   { value: SearchTypeValue.agentTransaction, label: 'Agent transaction ID' },
   { value: SearchTypeValue.betAmount, label: 'Bet Amount' },
   { value: SearchTypeValue.roundId, label: 'Round ID' },
-  { value: SearchTypeValue.moaTransaction, label: 'MoA Transaction ID' },
+  {
+    value: SearchTypeValue.moaTransaction,
+    label: 'RunningBall Transaction ID',
+  },
   { value: SearchTypeValue.agentPlayerId, label: 'Agent player ID' },
 ]
 

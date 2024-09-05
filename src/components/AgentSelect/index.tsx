@@ -16,13 +16,13 @@ type SelectProps = {
 
 const AgentSelect = ({
   handleChange,
-  disableSelectAll
+  disableSelectAll,
 }: {
   disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
 }) => {
   const { agents, loadingAgents } = useFetchAgents()
-  const agentsOptions = agents.reduce(
+  const agentsOptions = (agents || []).reduce(
     (acc: SelectProps, curr: IAgent) => [
       ...acc,
       {
@@ -50,14 +50,14 @@ const AgentSelect = ({
           onChange={handleChange}
           disabled={loadingAgents}
         >
-          {!disableSelectAll &&
+          {!disableSelectAll && (
             <MenuItem
               defaultChecked
               value='all'
             >
               All
             </MenuItem>
-          }
+          )}
           {agentsOptions.map((item, index) => (
             <MenuItem
               key={index}

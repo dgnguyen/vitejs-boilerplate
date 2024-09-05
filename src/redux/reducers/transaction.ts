@@ -168,7 +168,7 @@ export const getTransactions = createAsyncThunk(
 
       const replacer = (key: string, value?: string) =>
         typeof value === 'undefined' ? null : value
-      //if MoA Transaction ID passing value 1 to request
+      //if RunningBall Transaction ID passing value 1 to request
       let searchTypeValue = Number(searchType)
       searchTypeValue =
         searchTypeValue === SearchTypeValue.moaTransaction ? 1 : searchTypeValue

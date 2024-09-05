@@ -49,20 +49,25 @@ const PlayerContent = () => {
     dispatch(getPlayersAction())
   }, [agentSelected])
 
-
   useEffect(() => {
     return () => {
       dispatch(resetSearchValuesPlayer())
     }
   }, [])
 
-  function goToPlayerTransactionWithPreviousSearch(playerId: number, isTester: boolean) {
+  function goToPlayerTransactionWithPreviousSearch(
+    playerId: number,
+    isTester: boolean
+  ) {
     console.log({ searchValues })
-    navigate(`${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : "real"}`, {
-      state: {
-        searchValues
+    navigate(
+      `${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : 'real'}`,
+      {
+        state: {
+          searchValues,
+        },
       }
-    })
+    )
   }
 
   if (error) {
@@ -96,7 +101,7 @@ const PlayerContent = () => {
       >
         <div
           id='scrollableDiv'
-        //  className={styles.accordion}
+          //  className={styles.accordion}
         >
           {loadingPage && <CircularProgress />}
           {!loadingPage && data?.length > 0 && (
@@ -116,7 +121,15 @@ const PlayerContent = () => {
                   <Box>{row?.playerId}</Box>
                   <Box>{row?.bcPlayerId}</Box>
                   <Box>{row?.agentName}</Box>
-                  <Box className='transactionCount' onClick={() => goToPlayerTransactionWithPreviousSearch(row?.bcPlayerId, row?.isTester)}>
+                  <Box
+                    className='transactionCount'
+                    onClick={() =>
+                      goToPlayerTransactionWithPreviousSearch(
+                        row?.bcPlayerId,
+                        row?.isTester
+                      )
+                    }
+                  >
                     <Typography>{row?.transactionCount}</Typography>
                   </Box>
                   <Box>{row?.totalBetAmount}</Box>

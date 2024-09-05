@@ -7,6 +7,8 @@ import AuthRoute from './AuthRoute'
 import Transaction from 'pages/Transaction'
 import Player from 'pages/Player'
 import PlayerTracking from 'pages/PlayerTracking'
+import Agent from 'pages/Agent'
+import AgentBetLimit from 'pages/Agent/AgentBetLimit'
 
 const allRoutes: RouteObject[] = [
   {
@@ -36,6 +38,14 @@ const allRoutes: RouteObject[] = [
   {
     path: ROUTES.PLAYER_TRACKING,
     element: <AuthRoute element={<PlayerTracking />} />,
+  },
+  {
+    path: ROUTES.AGENT,
+    element: <AuthRoute element={<Agent />} />,
+  },
+  {
+    path: ROUTES.AGENT_BETLIMIT,
+    element: <AuthRoute element={<AgentBetLimit />} />,
   },
   {
     path: '/*',
