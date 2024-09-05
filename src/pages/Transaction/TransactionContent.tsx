@@ -10,9 +10,8 @@ import { useSelector } from 'react-redux'
 import {
   errorLoadTransactions,
   getTransactions,
-  setAndLoadData,
+  resetSearchValues,
   setMultiSearchLoadTransaction,
-  setSearchValue,
   transactionDashboardSelector,
   transactionDataSelector,
   transactionIsLoadingSelector,
@@ -32,7 +31,7 @@ import { SearchTypeValue } from 'helpers/transaction'
 const TransactionContent = ({ playerId }: { playerId?: string }) => {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { hasMore, agentSelected, selectedGameType, searchType } = searchValues
+  const { hasMore, } = searchValues
   const dataTransaction = useSelector(transactionDataSelector)
   const dashboardTransaction = useSelector(transactionDashboardSelector)
   const loadingTransaction = useSelector(transactionIsLoadingSelector)
@@ -48,6 +47,7 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
       ], true))
     }
     else {
+      dispatch(resetSearchValues())
       dispatch(getTransactions())
     }
   }, [playerId])

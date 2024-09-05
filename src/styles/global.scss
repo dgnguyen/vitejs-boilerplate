@@ -42,3 +42,13 @@ hr {
     }
   }
 }
+.MuiButtonBase-root {
+  height: 48px;
+}
+
+.MuiInputBase-input.MuiOutlinedInput-input {
+  padding: 13px 6px;
+}
+.MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl {
+  line-height: 2em;
+}

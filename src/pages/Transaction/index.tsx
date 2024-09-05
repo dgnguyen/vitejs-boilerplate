@@ -6,6 +6,7 @@ import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import {
+  resetSearchValues,
   setAgentTransaction,
   setAndLoadData,
   setSearchValue,
@@ -20,6 +21,7 @@ import TransactionContent from './TransactionContent'
 import PageTitle from 'components/Commons/PageTitle'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ROUTES } from 'constants/endpoint'
+import { useEffect } from 'react'
 
 const Transaction = () => {
   const { playerId, isTester } = useParams()
@@ -28,7 +30,7 @@ const Transaction = () => {
   const location = useLocation()
 
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { agentSelected, selectedAllGames } = searchValues
+  const { selectedAllGames } = searchValues
   const transactionLoading = useSelector(transactionIsLoadingSelector)
   const transactionPageLoading = useSelector(transactionIsPageLoadingSelector)
   const navigate = useNavigate()
@@ -47,6 +49,11 @@ const Transaction = () => {
     dispatch(setAndLoadData('agentSelected', event.target.value, true))
   }
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetSearchValues())
+    }
+  }, [])
 
   function backToPlayerWithPreviousSearch() {
     console.log({ transaction: location?.state?.searchValues })
@@ -77,7 +84,6 @@ const Transaction = () => {
         <DateBlock />
         {isSuperAdminOrAdmin() && (
           <AgentSelect
-            agentSelected={agentSelected}
             handleChange={handleChangeAgent}
           />
         )}

@@ -7,11 +7,12 @@ import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
+  getPlayersAction,
   resetPlayersState,
   setAndLoadPlayersData,
   setSearchValuesPlayer,
 } from 'redux/reducers/player'
-import { RootState, useAppDispatch } from 'redux/store'
+import { AppDispatch, RootState, useAppDispatch } from 'redux/store'
 import SearchSVG from 'assets/images/search.svg'
 
 const FilterPlayer = () => {
@@ -52,9 +53,12 @@ const FilterPlayer = () => {
     dispatch(handleSearch)
   }
 
-  function resetFilter() {
-    dispatch(resetPlayersState())
+  async function resetFilter() {
+    setSearchState('')
+    await dispatch(resetPlayersState())
+    await dispatch(getPlayersAction())
   }
+
 
   useEffect(
     () => () => {
@@ -79,7 +83,6 @@ const FilterPlayer = () => {
       />
       {isSuperAdminOrAdmin() && (
         <AgentSelect
-          agentSelected={agentSelected}
           handleChange={handleChangeAgent}
         />
       )}

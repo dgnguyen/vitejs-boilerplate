@@ -124,7 +124,7 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           {
             SearchFrom: startDateFormatted,
             SearchTo: endDateFormatted,
-            ...(isTester ? { isTester } : {}),
+            ...(isTester !== 'null' ? { isTester } : {}),
             ...(partnerId ? { partnerId } : {}),
           },
           { responseType: 'blob' }
@@ -137,13 +137,17 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           )
           const link = document.createElement('a')
           link.href = url
+          const dashboardType = partnerId
+            ? 'DashboardByAgent'
+            : 'GlobalDashboard'
+          let testerType = 'RealAndTestAccount'
+          if (isTester === 'true') testerType = 'TestAccount'
+          if (isTester === 'false') testerType = 'RealAccount'
           link.setAttribute(
             'download',
-            `${partnerFromUrl.toUpperCase()}_${
-              startDateFormatted === endDateFormatted
-                ? startDateFormatted
-                : `${startDateFormatted}/${endDateFormatted}`
-            }.xlsx`
+            `${partnerFromUrl.toUpperCase()}_Dashboard_${dashboardType}_From${startDateFormatted}To${
+              endDateFormatted
+            }_${testerType}.xlsx`
           )
           document.body.appendChild(link)
           link.click()

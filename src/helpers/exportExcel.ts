@@ -1,11 +1,9 @@
 import { API_BASE_URL } from 'constants/endpoint'
+import axios from 'axios'
 
 export const partnerFromUrl = (API_BASE_URL || '')
-  .replace('https://powerball-', '')
-  .replace('-dev', '')
+  .replace('https://', '')
   .replace('.axolotl18.com', '')
-
-import axios from 'axios'
 
 type Props = {
   url: string

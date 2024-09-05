@@ -264,6 +264,8 @@ export const exportTransactions =
       searchType,
       selectedGameType,
       isTester,
+      TransactionStatus,
+      agentSelected,
     } = searchValues
 
     const startDate = startD && format(new Date(startD), 'yyyy-MM-dd')
@@ -279,17 +281,22 @@ export const exportTransactions =
         id: id || null,
         searchType: id ? searchType : 0,
         gametypeID: selectedGameType,
+        TransactionStatus,
+        partnerId: agentSelected === 'all' ? null : [Number(agentSelected)],
       },
     })
       .then(async (response: any) => {
-        const isTestAccountName = isTester ? 'realAccount' : 'testAccount'
+        const isTestAccountName = isTester ? 'RealAccount' : 'TestAccount'
+        const status = TRStatusSelectOptions.find(
+          (item) => item.value === TransactionStatus
+        )?.label
         const exportTransactionName = id
           ? `ExportTransactionId-${id}`
           : 'ExportAllTransactions'
         const dateRange = `From-${moment(startDate).format(
           FORMAT_DATE
         )}To${moment(endDate).format(FORMAT_DATE)}`
-        const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}.xlsx`
+        const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}_${status}.xlsx`
         cb(response, fileName)
       })
       .catch((error) => console.error(error))
