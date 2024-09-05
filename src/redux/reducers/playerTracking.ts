@@ -31,14 +31,15 @@ export const PlayerTrackingReducer = createSlice({
   initialState,
   extraReducers: (builder) => {
     builder
-      .addCase('playerTracking/pending', (state, action) => {
+      .addCase('getPlayersTracking/pending', (state, action) => {
         if (state.page === 1) {
           state.isLoadingPage = true
         } else {
           state.loading = true
         }
       })
-      .addCase('playerTracking/fulfilled', (state, action: any) => {
+      .addCase('getPlayersTracking/fulfilled', (state, action: any) => {
+        console.log({ action })
         state.loading = false
         state.isLoadingPage = false
         state.data =
@@ -51,7 +52,7 @@ export const PlayerTrackingReducer = createSlice({
         state.totalCount = action.payload.settings.totalCount
         state.hasMore = action.payload.settings.hasMore
       })
-      .addCase('playerTracking/rejected', (state, action) => {
+      .addCase('getPlayersTracking/rejected', (state, action) => {
         state.loading = false
         state.isLoadingPage = false
         state.data = state.page === 1 ? [] : state.data
@@ -107,6 +108,7 @@ export const getPlayersTracking = createAsyncThunk(
           },
         }
       )
+      console.log(response)
       return {
         data: response.data.data,
         settings: {
@@ -121,11 +123,14 @@ export const getPlayersTracking = createAsyncThunk(
 )
 
 export const addPlayerTracking =
-  (id: string, cb: () => void) =>
+  (
+    { playerId, partnerId }: { playerId: string; partnerId: number | null },
+    cb: () => void
+  ) =>
   async (dispatch: AppDispatch, getState: Function) => {
     dispatch(setLoadingPlayersTracking(true))
     CRUDAction({
-      data: { id },
+      data: { id: playerId, ...(partnerId ? { partnerId } : {}) },
       url: API_ENDPOINT.ADD_PLAYER_TRACKING,
     })
       .then(async (response: any) => {

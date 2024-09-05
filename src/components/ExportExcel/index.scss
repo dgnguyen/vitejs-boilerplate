@@ -12,7 +12,7 @@
     }
   }
   .MuiSelect-select {
-    height: 33px !important;
+    height: 20px !important;
     display: flex !important;
     align-items: center !important;
     &:focus {
@@ -23,6 +23,9 @@
       color: white;
       opacity: 0.8;
     }
+  }
+  .MuiMenu-list {
+    padding: 0;
   }
   .MuiSelect-outlined {
     border-radius: 10px;

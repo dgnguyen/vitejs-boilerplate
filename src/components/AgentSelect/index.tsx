@@ -21,7 +21,7 @@ const AgentSelect = ({
   disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
 }) => {
-  const { agents } = useFetchAgents()
+  const { agents, loadingAgents } = useFetchAgents()
   const agentsOptions = agents.reduce(
     (acc: SelectProps, curr: IAgent) => [
       ...acc,
@@ -48,6 +48,7 @@ const AgentSelect = ({
           {...(!disableSelectAll ? { defaultValue: 'all' } : {})}
           label='Select Agent'
           onChange={handleChange}
+          disabled={loadingAgents}
         >
           {!disableSelectAll &&
             <MenuItem

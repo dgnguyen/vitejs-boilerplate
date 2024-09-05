@@ -23,13 +23,13 @@ const addPlayerTrackingForm = ({
 
 }) => {
   const [state, setState] = useState({
-    id: '',
-    agent: null,
+    playerId: '',
+    partnerId: null,
   })
   const playerTrackingData = useSelector((state: RootState) => state.playerTracking)
-  const { loading, isLoadingPage, errors, } = playerTrackingData
+  const { loading, errors, } = playerTrackingData
 
-  const { id, agent } = state
+  const { playerId, partnerId } = state
 
   const dispatch = useAppDispatch()
 
@@ -42,11 +42,10 @@ const addPlayerTrackingForm = ({
 
   const handleAddPlayerTracking = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const inputField = e.currentTarget.elements.namedItem(
-      'playerTrackingId'
-    ) as HTMLInputElement
     dispatch(
-      addPlayerTracking(inputField.value, () => {
+      addPlayerTracking({
+        playerId, partnerId
+      }, () => {
         handleClose()
         setSnackbar({
           open: true,
@@ -73,7 +72,7 @@ const addPlayerTrackingForm = ({
             {isSuperAdminOrAdmin() && (
               <AgentSelect
                 disableSelectAll
-                handleChange={(e) => handleChange({ key: 'agent', value: e.target.value })}
+                handleChange={(e) => handleChange({ key: 'partnerId', value: e.target.value })}
               />
             )}
             <TextField
@@ -83,8 +82,8 @@ const addPlayerTrackingForm = ({
               required
               label="MoA Player  ID"
               variant="outlined"
-              value={id}
-              onChange={e => handleChange({ key: 'id', value: e.target.value })}
+              value={playerId}
+              onChange={e => handleChange({ key: 'playerId', value: e.target.value })}
             />
             <Button
               id="addPlayerTrackingButton"

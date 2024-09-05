@@ -6,7 +6,7 @@ export async function CRUDAction({
 }: {
   data: {
     id: string
-    partnerId?: number
+    partnerId?: number[] | number
   }
   url: string
 }) {

@@ -51,21 +51,6 @@ const PlayerTracking = () => {
 
   const handleCloseDialog = () => setOpenDialog(initialState)
 
-  const handleAddPlayerTracking = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const inputField = e.currentTarget.elements.namedItem(
-      'playerTrackingId'
-    ) as HTMLInputElement
-    dispatch(
-      addPlayerTracking(inputField.value, () => {
-        handleClose()
-        setSnackbar({
-          open: true,
-          message: 'Player has been added in tracking view'
-        })
-      })
-    )
-  }
 
   const handleDelete = () => {
     dispatch(
@@ -128,7 +113,7 @@ const PlayerTracking = () => {
               >
                 <TableHead>
                   <TableRow>
-                    {['BC Player ID', 'Created date', 'Created by'].map(
+                    {['Agent Name', 'Agent Player ID', 'Created date', 'Created by'].map(
                       header => (
                         <TableCell sx={{ fontWeight: 'bold' }} key={header}>
                           {header}
@@ -145,6 +130,9 @@ const PlayerTracking = () => {
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
+                      <TableCell component="th" scope="row">
+                        {row.agentName}
+                      </TableCell>
                       <TableCell component="th" scope="row">
                         {row.id}
                       </TableCell>
