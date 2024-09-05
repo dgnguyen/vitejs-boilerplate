@@ -1,9 +1,9 @@
 export const header = {
-  betLogId: 'MoA Transaction ID',
+  betLogId: 'RunningBall Transaction ID',
   gameType: 'Game Type',
   externalTransactionId: 'Agent Transaction ID',
   transactionDate: 'Date & Time',
-  playerId: 'MoA Player ID',
+  playerId: 'RunningBall Player ID',
   platformPlayerId: 'Agent Player ID',
   betAmount: 'Bet Amount',
   currency: 'Currency',

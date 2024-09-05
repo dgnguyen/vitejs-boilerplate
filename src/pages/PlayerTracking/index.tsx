@@ -1,13 +1,37 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, Paper, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material'
-import "./style.scss"
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  LinearProgress,
+  Paper,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from '@mui/material'
+import './style.scss'
 import { useEffect, useState } from 'react'
 import { RootState, useAppDispatch } from 'redux/store'
 import { useSelector } from 'react-redux'
-import { addPlayerTracking, deletePlayerTracking, loadPlayersTracking, setErrorPlayersTracking } from 'redux/reducers/playerTracking'
+import {
+  addPlayerTracking,
+  deletePlayerTracking,
+  loadPlayersTracking,
+  setErrorPlayersTracking,
+} from 'redux/reducers/playerTracking'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import EmptyData from 'components/EmptyData'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { Delete, Add } from "@mui/icons-material"
+import { Delete, Add } from '@mui/icons-material'
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import moment from 'moment'
 import Loader from 'components/Commons/Loader'
@@ -23,7 +47,7 @@ export type SnackbarProps = {
 
 const initialStateSnackbar = {
   open: false,
-  message: ''
+  message: '',
 }
 
 const PlayerTracking = () => {
@@ -32,8 +56,11 @@ const PlayerTracking = () => {
   const [snackBar, setSnackbar] = useState(initialStateSnackbar)
 
   const dispatch = useAppDispatch()
-  const playerTrackingData = useSelector((state: RootState) => state.playerTracking)
-  const { data, loading, isLoadingPage, errors, hasMore, totalCount } = playerTrackingData
+  const playerTrackingData = useSelector(
+    (state: RootState) => state.playerTracking
+  )
+  const { data, loading, isLoadingPage, errors, hasMore, totalCount } =
+    playerTrackingData
 
   useEffect(() => {
     dispatch(loadPlayersTracking())
@@ -47,14 +74,13 @@ const PlayerTracking = () => {
 
   const handleCloseDialog = () => setOpenDialog(initialState)
 
-
   const handleDelete = () => {
     dispatch(
       deletePlayerTracking(openDialog.id, () => {
         handleCloseDialog()
         setSnackbar({
           open: true,
-          message: 'Player has been remove from tracking view'
+          message: 'Player has been remove from tracking view',
         })
       })
     )
@@ -68,7 +94,7 @@ const PlayerTracking = () => {
       sx={{
         marginTop: '40px',
         position: 'relative',
-        height: 'calc(100vh - 150px)'
+        height: 'calc(100vh - 150px)',
       }}
     >
       <Box>
@@ -76,11 +102,11 @@ const PlayerTracking = () => {
       </Box>
       <Box>
         <Button
-          variant="contained"
+          variant='contained'
           startIcon={<Add />}
           onClick={() => setOpen(true)}
           sx={{
-            textTransform: 'capitalize'
+            textTransform: 'capitalize',
           }}
         >
           <Typography>Add New Player tracking ID</Typography>
@@ -100,45 +126,57 @@ const PlayerTracking = () => {
               hasMore={hasMore}
               height={height ? height - 100 : 600}
               loader={loading && <LinearProgress />}
-              scrollableTarget="scrollableDiv"
+              scrollableTarget='scrollableDiv'
             >
               <Table
                 stickyHeader
-                aria-label="sticky table"
+                aria-label='sticky table'
                 sx={{ minWidth: 650 }}
               >
                 <TableHead>
                   <TableRow>
-                    {['Agent Name', 'Agent Player ID', 'Created date', 'Created by'].map(
-                      header => (
-                        <TableCell sx={{ fontWeight: 'bold' }} key={header}>
-                          {header}
-                        </TableCell>
-                      )
-                    )}
-                    <TableCell align="right" />
+                    {[
+                      'Agent Name',
+                      'Agent Player ID',
+                      'Created date',
+                      'Created by',
+                    ].map((header) => (
+                      <TableCell
+                        sx={{ fontWeight: 'bold' }}
+                        key={header}
+                      >
+                        {header}
+                      </TableCell>
+                    ))}
+                    <TableCell align='right' />
                   </TableRow>
                 </TableHead>
-                <TableBody id="scrollableDiv">
+                <TableBody id='scrollableDiv'>
                   {isLoadingPage && <Loader />}
                   {data.map((row: any) => (
                     <TableRow
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row.agentName}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row.id}
                       </TableCell>
                       <TableCell>
                         {moment(row.createDate).format(FORMAT_DATE_TIME)}
                       </TableCell>
                       <TableCell>{row.createdBy || '-'}</TableCell>
-                      <TableCell align="right">
+                      <TableCell align='right'>
                         <Delete
-                          fontSize="small"
+                          fontSize='small'
                           sx={{ cursor: 'pointer' }}
                           onClick={() =>
                             setOpenDialog({ open: true, id: row.id })
@@ -165,28 +203,31 @@ const PlayerTracking = () => {
         <Dialog
           open={openDialog.open}
           onClose={handleCloseDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
         >
           <DialogTitle
-            id="alert-dialog-title"
+            id='alert-dialog-title'
             style={{ textTransform: 'capitalize' }}
           >
             Remove tracking player
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id='alert-dialog-description'>
               {`Are you sure you want to remove tracking player "${openDialog.id}" ?`}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button disabled={loading} onClick={handleCloseDialog}>
+            <Button
+              disabled={loading}
+              onClick={handleCloseDialog}
+            >
               Cancel
             </Button>
             <Button
               disabled={loading}
               onClick={handleDelete}
-              variant="contained"
+              variant='contained'
             >
               Confirm
             </Button>
@@ -207,4 +248,3 @@ const PlayerTracking = () => {
 }
 
 export default PlayerTracking
-

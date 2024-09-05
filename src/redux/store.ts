@@ -7,6 +7,7 @@ import dashboardReducer from './reducers/dashboard'
 import playerReducer from './reducers/player'
 import transactionReducer from './reducers/transaction'
 import playerTrackingReducer from './reducers/playerTracking'
+import agentReducer from './reducers/agent'
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     player: playerReducer,
     transaction: transactionReducer,
     playerTracking: playerTrackingReducer,
+    agent: agentReducer,
   },
 })
 

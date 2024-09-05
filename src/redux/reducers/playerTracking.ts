@@ -3,23 +3,13 @@ import { API_ENDPOINT } from 'api/endpoint'
 import { CRUDAction } from 'api/helpers'
 import axios from 'axios'
 import { AppDispatch, RootState } from 'redux/store'
+import { DataReturnProps } from './types'
 
-export interface PlayerTrackingState {
-  loading: boolean
-  isLoadingPage: boolean
-  errors: string | null
-  data: any
-  page: number
-  take: 20
-  totalCount: 0
-  hasMore: boolean
-}
-
-const initialState: PlayerTrackingState = {
+const initialState: DataReturnProps<unknown> = {
   loading: false,
   isLoadingPage: false,
   errors: null,
-  data: [] as unknown[],
+  data: [],
   page: 1,
   take: 20,
   totalCount: 0,

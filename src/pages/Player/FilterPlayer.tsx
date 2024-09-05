@@ -27,13 +27,14 @@ const FilterPlayer = () => {
     setSearchState(id)
   }, [id])
 
-
   const handleSearchState = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchState(e.target.value)
   }
 
   const handleChangeAgent = (event: SelectChangeEvent) => {
-    dispatch(setSearchValuesPlayer({ key: 'agentSelected', val: event.target.value }))
+    dispatch(
+      setSearchValuesPlayer({ key: 'agentSelected', val: event.target.value })
+    )
   }
 
   const handleChangeIsTester = (event: SelectChangeEvent) => {
@@ -59,7 +60,6 @@ const FilterPlayer = () => {
     await dispatch(getPlayersAction())
   }
 
-
   useEffect(
     () => () => {
       dispatch(resetPlayersState())
@@ -82,9 +82,7 @@ const FilterPlayer = () => {
         sx={{ width: '250px' }}
       />
       {isSuperAdminOrAdmin() && (
-        <AgentSelect
-          handleChange={handleChangeAgent}
-        />
+        <AgentSelect handleChange={handleChangeAgent} />
       )}
       <TesterSelect
         isTester={isTester}

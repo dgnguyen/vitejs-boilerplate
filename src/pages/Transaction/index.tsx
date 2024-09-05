@@ -59,16 +59,33 @@ const Transaction = () => {
     console.log({ transaction: location?.state?.searchValues })
     navigate(ROUTES.PLAYER, {
       state: {
-        searchValues: location?.state?.searchValues
-      }
+        searchValues: location?.state?.searchValues,
+      },
     })
   }
 
   return (
     <Box>
-      <Box display="flex" alignItems="center">
-        {isPageTransactionPlayer && <ChevronLeftIcon onClick={backToPlayerWithPreviousSearch} color="primary" fontSize="large" sx={{ cursor: "pointer", marginLeft: -1 }} />}
-        <PageTitle title='Transaction' subTitle={isPageTransactionPlayer ? `Player Id: ${playerId} / Is Test: ${isTester ? "No" : "Yes"}` : ""} />
+      <Box
+        display='flex'
+        alignItems='center'
+      >
+        {isPageTransactionPlayer && (
+          <ChevronLeftIcon
+            onClick={backToPlayerWithPreviousSearch}
+            color='primary'
+            fontSize='large'
+            sx={{ cursor: 'pointer', marginLeft: -1 }}
+          />
+        )}
+        <PageTitle
+          title='Transaction'
+          subTitle={
+            isPageTransactionPlayer
+              ? `Player Id: ${playerId} / Is Test: ${isTester ? 'No' : 'Yes'}`
+              : ''
+          }
+        />
       </Box>
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
@@ -83,9 +100,7 @@ const Transaction = () => {
       >
         <DateBlock />
         {isSuperAdminOrAdmin() && (
-          <AgentSelect
-            handleChange={handleChangeAgent}
-          />
+          <AgentSelect handleChange={handleChangeAgent} />
         )}
       </Box>
       <FilterTransaction playerId={playerId} />

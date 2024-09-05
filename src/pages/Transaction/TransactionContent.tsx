@@ -31,7 +31,7 @@ import { SearchTypeValue } from 'helpers/transaction'
 const TransactionContent = ({ playerId }: { playerId?: string }) => {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { hasMore, } = searchValues
+  const { hasMore } = searchValues
   const dataTransaction = useSelector(transactionDataSelector)
   const dashboardTransaction = useSelector(transactionDashboardSelector)
   const loadingTransaction = useSelector(transactionIsLoadingSelector)
@@ -41,12 +41,13 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
 
   useEffect(() => {
     if (playerId) {
-      dispatch(setMultiSearchLoadTransaction([
-        { id: playerId },
-        { searchType: SearchTypeValue.agentPlayerId }
-      ], true))
-    }
-    else {
+      dispatch(
+        setMultiSearchLoadTransaction(
+          [{ id: playerId }, { searchType: SearchTypeValue.agentPlayerId }],
+          true
+        )
+      )
+    } else {
       dispatch(resetSearchValues())
       dispatch(getTransactions())
     }
@@ -101,7 +102,7 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
         </Box>
         <div
           id='scrollableDiv'
-        //  className={styles.accordion}
+          //  className={styles.accordion}
         >
           {loadingPageTransaction && <CircularProgress />}
           {!loadingPageTransaction && dataTransaction?.length > 0 && (

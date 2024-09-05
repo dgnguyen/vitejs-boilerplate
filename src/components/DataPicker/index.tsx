@@ -5,9 +5,11 @@ import { Box } from '@mui/material'
 import cx from 'classnames'
 import {
   addDays,
+  addMonths,
   differenceInCalendarDays,
   differenceInDays,
   format,
+  isAfter,
   isSameDay,
   lastDayOfMonth,
   subDays,
@@ -100,6 +102,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
     y: 0,
   })
   const today = new Date()
+  const endDateMaxToAllow = state[0].startDate ? subDays(addMonths(state[0].startDate, 1), 1) : today //The backend side is adding the validation with 30 days.
 
   const { ref: datePickerRef } = useClickOutside(() => {
     setToggleState({
@@ -144,7 +147,8 @@ const DataPicker: React.FC<DataPickerProps> = ({
         y: 0,
       })
       const { startDate, endDate } = state[0]
-      changeHandler && startDate && endDate && changeHandler(startDate, endDate)
+      const maxEndDateAllow = (isAfter(endDate, today)) ? today : endDate
+      changeHandler && startDate && endDate && changeHandler(startDate, maxEndDateAllow)
     }
   }
 
@@ -160,16 +164,22 @@ const DataPicker: React.FC<DataPickerProps> = ({
       const delayDate = Math.abs(
         differenceInDays(item.selection?.endDate, item.selection?.startDate)
       )
-      const itemState =
-        delayDate > 30
-          ? {
-              ...item.selection,
-              endDate: addDays(item.selection.startDate, 30),
-            }
-          : item.selection
+      let itemState = item.selection
+      if (delayDate > 30)
+        itemState = {
+          ...item.selection,
+          endDate: addDays(item.selection.startDate, 30),
+        }
+      if (isAfter(item.selection.endDate, today))
+        itemState = {
+          ...item.selection,
+          endDate: today,
+        }
+
       setState([itemState])
     }
   }
+
 
   const handleChangeShowDate = (newShowDate: Date) => {
     const itemState = {
@@ -227,7 +237,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
                 ranges={state}
                 direction='horizontal'
                 className={styles.datePicker}
-                maxDate={today}
+                maxDate={isAfter(endDateMaxToAllow, today) ? today : endDateMaxToAllow}
                 inputRanges={[
                   {
                     label: 'days up to today',

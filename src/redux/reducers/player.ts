@@ -121,7 +121,6 @@ export const getPlayersAction = createAsyncThunk(
         ...(isTester !== 'null' ? { isTester } : {}),
         playerId: id ? Number(id) : null,
       })
-
       const res = await axios.post(
         `${API_BASE_URL}/AdminPlayer/getPlayerTransactions`,
         json,
