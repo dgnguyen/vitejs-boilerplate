@@ -53,10 +53,17 @@ export const agentReducer = createSlice({
       state.data = state.data.filter((agent: any) => agent.id !== payload)
       state.totalCount--
     },
+    unblockAgent: (state, { payload }) => {
+      state.data = state.data.map((agent: any) => {
+        if (agent.id === payload) {
+          return { ...agent, isBlock: false }
+        }
+      })
+    },
     blockAgent: (state, { payload }) => {
       state.data = state.data.map((agent: any) => {
         if (agent.id === payload) {
-          return { ...agent, isBlocked: true }
+          return { ...agent, isBlock: true }
         }
       })
     },
@@ -64,7 +71,8 @@ export const agentReducer = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { setLoadingAgent, deleteAgent, blockAgent } = agentReducer.actions
+export const { setLoadingAgent, deleteAgent, unblockAgent, blockAgent } =
+  agentReducer.actions
 
 export const getAgentsListAction = createAsyncThunk(
   'getAgents',
@@ -122,21 +130,29 @@ export const deleteAgentAction =
     }
   }
 
-export const blockAgentAction =
-  (id: number, cb: () => void) =>
+export const toggleStatusAgentAction =
+  (id: number, isBlock: boolean, cb: () => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     dispatch(setLoadingAgent(true))
     const json = JSON.stringify({
       id,
     })
     try {
-      const response = await axios.post(API_ENDPOINT.BLOCK_AGENT, json, {
+      const url = isBlock
+        ? API_ENDPOINT.UNBLOCK_AGENT
+        : API_ENDPOINT.BLOCK_AGENT
+      const response = await axios.post(url, json, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
       if (response?.data?.isSuccess) {
-        dispatch(blockAgent(response?.data?.id))
+        console.log({ response })
+        if (isBlock) {
+          dispatch(unblockAgent(response?.data?.data?.id))
+        } else {
+          dispatch(blockAgent(response?.data?.data?.id))
+        }
         cb()
       }
     } catch (error) {

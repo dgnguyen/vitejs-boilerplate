@@ -15,3 +15,13 @@ export const headersAgentList = [
   'Wallet Type',
   'Status',
 ]
+
+export const optionsStatus = [
+  { value: 'true', label: 'Block' },
+  { value: 'false', label: 'Active' },
+]
+
+export const walletTypeOptions = [
+  { value: 1, label: 'Seamless' },
+  { value: 'false', label: 'Transfer' },
+]

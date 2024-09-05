@@ -1,5 +1,5 @@
 import { MoreVert, Edit, Delete, Block } from '@mui/icons-material'
-import { Box, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Box, FormControl, InputLabel, LinearProgress, MenuItem, NativeSelect, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import Loader from 'components/Commons/Loader'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
@@ -8,15 +8,16 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
-import { blockAgentAction, deleteAgentAction, getAgentsListAction } from 'redux/reducers/agent'
+import { toggleStatusAgentAction, deleteAgentAction, getAgentsListAction } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
-import { getWalletName, headersAgentList } from './helpers'
+import { getWalletName, headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
 import useAnchor from 'hooks/useAnchor'
 import Menu from 'components/Commons/Menu'
 import MuiModal from 'components/Commons/MuiModal'
 import FormAgent from './FormAgent'
 import { useSnackbar } from 'hooks/useSnackbar'
 import MuiDialog from 'components/Commons/MuiDialog'
+import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
 
 const AgentList = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
@@ -31,7 +32,7 @@ const AgentList = () => {
     useAnchor()
 
   const [state, setState] = useState({
-    edit: false,
+    editWalletType: false,
     delete: false,
     block: false,
   })
@@ -69,10 +70,23 @@ const AgentList = () => {
     dispatch(deleteAgentAction(optionalState?.id, () => { }))
   }
 
-  function handleBlockAgent() {
-    dispatch(blockAgentAction(optionalState?.id, () => { }))
+  function toggleBlockAgent() {
+    dispatch(toggleStatusAgentAction(optionalState?.id, optionalState?.isBlock, () => handleState({ key: 'block', value: false })))
   }
 
+  function handleEditWalletType(row: any) {
+    setOptionalState(row)
+    handleState({ key: 'editWalletType', value: true })
+  }
+
+  function handleChangeStatus(row: any) {
+    setOptionalState(row)
+    handleState({ key: 'block', value: true })
+  }
+
+
+
+  console.log({ optionalState })
 
   return (
     <Box ref={inputRef} sx={{
@@ -108,37 +122,68 @@ const AgentList = () => {
               </TableHead>
               <TableBody id='scrollableDiv'>
                 {isLoadingPage && <Loader />}
-                {data.map((row: any) => (
-                  <TableRow
-                    key={row.id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell
-                      component='th'
-                      scope='row'
+                {data.map((row: any) => {
+                  console.log({ row })
+                  return (
+                    <TableRow
+                      key={row.id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      {row.externalId}
-                    </TableCell>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                    >
-                      {row.code || '-'}
-                    </TableCell>
-                    <TableCell
-                      component='th'
-                      scope='row'
-                    >
-                      {row.name}
-                    </TableCell>
-                    <TableCell>
-                      {moment(row.registerDate).format(FORMAT_DATE_TIME)}
-                    </TableCell>
-                    <TableCell>{row?.tag || '-'}</TableCell>
-                    <TableCell>{getWalletName(row?.walletTypeId) || '-'}</TableCell>
-                    <TableCell>{row?.isBlock ? 'Block' : 'Active'}</TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
+                        {row.externalId}
+                      </TableCell>
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
+                        {row.code || '-'}
+                      </TableCell>
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
+                        {row.name}
+                      </TableCell>
+                      <TableCell>
+                        {moment(row.registerDate).format(FORMAT_DATE_TIME)}
+                      </TableCell>
+                      <TableCell>{row?.tag || '-'}</TableCell>
+                      <TableCell>
+                        <FormControl variant="standard" fullWidth>
+                          <Select
+                            value={row.walletTypeId}
+                            label="Wallet Type"
+                            onChange={() => handleEditWalletType(row)}
+                          >
+                            {
+                              walletTypeOptions.map(item => (
+                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                      <TableCell>
+                        <FormControl variant="standard" fullWidth>
+                          <Select
+                            value={row?.isBlock.toString()}
+                            label="Status"
+                            onChange={() => handleChangeStatus(row)}
+                          >
+                            {
+                              optionsStatus.map(item => (
+                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>
           </InfiniteScroll>
@@ -152,30 +197,24 @@ const AgentList = () => {
           optionsMenuCard={optionsMenuCard}
         />
       )}
-      {state.edit && (
-        <MuiModal
-          style={{
-            width: 600
-          }}
-          handleClose={() => handleState({ key: 'edit', value: false })}
-          open={state.edit}
-        >
-          <FormAgent
-            isSuperEditUser
-            initialState={optionalState}
-            handleClose={() => handleState({ key: 'edit', value: false })}
-            cb={(message: string) => openSnackbar({ message })}
-          />
-        </MuiModal>
+      {state.editWalletType && (
+        <MuiDialog
+          loading={loading}
+          open={state.editWalletType}
+          title="Change Wallet Type"
+          content={`Are you sure you want to change wallet type of "${optionalState?.name}" to ${optionalState?.walletTypeId === WALLET_TYPE.SEAMLESS ? WALLET_TYPE_NAME.TRANSFER : WALLET_TYPE_NAME.SEAMLESS}?`}
+          handleClose={() => handleState({ key: 'editWalletType', value: false })}
+          handleSubmit={() => { }}
+        />
       )}
       {state.block && (
         <MuiDialog
           loading={loading}
           open={state.block}
-          title="Block Agent"
-          content={`Are you sure you want to block agent "${optionalState?.name}"?`}
+          title={optionalState?.isBlock ? "Active agent" : "Block agent"}
+          content={`Are you sure you want to ${optionalState?.isBlock ? "active agent" : "block agent"} "${optionalState?.name}"?`}
           handleClose={() => handleState({ key: 'block', value: false })}
-          handleSubmit={handleBlockAgent}
+          handleSubmit={() => toggleBlockAgent()}
         />
       )}
       {state.delete && (

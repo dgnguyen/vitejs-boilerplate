@@ -8,3 +8,8 @@ export const SEARCH_TYPE_AGENT = {
   AGENT_ID: 2,
   TAG: 3,
 }
+
+export const WALLET_TYPE_NAME = {
+  SEAMLESS: 'Seamless',
+  TRANSFER: 'Transfer',
+}
