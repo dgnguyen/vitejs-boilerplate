@@ -59,7 +59,6 @@ const PlayerContent = () => {
     playerId: number,
     isTester: boolean
   ) {
-    console.log({ searchValues })
     navigate(
       `${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : 'real'}`,
       {
@@ -101,7 +100,7 @@ const PlayerContent = () => {
       >
         <div
           id='scrollableDiv'
-          //  className={styles.accordion}
+        //  className={styles.accordion}
         >
           {loadingPage && <CircularProgress />}
           {!loadingPage && data?.length > 0 && (

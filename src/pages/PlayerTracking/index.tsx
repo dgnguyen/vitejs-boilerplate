@@ -92,7 +92,6 @@ const PlayerTracking = () => {
     <Box
       ref={inputRef}
       sx={{
-        marginTop: '40px',
         position: 'relative',
         height: 'calc(100vh - 150px)',
       }}

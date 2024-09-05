@@ -56,7 +56,6 @@ const Transaction = () => {
   }, [])
 
   function backToPlayerWithPreviousSearch() {
-    console.log({ transaction: location?.state?.searchValues })
     navigate(ROUTES.PLAYER, {
       state: {
         searchValues: location?.state?.searchValues,

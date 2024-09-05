@@ -98,7 +98,7 @@ const addPlayerTrackingForm = ({
               id='outlined-basic'
               size='small'
               required
-              label='RunningBall Player  ID'
+              label='RB Player  ID'
               variant='outlined'
               value={playerId}
               onChange={(e) =>
