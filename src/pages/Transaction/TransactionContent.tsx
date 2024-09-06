@@ -72,23 +72,27 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
     <Box className='transaction-content-wrapper'>
       <Box className='header-transaction-wrapper'>
         {dashboardTransaction &&
-          Object.entries(dashboardTransaction).map((item) => {
-            let displayPrice = thousandSeparator(item[1])
-            if (item[0] === 'ggrInPercent')
-              displayPrice = `${(item[1] * 100).toFixed(2)}%`
-            if (item[0] === 'totalCount') displayPrice = item[1].toString()
-            return (
-              <Card
-                title={getDashboardCardTitle(item[0])}
-                price={displayPrice}
-                currency={
-                  ['ggr', 'totalBetAmount', 'totalWinAmount'].includes(item[0])
-                    ? 'KRW'
-                    : ''
-                }
-              />
-            )
-          })}
+          Object.entries(dashboardTransaction)
+            .filter((item) => item[0] !== 'currency')
+            .map((item: any) => {
+              let displayPrice = thousandSeparator(item[1])
+              if (item[0] === 'ggrInPercent')
+                displayPrice = `${(item[1] * 100).toFixed(2)}%`
+              if (item[0] === 'totalCount') displayPrice = item[1].toString()
+              return (
+                <Card
+                  title={getDashboardCardTitle(item[0])}
+                  price={displayPrice}
+                  currency={
+                    ['ggr', 'totalBetAmount', 'totalWinAmount'].includes(
+                      item[0]
+                    )
+                      ? 'KRW'
+                      : ''
+                  }
+                />
+              )
+            })}
       </Box>
       <Box
         className='transaction-table-content-wrapper'
@@ -97,7 +101,14 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
       >
         <Box className='transaction-table-header-wrapper'>
           {Object.values(header).map((col) => (
-            <Box key={col}>{col}</Box>
+            <Box key={col}>
+              <Typography>{col}</Typography>
+              {[header.betAmount, header.winAmount].includes(col) ? (
+                <Typography>({dashboardTransaction?.currency})</Typography>
+              ) : (
+                ''
+              )}
+            </Box>
           ))}
         </Box>
         <div

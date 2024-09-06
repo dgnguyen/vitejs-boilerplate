@@ -11,7 +11,7 @@ export const headersAgentList = [
   'Agent Code',
   'Agent Name',
   'Register Date',
-  'Tag',
+  ['Category', '(Agent Tag)'],
   'Wallet Type',
   'Status',
 ]
@@ -24,4 +24,10 @@ export const optionsStatus = [
 export const walletTypeOptions = [
   { value: 1, label: 'Seamless' },
   { value: 'false', label: 'Transfer' },
+]
+
+export const searchTypeAgent = [
+  { value: 1, label: 'Agent Name' },
+  { value: 2, label: 'Agent Code' },
+  { value: 3, label: 'Agent Id' },
 ]

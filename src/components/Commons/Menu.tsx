@@ -4,19 +4,19 @@ import {
   ListItemIcon,
   ListItemText,
   Menu as MuiMenu,
-  MenuItem
+  MenuItem,
 } from '@mui/material'
 
 type MenuOptionProps = {
-  icon: React.ReactNode,
-  name: string,
-  onClick: () => void,
-  dataTestId: string,
+  icon: React.ReactNode
+  name: string
+  onClick: () => void
+  dataTestId: string
 }
 type MenuProps = {
-  anchorEl: Element,
-  closeMenu: () => void,
-  id: string,
+  anchorEl: Element
+  closeMenu: () => void
+  id: string
   optionsMenuCard: MenuOptionProps[]
 }
 
@@ -28,7 +28,7 @@ const Menu = (props: MenuProps) => {
       anchorEl={anchorEl}
       anchorOrigin={{
         horizontal: 'right',
-        vertical: 'bottom'
+        vertical: 'bottom',
       }}
       id={id}
       data-testid={`Edit_${id}`}
@@ -36,13 +36,13 @@ const Menu = (props: MenuProps) => {
       onClose={closeMenu}
       transformOrigin={{
         horizontal: 'left',
-        vertical: 'top'
+        vertical: 'top',
       }}
     >
       {optionsMenuCard?.map(({ icon, name, onClick, dataTestId }, i) => (
         <MenuItem
           key={`menu-${i.toString()}`}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             closeMenu()
             onClick()

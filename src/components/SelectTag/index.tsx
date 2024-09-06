@@ -46,29 +46,39 @@ export default function SelectTag({ onChange }: { onChange: () => void }) {
   const theme = useTheme()
   const [personName, setPersonName] = React.useState<string[]>([])
 
+  React.useEffect(() => {
+    // fetchTags()
+  }, [])
+
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value },
     } = event
     setPersonName(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
+      typeof value === 'string' ? value.split(',') : value
     )
   }
 
   return (
     <div>
-      <FormControl variant="standard" sx={{ m: 1, width: 300 }}>
+      <FormControl
+        variant='standard'
+        sx={{ m: 1, width: 300 }}
+      >
         <Select
-          id="select-tag-chip"
+          id='select-tag-chip'
           multiple
           value={personName}
           onChange={handleChange}
-          input={<OutlinedInput id="select-tag-chip-input" />}
+          input={<OutlinedInput id='select-tag-chip-input' />}
           renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.2 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip
+                  key={value}
+                  label={value}
+                />
               ))}
             </Box>
           )}

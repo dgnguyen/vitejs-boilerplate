@@ -17,7 +17,7 @@ const Agent = () => {
 
   return (
     <Box className='agent-wrapper'>
-      <PageTitle title="Agent" />
+      <PageTitle title='Agent' />
       <AgentTab />
       <DateBlock />
       <AgentFilter />
