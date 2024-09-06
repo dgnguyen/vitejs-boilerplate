@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material'
+import { Box, Select, TextField } from '@mui/material'
 
 const AgentFilter = () => {
   return <Box className="agentFilter-wrapper">
@@ -14,6 +14,19 @@ const AgentFilter = () => {
       className='searchTextInput'
       sx={{ width: '250px' }}
     />
+    {/* <FormControl variant="standard" fullWidth>
+                          <Select
+                            value={row.walletTypeId}
+                            label="Wallet Type"
+                            onChange={() => handleEditWalletType(row)}
+                          >
+                            {
+                              walletTypeOptions.map(item => (
+                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl> */}
   </Box>
 }
 

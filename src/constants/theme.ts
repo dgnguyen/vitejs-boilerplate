@@ -24,7 +24,6 @@ export const theme = extendTheme({
       lineHeight: '22px',
       fontWeight: 'bold',
     },
-
     button: {
       textTransform: 'none',
     },

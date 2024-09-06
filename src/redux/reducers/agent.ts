@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { DataReturnProps } from './types'
-import { RootState } from 'redux/store'
+import { AppDispatch, RootState } from 'redux/store'
 import axios from 'axios'
 import { API_ENDPOINT } from 'api/endpoint'
 
@@ -45,11 +45,34 @@ export const agentReducer = createSlice({
         state.data = []
       })
   },
-  reducers: {},
+  reducers: {
+    setLoadingAgent: (state, { payload }) => {
+      state.loading = payload
+    },
+    deleteAgent: (state, { payload }) => {
+      state.data = state.data.filter((agent: any) => agent.id !== payload)
+      state.totalCount--
+    },
+    unblockAgent: (state, { payload }) => {
+      state.data = state.data.map((agent: any) => {
+        if (agent.id === payload) {
+          return { ...agent, isBlock: false }
+        }
+      })
+    },
+    blockAgent: (state, { payload }) => {
+      state.data = state.data.map((agent: any) => {
+        if (agent.id === payload) {
+          return { ...agent, isBlock: true }
+        }
+      })
+    },
+  },
 })
 
 // Action creators are generated for each case reducer function
-export const {} = agentReducer.actions
+export const { setLoadingAgent, deleteAgent, unblockAgent, blockAgent } =
+  agentReducer.actions
 
 export const getAgentsListAction = createAsyncThunk(
   'getAgents',
@@ -70,7 +93,6 @@ export const getAgentsListAction = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       })
-      console.log({ response })
       return {
         data: response.data.data,
         settings: {
@@ -83,5 +105,61 @@ export const getAgentsListAction = createAsyncThunk(
     }
   }
 )
+
+export const deleteAgentAction =
+  (id: number, cb: () => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    dispatch(setLoadingAgent(true))
+    const json = JSON.stringify({
+      id,
+    })
+    try {
+      const response = await axios.post(API_ENDPOINT.REMOVE_AGENT, json, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (response?.data?.isSuccess) {
+        dispatch(deleteAgent(response?.data?.id))
+        cb()
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dispatch(setLoadingAgent(false))
+    }
+  }
+
+export const toggleStatusAgentAction =
+  (id: number, isBlock: boolean, cb: () => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    dispatch(setLoadingAgent(true))
+    const json = JSON.stringify({
+      id,
+    })
+    try {
+      const url = isBlock
+        ? API_ENDPOINT.UNBLOCK_AGENT
+        : API_ENDPOINT.BLOCK_AGENT
+      const response = await axios.post(url, json, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (response?.data?.isSuccess) {
+        console.log({ response })
+        if (isBlock) {
+          dispatch(unblockAgent(response?.data?.data?.id))
+        } else {
+          dispatch(blockAgent(response?.data?.data?.id))
+        }
+        cb()
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dispatch(setLoadingAgent(false))
+    }
+  }
 
 export default agentReducer.reducer

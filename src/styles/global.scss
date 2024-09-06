@@ -54,3 +54,13 @@ hr {
 .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl {
   line-height: 2em;
 }
+
+//Table
+.MuiTableCell-root.MuiTableCell-head {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.MuiTableCell-root.MuiTableCell-body {
+  text-align: center;
+}

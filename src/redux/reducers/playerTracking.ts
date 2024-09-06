@@ -29,7 +29,6 @@ export const PlayerTrackingReducer = createSlice({
         }
       })
       .addCase('getPlayersTracking/fulfilled', (state, action: any) => {
-        console.log({ action })
         state.loading = false
         state.isLoadingPage = false
         state.data =
@@ -98,7 +97,6 @@ export const getPlayersTracking = createAsyncThunk(
           },
         }
       )
-      console.log(response)
       return {
         data: response.data.data,
         settings: {
