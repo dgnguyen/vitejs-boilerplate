@@ -10,14 +10,14 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import { toggleStatusAgentAction, deleteAgentAction, getAgentsListAction } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
-import { getWalletName, headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
+import { headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
 import useAnchor from 'hooks/useAnchor'
 import Menu from 'components/Commons/Menu'
-import MuiModal from 'components/Commons/MuiModal'
-import FormAgent from './FormAgent'
 import { useSnackbar } from 'hooks/useSnackbar'
 import MuiDialog from 'components/Commons/MuiDialog'
 import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
+import Tags from 'components/Tags'
+import SelectTag from 'components/SelectTag'
 
 const AgentList = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
@@ -84,9 +84,9 @@ const AgentList = () => {
     handleState({ key: 'block', value: true })
   }
 
+  function handleOnChange() {
 
-
-  console.log({ optionalState })
+  }
 
   return (
     <Box ref={inputRef} sx={{
@@ -123,7 +123,6 @@ const AgentList = () => {
               <TableBody id='scrollableDiv'>
                 {isLoadingPage && <Loader />}
                 {data.map((row: any) => {
-                  console.log({ row })
                   return (
                     <TableRow
                       key={row.id}
@@ -150,7 +149,9 @@ const AgentList = () => {
                       <TableCell>
                         {moment(row.registerDate).format(FORMAT_DATE_TIME)}
                       </TableCell>
-                      <TableCell>{row?.tag || '-'}</TableCell>
+                      <TableCell>
+                        <SelectTag onChange={handleOnChange} />
+                      </TableCell>
                       <TableCell>
                         <FormControl variant="standard" fullWidth>
                           <Select
