@@ -24,3 +24,9 @@ export async function CRUDAction({
     return new Error(err)
   }
 }
+
+export const headersContentType = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+}
