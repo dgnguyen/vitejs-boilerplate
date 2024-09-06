@@ -6,3 +6,20 @@
     background-color: white;
   }
 }
+
+.formAgentBetlimit-wrapper {
+  margin: 16px 0;
+  .MuiOutlinedInput-root {
+    background: white;
+  }
+  .flex-wrapper-equal-portion {
+    width: 100%;
+    display: flex;
+    gap: 16px;
+    margin: 16px 0;
+    align-items: center;
+    & > p:first-child {
+      width: 120px;
+    }
+  }
+}
