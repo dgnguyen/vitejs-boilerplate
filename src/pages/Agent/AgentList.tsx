@@ -1,5 +1,21 @@
 import { MoreVert, Edit, Delete, Block } from '@mui/icons-material'
-import { Box, FormControl, InputLabel, LinearProgress, MenuItem, NativeSelect, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  LinearProgress,
+  MenuItem,
+  NativeSelect,
+  Paper,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@mui/material'
 import Loader from 'components/Commons/Loader'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
@@ -8,7 +24,12 @@ import moment from 'moment'
 import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
-import { toggleStatusAgentAction, deleteAgentAction, getAgentsListAction } from 'redux/reducers/agent'
+import {
+  toggleStatusAgentAction,
+  deleteAgentAction,
+  getAgentsListAction,
+  updateAgentAction,
+} from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
 import { headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
 import useAnchor from 'hooks/useAnchor'
@@ -16,83 +37,77 @@ import Menu from 'components/Commons/Menu'
 import { useSnackbar } from 'hooks/useSnackbar'
 import MuiDialog from 'components/Commons/MuiDialog'
 import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
-import Tags from 'components/Tags'
-import SelectTag from 'components/SelectTag'
+import TagField from './TagField'
+import { IAgentData } from 'types/agent'
 
 const AgentList = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
   const { data, hasMore, loading, isLoadingPage } = agentsData
   const dispatch = useAppDispatch()
+
   useEffect(() => {
     dispatch(getAgentsListAction())
   }, [])
 
   const { inputRef, height } = useSetHeightInfiniteScroll()
-  const { anchorEl, handleOpen, optionalState, setOptionalState, handleClose } =
-    useAnchor()
+  const { optionalState, setOptionalState } = useAnchor()
 
   const [state, setState] = useState({
     editWalletType: false,
+    editTag: false,
     delete: false,
     block: false,
   })
-  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
-  const handleState = ({ key, value }: { key: string, value: boolean }) =>
-    setState(prevState => ({
+  const handleState = ({ key, value }: { key: string; value: boolean }) =>
+    setState((prevState) => ({
       ...prevState,
-      [key]: value
+      [key]: value,
     }))
-
-
-  const optionsMenuCard = [
-    {
-      onClick: () => handleState({ key: 'edit', value: true }),
-      name: 'Edit',
-      icon: <Edit />,
-      dataTestId: 'edit-agent-button'
-    },
-    {
-      onClick: () => handleState({ key: 'block', value: true }),
-      name: 'Block',
-      icon: <Block />,
-      dataTestId: 'block-agent-button'
-    },
-    {
-      onClick: () => handleState({ key: 'delete', value: true }),
-      name: 'Delete',
-      icon: <Delete />,
-      dataTestId: "delete-agent-button"
-    }
-  ]
 
   function handleDeleteAgent() {
     dispatch(deleteAgentAction(optionalState?.id, () => { }))
   }
 
   function toggleBlockAgent() {
-    dispatch(toggleStatusAgentAction(optionalState?.id, optionalState?.isBlock, () => handleState({ key: 'block', value: false })))
+    dispatch(
+      toggleStatusAgentAction(optionalState?.id, optionalState?.isBlock, () =>
+        handleState({ key: 'block', value: false })
+      )
+    )
   }
 
-  function handleEditWalletType(row: any) {
+  function handleEditWalletType(row: IAgentData) {
     setOptionalState(row)
     handleState({ key: 'editWalletType', value: true })
   }
 
-  function handleChangeStatus(row: any) {
+  function handleChangeStatus(row: IAgentData) {
     setOptionalState(row)
     handleState({ key: 'block', value: true })
   }
 
-  function handleOnChange() {
-
+  function handleEditTag(row: IAgentData, newValue: string) {
+    setOptionalState({
+      ...row,
+      tag: newValue,
+    })
+    handleState({ key: 'editTag', value: true })
   }
 
+  function handleSubmitNewTag() {
+    dispatch(updateAgentAction(optionalState, 'tag', () => handleState({ key: 'editTag', value: false })))
+  }
+
+
   return (
-    <Box ref={inputRef} sx={{
-      height: 'calc(100vh - 300px)',
-      marginY: 2,
-    }}>
+    <Box
+      ref={inputRef}
+      sx={{
+        height: 'calc(100vh - 300px)',
+        marginY: 2,
+      }}
+    >
       {data?.length > 0 && (
         <TableContainer component={Paper}>
           <InfiniteScroll
@@ -110,11 +125,17 @@ const AgentList = () => {
             >
               <TableHead>
                 <TableRow>
-                  {headersAgentList.map((header) => (
-                    <TableCell
-                      key={header}
-                    >
-                      {header}
+                  {headersAgentList.map((header, index) => (
+                    <TableCell key={`headerAgentOverview-${index}`}>
+                      {
+                        typeof header === 'object' ?
+                          <Box>
+                            {
+                              header.map(item => <Box>{item}</Box>)
+                            }
+                          </Box>
+                          : header
+                      }
                     </TableCell>
                   ))}
                   <TableCell align='right' />
@@ -122,7 +143,7 @@ const AgentList = () => {
               </TableHead>
               <TableBody id='scrollableDiv'>
                 {isLoadingPage && <Loader />}
-                {data.map((row: any) => {
+                {data.map((row: IAgentData) => {
                   return (
                     <TableRow
                       key={row.id}
@@ -150,35 +171,52 @@ const AgentList = () => {
                         {moment(row.registerDate).format(FORMAT_DATE_TIME)}
                       </TableCell>
                       <TableCell>
-                        <SelectTag onChange={handleOnChange} />
+                        <TagField
+                          cancelEdit={state.editTag}
+                          row={row}
+                          loading={loading}
+                          onChange={handleEditTag}
+                        />
                       </TableCell>
                       <TableCell>
-                        <FormControl variant="standard" fullWidth>
+                        <FormControl
+                          variant='standard'
+                          fullWidth
+                        >
                           <Select
                             value={row.walletTypeId}
-                            label="Wallet Type"
+                            label='Wallet Type'
                             onChange={() => handleEditWalletType(row)}
                           >
-                            {
-                              walletTypeOptions.map(item => (
-                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
-                              ))
-                            }
+                            {walletTypeOptions.map((item) => (
+                              <MenuItem
+                                key={item.value}
+                                value={item.value}
+                              >
+                                {item.label}
+                              </MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </TableCell>
                       <TableCell>
-                        <FormControl variant="standard" fullWidth>
+                        <FormControl
+                          variant='standard'
+                          fullWidth
+                        >
                           <Select
                             value={row?.isBlock.toString()}
-                            label="Status"
+                            label='Status'
                             onChange={() => handleChangeStatus(row)}
                           >
-                            {
-                              optionsStatus.map(item => (
-                                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
-                              ))
-                            }
+                            {optionsStatus.map((item) => (
+                              <MenuItem
+                                key={item.value}
+                                value={item.value}
+                              >
+                                {item.label}
+                              </MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </TableCell>
@@ -190,21 +228,15 @@ const AgentList = () => {
           </InfiniteScroll>
         </TableContainer>
       )}
-      {anchorEl && (
-        <Menu
-          id="accounts-action"
-          anchorEl={anchorEl}
-          closeMenu={handleClose}
-          optionsMenuCard={optionsMenuCard}
-        />
-      )}
       {state.editWalletType && (
         <MuiDialog
           loading={loading}
           open={state.editWalletType}
-          title="Change Wallet Type"
+          title='Change Wallet Type'
           content={`Are you sure you want to change wallet type of "${optionalState?.name}" to ${optionalState?.walletTypeId === WALLET_TYPE.SEAMLESS ? WALLET_TYPE_NAME.TRANSFER : WALLET_TYPE_NAME.SEAMLESS}?`}
-          handleClose={() => handleState({ key: 'editWalletType', value: false })}
+          handleClose={() =>
+            handleState({ key: 'editWalletType', value: false })
+          }
           handleSubmit={() => { }}
         />
       )}
@@ -212,8 +244,8 @@ const AgentList = () => {
         <MuiDialog
           loading={loading}
           open={state.block}
-          title={optionalState?.isBlock ? "Active agent" : "Block agent"}
-          content={`Are you sure you want to ${optionalState?.isBlock ? "active agent" : "block agent"} "${optionalState?.name}"?`}
+          title={optionalState?.isBlock ? 'Active agent' : 'Block agent'}
+          content={`Are you sure you want to ${optionalState?.isBlock ? 'active agent' : 'block agent'} "${optionalState?.name}"?`}
           handleClose={() => handleState({ key: 'block', value: false })}
           handleSubmit={() => toggleBlockAgent()}
         />
@@ -222,10 +254,20 @@ const AgentList = () => {
         <MuiDialog
           loading={loading}
           open={state.delete}
-          title="Delete Agent"
+          title='Delete Agent'
           content={`Are you sure you want to delete agent "${optionalState?.name}"? This action cannot be undone.`}
           handleClose={() => handleState({ key: 'delete', value: false })}
           handleSubmit={handleDeleteAgent}
+        />
+      )}
+      {state.editTag && (
+        <MuiDialog
+          loading={loading}
+          open={!!state.editTag}
+          title='Edit Category Agent'
+          content={`Are you sure you want to edit tag agent to "${optionalState.tag}"?`}
+          handleClose={() => handleState({ key: 'editTag', value: false })}
+          handleSubmit={handleSubmitNewTag}
         />
       )}
       {!isLoadingPage && !data?.length && <EmptyData />}

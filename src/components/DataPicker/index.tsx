@@ -102,7 +102,9 @@ const DataPicker: React.FC<DataPickerProps> = ({
     y: 0,
   })
   const today = new Date()
-  const endDateMaxToAllow = state[0].startDate ? subDays(addMonths(state[0].startDate, 1), 1) : today //The backend side is adding the validation with 30 days.
+  const endDateMaxToAllow = state[0].startDate
+    ? subDays(addMonths(state[0].startDate, 1), 1)
+    : today //The backend side is adding the validation with 30 days.
 
   const { ref: datePickerRef } = useClickOutside(() => {
     setToggleState({
@@ -147,8 +149,11 @@ const DataPicker: React.FC<DataPickerProps> = ({
         y: 0,
       })
       const { startDate, endDate } = state[0]
-      const maxEndDateAllow = (isAfter(endDate, today)) ? today : endDate
-      changeHandler && startDate && endDate && changeHandler(startDate, maxEndDateAllow)
+      const maxEndDateAllow = isAfter(endDate, today) ? today : endDate
+      changeHandler &&
+        startDate &&
+        endDate &&
+        changeHandler(startDate, maxEndDateAllow)
     }
   }
 
@@ -179,7 +184,6 @@ const DataPicker: React.FC<DataPickerProps> = ({
       setState([itemState])
     }
   }
-
 
   const handleChangeShowDate = (newShowDate: Date) => {
     const itemState = {
@@ -237,7 +241,9 @@ const DataPicker: React.FC<DataPickerProps> = ({
                 ranges={state}
                 direction='horizontal'
                 className={styles.datePicker}
-                maxDate={isAfter(endDateMaxToAllow, today) ? today : endDateMaxToAllow}
+                maxDate={
+                  isAfter(endDateMaxToAllow, today) ? today : endDateMaxToAllow
+                }
                 inputRanges={[
                   {
                     label: 'days up to today',

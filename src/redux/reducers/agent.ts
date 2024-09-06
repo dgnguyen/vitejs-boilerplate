@@ -4,12 +4,18 @@ import { DataReturnProps } from './types'
 import { AppDispatch, RootState } from 'redux/store'
 import axios from 'axios'
 import { API_ENDPOINT } from 'api/endpoint'
+import { handleExportRequest } from 'helpers/exportExcel'
+import { IAgentData } from 'types/agent'
 
-interface IAgents extends DataReturnProps<unknown> {
+interface IAgentsStateProps extends DataReturnProps<IAgentData> {
   isExporting: boolean
+  searchValues: {
+    searchType: number
+    value: string
+  }
 }
 
-const initialState: IAgents = {
+const initialState: IAgentsStateProps = {
   loading: false,
   isLoadingPage: false,
   errors: null,
@@ -19,6 +25,10 @@ const initialState: IAgents = {
   totalCount: 0,
   hasMore: false,
   isExporting: false,
+  searchValues: {
+    searchType: 1,
+    value: '',
+  },
 }
 
 export const agentReducer = createSlice({
@@ -46,6 +56,9 @@ export const agentReducer = createSlice({
       })
   },
   reducers: {
+    setLoadingExport: (state, { payload }) => {
+      state.isExporting = payload
+    },
     setLoadingAgent: (state, { payload }) => {
       state.loading = payload
     },
@@ -67,12 +80,32 @@ export const agentReducer = createSlice({
         }
       })
     },
+    updateAgentData: (state, { payload }) => {
+      state.data = state.data.map((agent: any) => {
+        if (agent.id === payload.id) {
+          return payload
+        } else return agent
+      })
+    },
+    setSearchValuesAgent: (state, { payload }) => {
+      state.searchValues = {
+        ...state.searchValues,
+        ...payload,
+      }
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { setLoadingAgent, deleteAgent, unblockAgent, blockAgent } =
-  agentReducer.actions
+export const {
+  setSearchValuesAgent,
+  setLoadingAgent,
+  deleteAgent,
+  unblockAgent,
+  blockAgent,
+  updateAgentData,
+  setLoadingExport,
+} = agentReducer.actions
 
 export const getAgentsListAction = createAsyncThunk(
   'getAgents',
@@ -80,12 +113,15 @@ export const getAgentsListAction = createAsyncThunk(
     const {
       page,
       take,
+      searchValues: { value, searchType },
       // eslint-disable-next-line no-unsafe-optional-chaining
     } = (getState() as RootState)?.agent
     try {
       const json = JSON.stringify({
         page,
         take,
+        searchValue: value,
+        searchType,
       })
 
       const response = await axios.post(API_ENDPOINT.GET_AGENT, json, {
@@ -130,6 +166,31 @@ export const deleteAgentAction =
     }
   }
 
+export const updateAgentAction =
+  (updateAgent: IAgentData, key: keyof IAgentData, cb: () => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    dispatch(setLoadingAgent(true))
+    const json = JSON.stringify({
+      id: updateAgent.id,
+      [key]: updateAgent[key],
+    })
+    try {
+      const response = await axios.post(API_ENDPOINT.UPDATE_AGENT, json, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (response?.data?.isSuccess) {
+        dispatch(updateAgentData(response?.data?.data))
+        cb()
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      dispatch(setLoadingAgent(false))
+    }
+  }
+
 export const toggleStatusAgentAction =
   (id: number, isBlock: boolean, cb: () => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
@@ -147,7 +208,6 @@ export const toggleStatusAgentAction =
         },
       })
       if (response?.data?.isSuccess) {
-        console.log({ response })
         if (isBlock) {
           dispatch(unblockAgent(response?.data?.data?.id))
         } else {
@@ -160,6 +220,28 @@ export const toggleStatusAgentAction =
     } finally {
       dispatch(setLoadingAgent(false))
     }
+  }
+
+export const exportAgentsAction =
+  (cb: (res: any, name: string) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    const { searchValues } = (getState() as RootState)?.agent
+    const { value, searchType } = searchValues
+    dispatch(setLoadingExport(true))
+    const url = API_ENDPOINT.EXPORT_AGENT
+    handleExportRequest({
+      url,
+      params: {
+        searchValue: value,
+        searchType,
+      },
+    })
+      .then(async (response: any) => {
+        const fileName = `ExportAgent.xlsx`
+        cb(response, fileName)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => dispatch(setLoadingExport(false)))
   }
 
 export default agentReducer.reducer

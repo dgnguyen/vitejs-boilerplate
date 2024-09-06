@@ -39,6 +39,7 @@ export type IDashboardTransaction = {
   totalBetAmount: number
   totalCount: number
   totalWinAmount: number
+  currency: string
 }
 
 export type ITransactions = {

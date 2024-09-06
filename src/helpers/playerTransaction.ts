@@ -6,7 +6,7 @@ export const header = {
   playerId: 'RB Player ID',
   platformPlayerId: 'Agent Player ID',
   betAmount: 'Bet Amount',
-  currency: 'Currency',
+  // currency: 'Currency',
   winAmount: 'Win Amount',
   status: 'Status',
 }
