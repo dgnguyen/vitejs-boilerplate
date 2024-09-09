@@ -3,7 +3,10 @@ import SearchSVG from 'assets/images/search.svg'
 
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getHistoryChangeBetLimitAction, setSearchValuesAgent } from 'redux/reducers/agent'
+import {
+  getHistoryChangeBetLimitAction,
+  setSearchValuesAgent,
+} from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
 
 const BetLimitFilter = () => {
@@ -16,18 +19,19 @@ const BetLimitFilter = () => {
   } = agentSelector
   const dispatch = useAppDispatch()
 
-
   function handleChangeSearchValue(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value)
     dispatch(setSearchValuesAgent({ value: e.target.value }))
   }
 
-
   function handleSearch() {
     dispatch(getHistoryChangeBetLimitAction())
   }
   return (
-    <Box display="flex" gap={2}>
+    <Box
+      display='flex'
+      gap={2}
+    >
       <TextField
         placeholder={`Search`}
         onChange={handleChangeSearchValue}

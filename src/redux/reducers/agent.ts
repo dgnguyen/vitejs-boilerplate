@@ -12,6 +12,7 @@ interface IAgentsStateProps extends DataReturnProps<IAgentData> {
     searchType: number
     value: string
   }
+  currency: string
   betLimitData: IAgentBetLimit[]
 }
 
@@ -25,6 +26,7 @@ const initialState: IAgentsStateProps = {
   totalCount: 0,
   hasMore: false,
   isExporting: false,
+  currency: '',
   searchValues: {
     searchType: 1,
     value: '',
@@ -74,7 +76,9 @@ export const agentReducer = createSlice({
         state.errors = false
         state.totalCount = settings?.totalCount
         state.hasMore = settings.hasMore
-        state.betLimitData = state.page === 1 ? data : [...state.data, ...data]
+        state.currency = settings?.currency
+        state.betLimitData =
+          state.page === 1 ? data : [...state.betLimitData, ...data]
         state.isLoadingPage = false
         state.page = settings.hasMore ? state.page + 1 : state.page
       })
@@ -330,6 +334,7 @@ export const getHistoryChangeBetLimitAction = createAsyncThunk(
       return {
         data: response.data.data,
         settings: {
+          currency: response?.data?.currency,
           totalCount: response.data?.totalCount,
           hasMore: Math.ceil(response.data?.totalCount / take) > page,
         },

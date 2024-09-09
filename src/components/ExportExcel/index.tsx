@@ -31,7 +31,10 @@ import {
   exportTransactions,
   getLoadingExportTransactionSelector,
 } from 'redux/reducers/transaction'
-import { exportAgentsAction, exportAgentsBetLimitAction } from 'redux/reducers/agent'
+import {
+  exportAgentsAction,
+  exportAgentsBetLimitAction,
+} from 'redux/reducers/agent'
 
 export type OptionalData = {
   transactionId?: string
@@ -41,12 +44,12 @@ export type OptionalData = {
 
 type Props = {
   id:
-  | 'export-excel-transactions'
-  | 'export-excel-players'
-  | 'export-excel-specific-player-transactions'
-  | 'export-excel-dashboard'
-  | 'export-excel-agent'
-  | 'export-excel-agent-bet-limit'
+    | 'export-excel-transactions'
+    | 'export-excel-players'
+    | 'export-excel-specific-player-transactions'
+    | 'export-excel-dashboard'
+    | 'export-excel-agent'
+    | 'export-excel-agent-bet-limit'
   disableSearch?: boolean
   optionalData?: OptionalData
 }

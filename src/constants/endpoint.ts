@@ -12,6 +12,8 @@ export const ROUTES = {
   AGENT_BETLIMIT: '/agent/betlimit',
   AGENT_TRACKING: '/agent_tracking',
   MARKET: '/market',
+  MARKET_SETTINGS: '/market/settings',
+  TOP_MARKET: '/market/top-market',
   ACCOUNT: '/account',
   FORGOT_PASSWORD: '/forgot-password',
 } as const

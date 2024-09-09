@@ -24,7 +24,11 @@ const AgentBetLimit = () => {
   return (
     <Box>
       <AgentTab />
-      <Box display="flex" alignItems="center" marginY={2}>
+      <Box
+        display='flex'
+        alignItems='center'
+        marginY={2}
+      >
         <DateBlock />
         <Box
           marginLeft='auto'
@@ -44,9 +48,9 @@ const AgentBetLimit = () => {
           />
         </Box>
       </Box>
-      <Divider sx={{ borderColor: "white", borderWidth: 1 }} />
+      <Divider sx={{ borderColor: 'white', borderWidth: 1 }} />
       <FormBetLimit />
-      <Divider sx={{ borderColor: "white", borderWidth: 1 }} />
+      <Divider sx={{ borderColor: 'white', borderWidth: 1 }} />
       <BetLimitHistory />
     </Box>
   )
