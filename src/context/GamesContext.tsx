@@ -1,3 +1,4 @@
+import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
 import React, { useContext, useEffect, useState } from 'react'
@@ -18,6 +19,7 @@ export const GamesContext = React.createContext({
   gamesList: [] as GamesProps[],
   errorGames: false as boolean,
   loadingGames: false as boolean,
+  fetchGames: () => { }
 })
 
 const getInitialState = () => {
@@ -38,7 +40,7 @@ export const GamesContextProvider = ({
     try {
       setLoadingGames(true)
       const response = await axios.get(
-        `${API_BASE_URL}/admin/game-types/get-list`
+        API_ENDPOINT.GET_GAMES_LIST
       )
 
       const data = response?.data || null
@@ -52,26 +54,27 @@ export const GamesContextProvider = ({
       setLoadingGames(false)
     }
   }
-  useEffect(() => {
-    if (!getInitialState()?.length) fetchGames()
-  }, [])
+  // useEffect(() => {
+  //   if (!getInitialState()?.length) fetchGames()
+  // }, [])
   useEffect(() => {
     if (gamesList?.length > 0)
       localStorage.setItem('gamesList', JSON.stringify(gamesList))
   }, [gamesList])
 
   return (
-    <GamesContext.Provider value={{ gamesList, errorGames, loadingGames }}>
+    <GamesContext.Provider value={{ gamesList, errorGames, loadingGames, fetchGames }}>
       {children}
     </GamesContext.Provider>
   )
 }
 
 export const useGames = () => {
-  const { gamesList, errorGames, loadingGames } = useContext(GamesContext)
+  const { gamesList, errorGames, loadingGames, fetchGames } = useContext(GamesContext)
   return {
     gamesList,
     errorGames,
     loadingGames,
+    fetchGames,
   }
 }

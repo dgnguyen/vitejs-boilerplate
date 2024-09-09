@@ -118,13 +118,14 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('agentSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {agents.map((agent: IAgentData) => (
                 <MenuItem
                   key={agent.id}
                   value={agent.id}
+                  disabled={agent.isBlock}
                 >
                   {agent.name}
                 </MenuItem>
@@ -144,7 +145,7 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('gameSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {games.map((game: IGamesSelect) => (
@@ -170,7 +171,7 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('marketSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {markets.map((market: IMarketSelect) => (
@@ -196,7 +197,7 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('eventSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {events.map((event: any) => (

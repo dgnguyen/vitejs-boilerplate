@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 
+export type IUser = {
+  firstName: string
+  lastName: string
+  token: string
+  role: number
+  partnerId: number
+}
+
 export const UserContext = React.createContext({
   currentUser: null,
-  login: (user: any) => {},
+  handleLogin: (user: IUser) => { }
 })
 
 const getInitialState = () => {
@@ -21,12 +29,12 @@ export const UserContextProvider = ({
     localStorage.setItem('user', JSON.stringify(currentUser))
   }, [currentUser])
 
-  const login = (user: any) => {
+  const handleLogin = (user: IUser) => {
     setCurrentUser(user)
   }
 
   return (
-    <UserContext.Provider value={{ currentUser, login }}>
+    <UserContext.Provider value={{ currentUser, handleLogin }}>
       {children}
     </UserContext.Provider>
   )

@@ -64,7 +64,7 @@ const AgentList = () => {
     }))
 
   function handleDeleteAgent() {
-    dispatch(deleteAgentAction(optionalState?.id, () => {}))
+    dispatch(deleteAgentAction(optionalState?.id, () => { }))
   }
 
   function toggleBlockAgent() {
@@ -150,7 +150,7 @@ const AgentList = () => {
                     data.map((row: IAgentData) => {
                       return (
                         <TableRow
-                          key={row.id}
+                          key={row?.id}
                           sx={{
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
@@ -159,22 +159,22 @@ const AgentList = () => {
                             component='th'
                             scope='row'
                           >
-                            {row.externalId}
+                            {row?.externalId}
                           </TableCell>
                           <TableCell
                             component='th'
                             scope='row'
                           >
-                            {row.code || '-'}
+                            {row?.code || '-'}
                           </TableCell>
                           <TableCell
                             component='th'
                             scope='row'
                           >
-                            {row.name}
+                            {row?.name}
                           </TableCell>
                           <TableCell>
-                            {moment(row.registerDate).format(FORMAT_DATE_TIME)}
+                            {moment(row?.registerDate).format(FORMAT_DATE_TIME)}
                           </TableCell>
                           <TableCell>
                             <TagField
@@ -190,7 +190,7 @@ const AgentList = () => {
                               fullWidth
                             >
                               <Select
-                                value={row.walletTypeId}
+                                value={row?.walletTypeId}
                                 label='Wallet Type'
                                 onChange={() => handleEditWalletType(row)}
                               >
@@ -244,7 +244,7 @@ const AgentList = () => {
           handleClose={() =>
             handleState({ key: 'editWalletType', value: false })
           }
-          handleSubmit={() => {}}
+          handleSubmit={() => { }}
         />
       )}
       {state.block && (

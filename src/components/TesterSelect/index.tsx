@@ -8,16 +8,14 @@ import {
 import { IAgent } from 'types/dashboard'
 import { isTesterSelectOptions } from 'constants/filters'
 
-type SelectProps = {
-  label: string
-  value: number
-}[]
 
 const TesterSelect = ({
   isTester,
+  disabled,
   handleChangeIsTester,
 }: {
-  isTester: string
+  isTester: string,
+  disabled?: boolean
   handleChangeIsTester: (event: SelectChangeEvent) => void
 }) => {
   return (
@@ -30,6 +28,7 @@ const TesterSelect = ({
           id='isTester-select'
           value={isTester}
           onChange={handleChangeIsTester}
+          disabled={disabled}
         >
           {isTesterSelectOptions.map((item, index) => (
             <MenuItem
