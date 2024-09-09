@@ -1,6 +1,7 @@
 import { MoreVert, Edit, Delete, Block } from '@mui/icons-material'
 import {
   Box,
+  CircularProgress,
   FormControl,
   InputLabel,
   LinearProgress,
@@ -14,7 +15,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
+
 } from '@mui/material'
 import Loader from 'components/Commons/Loader'
 import EmptyData from 'components/EmptyData'
@@ -33,8 +34,6 @@ import {
 import { RootState, useAppDispatch } from 'redux/store'
 import { headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
 import useAnchor from 'hooks/useAnchor'
-import Menu from 'components/Commons/Menu'
-import { useSnackbar } from 'hooks/useSnackbar'
 import MuiDialog from 'components/Commons/MuiDialog'
 import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
 import TagField from './TagField'
@@ -108,126 +107,132 @@ const AgentList = () => {
         marginY: 2,
       }}
     >
-      {data?.length > 0 && (
-        <TableContainer component={Paper}>
-          <InfiniteScroll
-            dataLength={data?.length || 0}
-            next={() => dispatch(getAgentsListAction())}
-            hasMore={hasMore}
-            height={height ? height - 100 : 600}
-            loader={loading && <LinearProgress />}
-            scrollableTarget='scrollableDiv'
-          >
-            <Table
-              stickyHeader
-              aria-label='sticky table'
-              sx={{ minWidth: 650 }}
+      <div
+        id='scrollableDiv'
+      >
+        {isLoadingPage && <CircularProgress />}
+        {data?.length > 0 && (
+          <TableContainer component={Paper}>
+            <InfiniteScroll
+              dataLength={data?.length || 0}
+              next={() => dispatch(getAgentsListAction())}
+              hasMore={hasMore}
+              height={height ? height - 100 : 600}
+              loader={loading && <LinearProgress />}
+              scrollableTarget='scrollableDiv'
             >
-              <TableHead>
-                <TableRow>
-                  {headersAgentList.map((header, index) => (
-                    <TableCell key={`headerAgentOverview-${index}`}>
-                      {
-                        typeof header === 'object' ?
-                          <Box>
-                            {
-                              header.map(item => <Box>{item}</Box>)
-                            }
-                          </Box>
-                          : header
-                      }
-                    </TableCell>
-                  ))}
-                  <TableCell align='right' />
-                </TableRow>
-              </TableHead>
-              <TableBody id='scrollableDiv'>
-                {isLoadingPage && <Loader />}
-                {data.map((row: IAgentData) => {
-                  return (
-                    <TableRow
-                      key={row.id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell
-                        component='th'
-                        scope='row'
+              <Table
+                stickyHeader
+                aria-label='sticky table'
+                sx={{ minWidth: 650 }}
+              >
+                <TableHead>
+                  <TableRow>
+                    {headersAgentList.map((header, index) => (
+                      <TableCell key={`headerAgentOverview-${index}`}>
+                        {
+                          typeof header === 'object' ?
+                            <Box>
+                              {
+                                header.map(item => <Box>{item}</Box>)
+                              }
+                            </Box>
+                            : header
+                        }
+                      </TableCell>
+                    ))}
+                    <TableCell align='right' />
+                  </TableRow>
+                </TableHead>
+                <TableBody id='scrollableDiv'>
+                  {isLoadingPage && <Loader />}
+                  {!isLoadingPage && data.map((row: IAgentData) => {
+                    return (
+                      <TableRow
+                        key={row.id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
-                        {row.externalId}
-                      </TableCell>
-                      <TableCell
-                        component='th'
-                        scope='row'
-                      >
-                        {row.code || '-'}
-                      </TableCell>
-                      <TableCell
-                        component='th'
-                        scope='row'
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell>
-                        {moment(row.registerDate).format(FORMAT_DATE_TIME)}
-                      </TableCell>
-                      <TableCell>
-                        <TagField
-                          cancelEdit={state.editTag}
-                          row={row}
-                          loading={loading}
-                          onChange={handleEditTag}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <FormControl
-                          variant='standard'
-                          fullWidth
+                        <TableCell
+                          component='th'
+                          scope='row'
                         >
-                          <Select
-                            value={row.walletTypeId}
-                            label='Wallet Type'
-                            onChange={() => handleEditWalletType(row)}
-                          >
-                            {walletTypeOptions.map((item) => (
-                              <MenuItem
-                                key={item.value}
-                                value={item.value}
-                              >
-                                {item.label}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </TableCell>
-                      <TableCell>
-                        <FormControl
-                          variant='standard'
-                          fullWidth
+                          {row.externalId}
+                        </TableCell>
+                        <TableCell
+                          component='th'
+                          scope='row'
                         >
-                          <Select
-                            value={row?.isBlock.toString()}
-                            label='Status'
-                            onChange={() => handleChangeStatus(row)}
+                          {row.code || '-'}
+                        </TableCell>
+                        <TableCell
+                          component='th'
+                          scope='row'
+                        >
+                          {row.name}
+                        </TableCell>
+                        <TableCell>
+                          {moment(row.registerDate).format(FORMAT_DATE_TIME)}
+                        </TableCell>
+                        <TableCell>
+                          <TagField
+                            cancelEdit={state.editTag}
+                            row={row}
+                            loading={loading}
+                            onChange={handleEditTag}
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <FormControl
+                            variant='standard'
+                            fullWidth
                           >
-                            {optionsStatus.map((item) => (
-                              <MenuItem
-                                key={item.value}
-                                value={item.value}
-                              >
-                                {item.label}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </InfiniteScroll>
-        </TableContainer>
-      )}
+                            <Select
+                              value={row.walletTypeId}
+                              label='Wallet Type'
+                              onChange={() => handleEditWalletType(row)}
+                            >
+                              {walletTypeOptions.map((item) => (
+                                <MenuItem
+                                  key={item.value}
+                                  value={item.value}
+                                >
+                                  {item.label}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                        <TableCell>
+                          <FormControl
+                            variant='standard'
+                            fullWidth
+                          >
+                            <Select
+                              value={row?.isBlock.toString()}
+                              label='Status'
+                              onChange={() => handleChangeStatus(row)}
+                            >
+                              {optionsStatus.map((item) => (
+                                <MenuItem
+                                  key={item.value}
+                                  value={item.value}
+                                >
+                                  {item.label}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </InfiniteScroll>
+          </TableContainer>
+
+        )}
+      </div>
       {state.editWalletType && (
         <MuiDialog
           loading={loading}

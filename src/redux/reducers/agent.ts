@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { DataReturnProps } from './types'
 import { AppDispatch, RootState } from 'redux/store'
 import axios from 'axios'
 import { API_ENDPOINT } from 'api/endpoint'
 import { handleExportRequest } from 'helpers/exportExcel'
-import { IAgentData } from 'types/agent'
+import { IAgentBetLimit, IAgentData } from 'types/agent'
 
 interface IAgentsStateProps extends DataReturnProps<IAgentData> {
   isExporting: boolean
@@ -13,6 +12,7 @@ interface IAgentsStateProps extends DataReturnProps<IAgentData> {
     searchType: number
     value: string
   }
+  betLimitData: IAgentBetLimit[]
 }
 
 const initialState: IAgentsStateProps = {
@@ -29,6 +29,7 @@ const initialState: IAgentsStateProps = {
     searchType: 1,
     value: '',
   },
+  betLimitData: [],
 }
 
 export const agentReducer = createSlice({
@@ -39,20 +40,48 @@ export const agentReducer = createSlice({
       .addCase('getAgents/pending', (state, action) => {
         state.loading = true
         state.errors = false
+        if (state.page === 1) {
+          state.data = []
+          state.isLoadingPage = true
+        }
       })
       .addCase('getAgents/fulfilled', (state, action: any) => {
-        const { data, totalCount } = action.payload
+        const { data, settings } = action.payload
         state.loading = false
         state.errors = false
-        state.totalCount = totalCount
-        state.hasMore = action.payload.hasMore
+        state.totalCount = settings?.totalCount
+        state.hasMore = settings.hasMore
         state.data = state.page === 1 ? data : [...state.data, ...data]
         state.isLoadingPage = false
+        state.page = settings.hasMore ? state.page + 1 : state.page
       })
-      .addCase('getAgents/rejected', (state, action) => {
+      .addCase('getAgents/rejected', (state) => {
         state.loading = false
         state.isLoadingPage = false
         state.data = []
+      })
+      .addCase('getAgentsBetLimit/pending', (state, action) => {
+        state.loading = true
+        state.errors = false
+        if (state.page === 1) {
+          state.betLimitData = []
+          state.isLoadingPage = true
+        }
+      })
+      .addCase('getAgentsBetLimit/fulfilled', (state, action: any) => {
+        const { data, settings } = action.payload
+        state.loading = false
+        state.errors = false
+        state.totalCount = settings?.totalCount
+        state.hasMore = settings.hasMore
+        state.betLimitData = state.page === 1 ? data : [...state.data, ...data]
+        state.isLoadingPage = false
+        state.page = settings.hasMore ? state.page + 1 : state.page
+      })
+      .addCase('getAgentsBetLimit/rejected', (state) => {
+        state.loading = false
+        state.isLoadingPage = false
+        state.betLimitData = []
       })
   },
   reducers: {
@@ -87,11 +116,17 @@ export const agentReducer = createSlice({
         } else return agent
       })
     },
+    addNewAgentBetLimit: (state, { payload }) => {
+      state.betLimitData.unshift(payload)
+    },
     setSearchValuesAgent: (state, { payload }) => {
       state.searchValues = {
         ...state.searchValues,
         ...payload,
       }
+    },
+    resetAgentState: () => {
+      return initialState
     },
   },
 })
@@ -105,6 +140,8 @@ export const {
   blockAgent,
   updateAgentData,
   setLoadingExport,
+  resetAgentState,
+  addNewAgentBetLimit,
 } = agentReducer.actions
 
 export const getAgentsListAction = createAsyncThunk(
@@ -243,5 +280,64 @@ export const exportAgentsAction =
       .catch((error) => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
+
+export const exportAgentsBetLimitAction =
+  (cb: (res: any, name: string) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    const { searchValues } = (getState() as RootState)?.agent
+    const { value } = searchValues
+    dispatch(setLoadingExport(true))
+    const url = API_ENDPOINT.EXPORT_AGENT_BET_LIMIT_CHANGE
+    handleExportRequest({
+      url,
+      params: {
+        searchValue: value,
+      },
+    })
+      .then(async (response: any) => {
+        const fileName = `ExportAgent.xlsx`
+        cb(response, fileName)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => dispatch(setLoadingExport(false)))
+  }
+
+export const getHistoryChangeBetLimitAction = createAsyncThunk(
+  'getAgentsBetLimit',
+  async (dispatch, { rejectWithValue, getState }) => {
+    const {
+      page,
+      take,
+      searchValues: { value },
+      // eslint-disable-next-line no-unsafe-optional-chaining
+    } = (getState() as RootState)?.agent
+    try {
+      const json = JSON.stringify({
+        page,
+        take,
+        searchValue: value,
+      })
+
+      const response = await axios.post(
+        API_ENDPOINT.GET_AGENT_BET_LIMIT_CHANGE,
+        json,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      return {
+        data: response.data.data,
+        settings: {
+          totalCount: response.data?.totalCount,
+          hasMore: Math.ceil(response.data?.totalCount / take) > page,
+        },
+      }
+    } catch (err: any) {
+      return rejectWithValue(err)
+    }
+  }
+)
 
 export default agentReducer.reducer

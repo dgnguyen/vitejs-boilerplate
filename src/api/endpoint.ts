@@ -15,4 +15,6 @@ export const API_ENDPOINT = {
   GET_MARKET_BY_GAME: `${API_BASE_URL}/AdminAgent/getMarketByGame`,
   GET_EVENT_BY_MARKET: `${API_BASE_URL}/AdminAgent/getEventByMarket`,
   UPDATE_BET_LIMIT_AGENT: `${API_BASE_URL}/AdminAgent/betLimit/update`,
+  EXPORT_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/exportHistoryChange`,
+  GET_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/getHistoryChange`,
 }

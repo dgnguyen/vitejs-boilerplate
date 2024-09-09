@@ -27,7 +27,7 @@ import { ROUTES } from 'constants/endpoint'
 
 const PlayerContent = () => {
   const dispatch = useAppDispatch()
-  const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
+  const { searchValues, data, hasMore } =
     useSelector((state: RootState) => state.player)
   const { agentSelected } = searchValues
   // const filter = useSelector(filterDataSelector)
@@ -78,7 +78,7 @@ const PlayerContent = () => {
         height='100px'
       >
         <Typography fontWeight='bold'>
-          Error while loading transactions
+          Error while loading players
         </Typography>
       </Box>
     )
@@ -100,7 +100,7 @@ const PlayerContent = () => {
       >
         <div
           id='scrollableDiv'
-          //  className={styles.accordion}
+        //  className={styles.accordion}
         >
           {loadingPage && <CircularProgress />}
           {!loadingPage && data?.length > 0 && (
