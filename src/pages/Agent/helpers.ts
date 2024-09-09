@@ -31,3 +31,15 @@ export const searchTypeAgent = [
   { value: 2, label: 'Agent Code' },
   { value: 3, label: 'Agent Id' },
 ]
+
+export const headerAgentBetLimit = [
+  'Type',
+  'Agent Name',
+  'Game Name',
+  'Market Name',
+  'Sub-Market Name',
+  'Min',
+  'Max',
+  'Applied Date',
+  'Applied By',
+]

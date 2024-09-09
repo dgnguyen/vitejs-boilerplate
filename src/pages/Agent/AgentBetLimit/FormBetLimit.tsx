@@ -1,23 +1,17 @@
-import { Form, Formik, useFormikContext } from 'formik'
+import { Formik, } from 'formik'
 import {
   Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Snackbar,
-  TextField,
-  Typography
 } from '@mui/material'
 import "../style.scss"
-import { useFetchAgents } from 'hooks/useFetchAgents'
-import { IAgentData } from 'types/agent'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import FormContent from './FormContent'
 import axios from 'axios'
 import { API_ENDPOINT } from 'api/endpoint'
 import { headersContentType } from 'api/helpers'
+import { useSnackbar } from 'hooks/useSnackbar'
+import { useAppDispatch } from 'redux/store'
+import { addNewAgentBetLimit } from 'redux/reducers/agent'
 
 
 export type AgentBetLimitValuesProps = {
@@ -41,9 +35,8 @@ const FormBetLimit = () => {
 
   const [submiting, setSubmiting] = useState(false)
   const [errorSubmit, setErrorSubmit] = useState(false)
-  // const { agents } = useFetchAgents()
-  // const { games } = useFetchGames()
 
+  const dispatch = useAppDispatch()
 
   const onSubmit = async (values: AgentBetLimitValuesProps) => {
     setSubmiting(true)
@@ -59,16 +52,20 @@ const FormBetLimit = () => {
       const json = JSON.stringify(valuesSendToAPI)
       const response = await axios.post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
       if (response?.data?.isSuccess) {
-        console.log({ response })
+        dispatch(addNewAgentBetLimit(response?.data?.data))
+        openSnackbar({ message: "New bet limit values has been changed" })
       } else {
         setErrorSubmit(true)
+        openSnackbar({ message: response?.data?.message })
       }
-    } catch (err) {
+    } catch (e: any) {
       setErrorSubmit(true)
+      openSnackbar({ message: e?.response?.data?.message || e })
     } finally {
       setSubmiting(false)
     }
   }
+  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
 
 
@@ -80,10 +77,19 @@ const FormBetLimit = () => {
       >
         {props => {
           return (
-            <FormContent props={props} />
+            <FormContent props={props} submiting={submiting} />
           )
         }}
       </Formik>
+      {snackbar.open && (
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={2000}
+          onClose={closeSnackbar}
+          message={snackbar.message}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        />
+      )}
     </Box>
   )
 }

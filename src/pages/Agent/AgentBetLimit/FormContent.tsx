@@ -1,18 +1,21 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, Snackbar, TextField, Typography } from '@mui/material'
 import { Form, FormikProps, useFormikContext } from 'formik'
 import { IAgentData } from 'types/agent'
 import { AgentBetLimitValuesProps } from './FormBetLimit'
 import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
 import { useEffect } from 'react'
-import { IEventSelect, useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
+import { useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
 import { useFetchAgents } from 'hooks/useFetchAgents'
+import { useSnackbar } from 'hooks/useSnackbar'
 
-const FormContent = ({ props }:
+const FormContent = ({ props, submiting }:
   {
     props: FormikProps<AgentBetLimitValuesProps>,
+    submiting: boolean
   }) => {
-  const { values, setFieldValue, submitForm } = useFormikContext<AgentBetLimitValuesProps>()
+  const { values, setFieldValue, } = useFormikContext<AgentBetLimitValuesProps>()
+
 
   const { agents, loadingAgents } = useFetchAgents()
   const { games, loadingGames } = useFetchGamesByAgent(values?.agentSelect)
@@ -25,6 +28,8 @@ const FormContent = ({ props }:
     gameId: values?.gameSelect,
     agentId: values?.agentSelect
   })
+
+
 
   useEffect(() => {
     setFieldValue("gameSelect", "")
@@ -133,10 +138,10 @@ const FormContent = ({ props }:
             </Select>
           </FormControl>
           <FormControl sx={{ width: 180 }}>
-            <InputLabel id="select-event-label">Select Sub Market</InputLabel>
+            <InputLabel id="select-event-label">Select Sub-Market</InputLabel>
             <Select
               id="select-event"
-              label="Select Sub Market"
+              label="Select Sub-Market"
               labelId="select-event-label"
               name="eventSelect"
               value={props.values.eventSelect}
@@ -152,9 +157,10 @@ const FormContent = ({ props }:
               )}
             </Select>
           </FormControl>
-          <Button type="submit" variant="contained" sx={{ textTransform: "uppercase" }}>confirm</Button>
+          <Button disabled={submiting} type="submit" variant="contained" sx={{ textTransform: "uppercase" }}>confirm</Button>
         </Box>
       </Box>
+
     </Form>
   )
 }
