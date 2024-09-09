@@ -12,6 +12,7 @@ import { IAgent } from 'types/dashboard'
 type SelectProps = {
   label: string
   value: any
+  disabled: boolean
 }[]
 
 const AgentSelect = ({
@@ -28,6 +29,7 @@ const AgentSelect = ({
       {
         label: curr.name,
         value: curr.id,
+        disabled: curr.isBlock,
       },
     ],
     []
@@ -62,6 +64,7 @@ const AgentSelect = ({
             <MenuItem
               key={index}
               value={item.value}
+              disabled={item.disabled}
             >
               {item.label}
             </MenuItem>

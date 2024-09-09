@@ -51,15 +51,6 @@ const GameSelect = ({
       }
       setSelectedAllGames?.(newValue)
     } else {
-      // if (selectedAllGames) {
-      //   const newSelectedGames = gamesList?.filter((id) => id.toString() !== gameId.toString())?.map(item => item.id)
-      //   console.log('go here', { newSelectedGames, selectGames, gamesList, gameId })
-
-      //   setSelectGames(newSelectedGames)
-      //   setSelectedAllGames?.(null)
-      //   handleSelectGame(newSelectedGames)
-      //   return
-      // }
       const toggleSelectGame = selectGames?.includes(gameId)
         ? selectGames.filter((item) => item.toString() !== gameId)
         : [...selectGames, gameId]

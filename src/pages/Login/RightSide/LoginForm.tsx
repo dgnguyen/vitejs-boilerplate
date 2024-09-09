@@ -14,16 +14,24 @@ import loginSchema from '../../../schema/loginSchema'
 import { loginUser, loadingLogin } from 'redux/reducers/user'
 
 import styles from './styles.module.scss'
+import { IUser, useUser } from 'context/UserContext'
+import { useGames } from 'context/GamesContext'
 
 const LoginForm = () => {
   const [show, setShow] = useState(false)
+  const { handleLogin } = useUser()
   const dispatch = useAppDispatch()
   const loginIsLoading = useSelector(loadingLogin)
   const navigate = useNavigate()
+  const { fetchGames } = useGames()
 
   const onSubmit = async (values: any, action: any) => {
     try {
-      await dispatch(loginUser(values))
+      await dispatch(loginUser(values, (newUserLogin: IUser) => {
+        handleLogin(newUserLogin)
+        fetchGames()
+      }
+      ))
       navigate(isSuperAdminOrAdmin() ? ROUTES.DASHBOARD : ROUTES.TRANSACTION)
     } catch (e) {
       action.setErrors({
@@ -103,7 +111,7 @@ const LoginForm = () => {
             // loading={loginIsLoading}
             variant='contained'
             fullWidth
-            // loadingPosition="start"
+          // loadingPosition="start"
           >
             <span>Login</span>
           </Button>

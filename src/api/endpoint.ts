@@ -1,6 +1,7 @@
 import { API_BASE_URL } from 'constants/endpoint'
 
 export const API_ENDPOINT = {
+  GET_GAMES_LIST: `${API_BASE_URL}/admin/game-types/get-list`,
   GET_AGENT: `${API_BASE_URL}/AdminAgent/getList`,
   UPDATE_AGENT: `${API_BASE_URL}/AdminAgent/update`,
   REMOVE_AGENT: `${API_BASE_URL}/AdminAgent/remove`,
@@ -17,4 +18,5 @@ export const API_ENDPOINT = {
   UPDATE_BET_LIMIT_AGENT: `${API_BASE_URL}/AdminAgent/betLimit/update`,
   EXPORT_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/exportHistoryChange`,
   GET_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/getHistoryChange`,
+  GET_MARKET_STATS: `${API_BASE_URL}/v3/MainMarket/statistic`,
 }
