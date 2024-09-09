@@ -104,6 +104,7 @@ export const agentReducer = createSlice({
         if (agent.id === payload) {
           return { ...agent, isBlock: false }
         }
+        return agent
       })
     },
     blockAgent: (state, { payload }) => {

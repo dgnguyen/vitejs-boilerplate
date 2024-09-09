@@ -150,7 +150,7 @@ const AgentList = () => {
                     data.map((row: IAgentData) => {
                       return (
                         <TableRow
-                          key={row.id}
+                          key={row?.id}
                           sx={{
                             '&:last-child td, &:last-child th': { border: 0 },
                           }}
@@ -190,7 +190,7 @@ const AgentList = () => {
                               fullWidth
                             >
                               <Select
-                                value={row.walletTypeId}
+                                value={row?.walletTypeId}
                                 label='Wallet Type'
                                 onChange={() => handleEditWalletType(row)}
                               >

@@ -11,8 +11,8 @@ type Props = {
 const TagField = ({ row, cancelEdit, loading, onChange }: Props) => {
   const [state, setState] = useState('')
   useEffect(() => {
-    setState(row.tag)
-  }, [row.tag, cancelEdit])
+    setState(row?.tag)
+  }, [row?.tag, cancelEdit])
 
   return (
     <TextField
