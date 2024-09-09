@@ -1,9 +1,6 @@
-import { Formik, } from 'formik'
-import {
-  Box,
-  Snackbar,
-} from '@mui/material'
-import "../style.scss"
+import { Formik } from 'formik'
+import { Box, Snackbar } from '@mui/material'
+import '../style.scss'
 import { useState } from 'react'
 import FormContent from './FormContent'
 import axios from 'axios'
@@ -12,7 +9,6 @@ import { headersContentType } from 'api/helpers'
 import { useSnackbar } from 'hooks/useSnackbar'
 import { useAppDispatch } from 'redux/store'
 import { addNewAgentBetLimit } from 'redux/reducers/agent'
-
 
 export type AgentBetLimitValuesProps = {
   minBet: string
@@ -25,12 +21,12 @@ export type AgentBetLimitValuesProps = {
 
 const FormBetLimit = () => {
   const initialState: AgentBetLimitValuesProps = {
-    minBet: "",
-    maxBet: "",
-    agentSelect: "",
-    gameSelect: "",
-    marketSelect: "",
-    eventSelect: ""
+    minBet: '',
+    maxBet: '',
+    agentSelect: '',
+    gameSelect: '',
+    marketSelect: '',
+    eventSelect: '',
   }
 
   const [submiting, setSubmiting] = useState(false)
@@ -42,18 +38,25 @@ const FormBetLimit = () => {
     setSubmiting(true)
     try {
       const valuesSendToAPI = {
-        partnerId: values?.agentSelect !== "all" ? values?.agentSelect : null,
+        partnerId: values?.agentSelect !== 'all' ? values?.agentSelect : null,
         minBet: values?.minBet,
         maxBet: values?.maxBet,
-        marketId: values?.marketSelect !== "all" ? (values?.marketSelect || null) : null,
-        eventId: values?.eventSelect !== "all" ? (values?.eventSelect || null) : null,
-        gameTypeId: values?.gameSelect !== "all" ? (values?.gameSelect || null) : null,
+        marketId:
+          values?.marketSelect !== 'all' ? values?.marketSelect || null : null,
+        eventId:
+          values?.eventSelect !== 'all' ? values?.eventSelect || null : null,
+        gameTypeId:
+          values?.gameSelect !== 'all' ? values?.gameSelect || null : null,
       }
       const json = JSON.stringify(valuesSendToAPI)
-      const response = await axios.post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
+      const response = await axios.post(
+        API_ENDPOINT.UPDATE_BET_LIMIT_AGENT,
+        json,
+        headersContentType
+      )
       if (response?.data?.isSuccess) {
         dispatch(addNewAgentBetLimit(response?.data?.data))
-        openSnackbar({ message: "New bet limit values has been changed" })
+        openSnackbar({ message: 'New bet limit values has been changed' })
       } else {
         setErrorSubmit(true)
         openSnackbar({ message: response?.data?.message })
@@ -67,17 +70,18 @@ const FormBetLimit = () => {
   }
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
-
-
   return (
-    <Box className="formAgentBetlimit-wrapper">
+    <Box className='formAgentBetlimit-wrapper'>
       <Formik
         initialValues={{ ...initialState }}
         onSubmit={onSubmit}
       >
-        {props => {
+        {(props) => {
           return (
-            <FormContent props={props} submiting={submiting} />
+            <FormContent
+              props={props}
+              submiting={submiting}
+            />
           )
         }}
       </Formik>

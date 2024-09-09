@@ -9,6 +9,9 @@ import Player from 'pages/Player'
 import PlayerTracking from 'pages/PlayerTracking'
 import Agent from 'pages/Agent'
 import AgentBetLimit from 'pages/Agent/AgentBetLimit'
+import MarketStats from 'pages/Market'
+import MarketSettings from 'pages/Market/MarketSettings'
+import TopMarket from 'pages/Market/TopMarket'
 
 const allRoutes: RouteObject[] = [
   {
@@ -46,6 +49,18 @@ const allRoutes: RouteObject[] = [
   {
     path: ROUTES.AGENT_BETLIMIT,
     element: <AuthRoute element={<AgentBetLimit />} />,
+  },
+  {
+    path: ROUTES.MARKET,
+    element: <AuthRoute element={<MarketStats />} />,
+  },
+  {
+    path: ROUTES.MARKET_SETTINGS,
+    element: <AuthRoute element={<MarketSettings />} />,
+  },
+  {
+    path: ROUTES.TOP_MARKET,
+    element: <AuthRoute element={<TopMarket />} />,
   },
   {
     path: '/*',
