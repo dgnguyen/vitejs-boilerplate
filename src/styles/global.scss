@@ -48,6 +48,11 @@ hr {
   height: 48px;
 }
 
+.MuiSelect-select,
+.MuiOutlinedInput-root {
+  background-color: white;
+}
+
 .MuiInputBase-input.MuiOutlinedInput-input {
   padding: 13px 6px;
 }

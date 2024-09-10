@@ -31,6 +31,7 @@ const FormBetLimit = () => {
 
   const [submiting, setSubmiting] = useState(false)
   const [errorSubmit, setErrorSubmit] = useState(false)
+  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
   const dispatch = useAppDispatch()
 
@@ -68,7 +69,6 @@ const FormBetLimit = () => {
       setSubmiting(false)
     }
   }
-  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
   return (
     <Box className='formAgentBetlimit-wrapper'>

@@ -77,7 +77,6 @@ const GameSelect = ({
         <Button
           key={game?.id}
           data-testid={`gameType-select-${game?.id}`}
-          // buttonStyle={selectGame.includes(type?.id) ? '' : 'secondary'}
           onClick={() => !disabled && toggleSelectGames(game?.id.toString())}
           disabled={disabled}
           variant={

@@ -1,7 +1,8 @@
 import * as signalR from '@microsoft/signalr'
+import { API_BASE_URL } from 'constants/endpoint'
 
 const connection = new signalR.HubConnectionBuilder()
-  .withUrl(`${process.env.REACT_APP_MAIN_API}/NotificationHub`, {
+  .withUrl(`${API_BASE_URL}/NotificationHub`, {
     skipNegotiation: true,
     transport: signalR.HttpTransportType.WebSockets,
   })
@@ -17,7 +18,7 @@ connection.onclose(async () => {
 export async function startSocketConnection() {
   try {
     await connection.start()
-    // eslint-disable-next-line no-console
+
     console.log('SignalR Connected successfully!')
     return { isConnected: true, connection }
   } catch (err) {

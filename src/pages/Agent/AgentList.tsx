@@ -9,6 +9,8 @@ import {
   NativeSelect,
   Paper,
   Select,
+  SelectChangeEvent,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -37,11 +39,15 @@ import MuiDialog from 'components/Commons/MuiDialog'
 import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
 import TagField from './TagField'
 import { IAgentData } from 'types/agent'
+import { useSnackbar } from 'hooks/useSnackbar'
+
 
 const AgentList = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
   const { data, hasMore, loading, isLoadingPage } = agentsData
   const dispatch = useAppDispatch()
+  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
+
 
   useEffect(() => {
     dispatch(getAgentsListAction())
@@ -69,16 +75,43 @@ const AgentList = () => {
 
   function toggleBlockAgent() {
     dispatch(
-      toggleStatusAgentAction(optionalState?.id, optionalState?.isBlock, () =>
+      toggleStatusAgentAction(optionalState?.id, optionalState?.isBlock, (error?: boolean) => {
         handleState({ key: 'block', value: false })
+        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        else {
+          openSnackbar({ message: 'An error has occurred while updating agent status' })
+        }
+      })
+    )
+  }
+
+  function handleEditWalletType(row: IAgentData, e: SelectChangeEvent) {
+    setOptionalState({ ...row, walletTypeId: e.target.value })
+    handleState({ key: 'editWalletType', value: true })
+  }
+
+
+  function handleSubmitNewWalletType() {
+    dispatch(
+      updateAgentAction(optionalState, 'walletTypeId', (error?: boolean) => {
+        handleState({ key: 'editWalletType', value: false })
+        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        else {
+          openSnackbar({ message: 'An error has occurred while updating agent status' })
+        }
+      }
       )
     )
   }
 
-  function handleEditWalletType(row: IAgentData) {
-    setOptionalState(row)
-    handleState({ key: 'editWalletType', value: true })
-  }
+  // to refactor
+
+  // function handleEditAgent({
+  //   row: IAgentData,
+  //   e?: SelectChangeEvent,
+  //   key: string
+  // }) 
+
 
   function handleChangeStatus(row: IAgentData) {
     setOptionalState(row)
@@ -95,8 +128,13 @@ const AgentList = () => {
 
   function handleSubmitNewTag() {
     dispatch(
-      updateAgentAction(optionalState, 'tag', () =>
+      updateAgentAction(optionalState, 'tag', (error?: boolean) => {
         handleState({ key: 'editTag', value: false })
+        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        else {
+          openSnackbar({ message: 'An error has occurred while updating agent status' })
+        }
+      }
       )
     )
   }
@@ -190,9 +228,9 @@ const AgentList = () => {
                               fullWidth
                             >
                               <Select
-                                value={row?.walletTypeId}
+                                value={row?.walletTypeId.toString()}
                                 label='Wallet Type'
-                                onChange={() => handleEditWalletType(row)}
+                                onChange={(e) => handleEditWalletType(row, e)}
                               >
                                 {walletTypeOptions.map((item) => (
                                   <MenuItem
@@ -244,7 +282,7 @@ const AgentList = () => {
           handleClose={() =>
             handleState({ key: 'editWalletType', value: false })
           }
-          handleSubmit={() => { }}
+          handleSubmit={handleSubmitNewWalletType}
         />
       )}
       {state.block && (
@@ -278,6 +316,15 @@ const AgentList = () => {
         />
       )}
       {!isLoadingPage && !data?.length && <EmptyData />}
+      {snackbar.open && (
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={2000}
+          onClose={closeSnackbar}
+          message={snackbar.message}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        />
+      )}
     </Box>
   )
 }

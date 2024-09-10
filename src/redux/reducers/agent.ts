@@ -99,21 +99,7 @@ export const agentReducer = createSlice({
       state.data = state.data.filter((agent: any) => agent.id !== payload)
       state.totalCount--
     },
-    unblockAgent: (state, { payload }) => {
-      state.data = state.data.map((agent: any) => {
-        if (agent.id === payload) {
-          return { ...agent, isBlock: false }
-        }
-        return agent
-      })
-    },
-    blockAgent: (state, { payload }) => {
-      state.data = state.data.map((agent: any) => {
-        if (agent.id === payload) {
-          return { ...agent, isBlock: true }
-        }
-      })
-    },
+
     updateAgentData: (state, { payload }) => {
       state.data = state.data.map((agent: any) => {
         if (agent.id === payload.id) {
@@ -141,8 +127,6 @@ export const {
   setSearchValuesAgent,
   setLoadingAgent,
   deleteAgent,
-  unblockAgent,
-  blockAgent,
   updateAgentData,
   setLoadingExport,
   resetAgentState,
@@ -209,7 +193,11 @@ export const deleteAgentAction =
   }
 
 export const updateAgentAction =
-  (updateAgent: IAgentData, key: keyof IAgentData, cb: () => void) =>
+  (
+    updateAgent: IAgentData,
+    key: keyof IAgentData,
+    cb: (error?: boolean) => void
+  ) =>
   async (dispatch: AppDispatch, getState: Function) => {
     dispatch(setLoadingAgent(true))
     const json = JSON.stringify({
@@ -228,13 +216,14 @@ export const updateAgentAction =
       }
     } catch (error) {
       console.error(error)
+      cb(true)
     } finally {
       dispatch(setLoadingAgent(false))
     }
   }
 
 export const toggleStatusAgentAction =
-  (id: number, isBlock: boolean, cb: () => void) =>
+  (id: number, isBlock: boolean, cb: (error?: boolean) => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     dispatch(setLoadingAgent(true))
     const json = JSON.stringify({
@@ -250,15 +239,12 @@ export const toggleStatusAgentAction =
         },
       })
       if (response?.data?.isSuccess) {
-        if (isBlock) {
-          dispatch(unblockAgent(response?.data?.data?.id))
-        } else {
-          dispatch(blockAgent(response?.data?.data?.id))
-        }
+        dispatch(updateAgentData(response?.data?.data))
         cb()
       }
     } catch (error) {
       console.error(error)
+      cb(true)
     } finally {
       dispatch(setLoadingAgent(false))
     }

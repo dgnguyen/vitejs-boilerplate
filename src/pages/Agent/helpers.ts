@@ -23,7 +23,7 @@ export const optionsStatus = [
 
 export const walletTypeOptions = [
   { value: 1, label: 'Seamless' },
-  { value: 'false', label: 'Transfer' },
+  { value: 2, label: 'Transfer' },
 ]
 
 export const searchTypeAgent = [

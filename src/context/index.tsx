@@ -6,7 +6,9 @@ const Contexts = (props: any) => {
 
   return (
     <GamesContextProvider>
-      <UserContextProvider>{children}</UserContextProvider>
+      <UserContextProvider>
+        {children}
+      </UserContextProvider>
     </GamesContextProvider>
   )
 }

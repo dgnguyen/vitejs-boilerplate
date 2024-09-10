@@ -19,4 +19,7 @@ export const API_ENDPOINT = {
   EXPORT_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/exportHistoryChange`,
   GET_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/getHistoryChange`,
   GET_MARKET_STATS: `${API_BASE_URL}/v3/MainMarket/statistic`,
+  GET_EVENT_MARKET_SETTINGS: `${API_BASE_URL}/v2/MainMarket/getallevents`,
+  UPDATE_EVENT_ODD_MARKET_SETTINGS: `${API_BASE_URL}/v2/MainMarket/updateodds`,
+  UDATE_BET_OPEN_CLOSE_MARKET_SETTINGS: `${API_BASE_URL}/MainMarket/updatebetopenclose`,
 }

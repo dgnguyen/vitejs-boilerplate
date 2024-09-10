@@ -1,4 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { API_ENDPOINT } from 'api/endpoint'
+import axios from 'axios'
+import { langEnum } from 'constants/market'
+import { AppDispatch } from 'redux/store'
 
 export type IMarketData = {
   dependancy: Array<number>
@@ -24,6 +28,8 @@ export interface MarketState {
   data?: IMarketData[]
   betAllowed: IBetAllowed | null
   reload: number
+  gameType: number | null
+  agent: number | null
 }
 
 const initialState: MarketState = {
@@ -32,6 +38,8 @@ const initialState: MarketState = {
   data: [],
   betAllowed: null,
   reload: 0,
+  gameType: null,
+  agent: null,
 }
 
 export const MarketReducer = createSlice({
@@ -70,9 +78,117 @@ export const MarketReducer = createSlice({
     handleReloadMarket: (state) => {
       state.reload += 1
     },
+    setAgentMarketSettings: (state, { payload }) => {
+      state.agent = payload
+    },
+    setGameTypeMarketSettings: (state, { payload }) => {
+      state.gameType = payload
+    },
   },
 })
 
-export const {} = MarketReducer.actions
+export const {
+  setLoading,
+  setData,
+  updateBetAllowedState,
+  handleReloadMarket,
+  setAgentMarketSettings,
+} = MarketReducer.actions
+
+export const getTickets = ({
+  gameType,
+  agent,
+}: {
+  agent: number
+  gameType: string | number
+}) => {
+  return async (dispatch: AppDispatch, getState: any) => {
+    try {
+      dispatch(setLoading(true))
+      const response = await axios.get(
+        `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}/${gameType}`
+      )
+      const data = response?.data?.data || null
+
+      if (data) dispatch(setData(data))
+      dispatch(setLoading(false))
+
+      return response.data
+    } catch (e) {
+      dispatch(setLoading(false))
+      throw e
+    }
+  }
+}
+
+export const updateTicketEventOdd = (
+  id: number,
+  num: number,
+  gameTypeId: number
+) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(setLoading(true))
+
+      const json = JSON.stringify({
+        oddId: id,
+        coefficient: num,
+        gameType: gameTypeId,
+      })
+
+      const response = await axios.post(
+        API_ENDPOINT.UPDATE_EVENT_ODD_MARKET_SETTINGS,
+        json,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
+      // dispatch(getTickets({ gameType: gameTypeId }))
+
+      return response.data
+    } catch (e) {
+      dispatch(setLoading(false))
+      throw e
+    }
+  }
+}
+
+export const updateBetAllowStatus = (
+  status: boolean,
+  contents: { [langEnum.eng]: string; [langEnum.kor]: string },
+  password?: string
+) => {
+  return async (dispatch: AppDispatch): Promise<{ isSuccess: boolean }> => {
+    const json = JSON.stringify({
+      status,
+      contents,
+      password,
+      translationName: 'betClosed',
+    })
+    try {
+      const response = await axios.post(
+        API_ENDPOINT.UDATE_BET_OPEN_CLOSE_MARKET_SETTINGS,
+        json
+      )
+
+      if (response.data.isSuccess) {
+        dispatch(
+          updateBetAllowedState({
+            status,
+            betAllowedMsgEnglish: contents[langEnum.eng],
+            betAllowedMsgKorean: contents[langEnum.kor],
+          })
+        )
+      }
+
+      return response.data
+    } catch (e) {
+      return { isSuccess: false }
+    }
+  }
+}
 
 export default MarketReducer.reducer
