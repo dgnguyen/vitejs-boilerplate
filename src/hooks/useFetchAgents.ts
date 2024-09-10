@@ -1,11 +1,10 @@
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
-import httpStatus from 'constants/httpStatus'
-import { useUser } from 'context/UserContext'
 import { useEffect, useState } from 'react'
+import { IAgentData } from 'types/agent'
 
 export function useFetchAgents() {
-  const [agents, setAgents] = useState([])
+  const [agents, setAgents] = useState<IAgentData[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 

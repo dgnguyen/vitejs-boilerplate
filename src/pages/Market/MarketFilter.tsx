@@ -7,9 +7,12 @@ import { Refresh } from '@mui/icons-material'
 import { GamesProps } from 'context/GamesContext'
 import { MarketStatProps } from 'hooks/useMarketStats'
 
-type Props = Omit<MarketStatProps, 'data' | 'error'>
+type OmitMarketProps = Omit<MarketStatProps, 'data' | 'error'>
+interface MarketFilterProps extends OmitMarketProps {
+  isMarketSettingsOrTopMarket?: boolean
+}
 
-const MarketFilter = (props: Props) => {
+const MarketFilter = (props: MarketFilterProps) => {
   const {
     loading,
     gamesList,

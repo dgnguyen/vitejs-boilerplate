@@ -17,6 +17,7 @@ import {
   transactionIsLoadingSelector,
   transactionIsPageLoadingSelector,
   transactionSearchValuesSelector,
+  updateTransactionThroughWS,
 } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
 import { getDashboardCardTitle } from './helpers'
@@ -27,6 +28,8 @@ import EmptyData from 'components/EmptyData'
 import { thousandSeparator } from 'helpers/currency'
 import { header } from 'helpers/playerTransaction'
 import { SearchTypeValue } from 'helpers/transaction'
+import { startSocketConnection } from 'services/signalR'
+import { UpdateCMSDataWS } from 'types/transaction'
 
 const TransactionContent = ({ playerId }: { playerId?: string }) => {
   const dispatch = useAppDispatch()
@@ -67,6 +70,17 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
       </Box>
     )
   }
+
+  useEffect(() => {
+    startSocketConnection().then(({ isConnected, connection }) => {
+      if (isConnected && connection) {
+        connection.on('updateTransactionDataCMS', (result: UpdateCMSDataWS) => {
+          console.log({ result })
+          dispatch(updateTransactionThroughWS(result))
+        })
+      }
+    })
+  }, [])
 
   return (
     <Box className='transaction-content-wrapper'>
@@ -113,7 +127,7 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
         </Box>
         <div
           id='scrollableDiv'
-          //  className={styles.accordion}
+        //  className={styles.accordion}
         >
           {loadingPageTransaction && <CircularProgress />}
           {!loadingPageTransaction && dataTransaction?.length > 0 && (

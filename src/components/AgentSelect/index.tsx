@@ -7,7 +7,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
-import { IAgent } from 'types/dashboard'
+import { IAgentData } from 'types/agent'
 
 type SelectProps = {
   label: string
@@ -24,7 +24,7 @@ const AgentSelect = ({
 }) => {
   const { agents, loadingAgents } = useFetchAgents()
   const agentsOptions = (agents || []).reduce(
-    (acc: SelectProps, curr: IAgent) => [
+    (acc: SelectProps, curr: IAgentData) => [
       ...acc,
       {
         label: curr.name,
