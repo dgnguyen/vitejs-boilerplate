@@ -13,8 +13,15 @@
 }
 
 .marketCard {
-  padding: 1px 32px 32px 32px;
-  font-size: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  > div {
+    background-color: white;
+    padding: 16px;
+    border-radius: var(--radius-base);
+  }
 }
 
 .headerTitleDiv {
@@ -62,11 +69,10 @@
 }
 
 .marketStat-content-wrapper {
-  display: grid;
-  grid-template-columns: repeat(2, 300px);
+  display: flex;
+  flex-direction: column;
   padding: 16px 0;
-  column-gap: 64px;
-  row-gap: 16px;
+  gap: 16px;
 }
 
 @media screen and (max-width: 1200px) {

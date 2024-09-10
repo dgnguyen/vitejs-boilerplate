@@ -1,0 +1,21 @@
+.modalHeader {
+  padding: 16px 19px;
+  min-height: 21px;
+  text-align: center;
+    & .modalTitle {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .modalClose {
+    position: absolute;
+    top: 14px;
+    right: 8px;
+    line-height: 1;
+    background: transparent;
+    border: 0;
+    box-shadow: 0;
+    cursor: pointer;
+    outline: none;
+    color: #9ba0a5;
+  }
+}

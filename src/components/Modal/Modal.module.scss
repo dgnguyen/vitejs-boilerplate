@@ -1,0 +1,62 @@
+.modalArea {
+  width: 100%;
+  height: 100%;
+  min-height: 179px;
+  background-color: #fff;
+  box-shadow: 0px 1px 4px #c2c2c280;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  opacity: 1;
+  overflow: auto;
+  z-index: 9;
+  position: relative;
+}
+.body {
+  padding: 0 20px 20px;
+}
+
+@media screen and (min-width: 250px) {
+  /* Center the Modal! */
+  .modalArea {
+    height: auto;
+    max-width: 1000px;
+    max-height: 90vh;
+  }
+}
+.success {
+  border-top: 6px solid #38cb99;
+}
+.error {
+  border-top: 6px solid #eb4f4f;
+}
+
+.modalCover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  transform: translateZ(0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:focus {
+    outline: none;
+  }
+  &.positionBottom {
+    align-items: flex-end;
+  }
+
+  &:before {
+    content: "";
+    background-color: rgba(127, 147, 181, 0.2);
+    backdrop-filter: blur(2px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+

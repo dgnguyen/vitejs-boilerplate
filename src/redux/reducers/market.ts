@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { langEnum } from 'constants/market'
+import { useGames } from 'context/GamesContext'
 import { AppDispatch } from 'redux/store'
 
 export type IMarketData = {
@@ -25,7 +26,7 @@ export type IBetAllowed = {
 export interface MarketState {
   loadingPage: boolean
   loading: boolean
-  data?: IMarketData[]
+  data?: IMarketData[][]
   betAllowed: IBetAllowed | null
   reload: number
   gameType: number | null
@@ -93,20 +94,22 @@ export const {
   updateBetAllowedState,
   handleReloadMarket,
   setAgentMarketSettings,
+  setGameTypeMarketSettings,
 } = MarketReducer.actions
 
-export const getTickets = ({
-  gameType,
-  agent,
-}: {
-  agent: number
-  gameType: string | number
-}) => {
-  return async (dispatch: AppDispatch, getState: any) => {
+export const getTickets = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
     try {
+      const { gameType, agent } = getState()?.market
+      console.log({ gameType, agent })
       dispatch(setLoading(true))
       const response = await axios.get(
-        `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}/${gameType}`
+        `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}/${gameType}`,
+        {
+          headers: {
+            partnerId: agent,
+          },
+        }
       )
       const data = response?.data?.data || null
 
