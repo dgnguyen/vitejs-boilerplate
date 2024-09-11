@@ -1,9 +1,7 @@
-
 import { Box, Divider, Tooltip, Typography } from '@mui/material'
 import Loader from 'components/Commons/Loader'
 import { marketNames } from './helpers'
 import { addCurrencyToPrice } from 'helpers/currency'
-
 
 import './style.scss'
 import { DataMarketStat } from 'hooks/useMarketStats'
@@ -15,8 +13,7 @@ type Props = {
 }
 
 const MarketStatisticContent = ({ error, loading, data }: Props) => {
-
-  if (error) return <Typography color="error">{error}</Typography>
+  if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <Loader isOutSideOfRelativeContainer />
 
   return (
@@ -26,69 +23,76 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
           display: 'flex',
           justifyContent: 'right',
           alignItems: 'center',
-          gap: '2px'
+          gap: '2px',
         }}
       >
-        <Typography variant="h6" sx={{ color: 'var(--blue-primary)' }}>
+        <Typography
+          variant='h6'
+          sx={{ color: 'var(--blue-primary)' }}
+        >
           RoundID :
         </Typography>
-        <Typography variant="h6"> {data?.roundId}</Typography>
+        <Typography variant='h6'> {data?.roundId}</Typography>
         <Box
           sx={{ borderRight: '3px solid lightgray' }}
-          height="20px"
+          height='20px'
           marginX={1}
         />
-        <Typography variant="h6" sx={{ color: 'var(--blue-primary)' }}>
+        <Typography
+          variant='h6'
+          sx={{ color: 'var(--blue-primary)' }}
+        >
           Total :
         </Typography>
-        <Typography variant="h6">
-          {' '}
-          {addCurrencyToPrice(data?.total)}
-        </Typography>
+        <Typography variant='h6'> {addCurrencyToPrice(data?.total)}</Typography>
       </Box>
       <Divider sx={{ borderColor: 'white', borderWidth: 1, marginY: 2 }} />
-      <Box className="marketCard">
-        {data?.allMarkets?.map(item => {
+      <Box className='marketCard'>
+        {data?.allMarkets?.map((item) => {
           return (
             <Box
               key={`game-${item.marketName}`}
               sx={{ paddingY: 2 }}
             >
-              <Box display="flex" justifyContent="space-between">
+              <Box
+                display='flex'
+                justifyContent='space-between'
+              >
                 <Typography
-                  className="market_section_title"
-                  textTransform="capitalize"
+                  className='market_section_title'
+                  textTransform='capitalize'
                   fontSize={20}
-                  lineHeight="38px"
-                  fontWeight="bold"
+                  lineHeight='38px'
+                  fontWeight='bold'
                 >
                   {item.marketName}
                 </Typography>
-                <Typography sx={{
-                  color: "var(--blue-primary)"
-                }}
-                  fontWeight="bold" fontSize={20}>
+                <Typography
+                  sx={{
+                    color: 'var(--blue-primary)',
+                  }}
+                  fontWeight='bold'
+                  fontSize={20}
+                >
                   {addCurrencyToPrice(item?.total)}
                 </Typography>
               </Box>
               <Divider />
-              <Box
-                className="marketStat-content-wrapper"
-              >
-                {item.events.map(eventMarket => {
+              <Box className='marketStat-content-wrapper'>
+                {item.events.map((eventMarket) => {
                   return (
                     <Box
                       key={`game-${item.marketName}-${eventMarket.eventName}`}
                       sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        flexWrap: 'nowrap'
+                        flexWrap: 'nowrap',
                       }}
                     >
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Typography
                           sx={{
-                            color: 'var(--blue-primary)'
+                            color: 'var(--blue-primary)',
                           }}
                         >
                           {marketNames[
@@ -97,11 +101,11 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                         </Typography>
                         <Box sx={{ marginLeft: 1 }}>
                           {eventMarket.maxRate ? (
-                            <span className="ticket_point_bracket">
+                            <span className='ticket_point_bracket'>
                               {`(${eventMarket.minRate} - ${eventMarket.maxRate})`}
                             </span>
                           ) : (
-                            <span className="ticket_point_bracket">
+                            <span className='ticket_point_bracket'>
                               {eventMarket.minRate
                                 ? `(${eventMarket.minRate})`
                                 : ''}
@@ -111,7 +115,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                       </Box>
                       <Box>
                         <Tooltip
-                          className="totalByEventName"
+                          className='totalByEventName'
                           title={addCurrencyToPrice(eventMarket.total)}
                         >
                           <Box
@@ -119,7 +123,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                               color:
                                 eventMarket.total > 0
                                   ? 'var(--red)'
-                                  : 'default'
+                                  : 'default',
                             }}
                           >
                             {addCurrencyToPrice(eventMarket.total)}
@@ -133,7 +137,6 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
             </Box>
           )
         })}
-
       </Box>
     </Box>
   )

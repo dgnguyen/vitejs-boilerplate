@@ -10,7 +10,7 @@ function authHeader() {
       config.headers.Token = `${token}`
       config.headers.PartnerId = 2
       // config.headers.Accept = 'application/json'
-      // config.headers['Content-Type'] = 'application/json-patch+json'
+      config.headers['Content-Type'] = 'application/json-patch+json'
     }
 
     return config

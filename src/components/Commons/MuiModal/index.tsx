@@ -18,16 +18,22 @@ export type Props = {
   handleClose: () => void
   open: boolean
   style?: {}
+  id?: string
+  className?: string
 }
 
 export default function MuiModal({
   children,
   handleClose,
   open,
+  id,
+  className = '',
   style = {},
 }: Props) {
   return (
     <Modal
+      className={className}
+      id={id}
       open={open}
       onClose={handleClose}
       aria-labelledby='modal-modal-title'

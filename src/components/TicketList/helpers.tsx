@@ -7,7 +7,7 @@ export const emptyMarker = {
   marketName: '',
   maxRate: 0,
   minRate: 0,
-  odds: null
+  odds: null,
 }
 export function prepareArray(array: any, size: any) {
   return array.reduce((chunks: any, item: any, i: any) => {

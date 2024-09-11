@@ -16,18 +16,26 @@ const TicketList: React.FC<IProps> = ({ ticket, ticketLength }) => {
   }, [ticketLength, ticket])
 
   return (
-    <Box className="ticket-list-wrapper">
+    <Box className='ticket-list-wrapper'>
       <div>
-        <Typography className={'market_section_title'}>{ticket[0].marketName}</Typography>
+        <Typography className={'market_section_title'}>
+          {ticket[0].marketName}
+        </Typography>
         <div className={'market_section'}>
           {sections?.map((ticket: any, i: number) => {
             if (ticket.length === 2) {
               ticket.push(emptyMarker)
             }
             return (
-              <div className={'d-flex row'} key={i}>
+              <div
+                className={'d-flex row'}
+                key={i}
+              >
                 {ticket.map((item: any) => (
-                  <Ticket ticket={item} key={item.id} />
+                  <Ticket
+                    ticket={item}
+                    key={item.id}
+                  />
                 ))}
               </div>
             )

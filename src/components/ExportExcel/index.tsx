@@ -16,12 +16,6 @@ import { exportDashboardDataAction } from 'redux/reducers/dashboard'
 import ExcelIcon from 'assets/images/icons/excel.svg'
 import ExportIcon from 'assets/images/icons/export-icon-white.svg'
 import { exportPlayers, getLoadingExportSelector } from 'redux/reducers/player'
-// import { getLoadingExportTransactionSelector } from 'store/transaction/selector'
-// import {
-//   exportSpecificPlayersTransactions,
-//   exportTransactions
-// } from 'store/transaction/transactionSlice'
-
 import { setupDownload } from './helpers'
 
 import './index.scss'

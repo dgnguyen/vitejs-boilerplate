@@ -19,7 +19,7 @@ export const GamesContext = React.createContext({
   gamesList: [] as GamesProps[],
   errorGames: false as boolean,
   loadingGames: false as boolean,
-  fetchGames: () => { }
+  fetchGames: () => {},
 })
 
 const getInitialState = () => {
@@ -39,9 +39,7 @@ export const GamesContextProvider = ({
   async function fetchGames() {
     try {
       setLoadingGames(true)
-      const response = await axios.get(
-        API_ENDPOINT.GET_GAMES_LIST
-      )
+      const response = await axios.get(API_ENDPOINT.GET_GAMES_LIST)
 
       const data = response?.data || null
 
@@ -63,14 +61,17 @@ export const GamesContextProvider = ({
   }, [gamesList])
 
   return (
-    <GamesContext.Provider value={{ gamesList, errorGames, loadingGames, fetchGames }}>
+    <GamesContext.Provider
+      value={{ gamesList, errorGames, loadingGames, fetchGames }}
+    >
       {children}
     </GamesContext.Provider>
   )
 }
 
 export const useGames = () => {
-  const { gamesList, errorGames, loadingGames, fetchGames } = useContext(GamesContext)
+  const { gamesList, errorGames, loadingGames, fetchGames } =
+    useContext(GamesContext)
   return {
     gamesList,
     errorGames,

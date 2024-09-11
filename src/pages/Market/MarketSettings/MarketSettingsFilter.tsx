@@ -1,5 +1,13 @@
 import { Refresh } from '@mui/icons-material'
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from '@mui/material'
 import AgentSelect from 'components/AgentSelect'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
@@ -9,7 +17,10 @@ import { useFetchAgents } from 'hooks/useFetchAgents'
 import { IGamesSelect } from 'hooks/useFetchGamesByAgent'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { setAgentMarketSettings, setGameTypeMarketSettings } from 'redux/reducers/market'
+import {
+  setAgentMarketSettings,
+  setGameTypeMarketSettings,
+} from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentData } from 'types/agent'
 
@@ -22,7 +33,7 @@ const MarketSettingsFilter = () => {
 
   useEffect(() => {
     if (!loadingAgents) {
-      dispatch(setAgentMarketSettings(agents.find(item => !item.isBlock)?.id))
+      dispatch(setAgentMarketSettings(agents.find((item) => !item.isBlock)?.id))
     }
   }, [loadingAgents])
 
@@ -39,17 +50,19 @@ const MarketSettingsFilter = () => {
   }
 
   const loading = false
-  function handleRefresh() {
-
-  }
-
-
-
-
+  function handleRefresh() {}
 
   return (
-    <Box display="flex" flexDirection="column" gap={1}>
-      <Box display="flex" gap={2} alignItems="center">
+    <Box
+      display='flex'
+      flexDirection='column'
+      gap={1}
+    >
+      <Box
+        display='flex'
+        gap={2}
+        alignItems='center'
+      >
         <DateBlock />
         <FormControl sx={{ width: 100 }}>
           <InputLabel id='select-agents-select-label'>Select agent</InputLabel>

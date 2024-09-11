@@ -27,11 +27,12 @@ const LoginForm = () => {
 
   const onSubmit = async (values: any, action: any) => {
     try {
-      await dispatch(loginUser(values, (newUserLogin: IUser) => {
-        handleLogin(newUserLogin)
-        fetchGames()
-      }
-      ))
+      await dispatch(
+        loginUser(values, (newUserLogin: IUser) => {
+          handleLogin(newUserLogin)
+          fetchGames()
+        })
+      )
       navigate(isSuperAdminOrAdmin() ? ROUTES.DASHBOARD : ROUTES.TRANSACTION)
     } catch (e) {
       action.setErrors({
@@ -111,7 +112,7 @@ const LoginForm = () => {
             // loading={loginIsLoading}
             variant='contained'
             fullWidth
-          // loadingPosition="start"
+            // loadingPosition="start"
           >
             <span>Login</span>
           </Button>
