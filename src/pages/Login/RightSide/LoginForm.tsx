@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-// import { LoadingButton } from '@mui/lab'
-import { Link, Button } from '@mui/material'
+import { Link, Button, CircularProgress } from '@mui/material'
 
 import { ROUTES } from 'constants/endpoint'
 import { Form, Formik } from 'formik'
@@ -109,11 +108,10 @@ const LoginForm = () => {
             key='loginButton'
             type='submit'
             disabled={loginIsLoading}
-            // loading={loginIsLoading}
             variant='contained'
             fullWidth
-            // loadingPosition="start"
           >
+            {loginIsLoading && <CircularProgress />}
             <span>Login</span>
           </Button>
           <Link

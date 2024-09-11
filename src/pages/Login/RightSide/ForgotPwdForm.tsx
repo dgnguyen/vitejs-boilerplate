@@ -1,5 +1,4 @@
-// impoyrt { LoadingButton } from '@mui/lab'
-import { Box, Link, Button, Typography } from '@mui/material'
+import { Box, Link, Button, CircularProgress, } from '@mui/material'
 
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
@@ -84,10 +83,9 @@ const ForgotPwdForm = () => {
               fullWidth
               key='sendMailResetPwd'
               sx={{ marginY: 2 }}
-              // loadingPosition="start"
               disabled={loading}
-              // loading={loading}
             >
+              {loading && <CircularProgress />}
               Send
             </Button>
           </Form>

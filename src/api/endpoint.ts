@@ -23,4 +23,8 @@ export const API_ENDPOINT = {
   UPDATE_EVENT_ODD_MARKET_SETTINGS: `${API_BASE_URL}/v2/MainMarket/updateodds`,
   UDATE_BET_OPEN_CLOSE_MARKET_SETTINGS: `${API_BASE_URL}/MainMarket/updatebetopenclose`,
   GET_LOG_MARKET_SETTINGs: `${API_BASE_URL}/MainMarket/getLogOpenClose`,
+  GET_TOP_MARKET: `${API_BASE_URL}/MainMarket/getdashboardmarket`,
+  DELETE_ACCOUNT: `${API_BASE_URL}/AdminUser/deleteUser`,
+  GET_LIST_ACCOUNT: `${API_BASE_URL}/AdminUser/getListUsers`,
+  UPDATE_ACCOUNT: `${API_BASE_URL}/AdminUser/updateUser`,
 }

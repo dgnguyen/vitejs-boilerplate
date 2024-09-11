@@ -1,0 +1,153 @@
+.topMarketPage {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerTitleDiv {
+  display: flex;
+  margin-bottom: 20px;
+
+  > button {
+    &:first-child {
+      margin-right: 20px;
+    }
+  }
+}
+
+.dateSelectDiv {
+  margin: 16px 0;
+  display: flex;
+  justify-content: flex-end;
+
+  > div,
+  > button {
+    margin-right: 15px;
+  }
+}
+
+.tableDiv {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 30px;
+  flex-grow: 1;
+  position: relative;
+}
+
+.table {
+  width: 100%;
+  font-size: 14px;
+  //border-spacing: 0 16px;
+  border-collapse: collapse;
+
+  th,
+  tr,
+  td {
+    font-weight: 400;
+    text-align: center;
+  }
+
+  thead {
+    color: var(--color-light-blue);
+
+    th {
+      padding-bottom: 16px;
+
+      img {
+        margin-right: 5px;
+        height: 8px;
+      }
+    }
+  }
+
+  tbody {
+    td {
+      border-top: 1px solid #c7ccdb;
+      padding: 16px 0;
+    }
+
+    tr {
+      &:last-child {
+        td {
+          padding-bottom: 0;
+        }
+      }
+
+      td {
+        &:not(:nth-of-type(1)):not(:nth-of-type(2)) {
+          text-align: center;
+        }
+
+        &:nth-of-type(1),
+        &:nth-of-type(2) {
+          text-transform: capitalize;
+        }
+
+        > p {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+
+          > div {
+            width: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+
+      &:nth-of-type(1),
+      &:nth-of-type(2),
+      &:nth-of-type(3) {
+        td {
+          font-weight: 600;
+
+          &:nth-of-type(1),
+          &:nth-of-type(2) {
+            > p {
+              color: var(--color-light-blue);
+
+              > div {
+                > span {
+                  border: 1px solid var(--color-light-blue);
+                  border-radius: 50%;
+                  width: 30px;
+                  height: 30px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &:nth-of-type(1) {
+        td {
+          &:nth-of-type(1),
+          &:nth-of-type(2) {
+            font-size: 18px;
+          }
+        }
+      }
+
+      &:nth-of-type(2) {
+        td {
+          &:nth-of-type(1),
+          &:nth-of-type(2) {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.canBeOrderedTH {
+  > div {
+    width: fit-content;
+    margin: auto;
+    cursor: pointer;
+  }
+}

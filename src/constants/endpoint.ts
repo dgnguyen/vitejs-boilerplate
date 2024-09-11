@@ -14,6 +14,7 @@ export const ROUTES = {
   MARKET: '/market',
   MARKET_SETTINGS: '/market/settings',
   TOP_MARKET: '/market/top-market',
-  ACCOUNT: '/account',
+  ACCOUNT_SETTINGS: '/account/settings',
+  ACCOUNT_MANAGEMENT: '/account/management',
   FORGOT_PASSWORD: '/forgot-password',
 } as const
