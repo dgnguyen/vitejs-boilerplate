@@ -63,7 +63,7 @@ export const getDrawerItems = () => {
     {
       label: 'Account',
       icon: <Account />,
-      href: ROUTES.ACCOUNT,
+      href: ROUTES.ACCOUNT_SETTINGS,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
   ] as MenuItemProps[]
