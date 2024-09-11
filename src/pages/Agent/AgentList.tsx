@@ -41,13 +41,11 @@ import TagField from './TagField'
 import { IAgentData } from 'types/agent'
 import { useSnackbar } from 'hooks/useSnackbar'
 
-
 const AgentList = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
   const { data, hasMore, loading, isLoadingPage } = agentsData
   const dispatch = useAppDispatch()
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
-
 
   useEffect(() => {
     dispatch(getAgentsListAction())
@@ -70,18 +68,24 @@ const AgentList = () => {
     }))
 
   function handleDeleteAgent() {
-    dispatch(deleteAgentAction(optionalState?.id, () => { }))
+    dispatch(deleteAgentAction(optionalState?.id, () => {}))
   }
 
   function toggleBlockAgent() {
     dispatch(
-      toggleStatusAgentAction(optionalState?.id, optionalState?.isBlock, (error?: boolean) => {
-        handleState({ key: 'block', value: false })
-        if (!error) openSnackbar({ message: 'Agent has been updated' })
-        else {
-          openSnackbar({ message: 'An error has occurred while updating agent status' })
+      toggleStatusAgentAction(
+        optionalState?.id,
+        optionalState?.isBlock,
+        (error?: boolean) => {
+          handleState({ key: 'block', value: false })
+          if (!error) openSnackbar({ message: 'Agent has been updated' })
+          else {
+            openSnackbar({
+              message: 'An error has occurred while updating agent status',
+            })
+          }
         }
-      })
+      )
     )
   }
 
@@ -90,17 +94,17 @@ const AgentList = () => {
     handleState({ key: 'editWalletType', value: true })
   }
 
-
   function handleSubmitNewWalletType() {
     dispatch(
       updateAgentAction(optionalState, 'walletTypeId', (error?: boolean) => {
         handleState({ key: 'editWalletType', value: false })
         if (!error) openSnackbar({ message: 'Agent has been updated' })
         else {
-          openSnackbar({ message: 'An error has occurred while updating agent status' })
+          openSnackbar({
+            message: 'An error has occurred while updating agent status',
+          })
         }
-      }
-      )
+      })
     )
   }
 
@@ -110,8 +114,7 @@ const AgentList = () => {
   //   row: IAgentData,
   //   e?: SelectChangeEvent,
   //   key: string
-  // }) 
-
+  // })
 
   function handleChangeStatus(row: IAgentData) {
     setOptionalState(row)
@@ -132,10 +135,11 @@ const AgentList = () => {
         handleState({ key: 'editTag', value: false })
         if (!error) openSnackbar({ message: 'Agent has been updated' })
         else {
-          openSnackbar({ message: 'An error has occurred while updating agent status' })
+          openSnackbar({
+            message: 'An error has occurred while updating agent status',
+          })
         }
-      }
-      )
+      })
     )
   }
 

@@ -20,7 +20,7 @@ const MarketStats = () => {
   } = useMarketStats()
 
   return (
-    <Box className="market-stats-wrapper">
+    <Box className='market-stats-wrapper'>
       <PageTitle title='Market Stats' />
       <MarketTab />
       <MarketFilter

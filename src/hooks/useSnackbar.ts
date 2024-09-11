@@ -5,10 +5,15 @@ const initialStateSnackbar = {
   message: '',
 }
 
-export function useSnackbar() {
-  const [snackbar, setSnackbar] = useState(initialStateSnackbar)
+type Props = {
+  open: boolean
+  message: string | React.ReactNode
+}
 
-  const openSnackbar = ({ message }: { message: string }) =>
+export function useSnackbar() {
+  const [snackbar, setSnackbar] = useState<Props>(initialStateSnackbar)
+
+  const openSnackbar = ({ message }: { message: string | React.ReactNode }) =>
     setSnackbar({
       message,
       open: true,

@@ -1,64 +1,83 @@
-import { Button, Switch } from '@mui/material'
+import { Button, FormControlLabel, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
+import Switch from 'components/Switch'
+import { History, Edit } from '@mui/icons-material'
 
-import HistoryIcon from "assets/images/icons/history.svg"
-import EditIcon from "assets/images/icons/Edit.svg"
+import './style.scss'
+import BetStatusHistoryModal from './BetStatusHistoryModal'
+import BetStatusEditModal from './BetStatusEditModal'
+// import BetStatusEditModal from './BetStatusEditModal'
+
+const initialState = {
+  open: false,
+  type: '',
+}
 
 const MarketSettingsMessage = () => {
   const betAllowed = useSelector((state: RootState) => state.market.betAllowed)
-  const [isBetAllowModalShowing, setBetAllowShowing] = useState(false) //Todo this is for unmounting the component on close.
-  const [isBetStatusHistoryModalShow, setBetStatusHistoryModalShow] = useState(false)
+  const [isBetAllowModalShowing, setBetAllowShowing] = useState({
+    open: false,
+    isMsgEdit: false,
+  })
+  const [isBetStatusHistoryModalShow, setBetStatusHistoryModalShow] =
+    useState(initialState)
 
-  if (!betAllowed) return null //BetAllowed object is null
+  if (!betAllowed) return null
   return (
-    <div className="betStatusSection">
+    <div className='betStatusSection'>
       <Button
-
-      // onClick={() => {
-      //   setBetStatusHistoryModalShow(true)
-      //   setTimeout(() => {
-      //     showModal('betStatusHistoryModal')
-      //   }, 300)
-      // }}
+        variant='outlined'
+        onClick={() => {
+          setBetStatusHistoryModalShow({
+            open: true,
+            type: 'betStatusHistoryModal',
+          })
+        }}
       >
-        <HistoryIcon />
+        <History />
       </Button>
       <Button
-      // onClick={() => {
-      //   setBetAllowShowing(true)
-      //   setTimeout(() => {
-      //     showModal('BetStatusEditModal', { isMsgEdit: true })
-      //   }, 300)
-      //   //Todo remove setTimeout
-      // }}
+        variant='outlined'
+        onClick={() => {
+          setBetAllowShowing({
+            open: true,
+            isMsgEdit: true,
+          })
+          //Todo remove setTimeout
+        }}
       >
-        <EditIcon />
-        <span>Message</span>
+        <Edit />
+        <Typography>Message</Typography>
       </Button>
-      <div className="toggleDiv">
-        <span className="onOffSpan">On/Off</span>
+      <div className='toggleDiv'>
+        <Typography className='onOffSpan'>On/Off</Typography>
         <Switch
-          checked={betAllowed.status}
-        // onChange={() => {
-        //   setBetAllowShowing(true)
-        //   setTimeout(() => {
-        //     showModal('BetStatusEditModal')
-        //   }, 300)
-        //   //Todo remove setTimeout
-        // }}
+          isChecked={betAllowed.status}
+          onChange={() => {
+            setBetAllowShowing({
+              open: true,
+              isMsgEdit: false,
+            })
+          }}
         />
       </div>
 
-      {/* {isBetAllowModalShowing && (
-        <BetStatusEditModal onModalHide={() => setBetAllowShowing(false)} />
-      )}
-      {isBetStatusHistoryModalShow && (
-        <BetStatusHistoryModal
-          onModalClose={() => setBetStatusHistoryModalShow(false)}
+      {isBetAllowModalShowing.open && (
+        <BetStatusEditModal
+          isMsgEdit={isBetAllowModalShowing.isMsgEdit}
+          onModalHide={() =>
+            setBetAllowShowing({ open: false, isMsgEdit: false })
+          }
         />
-      )} */}
+      )}
+
+      {isBetStatusHistoryModalShow.open && (
+        <BetStatusHistoryModal
+          onModalClose={() => setBetStatusHistoryModalShow(initialState)}
+        />
+      )}
     </div>
   )
 }

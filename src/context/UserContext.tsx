@@ -10,7 +10,7 @@ export type IUser = {
 
 export const UserContext = React.createContext({
   currentUser: null,
-  handleLogin: (user: IUser) => { }
+  handleLogin: (user: IUser) => {},
 })
 
 const getInitialState = () => {

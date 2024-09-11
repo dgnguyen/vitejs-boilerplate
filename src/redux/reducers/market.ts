@@ -27,7 +27,7 @@ export interface MarketState {
   loadingPage: boolean
   loading: boolean
   data?: IMarketData[][]
-  betAllowed: IBetAllowed | null
+  betAllowed: IBetAllowed
   reload: number
   gameType: number | null
   agent: number | null
@@ -37,7 +37,11 @@ const initialState: MarketState = {
   loadingPage: false,
   loading: false,
   data: [],
-  betAllowed: null,
+  betAllowed: {
+    status: true,
+    betAllowedMsgEnglish: '',
+    betAllowedMsgKorean: '',
+  },
   reload: 0,
   gameType: null,
   agent: null,
@@ -164,17 +168,22 @@ export const updateBetAllowStatus = (
   contents: { [langEnum.eng]: string; [langEnum.kor]: string },
   password?: string
 ) => {
-  return async (dispatch: AppDispatch): Promise<{ isSuccess: boolean }> => {
-    const json = JSON.stringify({
-      status,
-      contents,
-      password,
-      translationName: 'betClosed',
-    })
+  return async (
+    dispatch: AppDispatch,
+    getState: Function
+  ): Promise<{ isSuccess: boolean }> => {
+    const { agent, gameType } = getState().market
     try {
       const response = await axios.post(
         API_ENDPOINT.UDATE_BET_OPEN_CLOSE_MARKET_SETTINGS,
-        json
+        {
+          status,
+          contents,
+          password,
+          translationName: 'betClosed',
+          partnerId: agent,
+          gameTypeId: gameType,
+        }
       )
 
       if (response.data.isSuccess) {

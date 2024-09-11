@@ -31,7 +31,13 @@ import { SearchTypeValue } from 'helpers/transaction'
 import { startSocketConnection } from 'services/signalR'
 import { UpdateCMSDataWS } from 'types/transaction'
 
-const TransactionContent = ({ playerId }: { playerId?: string }) => {
+const TransactionContent = ({
+  playerId,
+  isTester,
+}: {
+  playerId?: string
+  isTester?: string
+}) => {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
   const { hasMore } = searchValues
@@ -46,7 +52,11 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
     if (playerId) {
       dispatch(
         setMultiSearchLoadTransaction(
-          [{ id: playerId }, { searchType: SearchTypeValue.agentPlayerId }],
+          [
+            { id: playerId },
+            { searchType: SearchTypeValue.agentPlayerId },
+            { isTester: isTester === 'test' },
+          ],
           true
         )
       )
@@ -127,7 +137,7 @@ const TransactionContent = ({ playerId }: { playerId?: string }) => {
         </Box>
         <div
           id='scrollableDiv'
-        //  className={styles.accordion}
+          //  className={styles.accordion}
         >
           {loadingPageTransaction && <CircularProgress />}
           {!loadingPageTransaction && dataTransaction?.length > 0 && (

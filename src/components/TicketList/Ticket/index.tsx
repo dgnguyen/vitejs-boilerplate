@@ -35,9 +35,7 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
     }
   })
 
-  useEffect(() => {
-
-  }, [])
+  useEffect(() => {}, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -85,7 +83,7 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
         eventId: ticket.eventId,
         marketId: ticket.marketId,
         ticket,
-        coefficient: val
+        coefficient: val,
       }
       dispatch(openModal(info))
     }
@@ -93,29 +91,27 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
 
   return (
     <>
-      <div
-        className={`ticket_row ${ticket.eventName ? "not_empty" : ''}`}
-      >
-        <div className="ticket_name">
+      <div className={`ticket_row ${ticket.eventName ? 'not_empty' : ''}`}>
+        <div className='ticket_name'>
           {marketNames[ticket.eventName as keyof typeof marketNames] ||
             ticket.eventName}
           <div>
             {ticket.maxRate ? (
-              <span className="ticket_point_bracket">
+              <span className='ticket_point_bracket'>
                 {`(${ticket.minRate} - ${ticket.maxRate})`}
               </span>
             ) : (
-              <span className="ticket_point_bracket">
+              <span className='ticket_point_bracket'>
                 {ticket.minRate ? `(${ticket.minRate})` : ''}
               </span>
             )}
           </div>
         </div>
-        <span className="ticket_odd">
+        <span className='ticket_odd'>
           {show ? (
             <OutsideClickHandler onOutsideClick={outSideClick}>
               <div
-                className="ticket_edit_modal"
+                className='ticket_edit_modal'
                 onClick={handleEditClick}
               >
                 <div>
@@ -128,13 +124,15 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
           )}
 
           {!showInput ? (
-            <span>{modalIsCancel ? ticket?.odds : (value ? value : ticket.odds)} </span>
+            <span>
+              {modalIsCancel ? ticket?.odds : value ? value : ticket.odds}{' '}
+            </span>
           ) : (
             <OutsideClickHandler onOutsideClick={outSideInputClick}>
               <input
                 ref={inputRef}
-                className={cx("ticket_input", {
-                  error_input: error.id === ticket.id && error.error
+                className={cx('ticket_input', {
+                  error_input: error.id === ticket.id && error.error,
                 })}
                 type={'text'}
                 onChange={handleChange}
@@ -148,7 +146,10 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
               />
             </OutsideClickHandler>
           )}
-          <span className="ticket_dotes" onClick={handleDotsClick}>
+          <span
+            className='ticket_dotes'
+            onClick={handleDotsClick}
+          >
             <DotesIcon />
           </span>
         </span>

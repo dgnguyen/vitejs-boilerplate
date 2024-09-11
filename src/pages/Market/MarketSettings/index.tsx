@@ -3,15 +3,21 @@ import PageTitle from 'components/Commons/PageTitle'
 import MarketTab from '../MarketTab'
 import MarketSettingsFilter from './MarketSettingsFilter'
 import MarketSettingsContent from './MarketSettingsContent'
-import MarketSettingsMessage from "./MarketSettingsMessage"
+import MarketSettingsMessage from './MarketSettingsMessage'
 
 const MarketSettings = () => {
   return (
-    <Box className="market-settings-wrapper">
+    <Box className='market-settings-wrapper'>
       <PageTitle title='Market Settings' />
       <MarketTab />
-      <MarketSettingsFilter />
-      <MarketSettingsMessage />
+      <Box
+        display='flex'
+        alignItems='baseline'
+        justifyContent='space-between'
+      >
+        <MarketSettingsFilter />
+        <MarketSettingsMessage />
+      </Box>
       <MarketSettingsContent />
     </Box>
   )

@@ -81,7 +81,7 @@ const Transaction = () => {
           title='Transaction'
           subTitle={
             isPageTransactionPlayer
-              ? `Player Id: ${playerId} / Is Test: ${isTester ? 'No' : 'Yes'}`
+              ? `Player Id: ${playerId} / Is Test: ${isTester === 'test' ? 'Yes' : 'No'}`
               : ''
           }
         />
@@ -103,7 +103,10 @@ const Transaction = () => {
         )}
       </Box>
       <FilterTransaction playerId={playerId} />
-      <TransactionContent playerId={playerId} />
+      <TransactionContent
+        playerId={playerId}
+        isTester={isTester}
+      />
     </Box>
   )
 }

@@ -8,13 +8,12 @@ import {
 import { IAgent } from 'types/dashboard'
 import { isTesterSelectOptions } from 'constants/filters'
 
-
 const TesterSelect = ({
   isTester,
   disabled,
   handleChangeIsTester,
 }: {
-  isTester: string,
+  isTester: string
   disabled?: boolean
   handleChangeIsTester: (event: SelectChangeEvent) => void
 }) => {

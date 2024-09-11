@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { ResponseBlob } from 'components/ExportExcel/helpers'
 import { FORMAT_DATE } from 'constants/date'
