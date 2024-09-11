@@ -9,7 +9,7 @@ import { useFetchAgents } from 'hooks/useFetchAgents'
 import { IGamesSelect } from 'hooks/useFetchGamesByAgent'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { setAgentMarketSettings } from 'redux/reducers/market'
+import { setAgentMarketSettings, setGameTypeMarketSettings } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentData } from 'types/agent'
 
@@ -26,16 +26,17 @@ const MarketSettingsFilter = () => {
     }
   }, [loadingAgents])
 
+  useEffect(() => {
+    handleChangeGameType(gamesList[0]?.id)
+  }, [])
+
   function handleChangeAgent(e: SelectChangeEvent) {
     dispatch(setAgentMarketSettings(e.target.value))
   }
 
   function handleChangeGameType(value: number) {
-    dispatch(setAgentMarketSettings(value))
+    dispatch(setGameTypeMarketSettings(value))
   }
-
-
-
 
   const loading = false
   function handleRefresh() {
@@ -47,7 +48,7 @@ const MarketSettingsFilter = () => {
 
 
   return (
-    <Box display="flex" flexDirection="column" gap={2}>
+    <Box display="flex" flexDirection="column" gap={1}>
       <Box display="flex" gap={2} alignItems="center">
         <DateBlock />
         <FormControl sx={{ width: 100 }}>

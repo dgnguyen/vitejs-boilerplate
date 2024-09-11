@@ -124,6 +124,7 @@ export const transactionReducer = createSlice({
             console.log({ ub, updateData })
             ub.status = (updateData.winAmount ? 2 : 1) as StatusTransaction
             ub.winAmount = updateData.winAmount || 0
+            ub.tickets[0].gameResult = updateData.gameResult
           } else {
             continue
           }

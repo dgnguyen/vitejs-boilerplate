@@ -1,0 +1,113 @@
+.market-settings-content-wrapper {
+  background: white;
+  border-radius: var(--radius-base);
+  padding: 8px;
+}
+
+// new modal style
+.marketName {
+  > p {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 36px;
+    color: #5863ff;
+    text-align: center;
+  }
+}
+.eventName {
+  color: #2a324b;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+  .ticket_point_bracket {
+    margin-left: 10px;
+  }
+}
+
+.modalText {
+  color: #2a324b;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+}
+
+//modal
+
+.succsessModal,
+.warningModal,
+.errorModal {
+  background: #ffffff;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  svg {
+    width: 69px;
+    height: 69px;
+  }
+}
+.succsessModal {
+  height: 277px;
+  min-width: 475px;
+  max-width: 800px;
+  padding: 48px 87px;
+  .modalText {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 38px;
+    text-align: center;
+    color: #5863ff;
+  }
+}
+.warningModal {
+  width: 467px;
+  padding: 48px;
+
+  .modalTitle {
+    font-weight: bold;
+    color: #5863ff;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    line-height: 38px;
+  }
+  .ticketName {
+    margin-top: 6px;
+    margin-bottom: 35px;
+    font-size: 18px;
+    line-height: 28px;
+    color: #2a324b;
+  }
+  .modalText {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 50px;
+    line-height: 28px;
+    color: #2a324b;
+  }
+  .buttonContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+}
+.errorModal {
+  height: 277px;
+  width: 473px;
+  padding: 48px 87px;
+  background: #fcecec;
+  border: 1px solid #dc4139;
+  .modalText {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 38px;
+    text-align: center;
+    color: #2a324b;
+  }
+}

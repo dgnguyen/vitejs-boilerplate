@@ -49,7 +49,7 @@ export default function MuiModal({
             onClick={handleClose}
           />
         </Box>
-        <Box sx={{ padding: '8px 24px 32px 24px' }}>{children}</Box>
+        <Box sx={{ padding: '8px 24px 16px 24px' }}>{children}</Box>
       </Box>
     </Modal>
   )

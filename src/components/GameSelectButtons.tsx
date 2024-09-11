@@ -15,7 +15,7 @@ const GameSelectButtons = (
   }: Props) => {
   const { gamesList } = useGames()
   return (
-    <Box marginY={2} display="flex" gap={2}>
+    <Box marginY={1} display="flex" gap={2}>
       {
         gamesList.map((item: GamesProps) =>
         (
