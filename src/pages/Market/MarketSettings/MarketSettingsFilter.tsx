@@ -24,7 +24,7 @@ import {
 import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentData } from 'types/agent'
 
-const MarketSettingsFilter = () => {
+const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
   const { gamesList } = useGames()
   const { agents, loadingAgents } = useFetchAgents()
   const dispatch = useAppDispatch()
@@ -50,7 +50,9 @@ const MarketSettingsFilter = () => {
   }
 
   const loading = false
-  function handleRefresh() {}
+  function handleRefresh() {
+    window.location.reload()
+  }
 
   return (
     <Box
@@ -74,6 +76,7 @@ const MarketSettingsFilter = () => {
             disabled={loadingAgents}
             onChange={handleChangeAgent}
           >
+            {isTopMarket && <MenuItem value="all">All</MenuItem>}
             {agents.map((agent: IAgentData) => (
               <MenuItem
                 key={agent.id}
@@ -94,11 +97,13 @@ const MarketSettingsFilter = () => {
           <Refresh />
         </Button>
       </Box>
-      <GameSelectButtons
-        loading={loadingAgents}
-        selectedGame={gameType}
-        handleSelectGame={handleChangeGameType}
-      />
+      {!isTopMarket &&
+        <GameSelectButtons
+          loading={loadingAgents}
+          selectedGame={gameType}
+          handleSelectGame={handleChangeGameType}
+        />
+      }
     </Box>
   )
 }

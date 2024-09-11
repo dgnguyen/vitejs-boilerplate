@@ -30,7 +30,7 @@ export interface MarketState {
   betAllowed: IBetAllowed
   reload: number
   gameType: number | null
-  agent: number | null
+  agent: number | string | null
 }
 
 const initialState: MarketState = {

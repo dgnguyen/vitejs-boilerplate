@@ -17,3 +17,15 @@ export type IMarketStat = {
   marketName: string
   total: number
 }
+
+export type ITopMarketObj = {
+  marketName: string
+  eventName: string
+  coefficient: number
+  playerCount: number
+  transactionCount: number
+  totalBet: number
+  totalWin: number
+  ggr: number
+  gameName: string
+}
