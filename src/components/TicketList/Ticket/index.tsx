@@ -24,7 +24,9 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
   const [error, setError] = useState({ id: 0, error: '' })
   const [show, setShow] = useState(false)
   const [showInput, setShowInput] = useState(false)
-  const modalIsOpen = useSelector((state: RootState) => state.modal.open)
+  const modalInfo = useSelector((state: RootState) => state.modal)
+  const modalIsOpen = modalInfo.open
+  const modalIsCancel = modalInfo.reset
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -32,6 +34,10 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
       inputRef.current.focus()
     }
   })
+
+  useEffect(() => {
+
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -122,7 +128,7 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
           )}
 
           {!showInput ? (
-            <span>{value ? value : ticket.odds} </span>
+            <span>{modalIsCancel ? ticket?.odds : (value ? value : ticket.odds)} </span>
           ) : (
             <OutsideClickHandler onOutsideClick={outSideInputClick}>
               <input
@@ -132,6 +138,12 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
                 })}
                 type={'text'}
                 onChange={handleChange}
+                onKeyDown={(e: any) => {
+                  if (e.key === 'Enter') {
+                    handleChange(e)
+                    outSideInputClick()
+                  }
+                }}
                 value={value || ''}
               />
             </OutsideClickHandler>

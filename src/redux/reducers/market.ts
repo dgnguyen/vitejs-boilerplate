@@ -50,6 +50,9 @@ export const MarketReducer = createSlice({
     setLoading: (state, action) => {
       state.loading = action?.payload
     },
+    setLoadingPage: (state, action) => {
+      state.loadingPage = action?.payload
+    },
     setData: (state, action) => {
       const {
         betAllowed,
@@ -91,6 +94,7 @@ export const MarketReducer = createSlice({
 export const {
   setLoading,
   setData,
+  setLoadingPage,
   updateBetAllowedState,
   handleReloadMarket,
   setAgentMarketSettings,
@@ -101,8 +105,7 @@ export const getTickets = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
     try {
       const { gameType, agent } = getState()?.market
-      console.log({ gameType, agent })
-      dispatch(setLoading(true))
+      dispatch(setLoadingPage(true))
       const response = await axios.get(
         `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}/${gameType}`,
         {
@@ -114,12 +117,11 @@ export const getTickets = () => {
       const data = response?.data?.data || null
 
       if (data) dispatch(setData(data))
-      dispatch(setLoading(false))
-
       return response.data
     } catch (e) {
-      dispatch(setLoading(false))
       throw e
+    } finally {
+      dispatch(setLoadingPage(false))
     }
   }
 }
@@ -148,13 +150,11 @@ export const updateTicketEventOdd = (
           },
         }
       )
-
-      // dispatch(getTickets({ gameType: gameTypeId }))
-
       return response.data
     } catch (e) {
-      dispatch(setLoading(false))
       throw e
+    } finally {
+      dispatch(setLoading(false))
     }
   }
 }
