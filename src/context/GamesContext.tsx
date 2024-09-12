@@ -13,13 +13,14 @@ export interface GamesProps {
   unavailableTo: string
   gameInfo?: any
   isTest: boolean
+  category: number
 }
 
 export const GamesContext = React.createContext({
   gamesList: [] as GamesProps[],
   errorGames: false as boolean,
   loadingGames: false as boolean,
-  fetchGames: () => {},
+  fetchGames: () => { },
 })
 
 const getInitialState = () => {

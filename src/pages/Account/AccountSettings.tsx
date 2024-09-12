@@ -51,7 +51,7 @@ const AccountSettings = () => {
     setLoadingPage(true)
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_MAIN_API}/AdminUser/getUser`
+        API_ENDPOINT.GET_ACCOUNT
       )
       if (!response?.data) {
         setError(true)
@@ -98,7 +98,6 @@ const AccountSettings = () => {
         isSuperAdmin={isSuperAdmin()}
       />
       <Box width="100%" display="flex" flexDirection="column" alignItems="center">
-
         <FormSettings
           isEditUser
           initialState={state}

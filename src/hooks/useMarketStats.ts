@@ -48,7 +48,10 @@ export function useMarketStats(): MarketStatProps {
   })
 
   const checkIsRunningBallGame = (gameType: number) => {
-    return gameType === CATEGORY_GAME.RUNNING_BALL
+    const gameInfo = gamesList.find(
+      (item) => item.id === gameType
+    ) as GamesProps
+    return gameInfo?.category === CATEGORY_GAME.RUNNING_BALL
   }
 
   const handleFilter = (key: string, event: SelectChangeEvent) =>
@@ -58,6 +61,7 @@ export function useMarketStats(): MarketStatProps {
     }))
 
   const isRunningBallGame = checkIsRunningBallGame(filterMarket?.gameType)
+  console.log({ isRunningBallGame, s: filterMarket })
 
   function handleSelectGame(value: string | number) {
     setFilterMarket((prevState: any) => ({
