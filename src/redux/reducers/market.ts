@@ -31,6 +31,7 @@ export interface MarketState {
   reload: number
   gameType: number | null
   agent: number | string | null
+  isTester: string
 }
 
 const initialState: MarketState = {
@@ -45,6 +46,7 @@ const initialState: MarketState = {
   reload: 0,
   gameType: null,
   agent: null,
+  isTester: 'true',
 }
 
 export const MarketReducer = createSlice({
@@ -92,6 +94,9 @@ export const MarketReducer = createSlice({
     setGameTypeMarketSettings: (state, { payload }) => {
       state.gameType = payload
     },
+    setIsTesterTopMarket: (state, { payload }) => {
+      state.isTester = payload
+    },
   },
 })
 
@@ -103,6 +108,7 @@ export const {
   handleReloadMarket,
   setAgentMarketSettings,
   setGameTypeMarketSettings,
+  setIsTesterTopMarket,
 } = MarketReducer.actions
 
 export const getTickets = () => {

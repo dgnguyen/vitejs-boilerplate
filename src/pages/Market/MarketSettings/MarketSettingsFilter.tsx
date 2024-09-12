@@ -8,17 +8,16 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
-import AgentSelect from 'components/AgentSelect'
 import DateBlock from 'components/DateBlock'
-import GameSelect from 'components/GameSelect'
 import GameSelectButtons from 'components/GameSelectButtons'
-import { GamesProps, useGames } from 'context/GamesContext'
+import TesterSelect from 'components/TesterSelect'
+import { useGames } from 'context/GamesContext'
 import { useFetchAgents } from 'hooks/useFetchAgents'
-import { IGamesSelect } from 'hooks/useFetchGamesByAgent'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import {
   setAgentMarketSettings,
+  setIsTesterTopMarket,
   setGameTypeMarketSettings,
 } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
@@ -29,7 +28,7 @@ const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
   const { agents, loadingAgents } = useFetchAgents()
   const dispatch = useAppDispatch()
   const marketSettingsSelector = useSelector((state: RootState) => state.market)
-  const { agent, gameType } = marketSettingsSelector
+  const { agent, gameType, isTester } = marketSettingsSelector
 
   useEffect(() => {
     if (!loadingAgents) {
@@ -47,6 +46,10 @@ const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
 
   function handleChangeGameType(value: number) {
     dispatch(setGameTypeMarketSettings(value))
+  }
+
+  function handleChangeIsTester(e: SelectChangeEvent) {
+    dispatch(setIsTesterTopMarket(e.target.value))
   }
 
   const loading = false
@@ -88,6 +91,13 @@ const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
             ))}
           </Select>
         </FormControl>
+        {isTopMarket &&
+          <TesterSelect
+            disabled={loading}
+            isTester={isTester}
+            handleChangeIsTester={handleChangeIsTester}
+          />
+        }
         <Button
           variant='contained'
           data-testid='refreshMarketSettingsFilter'
