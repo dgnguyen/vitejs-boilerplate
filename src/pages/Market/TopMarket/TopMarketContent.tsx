@@ -76,11 +76,11 @@ const TopMarketContent = () => {
   const [isLoading, setLoading] = useState(true)
   const [orderBy, setOrderBy] = useState(orderTypesEnum.totalBet)
   const marketSelector = useSelector((state: RootState) => state.market)
-  const { agent } = marketSelector
+  const { agent, isTester } = marketSelector
 
   useEffect(() => {
-    handleDataFetch()
-  }, [selectedDate, agent])
+    if (agent) handleDataFetch()
+  }, [selectedDate, agent, isTester])
 
   const handleDataFetch = async () => {
     setLoading(true)
@@ -99,6 +99,7 @@ const TopMarketContent = () => {
           searchType: searchDateType,
           orderBy: orderBy,
           partnerId: agent === "all" ? null : [agent],
+          isTester: isTester === "true" ? true : (isTester === 'false' ? false : null)
         },
       )
       setData(res.data)
