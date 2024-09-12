@@ -17,7 +17,6 @@ import AccountSettings from 'pages/Account/AccountSettings'
 import AccountsManagement from 'pages/Account/AccountsManagement'
 import { USER_ROLE } from 'constants/auth'
 
-
 const allRoutes: RouteObject[] = [
   {
     path: ROUTES.APP_ROOT,
@@ -45,23 +44,48 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.AGENT,
-    element: <AuthRoute element={<Agent />} role={USER_ROLE.SUPER_ADMIN} />,
+    element: (
+      <AuthRoute
+        element={<Agent />}
+        role={USER_ROLE.SUPER_ADMIN}
+      />
+    ),
   },
   {
     path: ROUTES.AGENT_BETLIMIT,
-    element: <AuthRoute element={<AgentBetLimit />} role={USER_ROLE.SUPER_ADMIN} />,
+    element: (
+      <AuthRoute
+        element={<AgentBetLimit />}
+        role={USER_ROLE.SUPER_ADMIN}
+      />
+    ),
   },
   {
     path: ROUTES.MARKET,
-    element: <AuthRoute element={<MarketStats />} role={USER_ROLE.SUPER_ADMIN} />,
+    element: (
+      <AuthRoute
+        element={<MarketStats />}
+        role={USER_ROLE.MASTER_AGENT}
+      />
+    ),
   },
   {
     path: ROUTES.MARKET_SETTINGS,
-    element: <AuthRoute element={<MarketSettings />} role={USER_ROLE.SUPER_ADMIN} />,
+    element: (
+      <AuthRoute
+        element={<MarketSettings />}
+        role={USER_ROLE.MASTER_AGENT}
+      />
+    ),
   },
   {
     path: ROUTES.TOP_MARKET,
-    element: <AuthRoute element={<TopMarket />} role={USER_ROLE.SUPER_ADMIN} />,
+    element: (
+      <AuthRoute
+        element={<TopMarket />}
+        role={USER_ROLE.MASTER_AGENT}
+      />
+    ),
   },
   {
     path: ROUTES.ACCOUNT_SETTINGS,
@@ -69,7 +93,12 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.ACCOUNT_MANAGEMENT,
-    element: <AuthRoute element={<AccountsManagement />} role={USER_ROLE.SUPER_ADMIN} />,
+    element: (
+      <AuthRoute
+        element={<AccountsManagement />}
+        role={USER_ROLE.SUPER_ADMIN}
+      />
+    ),
   },
   {
     path: '/*',

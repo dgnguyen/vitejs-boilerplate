@@ -2,12 +2,11 @@ import { Box, SelectChangeEvent, Typography } from '@mui/material'
 import AgentSelect from 'components/AgentSelect'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
-import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import {
   resetSearchValues,
-  setAgentTransaction,
   setAndLoadData,
   setSearchValue,
   transactionIsLoadingSelector,
@@ -98,9 +97,7 @@ const Transaction = () => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdminOrAdmin() && (
-          <AgentSelect handleChange={handleChangeAgent} />
-        )}
+        {isSuperAdmin() && <AgentSelect handleChange={handleChangeAgent} />}
       </Box>
       <FilterTransaction playerId={playerId} />
       <TransactionContent

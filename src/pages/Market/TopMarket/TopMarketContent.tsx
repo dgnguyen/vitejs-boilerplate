@@ -5,7 +5,7 @@ import {
   isToday,
   subHours,
   subMonths,
-  subWeeks
+  subWeeks,
 } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 import { ITopMarketObj } from 'types/market'
@@ -16,14 +16,14 @@ import { useSelector } from 'react-redux'
 import { Box, Button, CircularProgress, Typography } from '@mui/material'
 import DataPicker from 'components/DataPicker'
 
-import "./style.scss"
+import './style.scss'
 import { thousandSeparator } from 'helpers/currency'
 import EmptyData from 'components/EmptyData'
 import { marketNames } from 'constants/market'
 
-import UpArrowIcon from "assets/images/icons/UpArrow.svg"
-import BottomArrowIcon from "assets/images/icons/BottomArrow.svg"
-
+import UpArrowIcon from 'assets/images/icons/UpArrow.svg'
+import BottomArrowIcon from 'assets/images/icons/BottomArrow.svg'
+import { isSuperAdmin } from 'helpers/auth'
 
 enum searchTypesEnum {
   custom,
@@ -38,7 +38,6 @@ enum orderTypesEnum {
   ggr,
   totalBet,
 }
-
 
 const findDateType = (sD: string | Date, eD: string | Date) => {
   let searchType = searchTypesEnum.custom
@@ -67,7 +66,7 @@ const TopMarketContent = () => {
   const todayDate = new Date()
   const initialSelectedDataObj = {
     startDate: subHours(todayDate, 1),
-    endDate: addHours(todayDate, 1)
+    endDate: addHours(todayDate, 1),
   }
   const [selectedDate, setSelectedDate] = useState(initialSelectedDataObj)
   const [searchDateType, setSearchDateType] = useState(searchTypesEnum.hourly)
@@ -79,29 +78,27 @@ const TopMarketContent = () => {
   const { agent, isTester } = marketSelector
 
   useEffect(() => {
-    if (agent) handleDataFetch()
+    if ((isSuperAdmin() && agent) || !isSuperAdmin()) handleDataFetch()
   }, [selectedDate, agent, isTester])
 
   const handleDataFetch = async () => {
     setLoading(true)
     setData([])
-
+    console.log({ agent })
     try {
-      const res: AxiosResponse = await axios.post(
-        API_ENDPOINT.GET_TOP_MARKET,
-        {
-          searchFrom: searchDateType
-            ? null
-            : format(selectedDate.startDate, 'yyyy-MM-dd'),
-          searchTo: searchDateType
-            ? null
-            : format(selectedDate.endDate, 'yyyy-MM-dd'),
-          searchType: searchDateType,
-          orderBy: orderBy,
-          partnerId: agent === "all" ? null : [agent],
-          isTester: isTester === "true" ? true : (isTester === 'false' ? false : null)
-        },
-      )
+      const res: AxiosResponse = await axios.post(API_ENDPOINT.GET_TOP_MARKET, {
+        searchFrom: searchDateType
+          ? null
+          : format(selectedDate.startDate, 'yyyy-MM-dd'),
+        searchTo: searchDateType
+          ? null
+          : format(selectedDate.endDate, 'yyyy-MM-dd'),
+        searchType: searchDateType,
+        orderBy: orderBy,
+        partnerId: agent !== 'all' || agent === null ? null : [agent],
+        isTester:
+          isTester === 'true' ? true : isTester === 'false' ? false : null,
+      })
       setData(res.data)
     } catch (e) {
       console.error(e)
@@ -118,7 +115,7 @@ const TopMarketContent = () => {
 
         setSelectedDate({
           startDate: startDateObj,
-          endDate: endDateObj
+          endDate: endDateObj,
         })
       }
     },
@@ -128,7 +125,7 @@ const TopMarketContent = () => {
   const handleReset = () => {
     setSelectedDate(initialSelectedDataObj)
     setSearchDateType(searchTypesEnum.hourly)
-    setResetToggle(prev => !prev)
+    setResetToggle((prev) => !prev)
   }
 
   const handleOrderChange = (orderKey: orderTypesEnum) => {
@@ -141,8 +138,8 @@ const TopMarketContent = () => {
       // @ts-ignore
       a[orderTypesEnum[orderKey]] < b[orderTypesEnum[orderKey]]
         ? 1
-        // @ts-ignore
-        : a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
+        : // @ts-ignore
+          a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
           ? -1
           : 0
     )
@@ -153,7 +150,7 @@ const TopMarketContent = () => {
 
   return (
     <Box>
-      <div className="dateSelectDiv">
+      <div className='dateSelectDiv'>
         <Button
           onClick={() => {
             handleDateChange(
@@ -162,9 +159,11 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.hourly)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
-          variant={searchDateType === searchTypesEnum.hourly ? "contained" : "outlined"}
+          variant={
+            searchDateType === searchTypesEnum.hourly ? 'contained' : 'outlined'
+          }
         >
           1H
         </Button>
@@ -172,9 +171,11 @@ const TopMarketContent = () => {
           onClick={() => {
             handleDateChange(todayDate.toString(), todayDate.toString())
             setSearchDateType(searchTypesEnum.today)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
-          variant={searchDateType === searchTypesEnum.today ? "contained" : "outlined"}
+          variant={
+            searchDateType === searchTypesEnum.today ? 'contained' : 'outlined'
+          }
         >
           Today
         </Button>
@@ -186,9 +187,11 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.week)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
-          variant={searchDateType === searchTypesEnum.week ? "contained" : "outlined"}
+          variant={
+            searchDateType === searchTypesEnum.week ? 'contained' : 'outlined'
+          }
         >
           1W
         </Button>
@@ -200,9 +203,11 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.month)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
-          variant={searchDateType === searchTypesEnum.month ? "contained" : "outlined"}
+          variant={
+            searchDateType === searchTypesEnum.month ? 'contained' : 'outlined'
+          }
         >
           1M
         </Button>
@@ -216,112 +221,126 @@ const TopMarketContent = () => {
           reset={resetToggle}
           oneMonthSelection
           style={{
-            right: "200px"
+            right: '200px',
           }}
         />
 
         <Button
           className={'resetButton'}
-          variant="contained"
+          variant='contained'
           onClick={handleReset}
         >
           Reset
         </Button>
       </div>
-      <div className="tableDiv">
-        <Box sx={{ overflowY: "auto", height: "calc(100vh - 400px);" }}>
+      <div className='tableDiv'>
+        <Box sx={{ overflowY: 'auto', height: 'calc(100vh - 400px);' }}>
           {isLoading ? (
             <CircularProgress />
           ) : (
-            <table className="table">
+            <table className='table'>
               <thead>
                 <tr>
                   <th>Event</th>
                   <th>Market name</th>
                   <th>Game</th>
                   <th>Coefficient</th>
-                  <th className="canBeOrderedTH">
-                    <Box display="flex" gap={1} alignItems="center"
+                  <th className='canBeOrderedTH'>
+                    <Box
+                      display='flex'
+                      gap={1}
+                      alignItems='center'
                       onClick={() =>
                         handleOrderChange(orderTypesEnum.transactionCount)
                       }
                     >
-                      {
-                        orderBy === orderTypesEnum.transactionCount
-                          ? <UpArrowIcon />
-                          : <BottomArrowIcon />
-                      }
+                      {orderBy === orderTypesEnum.transactionCount ? (
+                        <UpArrowIcon />
+                      ) : (
+                        <BottomArrowIcon />
+                      )}
                       <Typography>Transaction count</Typography>
                     </Box>
                   </th>
                   <th>Player Count</th>
-                  <th className="canBeOrderedTH">
-                    <Box display="flex" gap={1} alignItems="center"
+                  <th className='canBeOrderedTH'>
+                    <Box
+                      display='flex'
+                      gap={1}
+                      alignItems='center'
                       onClick={() => handleOrderChange(orderTypesEnum.totalBet)}
                     >
-                      {
-                        orderBy === orderTypesEnum.totalBet
-                          ? <UpArrowIcon />
-                          : <BottomArrowIcon />
-                      }
+                      {orderBy === orderTypesEnum.totalBet ? (
+                        <UpArrowIcon />
+                      ) : (
+                        <BottomArrowIcon />
+                      )}
                       <Typography>Total Bet</Typography>
                     </Box>
                   </th>
                   <th>Total Win</th>
-                  <th className="canBeOrderedTH">
-                    <Box display="flex" gap={1} alignItems="center" onClick={() => handleOrderChange(orderTypesEnum.ggr)}>
-                      {
-                        orderBy === orderTypesEnum.ggr
-                          ? <UpArrowIcon />
-                          : <BottomArrowIcon />
-                      }
+                  <th className='canBeOrderedTH'>
+                    <Box
+                      display='flex'
+                      gap={1}
+                      alignItems='center'
+                      onClick={() => handleOrderChange(orderTypesEnum.ggr)}
+                    >
+                      {orderBy === orderTypesEnum.ggr ? (
+                        <UpArrowIcon />
+                      ) : (
+                        <BottomArrowIcon />
+                      )}
                       <Typography> GGR</Typography>
                     </Box>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {data?.length > 0 ? data?.map((item: ITopMarketObj, index) => {
-                  const {
-                    marketName,
-                    eventName,
-                    coefficient,
-                    playerCount,
-                    transactionCount,
-                    totalBet,
-                    totalWin,
-                    ggr,
-                    gameName = ''
-                  } = item
+                {data?.length > 0 ? (
+                  data?.map((item: ITopMarketObj, index) => {
+                    const {
+                      marketName,
+                      eventName,
+                      coefficient,
+                      playerCount,
+                      transactionCount,
+                      totalBet,
+                      totalWin,
+                      ggr,
+                      gameName = '',
+                    } = item
 
-                  return (
-                    <tr>
-                      <td>
-                        <p>
-                          <div>
-                            <span>{index + 1}</span>
-                          </div>{' '}
-                          {marketNames[eventName as keyof typeof marketNames] ||
-                            eventName.replace(',', ' +')}
-                        </p>
-                      </td>
-                      <td>{marketName}</td>
-                      <td>{gameName}</td>
-                      <td>{coefficient}</td>
-                      <td>{transactionCount}</td>
-                      <td>{playerCount}</td>
-                      <td>{thousandSeparator(totalBet)}</td>
-                      <td>{thousandSeparator(totalWin)}</td>
-                      <td>{thousandSeparator(ggr)}</td>
-                    </tr>
-                  )
-                })
-                  : <tr>
-                    <td colSpan={8}>
+                    return (
+                      <tr>
+                        <td>
+                          <p>
+                            <div>
+                              <span>{index + 1}</span>
+                            </div>{' '}
+                            {marketNames[
+                              eventName as keyof typeof marketNames
+                            ] || eventName.replace(',', ' +')}
+                          </p>
+                        </td>
+                        <td>{marketName}</td>
+                        <td>{gameName}</td>
+                        <td>{coefficient}</td>
+                        <td>{transactionCount}</td>
+                        <td>{playerCount}</td>
+                        <td>{thousandSeparator(totalBet)}</td>
+                        <td>{thousandSeparator(totalWin)}</td>
+                        <td>{thousandSeparator(ggr)}</td>
+                      </tr>
+                    )
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={9}>
                       <EmptyData />
                     </td>
                   </tr>
-                }
+                )}
               </tbody>
             </table>
           )}

@@ -3,7 +3,7 @@ import { Box, Button, SelectChangeEvent, TextField } from '@mui/material'
 import AgentSelect from 'components/AgentSelect'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
-import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { isSuperAdmin } from 'helpers/auth'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
@@ -12,7 +12,7 @@ import {
   setAndLoadPlayersData,
   setSearchValuesPlayer,
 } from 'redux/reducers/player'
-import { AppDispatch, RootState, useAppDispatch } from 'redux/store'
+import { RootState, useAppDispatch } from 'redux/store'
 import SearchSVG from 'assets/images/search.svg'
 
 const FilterPlayer = () => {
@@ -81,9 +81,7 @@ const FilterPlayer = () => {
         className='searchTextInput bgWhite'
         sx={{ width: '250px' }}
       />
-      {isSuperAdminOrAdmin() && (
-        <AgentSelect handleChange={handleChangeAgent} />
-      )}
+      {isSuperAdmin() && <AgentSelect handleChange={handleChangeAgent} />}
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

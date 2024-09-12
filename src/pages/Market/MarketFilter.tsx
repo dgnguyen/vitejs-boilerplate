@@ -14,6 +14,7 @@ import TesterSelect from 'components/TesterSelect'
 import { Refresh } from '@mui/icons-material'
 import { GamesProps } from 'context/GamesContext'
 import { MarketStatProps } from 'hooks/useMarketStats'
+import { isSuperAdmin } from 'helpers/auth'
 
 type OmitMarketProps = Omit<MarketStatProps, 'data' | 'error'>
 interface MarketFilterProps extends OmitMarketProps {
@@ -39,7 +40,7 @@ const MarketFilter = (props: MarketFilterProps) => {
         alignItems='center'
       >
         <DateBlock />
-        <AgentSelect handleChange={handleChangeAgent} />
+        {isSuperAdmin() && <AgentSelect handleChange={handleChangeAgent} />}
         {isRunningBallGame && (
           <FormControl
             sx={{ m: 1, minWidth: 150 }}

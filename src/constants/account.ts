@@ -7,7 +7,7 @@ export enum ROLES {
 
 export const PERMISSION_LEVEL = [
   { value: 1, label: ROLES.SUPER_ADMIN },
-  { value: 2, label: ROLES.ADMIN },
-  { value: 3, label: ROLES.MASTER_AGENT },
+  { value: 2, label: ROLES.MASTER_AGENT },
+  { value: 3, label: ROLES.ADMIN },
   { value: 4, label: ROLES.AGENT },
 ]
