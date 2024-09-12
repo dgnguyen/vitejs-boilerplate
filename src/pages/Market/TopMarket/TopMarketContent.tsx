@@ -80,7 +80,7 @@ const TopMarketContent = () => {
 
   useEffect(() => {
     handleDataFetch()
-  }, [selectedDate])
+  }, [selectedDate, agent])
 
   const handleDataFetch = async () => {
     setLoading(true)
@@ -98,7 +98,7 @@ const TopMarketContent = () => {
             : format(selectedDate.endDate, 'yyyy-MM-dd'),
           searchType: searchDateType,
           orderBy: orderBy,
-          partnerId: agent === null ? agent : [agent],
+          partnerId: agent === "all" ? null : [agent],
         },
       )
       setData(res.data)
@@ -228,7 +228,7 @@ const TopMarketContent = () => {
         </Button>
       </div>
       <div className="tableDiv">
-        <Box sx={{ overflowY: "auto", height: "calc(100vh - 285px);" }}>
+        <Box sx={{ overflowY: "auto", height: "calc(100vh - 400px);" }}>
           {isLoading ? (
             <CircularProgress />
           ) : (
