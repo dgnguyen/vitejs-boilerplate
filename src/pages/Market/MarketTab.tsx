@@ -23,7 +23,7 @@ const MarketTab = () => {
         variant={`${pathname === ROUTES.MARKET_SETTINGS ? 'contained' : 'outlined'}`}
         onClick={() => navigate(ROUTES.MARKET_SETTINGS)}
       >
-        Market settings
+        Market Settings
       </Button>
       <Button
         variant={`${pathname === ROUTES.TOP_MARKET ? 'contained' : 'outlined'}`}

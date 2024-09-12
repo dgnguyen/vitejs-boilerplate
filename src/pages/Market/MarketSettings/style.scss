@@ -1,7 +1,7 @@
 .market-settings-content-wrapper {
-  background: white;
-  border-radius: var(--radius-base);
-  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
 }
 
 // new modal style

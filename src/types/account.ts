@@ -9,6 +9,7 @@ export type IAccount = {
   createDate: Date
   updateDate: Date
   createdBy: string
+  agentName: string
 }
 
 export type IAccounts = {

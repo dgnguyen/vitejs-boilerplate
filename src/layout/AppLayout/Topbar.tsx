@@ -17,6 +17,7 @@ import { logout } from 'redux/reducers/user'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from 'context/UserContext'
 import { stringAvatar } from './helpers'
+import { ROUTES } from 'constants/endpoint'
 
 const pages = ['Products', 'Pricing', 'Blog']
 
@@ -36,7 +37,7 @@ function ResponsiveAppBar() {
   const settings = [
     {
       label: 'Profile',
-      onClick: () => {},
+      onClick: () => navigate(ROUTES.ACCOUNT_SETTINGS),
     },
     {
       label: 'Logout',
@@ -44,16 +45,11 @@ function ResponsiveAppBar() {
     },
   ]
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
-  }
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
   }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
-  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)

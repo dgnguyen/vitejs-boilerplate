@@ -61,7 +61,6 @@ export function useMarketStats(): MarketStatProps {
     }))
 
   const isRunningBallGame = checkIsRunningBallGame(filterMarket?.gameType)
-  console.log({ isRunningBallGame, s: filterMarket })
 
   function handleSelectGame(value: string | number) {
     setFilterMarket((prevState: any) => ({

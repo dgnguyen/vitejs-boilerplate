@@ -28,4 +28,5 @@ export const API_ENDPOINT = {
   GET_LIST_ACCOUNT: `${API_BASE_URL}/AdminUser/getListUsers`,
   UPDATE_ACCOUNT: `${API_BASE_URL}/AdminUser/updateUser`,
   GET_ACCOUNT: `${API_BASE_URL}/AdminUser/getUser`,
+  CREATE_ACCOUNT: `${API_BASE_URL}/AdminUser/createUser`,
 }

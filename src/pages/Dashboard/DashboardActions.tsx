@@ -21,7 +21,7 @@ import {
   setDate,
   setIsTester,
 } from 'redux/reducers/dashboard'
-import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { isSuperAdmin, isSuperAdminOrAdmin } from 'helpers/auth'
 import AgentSelect from 'components/AgentSelect'
 
 import './style.scss'
@@ -32,8 +32,8 @@ import { Refresh } from '@mui/icons-material'
 
 const DashboardActions = () => {
   const dispatch = useAppDispatch()
-  const dasboardFilter = useSelector(dashboardFilterSelector)
-  const { dateRange, agentSelected, isTester } = dasboardFilter
+  const dashboardFilter = useSelector(dashboardFilterSelector)
+  const { dateRange, agentSelected, isTester } = dashboardFilter
 
   const loadingDashboard = useSelector(dashboardLoadingSelector)
 
@@ -79,10 +79,12 @@ const DashboardActions = () => {
           oneMonthSelection
         />
       </Box>
-      {isSuperAdminOrAdmin() &&
-        window.location.pathname === ROUTES.DASHBOARD_AGENT && (
+      {
+        isSuperAdmin() &&
+        (
           <AgentSelect handleChange={handleChangeAgent} />
-        )}
+        )
+      }
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

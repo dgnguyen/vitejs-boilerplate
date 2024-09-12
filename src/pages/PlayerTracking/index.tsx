@@ -111,12 +111,8 @@ const PlayerTracking = () => {
           <Typography>Add New Player tracking ID</Typography>
         </Button>
       </Box>
-      <PaginateInfo
-        currentView={data.length}
-        loading={loading}
-        totalCount={totalCount}
-      />
-      <Box>
+
+      <Box marginTop={1}>
         {data?.length > 0 && (
           <TableContainer component={Paper}>
             <InfiniteScroll
@@ -242,6 +238,11 @@ const PlayerTracking = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         />
       )}
+      <PaginateInfo
+        currentView={data.length}
+        loading={loading}
+        totalCount={totalCount}
+      />
     </Box>
   )
 }

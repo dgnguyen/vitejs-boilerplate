@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import { emptyMarker, prepareArray } from './helpers'
 import Ticket from './Ticket'
 import { IMarketData } from 'redux/reducers/market'
-import { Box, Typography } from '@mui/material'
+import { Box, Divider, Typography } from '@mui/material'
 
 type IProps = {
   ticket: IMarketData[]
@@ -21,14 +21,13 @@ const TicketList: React.FC<IProps> = ({ ticket, ticketLength }) => {
         <Typography className={'market_section_title'}>
           {ticket[0].marketName}
         </Typography>
+        <Divider sx={{ marginY: 1 }} />
         <div className={'market_section'}>
           {sections?.map((ticket: any, i: number) => {
-            if (ticket.length === 2) {
-              ticket.push(emptyMarker)
-            }
+
             return (
               <div
-                className={'d-flex row'}
+                className={'row'}
                 key={i}
               >
                 {ticket.map((item: any) => (
