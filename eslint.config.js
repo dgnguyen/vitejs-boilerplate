@@ -6,4 +6,4 @@ export default [
       'prefer-const': 'error',
     },
   },
-]
+];

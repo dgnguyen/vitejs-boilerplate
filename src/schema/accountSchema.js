@@ -1,4 +1,4 @@
-import * as Yup from 'yup'
+import * as Yup from 'yup';
 
 const passwordSchema = Yup.string()
   .test(
@@ -6,7 +6,7 @@ const passwordSchema = Yup.string()
     'Password must be at least 8 characters',
     (password) => !password || password.length >= 8
   )
-  .matches(/^\S*$/, 'Whitespace is not allowed')
+  .matches(/^\S*$/, 'Whitespace is not allowed');
 
 const coreSchema = {
   name: Yup.string(),
@@ -14,17 +14,17 @@ const coreSchema = {
     .matches(/^[A-Z0-9.+_-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format')
     .test('email-valid', 'Invalid email format', function (value) {
       if (value) {
-        const userName = value?.split('@')
+        const userName = value?.split('@');
         return (
           userName[0].replaceAll('.', '')?.length > 0 &&
           userName[0].replaceAll('-', '')?.length > 0 &&
           userName[0].replaceAll('+', '')?.length > 0
-        )
+        );
       }
-      return true
+      return true;
     }),
   surName: Yup.string(),
-}
+};
 
 const accountSchema = Yup.object().shape({
   ...coreSchema,
@@ -41,7 +41,7 @@ const accountSchema = Yup.object().shape({
       function (value) {
         return this.parent.oldPassword
           ? this.parent.oldPassword !== value
-          : true
+          : true;
       }
     )
 
@@ -54,6 +54,6 @@ const accountSchema = Yup.object().shape({
     })
     .concat(passwordSchema)
     .oneOf([Yup.ref('password'), null], 'Confirm passwords must match'),
-})
+});
 
-export default accountSchema
+export default accountSchema;

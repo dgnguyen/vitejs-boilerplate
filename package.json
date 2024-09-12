@@ -90,8 +90,12 @@
     "vitest": "^2.0.5"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
-      "eslint --max-warnings=0 --no-ignore"
-    ]
+    "src/**/*.+(ts|tsx)": [
+      "eslint --fix"
+    ],
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "*.js": "eslint --cache --fix"
   }
 }
