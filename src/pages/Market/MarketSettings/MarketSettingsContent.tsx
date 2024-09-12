@@ -5,14 +5,11 @@ import { useSelector } from 'react-redux'
 import { getTickets, updateTicketEventOdd } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 import './style.scss'
-import { openModal, closeModal } from 'redux/reducers/modal'
+import { closeModal } from 'redux/reducers/modal'
 import { useSnackbar } from 'hooks/useSnackbar'
-import CheckIcon from 'assets/images/icons/Check.svg'
-// import { showModal } from 'components/Modal/utils'
-// import MarketModals from './Modals'
 import MuiModal from 'components/Commons/MuiModal'
-import { fontWeight } from '@mui/system'
 import Loader from 'components/Commons/Loader'
+import { isSuperAdmin } from 'helpers/auth'
 
 const MarketSettingsContent = () => {
   const dispatch = useAppDispatch()
@@ -28,7 +25,9 @@ const MarketSettingsContent = () => {
   }
 
   useEffect(() => {
-    if (agent && gameType) dispatch(getTickets())
+    //if superadmin, need agent and gametype to fetch tickets, other user just need gametype
+    if ((isSuperAdmin() && agent && gameType) || (!isSuperAdmin() && gameType))
+      dispatch(getTickets())
   }, [agent, gameType])
 
   const handleModalCancel = (cancel?: boolean) => {

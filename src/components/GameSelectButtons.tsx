@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material'
 import { GamesProps, useGames } from 'context/GamesContext'
 
 type Props = {
-  loading: boolean
+  loading?: boolean
   selectedGame: number | null
   handleSelectGame: (e: number) => void
 }

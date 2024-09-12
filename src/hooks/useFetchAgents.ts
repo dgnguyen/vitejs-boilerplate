@@ -12,13 +12,13 @@ export function useFetchAgents() {
     try {
       setLoading(true)
 
-      const { data } = await axios.post(API_ENDPOINT.GET_AGENT, {
+      const result = await axios.post(API_ENDPOINT.GET_AGENT, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      if (data.isSuccess) {
-        setAgents(data?.data)
+      if (result?.data?.isSuccess) {
+        setAgents(result?.data?.data)
       }
     } catch (err: any) {
       console.error({ err })

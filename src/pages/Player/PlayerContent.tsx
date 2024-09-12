@@ -32,9 +32,6 @@ const PlayerContent = () => {
     (state: RootState) => state.player
   )
   const { agentSelected, totalCount } = searchValues
-  // const filter = useSelector(filterDataSelector)
-  // const { hasMore, agentSelected, selectedGameType, searchType } = filter
-  // const data = useSelector(playerDataSelector)
   const loading = useSelector(loadingPlayerSelector)
   const loadingPage = useSelector(loadingPagePlayerSelector)
   const error = useSelector(errorPlayerSelector)
@@ -101,7 +98,7 @@ const PlayerContent = () => {
         >
           <div
             id='scrollableDiv'
-          //  className={styles.accordion}
+            //  className={styles.accordion}
           >
             {loadingPage && <CircularProgress />}
             {!loadingPage && data?.length > 0 && (

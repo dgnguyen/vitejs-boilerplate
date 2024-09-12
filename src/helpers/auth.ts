@@ -32,8 +32,6 @@ export const isSuperAdmin = () => {
 }
 
 export function haveRightToAccess(role: number) {
-  const currentPage = window.location.pathname
-
   return !!(getUser().role <= role)
 }
 

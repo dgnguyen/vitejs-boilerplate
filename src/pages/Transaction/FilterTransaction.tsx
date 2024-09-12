@@ -70,7 +70,6 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
             />
 
             <Select
-              // style={{ width: '190px' }}
               value={searchType.toString()}
               onChange={handleChangeSearchType}
               className='bgWhite'
