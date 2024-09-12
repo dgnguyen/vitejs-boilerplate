@@ -21,6 +21,8 @@ import accountSchema from 'schema/accountSchema'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
 
 import { PasswordInput } from './Input'
+import SelectAgentForAccount from './SelectAgentForAccount'
+import { API_ENDPOINT } from 'api/endpoint'
 
 export type ValuesForm = {
   email: string
@@ -62,7 +64,7 @@ const FormSettings = ({
     try {
       if (isCreateUser) {
         const response = await axios.post(
-          `${process.env.REACT_APP_MAIN_API}/AdminUser/createUser`,
+          API_ENDPOINT.CREATE_ACCOUNT,
           values
         )
         setError(!response?.data?.isSuccess)
@@ -77,11 +79,12 @@ const FormSettings = ({
         const valuesSendToAPI = isSuperEditUser
           ? {
             permissionLevel,
+            partnerId,
             ...rest
           }
           : rest
         const response = await axios.post(
-          `${process.env.REACT_APP_MAIN_API}/AdminUser/updateUser`,
+          API_ENDPOINT.UPDATE_ACCOUNT,
           valuesSendToAPI
         )
         setError(!response?.data?.isSuccess)
@@ -100,6 +103,7 @@ const FormSettings = ({
     }
   }
 
+
   return (
     <Box>
       <Formik
@@ -107,181 +111,194 @@ const FormSettings = ({
         validationSchema={accountSchema}
         onSubmit={onSubmit}
       >
-        {props => (
-          <Form
-            id="accountSettingsFormSuperAdmin"
-            autoComplete="off"
-            onSubmit={props.handleSubmit}
-          >
-            <Box>
-              <Typography
-                sx={{
-                  fontSize: '24px',
-                  fontWeight: 700,
-                  color: 'black',
-                  marginBottom: '24px'
-                }}
-              >
-                {isCreateUser
-                  ? 'Create New Account'
-                  : `Edit Account "${props.values.name}"`}
-              </Typography>
-              {isSuperEditUser && (
-                <MuiMessage
-                  message="(*) If email or permission level were changed, user will need to re-login again"
-                  error
-                />
-              )}
-              {isEditUser && (
-                <MuiMessage message="(*) Email can not be changed" error />
-              )}
-              {!isEditUser && (
-                <MuiMessage message="(*) Only Arctx email can be added" error />
-              )}
-              {(isCreateUser || isSuperEditUser) && (
-                <MuiMessage
-                  message="(*) Special characters allowed in email : period (.), underscore(_), hyphen (-) and plus sign (+)"
-                  error
-                />
-              )}
-              <Box display="flex" flexDirection="column">
-                <MuiTextFieldFormik
-                  id="email"
-                  handleChange={props.handleChange}
-                  handleBlur={props.handleBlur}
-                  value={props.values.email}
-                  name="email"
-                  label="Email"
-                  touched={props.touched}
-                  errors={props.errors}
-                  required
-                  disabled={isEditUser}
-                />
-
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  marginTop={4}
-                  width="100%"
-                  gap={2}
-                  justifyContent="space-between"
+        {props => {
+          return (
+            <Form
+              id="accountSettingsFormSuperAdmin"
+              autoComplete="off"
+              onSubmit={props.handleSubmit}
+            >
+              <Box>
+                <Typography
+                  sx={{
+                    fontSize: '24px',
+                    fontWeight: 700,
+                    color: 'black',
+                    marginBottom: '24px'
+                  }}
                 >
+                  {isCreateUser
+                    ? 'Create New Account'
+                    : `Edit Account "${props.values.name}"`}
+                </Typography>
+                {isSuperEditUser && (
+                  <MuiMessage
+                    message="(*) If email or permission level were changed, user will need to re-login again"
+                    error
+                  />
+                )}
+                {isEditUser && (
+                  <MuiMessage message="(*) Email can not be changed" error />
+                )}
+                {!isEditUser && (
+                  <MuiMessage message="(*) Only Arctx email can be added" error />
+                )}
+                {(isCreateUser || isSuperEditUser) && (
+                  <MuiMessage
+                    message="(*) Special characters allowed in email : period (.), underscore(_), hyphen (-) and plus sign (+)"
+                    error
+                  />
+                )}
+                <Box display="flex" flexDirection="column">
                   <MuiTextFieldFormik
-                    id="name"
+                    id="email"
                     handleChange={props.handleChange}
                     handleBlur={props.handleBlur}
-                    value={props.values.name}
-                    name="name"
-                    label="Name"
+                    value={props.values.email}
+                    name="email"
+                    label="Email"
                     touched={props.touched}
                     errors={props.errors}
                     required
+                    disabled={isEditUser}
                   />
 
-                  <MuiTextFieldFormik
-                    id="surName"
-                    handleChange={props.handleChange}
-                    handleBlur={props.handleBlur}
-                    value={props.values.surname}
-                    name="surname"
-                    label="Surname"
-                    touched={props.touched}
-                    errors={props.errors}
-                    required
-                  />
-                </Box>
-                {(isSuperEditUser || isCreateUser) && (
-                  <Box sx={{ marginTop: 4 }}>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    marginTop={4}
+                    width="100%"
+                    gap={2}
+                    justifyContent="space-between"
+                  >
                     <FormControl fullWidth>
-                      <InputLabel id="changePermissionLevel">
-                        Permission Level
-                      </InputLabel>
-                      <Select
-                        labelId="changePermissionLevel"
-                        id="changePermissionLevel-Select"
-                        value={props.values.permissionLevel}
-                        label="Permission Level"
-                        onChange={props.handleChange}
-                        name="permissionLevel"
-                      >
-                        {PERMISSION_LEVEL.map((item) => (
-                          <MenuItem key={item.value} value={item.value}>
-                            {item.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      <MuiTextFieldFormik
+                        id="name"
+                        handleChange={props.handleChange}
+                        handleBlur={props.handleBlur}
+                        value={props.values.name}
+                        name="name"
+                        label="Name"
+                        touched={props.touched}
+                        errors={props.errors}
+                        required
+                      />
                     </FormControl>
+                    <FormControl fullWidth>
+                      <MuiTextFieldFormik
+                        id="surName"
+                        handleChange={props.handleChange}
+                        handleBlur={props.handleBlur}
+                        value={props.values.surname}
+                        name="surname"
+                        label="Surname"
+                        touched={props.touched}
+                        errors={props.errors}
+                        required
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box sx={{ marginTop: 4, gap: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    {(isSuperEditUser || isCreateUser) && (
+                      <FormControl fullWidth>
+                        <InputLabel id="changePermissionLevel">
+                          Permission Level
+                        </InputLabel>
+                        <Select
+                          labelId="changePermissionLevel"
+                          id="changePermissionLevel-Select"
+                          value={props.values.permissionLevel}
+                          label="Permission Level"
+                          onChange={props.handleChange}
+                          name="permissionLevel"
+                        >
+                          {PERMISSION_LEVEL.map((item) => (
+                            <MenuItem key={item.value} value={item.value}>
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    )}
+                    {
+                      isSuperEditUser &&
+                      (
+                        <SelectAgentForAccount props={props} />
+                      )
+                    }
+                  </Box>
+
+
+                </Box>
+                {(isCreateUser || isEditUser) && (
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    marginTop={4}
+                    gap={2}
+                  >
+                    {isEditUser && (
+                      <PasswordInput
+                        id={'oldPassword'}
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        value={props.values.oldPassword}
+                        error={!!props.errors.oldPassword}
+                        helperText={props.errors.oldPassword}
+                        label="Old Password"
+                        disabled={loading}
+                      />
+                    )}
+                    <PasswordInput
+                      id={'password'}
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      value={props.values.password}
+                      error={!!props.errors.password}
+                      helperText={props.errors.password}
+                      label="New Password"
+                      disabled={loading}
+                      {...(isCreateUser && { required: true })}
+                    />
+                    <PasswordInput
+                      id={'confirmPassword'}
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      value={props.values.confirmPassword}
+                      error={!!props.errors.confirmPassword}
+                      helperText={props.errors.confirmPassword}
+                      label="Confirm New Password"
+                      disabled={loading}
+                      {...(isCreateUser && { required: true })}
+                    />
                   </Box>
                 )}
               </Box>
-              {(isCreateUser || isEditUser) && (
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  marginTop={4}
-                  gap={2}
-                >
-                  {isEditUser && (
-                    <PasswordInput
-                      id={'oldPassword'}
-                      onChange={props.handleChange}
-                      onBlur={props.handleBlur}
-                      value={props.values.oldPassword}
-                      error={!!props.errors.oldPassword}
-                      helperText={props.errors.oldPassword}
-                      label="Old Password"
-                      disabled={loading}
-                    />
-                  )}
-                  <PasswordInput
-                    id={'password'}
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.password}
-                    error={!!props.errors.password}
-                    helperText={props.errors.password}
-                    label="New Password"
-                    disabled={loading}
-                    {...(isCreateUser && { required: true })}
-                  />
-                  <PasswordInput
-                    id={'confirmPassword'}
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.confirmPassword}
-                    error={!!props.errors.confirmPassword}
-                    helperText={props.errors.confirmPassword}
-                    label="Confirm New Password"
-                    disabled={loading}
-                    {...(isCreateUser && { required: true })}
-                  />
-                </Box>
-              )}
-            </Box>
 
-            <Box display="flex" justifyContent="flex-end" gap={2}>
-              {!isEditUser && (
+              <Box display="flex" justifyContent="flex-end" gap={2} sx={{ "& > button": { textTransform: "uppercase" } }}>
+                {!isEditUser && (
+                  <Button
+                    sx={{ marginY: 2 }}
+                    disabled={loading}
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </Button>
+                )}
                 <Button
-                  sx={{ marginY: 2 }}
+                  type="submit"
+                  variant="contained"
+                  key="updateAccount"
+                  sx={{ marginY: 2, width: '200px' }}
                   disabled={loading}
-                  onClick={handleClose}
                 >
-                  Cancel
+                  {loading && <CircularProgress />}
+                  {isCreateUser ? 'Create' : 'Update'}
                 </Button>
-              )}
-              <Button
-                type="submit"
-                variant="contained"
-                key="updateAccount"
-                sx={{ marginY: 2, width: '200px' }}
-                disabled={loading}
-              >
-                {loading && <CircularProgress />}
-                {isCreateUser ? 'Create' : 'Update'}
-              </Button>
-            </Box>
-          </Form>
-        )}
+              </Box>
+            </Form>
+          )
+        }}
       </Formik>
       {message && error && <MuiMessage message={message} error={error} />}
     </Box>

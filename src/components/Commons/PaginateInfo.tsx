@@ -14,9 +14,10 @@ const PaginateInfo = ({
       display='flex'
       flexDirection='row'
       gap={1}
-      justifyContent='flex-end'
+      justifyContent='start'
       marginY={1}
       width='100%'
+      sx={{ fontWeight: "bold" }}
     >
       <Box>Total Search Count : </Box>
       <Box>{loading ? <CircularProgress size={12} /> : totalCount}</Box>

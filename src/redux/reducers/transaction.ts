@@ -113,14 +113,12 @@ export const transactionReducer = createSlice({
       state.searchValues = { ...state.searchValues, ...payLoadSearchState }
     },
     updateTransactionThroughWS: (state, { payload }) => {
-      console.log({ payload })
       for (const ub of state.data) {
         if (ub.status === 0) {
           const updateData = payload.find(
             (i: any) => i.betLogId === ub.betLogId
           )
           if (updateData) {
-            console.log({ ub, updateData })
             ub.status = (updateData.winAmount ? 2 : 1) as StatusTransaction
             ub.winAmount = updateData.winAmount || 0
             ub.tickets[0].gameResult = updateData.gameResult

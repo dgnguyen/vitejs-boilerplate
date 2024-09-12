@@ -119,7 +119,7 @@ const AccountsManagement = () => {
   if (error)
     return (
       <Box>
-        Error loading page or you don't have permission to use this feature
+        Error loading page
       </Box>
     )
   return (
@@ -176,6 +176,7 @@ const AccountsManagement = () => {
                   <TableRow>
                     {[
                       'ID',
+                      'Agent Name',
                       'Name',
                       'Surname',
                       'Email',
@@ -202,6 +203,9 @@ const AccountsManagement = () => {
                         {row?.userId}
                       </TableCell>
                       <TableCell component="th" scope="row">
+                        {row?.agentName}
+                      </TableCell>
+                      <TableCell component="th" scope="row">
                         {row?.name}
                       </TableCell>
                       <TableCell component="th" scope="row">
@@ -219,7 +223,6 @@ const AccountsManagement = () => {
                       <TableCell component="th" scope="row">
                         {row?.createdBy}
                       </TableCell>
-
                       <TableCell component="th" scope="row">
                         {getUserRole(row?.permissionLevel)}
                       </TableCell>
@@ -259,7 +262,7 @@ const AccountsManagement = () => {
             open={state.edit}
           >
             <FormSettings
-              isSuperEditUser
+              isSuperEditUser={isSuperAdmin()}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
               cb={message => openSnackbar({ message })}

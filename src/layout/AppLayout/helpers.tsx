@@ -28,7 +28,7 @@ export const getDrawerItems = () => {
       label: 'Dashboard',
       icon: <Dashboard />,
       href: ROUTES.DASHBOARD,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: true,
     },
     {
       label: 'Transaction',
@@ -58,7 +58,7 @@ export const getDrawerItems = () => {
       label: 'Market',
       icon: <Market />,
       href: ROUTES.MARKET,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
     },
     {
       label: 'Account',
