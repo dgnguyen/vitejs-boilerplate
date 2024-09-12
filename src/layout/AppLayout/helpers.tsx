@@ -46,13 +46,13 @@ export const getDrawerItems = () => {
       label: 'Player Tracking',
       icon: <PlayerTracking />,
       href: ROUTES.PLAYER_TRACKING,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: true,
     },
     {
       label: 'Agent',
       icon: <Agent />,
       href: ROUTES.AGENT,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
     },
     {
       label: 'Market',

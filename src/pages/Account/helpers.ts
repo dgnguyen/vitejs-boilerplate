@@ -5,9 +5,9 @@ export function getUserRole(role: number): ROLES {
     case 1:
       return ROLES.SUPER_ADMIN
     case 2:
-      return ROLES.ADMIN
-    case 3:
       return ROLES.MASTER_AGENT
+    case 3:
+      return ROLES.ADMIN
     case 4:
     default:
       return ROLES.AGENT

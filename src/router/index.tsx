@@ -41,7 +41,7 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.PLAYER_TRACKING,
-    element: <AuthRoute element={<PlayerTracking />} role={USER_ROLE.ADMIN} />,
+    element: <AuthRoute element={<PlayerTracking />} />,
   },
   {
     path: ROUTES.AGENT,
@@ -49,7 +49,7 @@ const allRoutes: RouteObject[] = [
   },
   {
     path: ROUTES.AGENT_BETLIMIT,
-    element: <AuthRoute element={<AgentBetLimit />} />,
+    element: <AuthRoute element={<AgentBetLimit />} role={USER_ROLE.SUPER_ADMIN} />,
   },
   {
     path: ROUTES.MARKET,

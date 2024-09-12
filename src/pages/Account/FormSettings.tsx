@@ -221,7 +221,7 @@ const FormSettings = ({
                       </FormControl>
                     )}
                     {
-                      isSuperEditUser &&
+                      (isCreateUser || isSuperEditUser) &&
                       (
                         <SelectAgentForAccount props={props} />
                       )

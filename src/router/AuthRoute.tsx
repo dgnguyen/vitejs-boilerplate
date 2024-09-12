@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
-import { Navigate, Route, RouteProps } from 'react-router-dom'
+import { Navigate, RouteProps } from 'react-router-dom'
 
 import { ROUTES } from 'constants/endpoint'
 import * as auth from 'helpers/auth'

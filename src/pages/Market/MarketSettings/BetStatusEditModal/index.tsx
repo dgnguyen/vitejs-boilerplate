@@ -155,7 +155,7 @@ const BetStatusEditModal: React.FC<{
                     <div className={styles.textAreaDiv}>
                       <label htmlFor={'textarea'}>Message</label>
                       <textarea
-                        maxLength={150}
+                        maxLength={250}
                         name={'textarea'}
                         onChange={(e) => {
                           setTextAreaLength(e.target.textLength)
@@ -165,11 +165,10 @@ const BetStatusEditModal: React.FC<{
                           })
                         }}
                         value={contents[selectedLang]}
-                        placeholder={`Only ${
-                          selectedLang === langEnum.eng ? 'English' : 'Korean'
-                        } letters allowed.`}
+                        placeholder={`Only ${selectedLang === langEnum.eng ? 'English' : 'Korean'
+                          } letters allowed.`}
                       />
-                      <p>150/{textAreaLength}</p>
+                      <p>250/{textAreaLength}</p>
                     </div>
                   )}
 
