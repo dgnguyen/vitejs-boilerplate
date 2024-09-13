@@ -7,13 +7,13 @@ import {
   MenuItem,
   Select,
   Snackbar,
-  Typography
+  Typography,
 } from '@mui/material'
 
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
-import { PERMISSION_LEVEL, ROLES } from 'constants/account'
+import { PERMISSION_LEVEL } from 'constants/account'
 import { Form, Formik } from 'formik'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
@@ -23,6 +23,7 @@ import { addNewAccount, updateAccount } from 'redux/reducers/account'
 import { PasswordInput } from './Input'
 import SelectAgentForAccount from './SelectAgentForAccount'
 import { API_ENDPOINT } from 'api/endpoint'
+import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
 
 export type ValuesForm = {
   email: string
@@ -38,7 +39,7 @@ export type ValuesForm = {
 
 type Props = {
   initialState: ValuesForm
-  handleClose: () => void
+  handleClose?: () => void
   cb: (message: string) => void
   isCreateUser?: boolean
   isEditUser?: boolean
@@ -51,7 +52,7 @@ const FormSettings = ({
   isCreateUser = false,
   isEditUser = false,
   isSuperEditUser = false,
-  cb
+  cb,
 }: Props) => {
   const { loading, setLoading, error, setError, message, setMessage } =
     useSimpleForm()
@@ -63,10 +64,7 @@ const FormSettings = ({
     setMessage('')
     try {
       if (isCreateUser) {
-        const response = await axios.post(
-          API_ENDPOINT.CREATE_ACCOUNT,
-          values
-        )
+        const response = await axios.post(API_ENDPOINT.CREATE_ACCOUNT, values)
         setError(!response?.data?.isSuccess)
         setMessage(response?.data?.message)
         if (response?.data?.isSuccess) {
@@ -74,14 +72,13 @@ const FormSettings = ({
           cb('Account has been created successfully')
         }
       } else if (isSuperEditUser || isEditUser) {
-        const { isActive, partnerId, permissionLevel, ...rest } = values
+        const { isActive, partnerId, ...rest } = values
 
         const valuesSendToAPI = isSuperEditUser
           ? {
-            permissionLevel,
-            partnerId,
-            ...rest
-          }
+              partnerId,
+              ...rest,
+            }
           : rest
         const response = await axios.post(
           API_ENDPOINT.UPDATE_ACCOUNT,
@@ -103,7 +100,9 @@ const FormSettings = ({
     }
   }
 
-
+  const permissionLevelAllowed = PERMISSION_LEVEL.filter(
+    (item) => item.value > getUser().role
+  )
   return (
     <Box>
       <Formik
@@ -111,11 +110,11 @@ const FormSettings = ({
         validationSchema={accountSchema}
         onSubmit={onSubmit}
       >
-        {props => {
+        {(props) => {
           return (
             <Form
-              id="accountSettingsFormSuperAdmin"
-              autoComplete="off"
+              id='accountSettingsFormSuperAdmin'
+              autoComplete='off'
               onSubmit={props.handleSubmit}
             >
               <Box>
@@ -124,7 +123,7 @@ const FormSettings = ({
                     fontSize: '24px',
                     fontWeight: 700,
                     color: 'black',
-                    marginBottom: '24px'
+                    marginBottom: '24px',
                   }}
                 >
                   {isCreateUser
@@ -133,30 +132,34 @@ const FormSettings = ({
                 </Typography>
                 {isSuperEditUser && (
                   <MuiMessage
-                    message="(*) If email or permission level were changed, user will need to re-login again"
+                    message='(*) If email or permission level were changed, user will need to re-login again'
                     error
                   />
                 )}
                 {isEditUser && (
-                  <MuiMessage message="(*) Email can not be changed" error />
-                )}
-                {!isEditUser && (
-                  <MuiMessage message="(*) Only Arctx email can be added" error />
-                )}
-                {(isCreateUser || isSuperEditUser) && (
                   <MuiMessage
-                    message="(*) Special characters allowed in email : period (.), underscore(_), hyphen (-) and plus sign (+)"
+                    message='(*) Email can not be changed'
                     error
                   />
                 )}
-                <Box display="flex" flexDirection="column">
+
+                {(isCreateUser || isSuperEditUser) && (
+                  <MuiMessage
+                    message='(*) Special characters allowed in email : period (.), underscore(_)'
+                    error
+                  />
+                )}
+                <Box
+                  display='flex'
+                  flexDirection='column'
+                >
                   <MuiTextFieldFormik
-                    id="email"
+                    id='email'
                     handleChange={props.handleChange}
                     handleBlur={props.handleBlur}
                     value={props.values.email}
-                    name="email"
-                    label="Email"
+                    name='email'
+                    label='Email'
                     touched={props.touched}
                     errors={props.errors}
                     required
@@ -164,21 +167,21 @@ const FormSettings = ({
                   />
 
                   <Box
-                    display="flex"
-                    flexDirection="row"
+                    display='flex'
+                    flexDirection='row'
                     marginTop={4}
-                    width="100%"
+                    width='100%'
                     gap={2}
-                    justifyContent="space-between"
+                    justifyContent='space-between'
                   >
                     <FormControl fullWidth>
                       <MuiTextFieldFormik
-                        id="name"
+                        id='name'
                         handleChange={props.handleChange}
                         handleBlur={props.handleBlur}
                         value={props.values.name}
-                        name="name"
-                        label="Name"
+                        name='name'
+                        label='Name'
                         touched={props.touched}
                         errors={props.errors}
                         required
@@ -186,54 +189,62 @@ const FormSettings = ({
                     </FormControl>
                     <FormControl fullWidth>
                       <MuiTextFieldFormik
-                        id="surName"
+                        id='surName'
                         handleChange={props.handleChange}
                         handleBlur={props.handleBlur}
                         value={props.values.surname}
-                        name="surname"
-                        label="Surname"
+                        name='surname'
+                        label='Surname'
                         touched={props.touched}
                         errors={props.errors}
                         required
                       />
                     </FormControl>
                   </Box>
-                  <Box sx={{ marginTop: 4, gap: 2, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <Box
+                    sx={{
+                      marginTop: 4,
+                      gap: 2,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
                     {(isSuperEditUser || isCreateUser) && (
-                      <FormControl fullWidth>
-                        <InputLabel id="changePermissionLevel">
+                      <FormControl
+                        fullWidth
+                        required
+                      >
+                        <InputLabel id='changePermissionLevel'>
                           Permission Level
                         </InputLabel>
                         <Select
-                          labelId="changePermissionLevel"
-                          id="changePermissionLevel-Select"
+                          required
+                          labelId='changePermissionLevel'
+                          id='changePermissionLevel-Select'
                           value={props.values.permissionLevel}
-                          label="Permission Level"
+                          label='Permission Level'
                           onChange={props.handleChange}
-                          name="permissionLevel"
+                          name='permissionLevel'
                         >
-                          {PERMISSION_LEVEL.map((item) => (
-                            <MenuItem key={item.value} value={item.value}>
+                          {permissionLevelAllowed.map((item) => (
+                            <MenuItem
+                              key={item.value}
+                              value={item.value}
+                            >
                               {item.label}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
                     )}
-                    {
-                      (isCreateUser || isSuperEditUser) &&
-                      (
-                        <SelectAgentForAccount props={props} />
-                      )
-                    }
+                    {isSuperAdmin() && <SelectAgentForAccount props={props} />}
                   </Box>
-
-
                 </Box>
                 {(isCreateUser || isEditUser) && (
                   <Box
-                    display="flex"
-                    flexDirection="column"
+                    display='flex'
+                    flexDirection='column'
                     marginTop={4}
                     gap={2}
                   >
@@ -245,7 +256,7 @@ const FormSettings = ({
                         value={props.values.oldPassword}
                         error={!!props.errors.oldPassword}
                         helperText={props.errors.oldPassword}
-                        label="Old Password"
+                        label='Old Password'
                         disabled={loading}
                       />
                     )}
@@ -256,7 +267,7 @@ const FormSettings = ({
                       value={props.values.password}
                       error={!!props.errors.password}
                       helperText={props.errors.password}
-                      label="New Password"
+                      label='New Password'
                       disabled={loading}
                       {...(isCreateUser && { required: true })}
                     />
@@ -267,7 +278,7 @@ const FormSettings = ({
                       value={props.values.confirmPassword}
                       error={!!props.errors.confirmPassword}
                       helperText={props.errors.confirmPassword}
-                      label="Confirm New Password"
+                      label='Confirm New Password'
                       disabled={loading}
                       {...(isCreateUser && { required: true })}
                     />
@@ -275,7 +286,12 @@ const FormSettings = ({
                 )}
               </Box>
 
-              <Box display="flex" justifyContent="flex-end" gap={2} sx={{ "& > button": { textTransform: "uppercase" } }}>
+              <Box
+                display='flex'
+                justifyContent='flex-end'
+                gap={2}
+                sx={{ '& > button': { textTransform: 'uppercase' } }}
+              >
                 {!isEditUser && (
                   <Button
                     sx={{ marginY: 2 }}
@@ -286,9 +302,9 @@ const FormSettings = ({
                   </Button>
                 )}
                 <Button
-                  type="submit"
-                  variant="contained"
-                  key="updateAccount"
+                  type='submit'
+                  variant='contained'
+                  key='updateAccount'
                   sx={{ marginY: 2, width: '200px' }}
                   disabled={loading}
                 >
@@ -300,7 +316,12 @@ const FormSettings = ({
           )
         }}
       </Formik>
-      {message && error && <MuiMessage message={message} error={error} />}
+      {message && error && (
+        <MuiMessage
+          message={message}
+          error={error}
+        />
+      )}
     </Box>
   )
 }

@@ -84,7 +84,6 @@ const TopMarketContent = () => {
   const handleDataFetch = async () => {
     setLoading(true)
     setData([])
-    console.log({ agent })
     try {
       const res: AxiosResponse = await axios.post(API_ENDPOINT.GET_TOP_MARKET, {
         searchFrom: searchDateType

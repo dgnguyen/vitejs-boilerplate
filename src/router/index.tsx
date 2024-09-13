@@ -12,7 +12,6 @@ import AgentBetLimit from 'pages/Agent/AgentBetLimit'
 import MarketStats from 'pages/Market'
 import MarketSettings from 'pages/Market/MarketSettings'
 import TopMarket from 'pages/Market/TopMarket'
-import Account from 'pages/Account'
 import AccountSettings from 'pages/Account/AccountSettings'
 import AccountsManagement from 'pages/Account/AccountsManagement'
 import { USER_ROLE } from 'constants/auth'
@@ -20,6 +19,10 @@ import { USER_ROLE } from 'constants/auth'
 const allRoutes: RouteObject[] = [
   {
     path: ROUTES.APP_ROOT,
+    element: <Login />,
+  },
+  {
+    path: ROUTES.FORGOT_PASSWORD,
     element: <Login />,
   },
   {
@@ -96,7 +99,7 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<AccountsManagement />}
-        role={USER_ROLE.SUPER_ADMIN}
+        role={USER_ROLE.MASTER_AGENT}
       />
     ),
   },

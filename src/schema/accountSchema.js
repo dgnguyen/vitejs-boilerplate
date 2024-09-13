@@ -11,14 +11,13 @@ const passwordSchema = Yup.string()
 const coreSchema = {
   name: Yup.string(),
   email: Yup.string()
-    .matches(/^[A-Z0-9.+_-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format')
+    .matches(/^[A-Z0-9._]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format')
     .test('email-valid', 'Invalid email format', function (value) {
       if (value) {
         const userName = value?.split('@');
         return (
           userName[0].replaceAll('.', '')?.length > 0 &&
-          userName[0].replaceAll('-', '')?.length > 0 &&
-          userName[0].replaceAll('+', '')?.length > 0
+          userName[0].replaceAll('-', '')?.length > 0
         );
       }
       return true;

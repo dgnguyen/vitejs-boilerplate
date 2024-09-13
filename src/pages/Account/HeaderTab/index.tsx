@@ -4,26 +4,29 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './index.module.scss'
 import { ROUTES } from 'constants/endpoint'
+import { haveRightToAccess } from 'helpers/auth'
+import { ROLES } from 'constants/account'
+import { USER_ROLE } from 'constants/auth'
 
 const buttonsArrCore = [
   {
     name: 'Account Settings',
-    location: ROUTES.ACCOUNT_SETTINGS
-  }
+    location: ROUTES.ACCOUNT_SETTINGS,
+  },
 ]
 
-export const HeaderTab = ({ isSuperAdmin }: { isSuperAdmin: boolean }) => {
+export const HeaderTab = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const buttonsArr = isSuperAdmin
+  const buttonsArr = haveRightToAccess(USER_ROLE.MASTER_AGENT)
     ? [
-      ...buttonsArrCore,
-      {
-        name: 'Account Management',
-        location: ROUTES.ACCOUNT_MANAGEMENT
-      }
-    ]
+        ...buttonsArrCore,
+        {
+          name: 'Account Management',
+          location: ROUTES.ACCOUNT_MANAGEMENT,
+        },
+      ]
     : buttonsArrCore
 
   return (
@@ -34,7 +37,7 @@ export const HeaderTab = ({ isSuperAdmin }: { isSuperAdmin: boolean }) => {
           return (
             <Button
               sx={{
-                background: isActive ? '#5863ff' : '#ffffff'
+                background: isActive ? '#5863ff' : '#ffffff',
               }}
               key={item.location}
               onClick={() => navigate(item.location)}

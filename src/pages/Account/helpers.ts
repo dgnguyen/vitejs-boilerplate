@@ -18,7 +18,7 @@ export const initialStateCreateAccount = {
   name: '',
   surname: '',
   email: '',
-  permissionLevel: 2,
+  permissionLevel: undefined,
   password: '',
   confirmPassword: '',
 }
