@@ -15,6 +15,7 @@ import TopMarket from 'pages/Market/TopMarket'
 import AccountSettings from 'pages/Account/AccountSettings'
 import AccountsManagement from 'pages/Account/AccountsManagement'
 import { USER_ROLE } from 'constants/auth'
+import { getUser } from 'helpers/auth'
 
 const allRoutes: RouteObject[] = [
   {
@@ -59,7 +60,7 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<AgentBetLimit />}
-        role={USER_ROLE.SUPER_ADMIN}
+        role={USER_ROLE.MASTER_AGENT}
       />
     ),
   },

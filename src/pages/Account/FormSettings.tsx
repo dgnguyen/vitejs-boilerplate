@@ -305,10 +305,10 @@ const FormSettings = ({
                   type='submit'
                   variant='contained'
                   key='updateAccount'
-                  sx={{ marginY: 2, width: '200px' }}
+                  sx={{ marginY: 2, width: '200px', display: 'flex', gap: 1 }}
                   disabled={loading}
                 >
-                  {loading && <CircularProgress />}
+                  {loading && <CircularProgress size={14} />}
                   {isCreateUser ? 'Create' : 'Update'}
                 </Button>
               </Box>

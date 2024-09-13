@@ -20,7 +20,7 @@ export const GamesContext = React.createContext({
   gamesList: [] as GamesProps[],
   errorGames: false as boolean,
   loadingGames: false as boolean,
-  fetchGames: () => { },
+  fetchGames: () => {},
 })
 
 const getInitialState = () => {
@@ -46,8 +46,8 @@ export const GamesContextProvider = ({
 
       if (data) setGamesList(data)
     } catch (e) {
-      console.error(e)
       setError(true)
+      console.error(e)
       throw e
     } finally {
       setLoadingGames(false)

@@ -1,4 +1,4 @@
-import { Box, Link, Button, CircularProgress, } from '@mui/material'
+import { Box, Link, Button, CircularProgress } from '@mui/material'
 
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
@@ -82,10 +82,10 @@ const ForgotPwdForm = () => {
               variant='contained'
               fullWidth
               key='sendMailResetPwd'
-              sx={{ marginY: 2 }}
+              sx={{ marginY: 2, display: 'flex', gap: 1 }}
               disabled={loading}
             >
-              {loading && <CircularProgress />}
+              {loading && <CircularProgress size={14} />}
               Send
             </Button>
           </Form>

@@ -9,6 +9,8 @@ import { RootState, useAppDispatch } from 'redux/store'
 import { resetAgentState } from 'redux/reducers/agent'
 import { useEffect } from 'react'
 import BetLimitHistory from './BetLimitHistory'
+import { isSuperAdmin } from 'helpers/auth'
+import PageTitle from 'components/Commons/PageTitle'
 
 const AgentBetLimit = () => {
   const agentSelector = useSelector((state: RootState) => state.agent)
@@ -23,7 +25,8 @@ const AgentBetLimit = () => {
 
   return (
     <Box>
-      <AgentTab />
+      <PageTitle title='Agent Bet Limit' />
+      {isSuperAdmin() && <AgentTab />}
       <Box
         display='flex'
         alignItems='center'

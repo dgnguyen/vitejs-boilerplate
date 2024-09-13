@@ -29,45 +29,50 @@ const FormBetLimit = () => {
     eventSelect: '',
   }
 
-  const [submiting, setSubmiting] = useState(false)
-  const [errorSubmit, setErrorSubmit] = useState(false)
+  const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
   const dispatch = useAppDispatch()
 
-  const onSubmit = async (values: AgentBetLimitValuesProps) => {
+  const onSubmit = (values: AgentBetLimitValuesProps) => {
     setSubmiting(true)
-    try {
-      const valuesSendToAPI = {
-        partnerId: values?.agentSelect !== 'all' ? values?.agentSelect : null,
-        minBet: values?.minBet,
-        maxBet: values?.maxBet,
-        marketId:
-          values?.marketSelect !== 'all' ? values?.marketSelect || null : null,
-        eventId:
-          values?.eventSelect !== 'all' ? values?.eventSelect || null : null,
-        gameTypeId:
-          values?.gameSelect !== 'all' ? values?.gameSelect || null : null,
-      }
-      const json = JSON.stringify(valuesSendToAPI)
-      const response = await axios.post(
-        API_ENDPOINT.UPDATE_BET_LIMIT_AGENT,
-        json,
-        headersContentType
-      )
-      if (response?.data?.isSuccess) {
-        dispatch(addNewAgentBetLimit(response?.data?.data))
-        openSnackbar({ message: 'New bet limit values has been changed' })
-      } else {
-        setErrorSubmit(true)
-        openSnackbar({ message: response?.data?.message })
-      }
-    } catch (e: any) {
-      setErrorSubmit(true)
-      openSnackbar({ message: e?.response?.data?.message || e })
-    } finally {
-      setSubmiting(false)
+
+    const valuesSendToAPI = {
+      partnerId:
+        values?.agentSelect !== 'all' && values?.agentSelect !== ''
+          ? values?.agentSelect
+          : null,
+      minBet: values?.minBet,
+      maxBet: values?.maxBet,
+      marketId:
+        values?.marketSelect !== 'all' ? values?.marketSelect || null : null,
+      eventId:
+        values?.eventSelect !== 'all' ? values?.eventSelect || null : null,
+      gameTypeId:
+        values?.gameSelect !== 'all' ? values?.gameSelect || null : null,
     }
+    const json = JSON.stringify(valuesSendToAPI)
+    axios
+      .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
+      .then((response) => {
+        console.log({ response })
+        if (response?.data?.isSuccess) {
+          dispatch(addNewAgentBetLimit(response?.data?.data))
+          openSnackbar({ message: 'New bet limit values has been changed' })
+        } else {
+          openSnackbar({ message: response?.data?.message })
+        }
+      })
+      .catch((e) => {
+        openSnackbar({
+          message:
+            e?.response?.data?.message || 'Error while set agent bet limit',
+        })
+        console.error({ e })
+      })
+      .finally(() => {
+        setSubmiting(false)
+      })
   }
 
   return (
@@ -80,7 +85,7 @@ const FormBetLimit = () => {
           return (
             <FormContent
               props={props}
-              submiting={submiting}
+              submitting={submitting}
             />
           )
         }}

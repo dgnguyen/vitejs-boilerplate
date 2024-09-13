@@ -10,6 +10,7 @@ export type IAccount = {
   updateDate: Date
   createdBy: string
   agentName: string
+  isBlock: boolean
 }
 
 export type IAccounts = {

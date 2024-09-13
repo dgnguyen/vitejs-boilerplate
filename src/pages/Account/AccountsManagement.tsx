@@ -7,8 +7,11 @@ import {
   Box,
   Button,
   CircularProgress,
+  FormControl,
   LinearProgress,
+  MenuItem,
   Paper,
+  Select,
   Snackbar,
   Table,
   TableBody,
@@ -36,6 +39,7 @@ import {
   getAccountsAction,
   handleDeleteUserAction,
   resetAccountsState,
+  toggleStatusAccountAction,
 } from 'redux/reducers/account'
 
 import FormSettings from './FormSettings'
@@ -44,6 +48,8 @@ import { getUserRole } from './helpers'
 import { RootState, useAppDispatch } from 'redux/store'
 import { HeaderTab } from './HeaderTab'
 import { isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { optionsStatus } from 'pages/Agent/helpers'
+import { IAccount } from 'types/account'
 
 const AccountsManagement = () => {
   const dispatch = useAppDispatch()
@@ -55,6 +61,7 @@ const AccountsManagement = () => {
     create: false,
     edit: false,
     delete: false,
+    block: false,
   })
 
   const handleState = ({ key, value }: { key: string; value: any }) =>
@@ -87,11 +94,38 @@ const AccountsManagement = () => {
 
   function handleDeleteUser() {
     dispatch(
-      handleDeleteUserAction(optionalState.userId, () => {
-        openSnackbar({ message: 'User has been deleted' })
+      handleDeleteUserAction(optionalState.userId, (error?: string) => {
+        if (error)
+          openSnackbar({ message: error || 'Error while deleting account' })
+        else openSnackbar({ message: 'User has been deleted' })
         handleState({ key: 'delete', value: false })
       })
     )
+  }
+
+  function handleToggleBlockUser() {
+    dispatch(
+      toggleStatusAccountAction(
+        optionalState.userId,
+        optionalState.isBlock,
+        (error?: string) => {
+          handleState({ key: 'block', value: false })
+          if (error)
+            openSnackbar({
+              message: error || 'Error while changing status account',
+            })
+          else
+            openSnackbar({
+              message: 'Status account has been changed successfully',
+            })
+        }
+      )
+    )
+  }
+
+  function handleChangeStatus(row: IAccount) {
+    setOptionalState(row)
+    handleState({ key: 'block', value: true })
   }
 
   const optionsMenuCard = [
@@ -173,6 +207,7 @@ const AccountsManagement = () => {
                       'Created Date',
                       'Created By',
                       'Role',
+                      'Status',
                     ].map((header) => (
                       <TableCell
                         sx={{ fontWeight: 'bold' }}
@@ -245,6 +280,26 @@ const AccountsManagement = () => {
                       >
                         {getUserRole(row?.permissionLevel)}
                       </TableCell>
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
+                        <FormControl>
+                          <Select
+                            value={row?.isBlock?.toString()}
+                            onChange={() => handleChangeStatus(row)}
+                          >
+                            {optionsStatus.map((item) => (
+                              <MenuItem
+                                key={item.value}
+                                value={item.value}
+                              >
+                                {item.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </TableCell>
                       <TableCell align='right'>
                         <MoreVertIcon
                           fontSize='small'
@@ -312,6 +367,16 @@ const AccountsManagement = () => {
             content={`Are you sure you want to delete account "${optionalState.name}"? This action cannot be undone.`}
             handleClose={() => handleState({ key: 'delete', value: false })}
             handleSubmit={handleDeleteUser}
+          />
+        )}
+        {state.block && (
+          <MuiDialog
+            loading={loading}
+            open={state.block}
+            title={optionalState?.isBlock ? 'Unblock Account' : 'Block Account'}
+            content={`Are you sure you want to ${optionalState?.isBlock ? 'Unblock Account' : 'Block Account'} "${optionalState.name}"?`}
+            handleClose={() => handleState({ key: 'block', value: false })}
+            handleSubmit={handleToggleBlockUser}
           />
         )}
         {snackbar.open && (
