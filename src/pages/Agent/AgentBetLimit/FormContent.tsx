@@ -5,42 +5,42 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   TextField,
   Typography,
 } from '@mui/material'
 import { Form, FormikProps, useFormikContext } from 'formik'
-import { IAgentData } from 'types/agent'
 import { AgentBetLimitValuesProps } from './FormBetLimit'
 import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
 import { useEffect } from 'react'
 import { useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
-import { useFetchAgents } from 'hooks/useFetchAgents'
-import { useSnackbar } from 'hooks/useSnackbar'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
+import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import AgentSelectForBetLimit from './AgentSelectForBetLimit'
 
 const FormContent = ({
   props,
-  submiting,
+  submitting,
 }: {
   props: FormikProps<AgentBetLimitValuesProps>
-  submiting: boolean
+  submitting: boolean
 }) => {
   const { values, setFieldValue } = useFormikContext<AgentBetLimitValuesProps>()
   const currency = useSelector((state: RootState) => state?.agent.currency)
-
-  const { agents, loadingAgents } = useFetchAgents()
-  const { games, loadingGames } = useFetchGamesByAgent(values?.agentSelect)
+  //if its master agent, take his own partnerid to request gamesbyagent, if is superadmin show select agent
+  const agentToAPI = isMasterAgent()
+    ? getUser()?.partnerId
+    : values?.agentSelect
+  const { games, loadingGames } = useFetchGamesByAgent(agentToAPI)
   const { markets, loadingMarkets } = useFetchMarketByGame({
     gameId: values?.gameSelect,
-    agentId: values?.agentSelect,
+    agentId: agentToAPI,
   })
   const { events, loadingEvents } = useFetchEventByMarket({
     marketId: values?.marketSelect,
     gameId: values?.gameSelect,
-    agentId: values?.agentSelect,
+    agentId: agentToAPI,
   })
 
   useEffect(() => {
@@ -76,6 +76,8 @@ const FormContent = ({
               name='minBet'
               className=''
               placeholder='Min bet'
+              required
+              InputProps={{ inputProps: { min: 5000 } }}
             />
           </FormControl>
           <Typography>to</Typography>
@@ -86,6 +88,7 @@ const FormContent = ({
               value={props.values.maxBet}
               name='maxBet'
               placeholder='Max bet'
+              required
             />
           </FormControl>
         </Box>
@@ -105,33 +108,7 @@ const FormContent = ({
           gap={2}
           alignItems='center'
         >
-          <FormControl sx={{ width: 150 }}>
-            <InputLabel id='select-agent-label'>Select Agent</InputLabel>
-            <Select
-              id='select-agent'
-              label='Select agent'
-              labelId='select-agent-label'
-              name='agentSelect'
-              value={props.values.agentSelect}
-              onBlur={props.handleBlur}
-              disabled={loadingAgents}
-              onChange={(e) =>
-                props.setFieldValue('agentSelect', e.target.value as string)
-              }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
-            >
-              <MenuItem value='all'>All</MenuItem>
-              {agents.map((agent: IAgentData) => (
-                <MenuItem
-                  key={agent.id}
-                  value={agent.id}
-                  disabled={agent.isBlock}
-                >
-                  {agent.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          {isSuperAdmin() && <AgentSelectForBetLimit props={props} />}
           <FormControl sx={{ width: 150 }}>
             <InputLabel id='select-game-label'>Select Game</InputLabel>
             <Select
@@ -141,7 +118,7 @@ const FormContent = ({
               name='gameSelect'
               value={props.values.gameSelect}
               onBlur={props.handleBlur}
-              disabled={games.length === 0 || loadingGames}
+              disabled={(isSuperAdmin() && games.length === 0) || loadingGames}
               onChange={(e) =>
                 props.setFieldValue('gameSelect', e.target.value as string)
               }
@@ -211,7 +188,7 @@ const FormContent = ({
             </Select>
           </FormControl>
           <Button
-            disabled={submiting}
+            disabled={submitting}
             type='submit'
             variant='contained'
             sx={{ textTransform: 'uppercase' }}

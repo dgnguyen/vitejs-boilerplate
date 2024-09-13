@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from '@mui/material'
 import { API_ENDPOINT } from 'api/endpoint'
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { CATEGORY_GAME } from 'constants/games'
 import { useGames } from 'context/GamesContext'
 import { useEffect, useState } from 'react'
@@ -97,9 +97,9 @@ export function useMarketStats(): MarketStatProps {
       const { data, isSuccess, message } = response?.data || null
       setData(data)
       if (!isSuccess) setError(message)
-    } catch (err) {
+    } catch (err: any) {
+      setError(err?.response?.data?.message || 'Error : Please try again')
       console.error(err)
-      setError('Error : Please try again')
     } finally {
       setLoading(false)
     }

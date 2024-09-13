@@ -22,6 +22,7 @@ function authHeader() {
       if (error.response.status === httpStatus.UNAUTHORIZED) {
         window.location.href = '/'
       }
+      return Promise.reject(error)
     }
   )
 }

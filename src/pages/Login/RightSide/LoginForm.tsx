@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Link, Button, CircularProgress } from '@mui/material'
+import { Link, Button, CircularProgress, Typography } from '@mui/material'
 
 import { ROUTES } from 'constants/endpoint'
 import { Form, Formik } from 'formik'
@@ -110,9 +110,10 @@ const LoginForm = () => {
             disabled={loginIsLoading}
             variant='contained'
             fullWidth
+            sx={{ display: 'flex', gap: 1 }}
           >
-            {loginIsLoading && <CircularProgress />}
-            <span>Login</span>
+            {loginIsLoading && <CircularProgress size={14} />}
+            <Typography>Login</Typography>
           </Button>
           <Link
             sx={{

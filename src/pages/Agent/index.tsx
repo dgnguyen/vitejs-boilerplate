@@ -11,12 +11,6 @@ import { useAppDispatch } from 'redux/store'
 import { resetAgentState } from 'redux/reducers/agent'
 
 const Agent = () => {
-  // can put it around router //todo
-  const navigate = useNavigate()
-  useEffect(() => {
-    if (!isSuperAdmin()) navigate('/')
-  }, [])
-
   const dispatch = useAppDispatch()
   useEffect(() => {
     return () => {

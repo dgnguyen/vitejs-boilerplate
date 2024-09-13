@@ -3,7 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { AppDispatch, RootState } from 'redux/store'
-import { IAccounts } from 'types/account'
+import { IAccount, IAccounts } from 'types/account'
 
 export const initialState = {
   loading: false,
@@ -69,6 +69,16 @@ export const accountReducer = createSlice({
       state.data = state.data.filter((account) => account.userId !== payload)
       state.totalCount--
     },
+    updateStatusAccount: (state, { payload }) => {
+      state.data = state.data.map((account: IAccount) => {
+        if (account.userId === payload.userId) {
+          return {
+            ...account,
+            isBlock: !account.isBlock,
+          }
+        } else return account
+      })
+    },
   },
 })
 
@@ -104,23 +114,57 @@ export const getAccountsAction = createAsyncThunk(
   }
 )
 
+export const toggleStatusAccountAction =
+  (id: number, isBlock: boolean, cb: (error?: string) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    dispatch(setLoadingAccount(true))
+    const json = JSON.stringify({
+      userId: id,
+    })
+    try {
+      const url = isBlock
+        ? API_ENDPOINT.UNBLOCK_ACCOUNT
+        : API_ENDPOINT.BLOCK_ACCOUNT
+      const response = await axios.post(url, json, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      if (response?.data?.isSuccess) {
+        dispatch(updateStatusAccount(response?.data))
+        cb()
+      }
+    } catch (error: any) {
+      cb(error?.response?.data?.message)
+      console.error(error)
+    } finally {
+      dispatch(setLoadingAccount(false))
+    }
+  }
+
 export const handleDeleteUserAction =
-  (userId: number, cb: () => void) =>
+  (userId: number, cb: (error?: string) => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     dispatch(setLoadingAccount(true))
     const url = API_ENDPOINT.DELETE_ACCOUNT
-
     const json = JSON.stringify({
       userId,
     })
     try {
-      const response = await axios.post(url, json)
+      const response = await axios.post(url, json, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       if (response?.data?.isSuccess) {
         dispatch(deleteAccount(response?.data?.userId))
         cb()
+      } else {
+        cb(response?.data?.message)
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error)
+      cb(error?.response?.data?.message)
     } finally {
       dispatch(setLoadingAccount(false))
     }
@@ -133,6 +177,7 @@ export const {
   updateAccount,
   deleteAccount,
   addNewAccount,
+  updateStatusAccount,
 } = accountReducer.actions
 
 export default accountReducer.reducer

@@ -39,8 +39,8 @@ export function useFetchEventByMarket({
         setEvents(response?.data?.data)
       }
     } catch (error) {
-      console.error(error)
       setError(true)
+      console.error(error)
     } finally {
       setLoading(false)
     }

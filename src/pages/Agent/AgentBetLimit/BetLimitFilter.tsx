@@ -12,11 +12,7 @@ import { RootState, useAppDispatch } from 'redux/store'
 const BetLimitFilter = () => {
   const [state, setState] = useState('')
   const agentSelector = useSelector((state: RootState) => state.agent)
-  const {
-    loading,
-    isExporting,
-    searchValues: { searchType },
-  } = agentSelector
+  const { loading, isExporting } = agentSelector
   const dispatch = useAppDispatch()
 
   function handleChangeSearchValue(e: React.ChangeEvent<HTMLInputElement>) {
@@ -47,7 +43,7 @@ const BetLimitFilter = () => {
       />
       <Button
         onClick={handleSearch}
-        disabled={loading}
+        disabled={loading || isExporting}
         variant='contained'
       >
         <SearchSVG />

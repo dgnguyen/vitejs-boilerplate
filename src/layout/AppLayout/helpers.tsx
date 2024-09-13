@@ -51,7 +51,10 @@ export const getDrawerItems = () => {
     {
       label: 'Agent',
       icon: <Agent />,
-      href: ROUTES.AGENT,
+      href:
+        getUser()?.role === USER_ROLE.MASTER_AGENT
+          ? ROUTES.AGENT_BETLIMIT
+          : ROUTES.AGENT,
       enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
     },
     {
