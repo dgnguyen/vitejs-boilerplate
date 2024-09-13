@@ -19,7 +19,7 @@ const FilterPlayer = () => {
   const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
     useSelector((state: RootState) => state.player)
   const dispatch = useAppDispatch()
-  const { agentSelected, isTester, id } = searchValues
+  const { isTester, id } = searchValues
   const disableSearch = isLoadingData || isLoadingPage
   const [searchState, setSearchState] = useState<string>('')
 

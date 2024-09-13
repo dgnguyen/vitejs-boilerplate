@@ -111,7 +111,7 @@ export const getPlayersAction = createAsyncThunk(
   'getPlayers',
   async (dispatch, { rejectWithValue, getState }) => {
     const {
-      searchValues: { id, page, take, isTester },
+      searchValues: { id, page, agentSelected, take, isTester },
     } = (getState() as RootState)?.player
 
     try {
@@ -119,6 +119,9 @@ export const getPlayersAction = createAsyncThunk(
         page,
         take,
         ...(isTester !== 'null' ? { isTester } : {}),
+        ...(agentSelected === 'all'
+          ? { partnerId: null }
+          : { partnerId: [agentSelected] }),
         playerId: id ? Number(id) : null,
       })
       const res = await axios.post(
