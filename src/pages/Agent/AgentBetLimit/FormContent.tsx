@@ -8,6 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
+import { NumericFormat } from 'react-number-format'
 import { Form, FormikProps, useFormikContext } from 'formik'
 import { AgentBetLimitValuesProps } from './FormBetLimit'
 import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
@@ -18,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
 import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
 import AgentSelectForBetLimit from './AgentSelectForBetLimit'
+import { thousandSeparator } from 'helpers/currency'
 
 const FormContent = ({
   props,
@@ -69,26 +71,28 @@ const FormContent = ({
           alignItems='center'
         >
           <FormControl>
-            <TextField
+            <NumericFormat
+              value={props.values?.minBet}
+              customInput={TextField}
+              thousandSeparator
               onChange={props.handleChange}
               onBlur={props.handleBlur}
-              value={props.values?.minBet}
               name='minBet'
-              className=''
               placeholder='Min bet'
               required
-              InputProps={{ inputProps: { min: 5000 } }}
             />
           </FormControl>
           <Typography>to</Typography>
           <FormControl>
-            <TextField
+            <NumericFormat
+              customInput={TextField}
               onChange={props.handleChange}
               onBlur={props.handleBlur}
-              value={props.values.maxBet}
+              value={props.values?.maxBet}
               name='maxBet'
               placeholder='Max bet'
               required
+              thousandSeparator
             />
           </FormControl>
         </Box>

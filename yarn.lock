@@ -10179,6 +10179,11 @@ react-list@^0.8.13:
   dependencies:
     prop-types "15"
 
+react-number-format@^5.4.2:
+  version "5.4.2"
+  resolved "https://registry.npmjs.org/react-number-format/-/react-number-format-5.4.2.tgz#aec282241f36cee31da13dc5e0f364c0fc6902ab"
+  integrity sha512-cg//jVdS49PYDgmcYoBnMMHl4XNTMuV723ZnHD2aXYtWWWqbVF3hjQ8iB+UZEuXapLbeA8P8H+1o6ZB1lcw3vg==
+
 react-outside-click-handler@^1.3.0:
   version "1.3.0"
   resolved "https://registry.npmjs.org/react-outside-click-handler/-/react-outside-click-handler-1.3.0.tgz#3831d541ac059deecd38ec5423f81e80ad60e115"

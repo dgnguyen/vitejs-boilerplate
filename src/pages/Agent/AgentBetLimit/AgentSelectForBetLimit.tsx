@@ -9,7 +9,6 @@ type Props = {
 }
 const AgentSelectForBetLimit = ({ props }: Props) => {
   const { agents, loadingAgents } = useFetchAgents()
-
   return (
     <FormControl sx={{ width: 150 }}>
       <InputLabel id='select-agent-label'>Select Agent</InputLabel>
@@ -18,7 +17,7 @@ const AgentSelectForBetLimit = ({ props }: Props) => {
         label='Select agent'
         labelId='select-agent-label'
         name='agentSelect'
-        value={props.values.agentSelect}
+        value={props.values.agentSelect || 'all'}
         onBlur={props.handleBlur}
         disabled={loadingAgents}
         onChange={(e) =>
