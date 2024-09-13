@@ -13,7 +13,7 @@
     "start": "vite --port 3030",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint --config eslint.config.js src/",
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.css|*.scss)\"",
     "test": "vitest",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
