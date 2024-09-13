@@ -97,7 +97,9 @@ const Transaction = () => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdmin() && <AgentSelect handleChange={handleChangeAgent} />}
+        {isSuperAdmin() && !isPageTransactionPlayer && (
+          <AgentSelect handleChange={handleChangeAgent} />
+        )}
       </Box>
       <FilterTransaction playerId={playerId} />
       <TransactionContent

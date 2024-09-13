@@ -17,7 +17,7 @@ import { DateRange } from 'types/transaction'
 export default function useTopDataSearchBar() {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { date, searchType, isTester } = searchValues
+  const { date, searchType, isTester, id } = searchValues
 
   const [searchState, setSearchState] = useState<string>('')
 
@@ -84,7 +84,7 @@ export default function useTopDataSearchBar() {
   }
 
   const handleChangeStatus = (event: SelectChangeEvent) => {
-    dispatch(setSearchValue({ key: 'id', val: searchState }))
+    dispatch(setSearchValue({ key: 'id', val: searchState || id }))
     dispatch(setAndLoadData('TransactionStatus', event.target.value, true))
   }
 
