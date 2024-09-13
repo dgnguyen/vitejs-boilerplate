@@ -82,7 +82,6 @@ const TopMarketContent = () => {
   }, [selectedDate, agent, isTester])
 
   const handleDataFetch = async () => {
-    console.log(agent)
     const partnerId = agent === 'all' ? null : [agent]
     setLoading(true)
     setData([])
@@ -128,6 +127,7 @@ const TopMarketContent = () => {
     setSearchDateType(searchTypesEnum.hourly)
     setResetToggle((prev) => !prev)
   }
+  console.log({ orderBy })
 
   const handleOrderChange = (orderKey: orderTypesEnum) => {
     if (orderBy === orderKey || !data?.length) {
@@ -249,8 +249,8 @@ const TopMarketContent = () => {
                   <th className='canBeOrderedTH'>
                     <Box
                       display='flex'
-                      gap={1}
                       alignItems='center'
+                      justifyContent='flex-end'
                       onClick={() =>
                         handleOrderChange(orderTypesEnum.transactionCount)
                       }
