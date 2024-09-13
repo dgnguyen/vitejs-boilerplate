@@ -9,7 +9,6 @@ import { useSnackbar } from 'hooks/useSnackbar'
 import FormSettings from './FormSettings'
 import { API_ENDPOINT } from 'api/endpoint'
 import { HeaderTab } from './HeaderTab'
-import { isSuperAdmin } from 'helpers/auth'
 
 type ValuesForm = {
   email: string
@@ -29,19 +28,19 @@ const initialState = {
   surname: '',
   oldPassword: '',
   password: '',
-  confirmPassword: ''
+  confirmPassword: '',
+  permissionLevel: undefined,
 }
 
 const AccountSettings = () => {
   const {
-    loading,
     setLoading,
     error,
     setError,
     message,
     setMessage,
     loadingPage,
-    setLoadingPage
+    setLoadingPage,
   } = useSimpleForm()
   const [state, setState] = useState(initialState)
 
@@ -50,9 +49,7 @@ const AccountSettings = () => {
   async function fetchUser() {
     setLoadingPage(true)
     try {
-      const response = await axios.post(
-        API_ENDPOINT.GET_ACCOUNT
-      )
+      const response = await axios.post(API_ENDPOINT.GET_ACCOUNT)
       if (!response?.data) {
         setError(true)
         setMessage(response?.data?.message)
@@ -61,7 +58,7 @@ const AccountSettings = () => {
       }
     } catch (e: any) {
       setError(true)
-      setMessage(e.message || "Error while update account settings")
+      setMessage(e.message || 'Error while update account settings')
     } finally {
       setLoadingPage(false)
     }
@@ -77,10 +74,7 @@ const AccountSettings = () => {
     try {
       const { isActive, partnerId, permissionLevel, ...rest } = values
 
-      const response = await axios.post(
-        API_ENDPOINT.UPDATE_ACCOUNT,
-        rest
-      )
+      const response = await axios.post(API_ENDPOINT.UPDATE_ACCOUNT, rest)
       setError(!response?.data?.isSuccess)
       openSnackbar({ message: response?.data?.message })
     } catch (e: any) {
@@ -94,17 +88,24 @@ const AccountSettings = () => {
 
   return (
     <Box>
-      <HeaderTab
-        isSuperAdmin={isSuperAdmin()}
-      />
-      <Box width="100%" display="flex" flexDirection="column" alignItems="center">
+      <HeaderTab />
+      <Box
+        width='100%'
+        display='flex'
+        flexDirection='column'
+        alignItems='center'
+      >
         <FormSettings
           isEditUser
           initialState={state}
-          handleClose={() => { }}
-          cb={message => openSnackbar({ message })}
+          cb={(message) => openSnackbar({ message })}
         />
-        {message && <MuiMessage message={message} error={error} />}
+        {message && (
+          <MuiMessage
+            message={message}
+            error={error}
+          />
+        )}
         {snackbar.open && (
           <Snackbar
             open={snackbar.open}

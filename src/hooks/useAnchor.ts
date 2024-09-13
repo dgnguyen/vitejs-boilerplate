@@ -18,6 +18,7 @@ const useAnchor = () => {
 
   const handleClose = () => {
     setAnchorEl(null)
+    setOptionalState(null)
   }
 
   return { anchorEl, handleOpen, handleClose, optionalState, setOptionalState }

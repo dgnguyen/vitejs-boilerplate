@@ -16,7 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography
+  Typography,
 } from '@mui/material'
 
 import EmptyData from 'components/EmptyData'
@@ -31,11 +31,11 @@ import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useSnackbar } from 'hooks/useSnackbar'
 import moment from 'moment'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   getAccountsAction,
   handleDeleteUserAction,
-  resetAccountsState
+  resetAccountsState,
 } from 'redux/reducers/account'
 
 import FormSettings from './FormSettings'
@@ -43,31 +43,24 @@ import { initialStateCreateAccount } from './helpers'
 import { getUserRole } from './helpers'
 import { RootState, useAppDispatch } from 'redux/store'
 import { HeaderTab } from './HeaderTab'
-import { isSuperAdmin } from 'helpers/auth'
+import { isMasterAgent, isSuperAdmin } from 'helpers/auth'
 
 const AccountsManagement = () => {
   const dispatch = useAppDispatch()
   const accountSelector = useSelector((state: RootState) => state.account)
-  const {
-    data,
-    loading,
-    loadingPage,
-    error,
-    hasMore,
-    totalCount
-  } = accountSelector
-
+  const { data, loading, loadingPage, error, hasMore, totalCount } =
+    accountSelector
 
   const [state, setState] = useState({
     create: false,
     edit: false,
-    delete: false
+    delete: false,
   })
 
-  const handleState = ({ key, value }: { key: string, value: any }) =>
-    setState(prevState => ({
+  const handleState = ({ key, value }: { key: string; value: any }) =>
+    setState((prevState) => ({
       ...prevState,
-      [key]: value
+      [key]: value,
     }))
 
   const { inputRef, height } = useSetHeightInfiniteScroll()
@@ -106,46 +99,42 @@ const AccountsManagement = () => {
       onClick: () => handleState({ key: 'edit', value: true }),
       name: 'Edit',
       icon: <EditIcon />,
-      dataTestId: "editAccount"
+      dataTestId: 'editAccount',
     },
     {
       onClick: () => handleState({ key: 'delete', value: true }),
       name: 'Delete',
       icon: <DeleteIcon />,
-      dataTestId: "deleteAccount"
-    }
+      dataTestId: 'deleteAccount',
+    },
   ]
   if (loadingPage) return <CircularProgress />
-  if (error)
-    return (
-      <Box>
-        Error loading page
-      </Box>
-    )
+  if (error) return <Box>Error loading page</Box>
   return (
     <Box>
-      <HeaderTab
-        isSuperAdmin={isSuperAdmin()}
-      />
-      <Box ref={inputRef} sx={{ width: '100%' }}>
+      <HeaderTab />
+      <Box
+        ref={inputRef}
+        sx={{ width: '100%' }}
+      >
         <Box
-          display="flex"
+          display='flex'
           gap={2}
-          alignItems="center"
-          justifyContent="space-between"
+          alignItems='center'
+          justifyContent='space-between'
         >
           <Typography
             sx={{
               fontSize: '24px',
               fontWeight: 700,
-              color: 'black'
+              color: 'black',
             }}
           >
             Account Management
           </Typography>
           <Button
-            variant="contained"
-            key="addNewAccount"
+            variant='contained'
+            key='addNewAccount'
             onClick={() => handleState({ key: 'create', value: true })}
           >
             Add new account
@@ -165,12 +154,12 @@ const AccountsManagement = () => {
               hasMore={hasMore}
               height={height ? height - 100 : 600}
               loader={loading && <LinearProgress />}
-              scrollableTarget="scrollableDiv"
+              scrollableTarget='scrollableDiv'
             >
               <Table
                 stickyHeader
                 sx={{ minWidth: 650 }}
-                aria-label="simple table"
+                aria-label='simple table'
               >
                 <TableHead>
                   <TableRow>
@@ -183,54 +172,84 @@ const AccountsManagement = () => {
                       'Login Date',
                       'Created Date',
                       'Created By',
-                      'Role'
-                    ].map(header => (
-                      <TableCell sx={{ fontWeight: 'bold' }} key={header}>
+                      'Role',
+                    ].map((header) => (
+                      <TableCell
+                        sx={{ fontWeight: 'bold' }}
+                        key={header}
+                      >
                         {header}
                       </TableCell>
                     ))}
-                    <TableCell align="right" />
+                    <TableCell align='right' />
                   </TableRow>
                 </TableHead>
-                <TableBody id="scrollableDiv">
+                <TableBody id='scrollableDiv'>
                   {loadingPage && <Loader />}
-                  {data.map(row => (
+                  {data.map((row) => (
                     <TableRow
                       key={row?.userId}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row?.userId}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row?.agentName}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row?.name}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row?.surname}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row?.email}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {moment(row?.loginDate).format(FORMAT_DATE_TIME)}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {moment(row?.createDate).format(FORMAT_DATE_TIME)}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {row?.createdBy}
                       </TableCell>
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component='th'
+                        scope='row'
+                      >
                         {getUserRole(row?.permissionLevel)}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align='right'>
                         <MoreVertIcon
-                          fontSize="small"
+                          fontSize='small'
                           sx={{ cursor: 'pointer' }}
-                          onClick={e => {
+                          onClick={(e) => {
                             e.stopPropagation()
                             handleOpen(e)
                             setOptionalState(row)
@@ -246,7 +265,7 @@ const AccountsManagement = () => {
           </TableContainer>
           {anchorEl && (
             <Menu
-              id="accounts-action"
+              id='accounts-action'
               anchorEl={anchorEl}
               closeMenu={handleClose}
               optionsMenuCard={optionsMenuCard}
@@ -256,23 +275,23 @@ const AccountsManagement = () => {
         {state.edit && (
           <MuiModal
             style={{
-              width: 600
+              width: 600,
             }}
             handleClose={() => handleState({ key: 'edit', value: false })}
             open={state.edit}
           >
             <FormSettings
-              isSuperEditUser={isSuperAdmin()}
+              isSuperEditUser={isSuperAdmin() || isMasterAgent()}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
-              cb={message => openSnackbar({ message })}
+              cb={(message) => openSnackbar({ message })}
             />
           </MuiModal>
         )}
         {state.create && (
           <MuiModal
             style={{
-              width: 600
+              width: 600,
             }}
             handleClose={() => handleState({ key: 'create', value: false })}
             open={state.create}
@@ -281,7 +300,7 @@ const AccountsManagement = () => {
               initialState={initialStateCreateAccount}
               handleClose={() => handleState({ key: 'create', value: false })}
               isCreateUser
-              cb={message => openSnackbar({ message })}
+              cb={(message) => openSnackbar({ message })}
             />
           </MuiModal>
         )}
@@ -289,7 +308,7 @@ const AccountsManagement = () => {
           <MuiDialog
             loading={loading}
             open={state.delete}
-            title="Delete Account"
+            title='Delete Account'
             content={`Are you sure you want to delete account "${optionalState.name}"? This action cannot be undone.`}
             handleClose={() => handleState({ key: 'delete', value: false })}
             handleSubmit={handleDeleteUser}
