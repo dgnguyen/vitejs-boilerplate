@@ -82,6 +82,8 @@ const TopMarketContent = () => {
   }, [selectedDate, agent, isTester])
 
   const handleDataFetch = async () => {
+    console.log(agent)
+    const partnerId = agent === 'all' ? null : [agent]
     setLoading(true)
     setData([])
     try {
@@ -94,7 +96,7 @@ const TopMarketContent = () => {
           : format(selectedDate.endDate, 'yyyy-MM-dd'),
         searchType: searchDateType,
         orderBy: orderBy,
-        partnerId: agent !== 'all' || agent === null ? null : [agent],
+        partnerId,
         isTester:
           isTester === 'true' ? true : isTester === 'false' ? false : null,
       })
