@@ -16,11 +16,7 @@ import {
   transactionSearchValuesSelector,
 } from 'redux/reducers/transaction'
 import useTopDataSearchBar from 'hooks/useTopDataSearchBar'
-import {
-  searchTypeOptions,
-  SearchTypeValue,
-  TRStatusSelectOptions,
-} from 'helpers/transaction'
+import { searchTypeOptions, TRStatusSelectOptions } from 'helpers/transaction'
 import { Refresh } from '@mui/icons-material'
 import ExportExcel from 'components/ExportExcel'
 import { useEffect } from 'react'
