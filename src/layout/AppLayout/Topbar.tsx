@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { useUser } from 'context/UserContext'
 import { stringAvatar } from './helpers'
 import { ROUTES } from 'constants/endpoint'
+import { Logout, People } from '@mui/icons-material'
 
 const pages = ['Products', 'Pricing', 'Blog']
 
@@ -37,19 +38,19 @@ function ResponsiveAppBar() {
   const settings = [
     {
       label: 'Profile',
+      icon: <People />,
       onClick: () => navigate(ROUTES.ACCOUNT_SETTINGS),
     },
     {
       label: 'Logout',
+      icon: <Logout />,
       onClick: () => handleLogout(),
     },
   ]
 
-
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
   }
-
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
@@ -97,7 +98,13 @@ function ResponsiveAppBar() {
                     setting.onClick()
                     handleCloseUserMenu()
                   }}
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    justifyContent: 'space-around',
+                  }}
                 >
+                  {setting.icon}
                   <Typography textAlign='center'>{setting.label}</Typography>
                 </MenuItem>
               ))}
