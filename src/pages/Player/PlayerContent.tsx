@@ -96,10 +96,7 @@ const PlayerContent = () => {
             height: 'calc(100vh - 360px)',
           }}
         >
-          <div
-            id='scrollableDiv'
-            //  className={styles.accordion}
-          >
+          <div id='scrollableDiv'>
             {loadingPage && <CircularProgress />}
             {!loadingPage && data?.length > 0 && (
               <InfiniteScroll

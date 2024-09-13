@@ -55,7 +55,6 @@ const FormBetLimit = () => {
     axios
       .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
       .then((response) => {
-        console.log({ response })
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
           openSnackbar({ message: 'New bet limit values has been changed' })
