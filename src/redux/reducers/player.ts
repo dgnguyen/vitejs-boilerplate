@@ -113,13 +113,12 @@ export const getPlayersAction = createAsyncThunk(
     const {
       searchValues: { id, page, agentSelected, take, isTester },
     } = (getState() as RootState)?.player
-
     try {
       const json = JSON.stringify({
         page,
         take,
         ...(isTester !== 'null' ? { isTester } : {}),
-        ...(agentSelected === 'all'
+        ...(agentSelected === 'all' || agentSelected === null
           ? { partnerId: null }
           : { partnerId: [agentSelected] }),
         playerId: id ? Number(id) : null,
