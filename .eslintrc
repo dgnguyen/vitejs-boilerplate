@@ -55,7 +55,7 @@
     "react/jsx-no-constructed-context-values": "off",
     "react/no-unstable-nested-components": 0,
     "arrow-body-style": 0,
-    "arrow-parens": [2, "as-needed"],
+    "arrow-parens": ["warn", "always"],
     "no-confusing-arrow": "off",
     "no-console": [
       "warn",

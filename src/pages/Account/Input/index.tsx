@@ -24,7 +24,7 @@ export const PasswordInput = ({
   error,
   helperText,
   disabled,
-  required = false
+  required = false,
 }: Props) => {
   const [show, setShow] = useState(false)
   const onShowPassword = () => {
@@ -40,7 +40,7 @@ export const PasswordInput = ({
         label={label}
         onBlur={onBlur}
         type={show ? 'text' : 'password'}
-        variant="outlined"
+        variant='outlined'
         value={value}
         onChange={onChange}
         error={error}
@@ -50,16 +50,16 @@ export const PasswordInput = ({
           type: show ? 'text' : 'password',
           autoComplete: 'new-password',
           endAdornment: (
-            <InputAdornment position="end">
+            <InputAdornment position='end'>
               <IconButton
-                aria-label="toggle password visibility"
+                aria-label='toggle password visibility'
                 onClick={onShowPassword}
-                edge="end"
+                edge='end'
               >
                 {show ? <Visibility /> : <VisibilityOff />}
               </IconButton>
             </InputAdornment>
-          )
+          ),
         }}
         required={required}
       ></TextField>

@@ -14,7 +14,7 @@ type Props = {
 const SelectAgentForAccount = ({ props }: Props) => {
   const { agents } = useFetchAgents()
   // prevent creating user with higher role than parent user
-  const agentsModified = agents.filter(item => item.id > getUser().role)
+  const agentsModified = agents.filter((item) => item.id > getUser().role)
 
   return (
     <FormControl fullWidth>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Block,Delete, Edit, MoreVert } from '@mui/icons-material'
+import { Block, Delete, Edit, MoreVert } from '@mui/icons-material'
 import {
   Box,
   CircularProgress,
@@ -65,7 +65,7 @@ const AgentList = () => {
   })
 
   const handleState = ({ key, value }: { key: string; value: boolean }) =>
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       [key]: value,
     }))
@@ -81,7 +81,10 @@ const AgentList = () => {
         optionalState?.isBlock,
         (error?: boolean) => {
           handleState({ key: 'block', value: false })
-          if (!error) openSnackbar({ message: 'Agent has been updated' })
+          if (!error)
+            openSnackbar({
+              message: `Status of agent ${optionalState.name} has been updated`,
+            })
           else {
             openSnackbar({
               message: 'An error has occurred while updating agent status',
@@ -101,7 +104,10 @@ const AgentList = () => {
     dispatch(
       updateAgentAction(optionalState, 'walletTypeId', (error?: boolean) => {
         handleState({ key: 'editWalletType', value: false })
-        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        if (!error)
+          openSnackbar({
+            message: `Wallet type of agent ${optionalState.name} has been updated`,
+          })
         else {
           openSnackbar({
             message: 'An error has occurred while updating agent status',
@@ -136,7 +142,10 @@ const AgentList = () => {
     dispatch(
       updateAgentAction(optionalState, 'tag', (error?: boolean) => {
         handleState({ key: 'editTag', value: false })
-        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        if (!error)
+          openSnackbar({
+            message: `Category of agent ${optionalState.name} has been updated`,
+          })
         else {
           openSnackbar({
             message: 'An error has occurred while updating agent status',
@@ -177,7 +186,7 @@ const AgentList = () => {
                       <TableCell key={`headerAgentOverview-${index}`}>
                         {typeof header === 'object' ? (
                           <Box>
-                            {header.map(item => (
+                            {header.map((item) => (
                               <Box>{item}</Box>
                             ))}
                           </Box>
@@ -237,9 +246,9 @@ const AgentList = () => {
                               <Select
                                 value={row?.walletTypeId.toString()}
                                 label='Wallet Type'
-                                onChange={e => handleEditWalletType(row, e)}
+                                onChange={(e) => handleEditWalletType(row, e)}
                               >
-                                {walletTypeOptions.map(item => (
+                                {walletTypeOptions.map((item) => (
                                   <MenuItem
                                     key={item.value}
                                     value={item.value}
@@ -260,7 +269,7 @@ const AgentList = () => {
                                 label='Status'
                                 onChange={() => handleChangeStatus(row)}
                               >
-                                {optionsStatus.map(item => (
+                                {optionsStatus.map((item) => (
                                   <MenuItem
                                     key={item.value}
                                     value={item.value}

@@ -10,7 +10,7 @@ import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from 'redux/hooks'
-import { loadingLogin,loginUser } from 'redux/reducers/user'
+import { loadingLogin, loginUser } from 'redux/reducers/user'
 
 import loginSchema from '../../../schema/loginSchema'
 
@@ -49,7 +49,7 @@ const LoginForm = () => {
         onSubmit(values, actions)
       }}
     >
-      {props => (
+      {(props) => (
         <Form
           className='login-form'
           onSubmit={props.handleSubmit}

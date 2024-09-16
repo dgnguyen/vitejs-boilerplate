@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Add,Delete } from '@mui/icons-material'
+import { Add, Delete } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -139,7 +139,7 @@ const PlayerTracking = () => {
                       'Agent Player ID',
                       'Created date',
                       'Created by',
-                    ].map(header => (
+                    ].map((header) => (
                       <TableCell
                         sx={{ fontWeight: 'bold' }}
                         key={header}

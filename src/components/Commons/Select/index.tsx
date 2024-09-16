@@ -23,7 +23,7 @@ const Select = <T extends valueType>({
     <select
       style={style}
       value={value}
-      onChange={e => onChange(e.target.value as T)}
+      onChange={(e) => onChange(e.target.value as T)}
       className={`${styles.select} ${className}`}
       disabled={disabled}
     >

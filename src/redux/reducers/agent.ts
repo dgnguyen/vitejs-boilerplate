@@ -38,7 +38,7 @@ const initialState: IAgentsStateProps = {
 export const agentReducer = createSlice({
   name: 'Agent',
   initialState,
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase('getAgents/pending', (state, action) => {
         state.loading = true
@@ -58,7 +58,7 @@ export const agentReducer = createSlice({
         state.isLoadingPage = false
         state.page = settings.hasMore ? state.page + 1 : state.page
       })
-      .addCase('getAgents/rejected', state => {
+      .addCase('getAgents/rejected', (state) => {
         state.loading = false
         state.isLoadingPage = false
         state.data = []
@@ -83,7 +83,7 @@ export const agentReducer = createSlice({
         state.isLoadingPage = false
         state.page = settings.hasMore ? state.page + 1 : state.page
       })
-      .addCase('getAgentsBetLimit/rejected', state => {
+      .addCase('getAgentsBetLimit/rejected', (state) => {
         state.loading = false
         state.isLoadingPage = false
         state.betLimitData = []
@@ -143,7 +143,7 @@ export const getAgentsListAction = createAsyncThunk(
     const {
       page,
       take,
-      searchValues: { value, searchType },
+      searchValues: { value },
       // eslint-disable-next-line no-unsafe-optional-chaining
     } = (getState() as RootState)?.agent
     try {
@@ -151,7 +151,6 @@ export const getAgentsListAction = createAsyncThunk(
         page,
         take,
         searchValue: value,
-        searchType,
       })
 
       const response = await axios.post(API_ENDPOINT.GET_AGENT, json, {
@@ -264,6 +263,28 @@ export const exportAgentsAction =
     handleExportRequest({
       url,
       params: {
+        searchValue: value.replace(',', ''),
+        searchType,
+      },
+    })
+      .then(async (response: any) => {
+        const fileName = `ExportAgent.xlsx`
+        cb(response, fileName)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => dispatch(setLoadingExport(false)))
+  }
+
+export const exportAgentsBetLimitAction =
+  (cb: (res: any, name: string) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    const { searchValues } = (getState() as RootState)?.agent
+    const { value, searchType } = searchValues
+    dispatch(setLoadingExport(true))
+    const url = API_ENDPOINT.EXPORT_AGENT_BET_LIMIT_CHANGE
+    handleExportRequest({
+      url,
+      params: {
         searchValue: value,
         searchType,
       },
@@ -272,28 +293,7 @@ export const exportAgentsAction =
         const fileName = `ExportAgent.xlsx`
         cb(response, fileName)
       })
-      .catch(error => console.error(error))
-      .finally(() => dispatch(setLoadingExport(false)))
-  }
-
-export const exportAgentsBetLimitAction =
-  (cb: (res: any, name: string) => void) =>
-  async (dispatch: AppDispatch, getState: Function) => {
-    const { searchValues } = (getState() as RootState)?.agent
-    const { value } = searchValues
-    dispatch(setLoadingExport(true))
-    const url = API_ENDPOINT.EXPORT_AGENT_BET_LIMIT_CHANGE
-    handleExportRequest({
-      url,
-      params: {
-        searchValue: value,
-      },
-    })
-      .then(async (response: any) => {
-        const fileName = `ExportAgent.xlsx`
-        cb(response, fileName)
-      })
-      .catch(error => console.error(error))
+      .catch((error) => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 
@@ -303,13 +303,14 @@ export const getHistoryChangeBetLimitAction = createAsyncThunk(
     const {
       page,
       take,
-      searchValues: { value },
+      searchValues: { value, searchType },
     } = (getState() as RootState)?.agent
     try {
       const json = JSON.stringify({
         page,
         take,
-        searchValue: value,
+        searchValue: value.replace(',', ''),
+        searchType,
       })
 
       const response = await axios.post(

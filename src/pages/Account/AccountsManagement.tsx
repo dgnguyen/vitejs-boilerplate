@@ -65,7 +65,7 @@ const AccountsManagement = () => {
   })
 
   const handleState = ({ key, value }: { key: string; value: any }) =>
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       [key]: value,
     }))
@@ -208,7 +208,7 @@ const AccountsManagement = () => {
                       'Created By',
                       'Role',
                       'Status',
-                    ].map(header => (
+                    ].map((header) => (
                       <TableCell
                         sx={{ fontWeight: 'bold' }}
                         key={header}
@@ -221,7 +221,7 @@ const AccountsManagement = () => {
                 </TableHead>
                 <TableBody id='scrollableDiv'>
                   {loadingPage && <Loader />}
-                  {data.map(row => (
+                  {data.map((row) => (
                     <TableRow
                       key={row?.userId}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -289,7 +289,7 @@ const AccountsManagement = () => {
                             value={row?.isBlock?.toString()}
                             onChange={() => handleChangeStatus(row)}
                           >
-                            {optionsStatus.map(item => (
+                            {optionsStatus.map((item) => (
                               <MenuItem
                                 key={item.value}
                                 value={item.value}
@@ -304,7 +304,7 @@ const AccountsManagement = () => {
                         <MoreVertIcon
                           fontSize='small'
                           sx={{ cursor: 'pointer' }}
-                          onClick={e => {
+                          onClick={(e) => {
                             e.stopPropagation()
                             handleOpen(e)
                             setOptionalState(row)
@@ -339,7 +339,7 @@ const AccountsManagement = () => {
               isSuperEditUser={isSuperAdmin() || isMasterAgent()}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
-              cb={message => openSnackbar({ message })}
+              cb={(message) => openSnackbar({ message })}
             />
           </MuiModal>
         )}
@@ -355,7 +355,7 @@ const AccountsManagement = () => {
               initialState={initialStateCreateAccount}
               handleClose={() => handleState({ key: 'create', value: false })}
               isCreateUser
-              cb={message => openSnackbar({ message })}
+              cb={(message) => openSnackbar({ message })}
             />
           </MuiModal>
         )}

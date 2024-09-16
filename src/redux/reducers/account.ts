@@ -19,9 +19,9 @@ export const initialState = {
 export const accountReducer = createSlice({
   name: 'account',
   initialState,
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase('getAccounts/pending', state => {
+      .addCase('getAccounts/pending', (state) => {
         state.loading = true
         state.error = false
         if (state.page === 1) {
@@ -39,7 +39,7 @@ export const accountReducer = createSlice({
         state.data =
           state.page === 1 ? payload.data : [...state.data, ...payload.data]
       })
-      .addCase('getAccounts/rejected', state => {
+      .addCase('getAccounts/rejected', (state) => {
         state.loading = false
         state.loadingPage = false
         state.data = []
@@ -66,7 +66,7 @@ export const accountReducer = createSlice({
       }, [])
     },
     deleteAccount: (state, { payload }) => {
-      state.data = state.data.filter(account => account.userId !== payload)
+      state.data = state.data.filter((account) => account.userId !== payload)
       state.totalCount--
     },
     updateStatusAccount: (state, { payload }) => {

@@ -4,7 +4,7 @@ const passwordSchema = Yup.string()
   .test(
     'empty-or-8-characters-check',
     'Password must be at least 8 characters',
-    password => !password || password.length >= 8
+    (password) => !password || password.length >= 8
   )
   .matches(/^\S*$/, 'Whitespace is not allowed')
 
@@ -30,7 +30,7 @@ const accountSchema = Yup.object().shape({
   oldPassword: Yup.string(),
   password: Yup.string()
     .when('oldPassword', {
-      is: val => !!val,
+      is: (val) => !!val,
       then: Yup.string().required('New password required'),
       otherwise: () => Yup.string(),
     })
@@ -47,7 +47,7 @@ const accountSchema = Yup.object().shape({
     .concat(passwordSchema),
   confirmPassword: Yup.string()
     .when('oldPassword', {
-      is: val => !!val,
+      is: (val) => !!val,
       then: Yup.string().required('New password required'),
       otherwise: () => Yup.string(),
     })

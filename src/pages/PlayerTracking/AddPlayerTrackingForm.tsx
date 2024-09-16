@@ -1,12 +1,7 @@
 import { useState } from 'react'
 import React from 'react'
 
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 
 import AgentSelect from 'components/AgentSelect'
 import MuiModal from 'components/Commons/MuiModal'
@@ -45,7 +40,7 @@ const AddPlayerTrackingForm = ({
   const dispatch = useAppDispatch()
 
   function handleChange({ key, value }: { key: string; value: string }) {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       [key]: value,
     }))
@@ -90,7 +85,7 @@ const AddPlayerTrackingForm = ({
             {isSuperAdminOrAdmin() && (
               <AgentSelect
                 disableSelectAll
-                handleChange={e =>
+                handleChange={(e) =>
                   handleChange({ key: 'partnerId', value: e.target.value })
                 }
               />
@@ -103,7 +98,7 @@ const AddPlayerTrackingForm = ({
               label='Player  ID'
               variant='outlined'
               value={playerId}
-              onChange={e =>
+              onChange={(e) =>
                 handleChange({ key: 'playerId', value: e.target.value })
               }
             />

@@ -9,11 +9,11 @@ const Tags = ({ tags }: { tags: any[] }) => {
       display='flex'
       justifyContent='flex-start'
       pt={1}
-      onClick={e => {
+      onClick={(e) => {
         e.stopPropagation()
       }}
     >
-      {tags.map(item => {
+      {tags.map((item) => {
         return (
           <Chip
             clickable

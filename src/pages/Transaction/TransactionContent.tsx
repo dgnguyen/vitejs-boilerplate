@@ -52,7 +52,6 @@ const TransactionContent = ({
   const errorLoadTransaction = useSelector(errorLoadTransactions)
   const { inputRef, height } = useSetHeightInfiniteScroll()
 
-
   useEffect(() => {
     startSocketConnection().then(({ isConnected, connection }) => {
       if (isConnected && connection) {
@@ -96,14 +95,13 @@ const TransactionContent = ({
     )
   }
 
-
   return (
     <Box>
       <Box className='transaction-content-wrapper'>
         <Box className='header-transaction-wrapper'>
           {dashboardTransaction &&
             Object.entries(dashboardTransaction)
-              .filter(item => item[0] !== 'currency')
+              .filter((item) => item[0] !== 'currency')
               .map((item: any) => {
                 let displayPrice = thousandSeparator(item[1])
                 if (item[0] === 'ggrInPercent')
@@ -130,7 +128,7 @@ const TransactionContent = ({
           sx={{ height: 'calc(100vh - 560px)' }}
         >
           <Box className='transaction-table-header-wrapper'>
-            {Object.values(header).map(col => (
+            {Object.values(header).map((col) => (
               <Box key={col}>
                 <Typography>{col}</Typography>
                 {[header.betAmount, header.winAmount].includes(col) ? (
@@ -143,7 +141,7 @@ const TransactionContent = ({
           </Box>
           <div
             id='scrollableDiv'
-          //  className={styles.accordion}
+            //  className={styles.accordion}
           >
             {loadingPageTransaction && <CircularProgress />}
             {!loadingPageTransaction && dataTransaction?.length > 0 && (
@@ -163,7 +161,9 @@ const TransactionContent = ({
                 ))}
               </InfiniteScroll>
             )}
-            {!loadingPageTransaction && !dataTransaction?.length && <EmptyData />}
+            {!loadingPageTransaction && !dataTransaction?.length && (
+              <EmptyData />
+            )}
           </div>
         </Box>
       </Box>

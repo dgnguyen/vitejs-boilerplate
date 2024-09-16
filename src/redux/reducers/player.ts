@@ -43,7 +43,7 @@ const initialState = {
 export const playerReducer = createSlice({
   name: 'Player',
   initialState,
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
       .addCase('getPlayers/pending', (state, action) => {
         state.isLoadingData = true
@@ -91,7 +91,7 @@ export const playerReducer = createSlice({
     setPreviousSearchValues: (state, { payload }) => {
       state.searchValues = payload
     },
-    resetSearchValuesPlayer: state => {
+    resetSearchValuesPlayer: (state) => {
       state.searchValues = initialSearchValues
     },
     resetPlayersState: () => {
@@ -172,7 +172,7 @@ export const exportPlayers =
         const fileName = `${exportPlayerName}_${isTestAccountName}.xlsx`
         cb(response, fileName)
       })
-      .catch(error => console.error(error))
+      .catch((error) => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 

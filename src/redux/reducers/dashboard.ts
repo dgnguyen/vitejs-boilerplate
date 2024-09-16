@@ -79,10 +79,10 @@ export const dashboardReducer = createSlice({
     setIsTester: (state, action) => {
       state.filter.isTester = action.payload
     },
-    resetDate: state => {
+    resetDate: (state) => {
       state.filter.dateRange = initialStateDateRange
     },
-    resetDashboardFilter: state => {
+    resetDashboardFilter: (state) => {
       state.filter = initialStateFilter
     },
     setLoading: (state, action) => {
@@ -121,7 +121,7 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           },
           { responseType: 'blob' }
         )
-        .then(async response => {
+        .then(async (response) => {
           const url = window.URL.createObjectURL(
             new Blob([response.data], {
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -184,7 +184,7 @@ export const getDashboardDataAction = () => {
             dispatch(setErrorMsg(''))
           }
         )
-        .catch(error => {
+        .catch((error) => {
           dispatch(setData(null))
           dispatch(
             setErrorMsg(error.response.data.message || 'Something wrong!')

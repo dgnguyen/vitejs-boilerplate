@@ -126,7 +126,7 @@ const TopMarketContent = () => {
   const handleReset = () => {
     setSelectedDate(initialSelectedDataObj)
     setSearchDateType(searchTypesEnum.hourly)
-    setResetToggle(prev => !prev)
+    setResetToggle((prev) => !prev)
   }
 
   const handleOrderChange = (orderKey: orderTypesEnum) => {
@@ -160,7 +160,7 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.hourly)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.hourly ? 'contained' : 'outlined'
@@ -172,7 +172,7 @@ const TopMarketContent = () => {
           onClick={() => {
             handleDateChange(todayDate.toString(), todayDate.toString())
             setSearchDateType(searchTypesEnum.today)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.today ? 'contained' : 'outlined'
@@ -188,7 +188,7 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.week)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.week ? 'contained' : 'outlined'
@@ -204,7 +204,7 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.month)
-            setResetToggle(prev => !prev)
+            setResetToggle((prev) => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.month ? 'contained' : 'outlined'

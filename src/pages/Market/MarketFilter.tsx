@@ -56,7 +56,7 @@ const MarketFilter = (props: MarketFilterProps) => {
               }}
               sx={{ background: 'white' }}
             >
-              {isNextRoundSelectOptions.map(item => (
+              {isNextRoundSelectOptions.map((item) => (
                 <MenuItem
                   key={item.value}
                   value={item.value}

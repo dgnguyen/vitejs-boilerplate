@@ -60,7 +60,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
   const { gamesList } = useGames()
 
   const renderHeader = () => {
-    return Object.keys(header).map(col => {
+    return Object.keys(header).map((col) => {
       let data = row[col as keyof RowRecord]
       let className = ''
       if (col === 'transactionDate') {

@@ -99,7 +99,7 @@ const AccountSettings = () => {
         <FormSettings
           isEditUser
           initialState={state}
-          cb={message => openSnackbar({ message })}
+          cb={(message) => openSnackbar({ message })}
         />
         {message && (
           <MuiMessage
