@@ -5,8 +5,9 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
-import { IAgent } from 'types/dashboard'
+
 import { isTesterSelectOptions } from 'constants/filters'
+import { IAgent } from 'types/dashboard'
 
 const TesterSelect = ({
   isTester,

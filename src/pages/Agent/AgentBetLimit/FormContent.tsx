@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   Box,
   Button,
@@ -8,18 +10,19 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { NumericFormat } from 'react-number-format'
+
 import { Form, FormikProps, useFormikContext } from 'formik'
-import { AgentBetLimitValuesProps } from './FormBetLimit'
-import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
+import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { thousandSeparator } from 'helpers/currency'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
-import { useEffect } from 'react'
 import { useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
+import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
+import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
-import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+
 import AgentSelectForBetLimit from './AgentSelectForBetLimit'
-import { thousandSeparator } from 'helpers/currency'
+import { AgentBetLimitValuesProps } from './FormBetLimit'
 
 const FormContent = ({
   props,
@@ -123,7 +126,7 @@ const FormContent = ({
               value={props.values.gameSelect}
               onBlur={props.handleBlur}
               disabled={(isSuperAdmin() && games.length === 0) || loadingGames}
-              onChange={(e) =>
+              onChange={e =>
                 props.setFieldValue('gameSelect', e.target.value as string)
               }
               // error={formik.touched.userType && Boolean(formik.errors.userType)}
@@ -149,7 +152,7 @@ const FormContent = ({
               value={props.values.marketSelect}
               onBlur={props.handleBlur}
               disabled={markets.length === 0 || loadingMarkets}
-              onChange={(e) =>
+              onChange={e =>
                 props.setFieldValue('marketSelect', e.target.value as string)
               }
               // error={formik.touched.userType && Boolean(formik.errors.userType)}
@@ -175,7 +178,7 @@ const FormContent = ({
               value={props.values.eventSelect}
               onBlur={props.handleBlur}
               disabled={events.length === 0 || loadingEvents}
-              onChange={(e) =>
+              onChange={e =>
                 props.setFieldValue('eventSelect', e.target.value as string)
               }
               // error={formik.touched.userType && Boolean(formik.errors.userType)}

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AppDispatch, RootState } from 'redux/store'
-import axios, { AxiosResponse } from 'axios'
-import { format } from 'date-fns'
 import { API_ENDPOINT } from 'api/endpoint'
-import { partnerFromUrl } from 'helpers/exportExcel'
+import axios, { AxiosResponse } from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
+import { format } from 'date-fns'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { partnerFromUrl } from 'helpers/exportExcel'
+import { AppDispatch, RootState } from 'redux/store'
 
 export type IBetLog = {
   betAmount: number
@@ -28,12 +28,12 @@ export type IDashboardData = {
   betLogs: IBetLog[]
 }
 
-export interface DateRange {
+export type DateRange = {
   startDate: Date
   endDate: Date
 }
 
-export interface DahsboardState {
+export type DahsboardState = {
   filter: {
     dateRange: DateRange
     agentSelected: string
@@ -79,10 +79,10 @@ export const dashboardReducer = createSlice({
     setIsTester: (state, action) => {
       state.filter.isTester = action.payload
     },
-    resetDate: (state) => {
+    resetDate: state => {
       state.filter.dateRange = initialStateDateRange
     },
-    resetDashboardFilter: (state) => {
+    resetDashboardFilter: state => {
       state.filter = initialStateFilter
     },
     setLoading: (state, action) => {
@@ -121,7 +121,7 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           },
           { responseType: 'blob' }
         )
-        .then(async (response) => {
+        .then(async response => {
           const url = window.URL.createObjectURL(
             new Blob([response.data], {
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -184,7 +184,7 @@ export const getDashboardDataAction = () => {
             dispatch(setErrorMsg(''))
           }
         )
-        .catch((error) => {
+        .catch(error => {
           dispatch(setData(null))
           dispatch(
             setErrorMsg(error.response.data.message || 'Something wrong!')

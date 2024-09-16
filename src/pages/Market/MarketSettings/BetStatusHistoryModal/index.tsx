@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
-import axios, { AxiosResponse } from 'axios'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import { CircularProgress } from '@mui/material'
 
-import EmptyData from 'components/EmptyData'
+import { API_ENDPOINT } from 'api/endpoint'
+import axios, { AxiosResponse } from 'axios'
 import Modal from 'components/Commons/MuiModal'
+import EmptyData from 'components/EmptyData'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useSelector } from 'react-redux'
+import { RootState } from 'redux/store'
 
 import styles from './style.module.scss'
-import { API_ENDPOINT } from 'api/endpoint'
-import { CircularProgress } from '@mui/material'
-import { RootState } from 'redux/store'
-import { useSelector } from 'react-redux'
 
 const BetStatusHistoryModal: React.FC<{ onModalClose: () => void }> = ({
   onModalClose,

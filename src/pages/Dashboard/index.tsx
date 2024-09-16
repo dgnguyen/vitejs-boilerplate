@@ -1,7 +1,9 @@
 import { Box } from '@mui/material'
+
+import PageTitle from 'components/Commons/PageTitle'
+
 import DashboardActions from './DashboardActions'
 import DashboardContent from './DashboardContent'
-import PageTitle from 'components/Commons/PageTitle'
 
 const Dashboard = () => {
   return (

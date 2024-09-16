@@ -1,7 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+
 import { FormikProps } from 'formik'
 import { useFetchAgents } from 'hooks/useFetchAgents'
 import { IAgentData } from 'types/agent'
+
 import { AgentBetLimitValuesProps } from './FormBetLimit'
 
 type Props = {
@@ -20,7 +22,7 @@ const AgentSelectForBetLimit = ({ props }: Props) => {
         value={props.values.agentSelect || 'all'}
         onBlur={props.handleBlur}
         disabled={loadingAgents}
-        onChange={(e) =>
+        onChange={e =>
           props.setFieldValue('agentSelect', e.target.value as string)
         }
         // error={formik.touched.userType && Boolean(formik.errors.userType)}

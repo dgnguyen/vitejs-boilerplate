@@ -1,5 +1,5 @@
 import { ISearchValuesTransactions } from './transaction'
 
-export interface IFilter extends ISearchValuesTransactions {
+export type IFilter = {
   playerId: string | null
-}
+} & ISearchValuesTransactions

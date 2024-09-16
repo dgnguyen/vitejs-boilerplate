@@ -1,16 +1,20 @@
+import { useEffect } from 'react'
+
+import { Refresh } from '@mui/icons-material'
 import { Box, Button, Divider } from '@mui/material'
-import AgentTab from '../AgentTab'
+
+import PageTitle from 'components/Commons/PageTitle'
 import DateBlock from 'components/DateBlock'
 import ExportExcel from 'components/ExportExcel'
-import { Refresh } from '@mui/icons-material'
-import FormBetLimit from './FormBetLimit'
-import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from 'redux/store'
-import { resetAgentState } from 'redux/reducers/agent'
-import { useEffect } from 'react'
-import BetLimitHistory from './BetLimitHistory'
 import { isSuperAdmin } from 'helpers/auth'
-import PageTitle from 'components/Commons/PageTitle'
+import { useSelector } from 'react-redux'
+import { resetAgentState } from 'redux/reducers/agent'
+import { RootState, useAppDispatch } from 'redux/store'
+
+import AgentTab from '../AgentTab'
+
+import BetLimitHistory from './BetLimitHistory'
+import FormBetLimit from './FormBetLimit'
 
 const AgentBetLimit = () => {
   const agentSelector = useSelector((state: RootState) => state.agent)

@@ -1,5 +1,7 @@
-import { TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
+
+import { TextField } from '@mui/material'
+
 import { IAgentData } from 'types/agent'
 
 type Props = {
@@ -17,7 +19,7 @@ const TagField = ({ row, cancelEdit, loading, onChange }: Props) => {
   return (
     <TextField
       value={state}
-      onChange={(e) => setState(e.target.value)}
+      onChange={e => setState(e.target.value)}
       onKeyDown={(e: any) => {
         if (e.key === 'Enter' && !loading) {
           onChange(row, e.target.value)

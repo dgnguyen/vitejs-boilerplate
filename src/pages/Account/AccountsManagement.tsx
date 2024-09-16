@@ -22,17 +22,19 @@ import {
   Typography,
 } from '@mui/material'
 
-import EmptyData from 'components/EmptyData'
+import Loader from 'components/Commons/Loader'
 import Menu from 'components/Commons/Menu'
 import MuiDialog from 'components/Commons/MuiDialog'
 import MuiModal from 'components/Commons/MuiModal'
 import PaginateInfo from 'components/Commons/PaginateInfo'
-import Loader from 'components/Commons/Loader'
+import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
+import { isMasterAgent, isSuperAdmin } from 'helpers/auth'
 import useAnchor from 'hooks/useAnchor'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useSnackbar } from 'hooks/useSnackbar'
 import moment from 'moment'
+import { optionsStatus } from 'pages/Agent/helpers'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import {
@@ -41,15 +43,13 @@ import {
   resetAccountsState,
   toggleStatusAccountAction,
 } from 'redux/reducers/account'
+import { RootState, useAppDispatch } from 'redux/store'
+import { IAccount } from 'types/account'
 
 import FormSettings from './FormSettings'
+import { HeaderTab } from './HeaderTab'
 import { initialStateCreateAccount } from './helpers'
 import { getUserRole } from './helpers'
-import { RootState, useAppDispatch } from 'redux/store'
-import { HeaderTab } from './HeaderTab'
-import { isMasterAgent, isSuperAdmin } from 'helpers/auth'
-import { optionsStatus } from 'pages/Agent/helpers'
-import { IAccount } from 'types/account'
 
 const AccountsManagement = () => {
   const dispatch = useAppDispatch()
@@ -65,7 +65,7 @@ const AccountsManagement = () => {
   })
 
   const handleState = ({ key, value }: { key: string; value: any }) =>
-    setState((prevState) => ({
+    setState(prevState => ({
       ...prevState,
       [key]: value,
     }))
@@ -208,7 +208,7 @@ const AccountsManagement = () => {
                       'Created By',
                       'Role',
                       'Status',
-                    ].map((header) => (
+                    ].map(header => (
                       <TableCell
                         sx={{ fontWeight: 'bold' }}
                         key={header}
@@ -221,7 +221,7 @@ const AccountsManagement = () => {
                 </TableHead>
                 <TableBody id='scrollableDiv'>
                   {loadingPage && <Loader />}
-                  {data.map((row) => (
+                  {data.map(row => (
                     <TableRow
                       key={row?.userId}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -289,7 +289,7 @@ const AccountsManagement = () => {
                             value={row?.isBlock?.toString()}
                             onChange={() => handleChangeStatus(row)}
                           >
-                            {optionsStatus.map((item) => (
+                            {optionsStatus.map(item => (
                               <MenuItem
                                 key={item.value}
                                 value={item.value}
@@ -304,7 +304,7 @@ const AccountsManagement = () => {
                         <MoreVertIcon
                           fontSize='small'
                           sx={{ cursor: 'pointer' }}
-                          onClick={(e) => {
+                          onClick={e => {
                             e.stopPropagation()
                             handleOpen(e)
                             setOptionalState(row)
@@ -339,7 +339,7 @@ const AccountsManagement = () => {
               isSuperEditUser={isSuperAdmin() || isMasterAgent()}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
-              cb={(message) => openSnackbar({ message })}
+              cb={message => openSnackbar({ message })}
             />
           </MuiModal>
         )}
@@ -355,7 +355,7 @@ const AccountsManagement = () => {
               initialState={initialStateCreateAccount}
               handleClose={() => handleState({ key: 'create', value: false })}
               isCreateUser
-              cb={(message) => openSnackbar({ message })}
+              cb={message => openSnackbar({ message })}
             />
           </MuiModal>
         )}

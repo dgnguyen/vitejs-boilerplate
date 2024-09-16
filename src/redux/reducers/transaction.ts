@@ -61,9 +61,9 @@ const initialState: ITransactions = {
 export const transactionReducer = createSlice({
   name: 'transaction',
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
-      .addCase('getTransactions/pending', (state) => {
+      .addCase('getTransactions/pending', state => {
         state.loading = true
         state.errors = false
         if (state.searchValues.page === 1) {
@@ -89,7 +89,7 @@ export const transactionReducer = createSlice({
             : state.searchValues.page,
         }
       })
-      .addCase('getTransactions/rejected', (state) => {
+      .addCase('getTransactions/rejected', state => {
         state.loading = false
         state.loadingPage = false
         state.data = []
@@ -133,7 +133,7 @@ export const transactionReducer = createSlice({
     setAgentTransaction: (state, action) => {
       state.searchValues.agentSelected = action.payload
     },
-    resetSearchValues: (state) => {
+    resetSearchValues: state => {
       state.searchValues = initialSearchValues
     },
 
@@ -288,7 +288,7 @@ export const exportTransactions =
       .then(async (response: any) => {
         const isTestAccountName = isTester ? 'RealAccount' : 'TestAccount'
         const status = TRStatusSelectOptions.find(
-          (item) => item.value === TransactionStatus
+          item => item.value === TransactionStatus
         )?.label
         const exportTransactionName = id
           ? `ExportTransactionId-${id}`
@@ -299,7 +299,7 @@ export const exportTransactions =
         const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}_${status}.xlsx`
         cb(response, fileName)
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 
@@ -334,7 +334,7 @@ export const exportSpecificPlayersTransactions =
         const fileName = `ExportPlayersTransactionsId-${id}_${dateRange}.xlsx`
         cb(response, fileName)
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 

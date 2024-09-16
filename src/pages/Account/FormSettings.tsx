@@ -10,20 +10,20 @@ import {
   Typography,
 } from '@mui/material'
 
+import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
 import { PERMISSION_LEVEL } from 'constants/account'
 import { Form, Formik } from 'formik'
+import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
-import accountSchema from 'schema/accountSchema'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
+import accountSchema from 'schema/accountSchema'
 
 import { PasswordInput } from './Input'
 import SelectAgentForAccount from './SelectAgentForAccount'
-import { API_ENDPOINT } from 'api/endpoint'
-import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
 
 export type ValuesForm = {
   email: string
@@ -101,7 +101,7 @@ const FormSettings = ({
   }
 
   const permissionLevelAllowed = PERMISSION_LEVEL.filter(
-    (item) => item.value > getUser().role
+    item => item.value > getUser().role
   )
   return (
     <Box>
@@ -110,7 +110,7 @@ const FormSettings = ({
         validationSchema={accountSchema}
         onSubmit={onSubmit}
       >
-        {(props) => {
+        {props => {
           return (
             <Form
               id='accountSettingsFormSuperAdmin'
@@ -227,7 +227,7 @@ const FormSettings = ({
                           onChange={props.handleChange}
                           name='permissionLevel'
                         >
-                          {permissionLevelAllowed.map((item) => (
+                          {permissionLevelAllowed.map(item => (
                             <MenuItem
                               key={item.value}
                               value={item.value}

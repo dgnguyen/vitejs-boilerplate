@@ -1,3 +1,4 @@
+import { Refresh } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -7,19 +8,20 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
-import DateBlock from 'components/DateBlock'
+
 import AgentSelect from 'components/AgentSelect'
-import { isNextRoundSelectOptions } from './helpers'
+import DateBlock from 'components/DateBlock'
 import TesterSelect from 'components/TesterSelect'
-import { Refresh } from '@mui/icons-material'
 import { GamesProps } from 'context/GamesContext'
-import { MarketStatProps } from 'hooks/useMarketStats'
 import { isSuperAdmin } from 'helpers/auth'
+import { MarketStatProps } from 'hooks/useMarketStats'
+
+import { isNextRoundSelectOptions } from './helpers'
 
 type OmitMarketProps = Omit<MarketStatProps, 'data' | 'error'>
-interface MarketFilterProps extends OmitMarketProps {
+type MarketFilterProps = {
   isMarketSettingsOrTopMarket?: boolean
-}
+} & OmitMarketProps
 
 const MarketFilter = (props: MarketFilterProps) => {
   const {
@@ -54,7 +56,7 @@ const MarketFilter = (props: MarketFilterProps) => {
               }}
               sx={{ background: 'white' }}
             >
-              {isNextRoundSelectOptions.map((item) => (
+              {isNextRoundSelectOptions.map(item => (
                 <MenuItem
                   key={item.value}
                   value={item.value}

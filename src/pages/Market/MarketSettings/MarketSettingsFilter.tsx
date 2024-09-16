@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { Refresh } from '@mui/icons-material'
 import {
   Box,
@@ -8,20 +10,21 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
+
 import DateBlock from 'components/DateBlock'
 import GameSelectButtons from 'components/GameSelectButtons'
 import TesterSelect from 'components/TesterSelect'
 import { useGames } from 'context/GamesContext'
 import { isSuperAdmin } from 'helpers/auth'
 import { useFetchAgents } from 'hooks/useFetchAgents'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import {
   setAgentMarketSettings,
-  setIsTesterTopMarket,
   setGameTypeMarketSettings,
+  setIsTesterTopMarket,
 } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
+
 import AgentSelectForMarket from './AgentSelectForMarket'
 
 const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {

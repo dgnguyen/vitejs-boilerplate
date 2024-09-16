@@ -1,9 +1,11 @@
 import { Box } from '@mui/material'
+
 import PageTitle from 'components/Commons/PageTitle'
-import MarketTab from './MarketTab'
+import { useMarketStats } from 'hooks/useMarketStats'
+
 import MarketFilter from './MarketFilter'
 import MarketStatsContent from './MarketStatsContent'
-import { useMarketStats } from 'hooks/useMarketStats'
+import MarketTab from './MarketTab'
 
 const MarketStats = () => {
   const {

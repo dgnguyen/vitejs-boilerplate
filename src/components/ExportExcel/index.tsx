@@ -10,25 +10,25 @@ import {
   Typography,
 } from '@mui/material'
 
-import { useSelector } from 'react-redux'
-import { exportDashboardDataAction } from 'redux/reducers/dashboard'
-
 import ExcelIcon from 'assets/images/icons/excel.svg'
 import ExportIcon from 'assets/images/icons/export-icon-white.svg'
+import { useSelector } from 'react-redux'
+import {
+  exportAgentsAction,
+  exportAgentsBetLimitAction,
+} from 'redux/reducers/agent'
+import { exportDashboardDataAction } from 'redux/reducers/dashboard'
 import { exportPlayers, getLoadingExportSelector } from 'redux/reducers/player'
-import { setupDownload } from './helpers'
-
-import './index.scss'
-import { useAppDispatch } from 'redux/store'
 import {
   exportSpecificPlayersTransactions,
   exportTransactions,
   getLoadingExportTransactionSelector,
 } from 'redux/reducers/transaction'
-import {
-  exportAgentsAction,
-  exportAgentsBetLimitAction,
-} from 'redux/reducers/agent'
+import { useAppDispatch } from 'redux/store'
+
+import { setupDownload } from './helpers'
+
+import './index.scss'
 
 export type OptionalData = {
   transactionId?: string

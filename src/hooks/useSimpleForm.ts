@@ -19,7 +19,7 @@ export function useSimpleForm() {
     key: string
     value: string | boolean
   }) =>
-    setFormState((prevState) => ({
+    setFormState(prevState => ({
       ...prevState,
       [key]: value,
     }))

@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react'
+
+import { Add,Delete } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -18,9 +21,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import './style.scss'
-import { useEffect, useState } from 'react'
-import { RootState, useAppDispatch } from 'redux/store'
+
+import Loader from 'components/Commons/Loader'
+import PageTitle from 'components/Commons/PageTitle'
+import PaginateInfo from 'components/Commons/PaginateInfo'
+import EmptyData from 'components/EmptyData'
+import { FORMAT_DATE_TIME } from 'constants/date'
+import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
+import moment from 'moment'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import {
   addPlayerTracking,
@@ -28,16 +37,11 @@ import {
   loadPlayersTracking,
   setErrorPlayersTracking,
 } from 'redux/reducers/playerTracking'
-import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
-import EmptyData from 'components/EmptyData'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { Delete, Add } from '@mui/icons-material'
-import PaginateInfo from 'components/Commons/PaginateInfo'
-import moment from 'moment'
-import Loader from 'components/Commons/Loader'
-import { FORMAT_DATE_TIME } from 'constants/date'
-import PageTitle from 'components/Commons/PageTitle'
+import { RootState, useAppDispatch } from 'redux/store'
+
 import AddPlayerTrackingForm from './AddPlayerTrackingForm'
+
+import './style.scss'
 const initialState = { id: '', open: false }
 
 export type SnackbarProps = {
@@ -135,7 +139,7 @@ const PlayerTracking = () => {
                       'Agent Player ID',
                       'Created date',
                       'Created by',
-                    ].map((header) => (
+                    ].map(header => (
                       <TableCell
                         sx={{ fontWeight: 'bold' }}
                         key={header}

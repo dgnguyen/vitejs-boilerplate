@@ -1,4 +1,6 @@
-import { MoreVert, Edit, Delete, Block } from '@mui/icons-material'
+import { useEffect, useState } from 'react'
+
+import { Block,Delete, Edit, MoreVert } from '@mui/icons-material'
 import {
   Box,
   CircularProgress,
@@ -18,28 +20,29 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
+
 import Loader from 'components/Commons/Loader'
+import MuiDialog from 'components/Commons/MuiDialog'
 import EmptyData from 'components/EmptyData'
+import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
 import { FORMAT_DATE_TIME } from 'constants/date'
+import useAnchor from 'hooks/useAnchor'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
+import { useSnackbar } from 'hooks/useSnackbar'
 import moment from 'moment'
-import { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import {
-  toggleStatusAgentAction,
   deleteAgentAction,
   getAgentsListAction,
+  toggleStatusAgentAction,
   updateAgentAction,
 } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
-import { headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
-import useAnchor from 'hooks/useAnchor'
-import MuiDialog from 'components/Commons/MuiDialog'
-import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
-import TagField from './TagField'
 import { IAgentData } from 'types/agent'
-import { useSnackbar } from 'hooks/useSnackbar'
+
+import { headersAgentList, optionsStatus, walletTypeOptions } from './helpers'
+import TagField from './TagField'
 
 const AgentList = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
@@ -62,7 +65,7 @@ const AgentList = () => {
   })
 
   const handleState = ({ key, value }: { key: string; value: boolean }) =>
-    setState((prevState) => ({
+    setState(prevState => ({
       ...prevState,
       [key]: value,
     }))
@@ -174,7 +177,7 @@ const AgentList = () => {
                       <TableCell key={`headerAgentOverview-${index}`}>
                         {typeof header === 'object' ? (
                           <Box>
-                            {header.map((item) => (
+                            {header.map(item => (
                               <Box>{item}</Box>
                             ))}
                           </Box>
@@ -234,9 +237,9 @@ const AgentList = () => {
                               <Select
                                 value={row?.walletTypeId.toString()}
                                 label='Wallet Type'
-                                onChange={(e) => handleEditWalletType(row, e)}
+                                onChange={e => handleEditWalletType(row, e)}
                               >
-                                {walletTypeOptions.map((item) => (
+                                {walletTypeOptions.map(item => (
                                   <MenuItem
                                     key={item.value}
                                     value={item.value}
@@ -257,7 +260,7 @@ const AgentList = () => {
                                 label='Status'
                                 onChange={() => handleChangeStatus(row)}
                               >
-                                {optionsStatus.map((item) => (
+                                {optionsStatus.map(item => (
                                   <MenuItem
                                     key={item.value}
                                     value={item.value}

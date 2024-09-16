@@ -1,15 +1,18 @@
-import { Box, Button, Snackbar, Typography } from '@mui/material'
-import TicketList from 'components/TicketList'
 import { useEffect } from 'react'
+
+import { Box, Button, Snackbar, Typography } from '@mui/material'
+
+import Loader from 'components/Commons/Loader'
+import MuiModal from 'components/Commons/MuiModal'
+import TicketList from 'components/TicketList'
+import { isSuperAdmin } from 'helpers/auth'
+import { useSnackbar } from 'hooks/useSnackbar'
 import { useSelector } from 'react-redux'
 import { getTickets, updateTicketEventOdd } from 'redux/reducers/market'
-import { RootState, useAppDispatch } from 'redux/store'
-import './style.scss'
 import { closeModal } from 'redux/reducers/modal'
-import { useSnackbar } from 'hooks/useSnackbar'
-import MuiModal from 'components/Commons/MuiModal'
-import Loader from 'components/Commons/Loader'
-import { isSuperAdmin } from 'helpers/auth'
+import { RootState, useAppDispatch } from 'redux/store'
+
+import './style.scss'
 
 const MarketSettingsContent = () => {
   const dispatch = useAppDispatch()

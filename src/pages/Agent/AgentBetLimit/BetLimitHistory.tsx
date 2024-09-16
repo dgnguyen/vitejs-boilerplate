@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   Box,
   CircularProgress,
@@ -13,25 +15,28 @@ import {
   TextField,
 } from '@mui/material'
 
-import '../style.scss'
-import { useEffect } from 'react'
-import { RootState, useAppDispatch } from 'redux/store'
-import { getHistoryChangeBetLimitAction } from 'redux/reducers/agent'
-import BetLimitFilter from './BetLimitFilter'
-import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { useSelector } from 'react-redux'
-import { headerAgentBetLimit } from '../helpers'
 import Loader from 'components/Commons/Loader'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
-import moment from 'moment'
-import { IAgentBetLimit } from 'types/agent'
 import { thousandSeparator } from 'helpers/currency'
+import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
+import moment from 'moment'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { useSelector } from 'react-redux'
+import { getHistoryChangeBetLimitAction } from 'redux/reducers/agent'
+import { RootState, useAppDispatch } from 'redux/store'
+import { IAgentBetLimit } from 'types/agent'
+
+import { headerAgentBetLimit } from '../helpers'
+
+import BetLimitFilter from './BetLimitFilter'
+
+import '../style.scss'
 
 const BetLimitHistory = () => {
   const agentsData = useSelector((state: RootState) => state?.agent)
-  const { betLimitData, hasMore, loading, isLoadingPage } = agentsData
+  const { betLimitData, hasMore, loading, isLoadingPage, searchValues } =
+    agentsData
   const dispatch = useAppDispatch()
 
   function fetchHistory() {
@@ -45,10 +50,9 @@ const BetLimitHistory = () => {
       return thousandSeparator(Number(cell[1]))
     return cell[1]
   }
-
   useEffect(() => {
     fetchHistory()
-  }, [])
+  }, [searchValues.value])
 
   const { inputRef, height } = useSetHeightInfiniteScroll()
 

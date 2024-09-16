@@ -11,7 +11,7 @@ const ToggleSwitch: React.FC<{
       <input
         type='checkbox'
         checked={isChecked}
-        onChange={(e) => onChange(e.target.checked)}
+        onChange={e => onChange(e.target.checked)}
       />
       <span className='slider round'></span>
     </label>

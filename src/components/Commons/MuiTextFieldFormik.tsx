@@ -1,9 +1,10 @@
 import { Box, TextField } from '@mui/material'
+
 import { FormikHandlers } from 'formik'
 
 type PartialFormikHandlers = Pick<FormikHandlers, "handleChange" | "handleBlur">
 
-interface Props extends PartialFormikHandlers {
+type Props = {
   id: string
   disabled?: boolean
   required: boolean
@@ -12,7 +13,7 @@ interface Props extends PartialFormikHandlers {
   label: string
   touched: any
   errors: any
-}
+} & PartialFormikHandlers
 
 const MuiTextFieldFormik = ({
   disabled = false,

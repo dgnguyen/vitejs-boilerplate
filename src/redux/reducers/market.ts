@@ -23,7 +23,7 @@ export type IBetAllowed = {
   betAllowedMsgKorean: string
 }
 
-export interface MarketState {
+export type MarketState = {
   loadingPage: boolean
   loading: boolean
   data?: IMarketData[][]
@@ -46,7 +46,7 @@ const initialState: MarketState = {
   reload: 0,
   gameType: null,
   agent: null,
-  isTester: 'true',
+  isTester: 'false',
 }
 
 export const MarketReducer = createSlice({
@@ -73,7 +73,6 @@ export const MarketReducer = createSlice({
         betAllowedMsgKorean,
       }
     },
-
     updateBetAllowedState: (state, action) => {
       state.betAllowed = {
         status: action.payload.status,
@@ -85,7 +84,7 @@ export const MarketReducer = createSlice({
           state?.betAllowed?.betAllowedMsgEnglish,
       }
     },
-    handleReloadMarket: (state) => {
+    handleReloadMarket: state => {
       state.reload += 1
     },
     setAgentMarketSettings: (state, { payload }) => {
@@ -129,6 +128,9 @@ export const getTickets = () => {
       if (data) dispatch(setData(data))
       return response.data
     } catch (e) {
+      // eslint-disable-next-line
+      console.error(e)
+
       throw e
     } finally {
       dispatch(setLoadingPage(false))
@@ -162,6 +164,7 @@ export const updateTicketEventOdd = (
       )
       return response.data
     } catch (e) {
+      console.error(e)
       throw e
     } finally {
       dispatch(setLoading(false))

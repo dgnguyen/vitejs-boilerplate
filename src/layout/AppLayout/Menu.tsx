@@ -6,10 +6,12 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import { DRAWER_WIDTH } from 'constants/layout'
-import { getDrawerItems } from './helpers'
-import { useNavigate } from 'react-router-dom'
+
 import RunningBallLogo from 'assets/images/runningball-logo.png'
+import { DRAWER_WIDTH } from 'constants/layout'
+import { useNavigate } from 'react-router-dom'
+
+import { getDrawerItems } from './helpers'
 
 const DrawerContent = () => {
   const navigate = useNavigate()
@@ -36,8 +38,8 @@ const DrawerContent = () => {
       </Box>
       <List>
         {getDrawerItems()
-          .filter((item) => item.enable)
-          .map((item) => (
+          .filter(item => item.enable)
+          .map(item => (
             <ListItem
               key={item.label}
               disablePadding

@@ -1,3 +1,14 @@
+import { useCallback, useEffect, useState } from 'react'
+
+import { Box, Button, CircularProgress, Typography } from '@mui/material'
+
+import { API_ENDPOINT } from 'api/endpoint'
+import BottomArrowIcon from 'assets/images/icons/BottomArrow.svg'
+import UpArrowIcon from 'assets/images/icons/UpArrow.svg'
+import axios, { AxiosResponse } from 'axios'
+import DataPicker from 'components/DataPicker'
+import EmptyData from 'components/EmptyData'
+import { marketNames } from 'constants/market'
 import {
   addHours,
   format,
@@ -7,23 +18,13 @@ import {
   subMonths,
   subWeeks,
 } from 'date-fns'
-import { useCallback, useEffect, useState } from 'react'
-import { ITopMarketObj } from 'types/market'
-import axios, { AxiosResponse } from 'axios'
-import { API_ENDPOINT } from 'api/endpoint'
-import { RootState } from 'redux/store'
+import { isSuperAdmin } from 'helpers/auth'
+import { thousandSeparator } from 'helpers/currency'
 import { useSelector } from 'react-redux'
-import { Box, Button, CircularProgress, Typography } from '@mui/material'
-import DataPicker from 'components/DataPicker'
+import { RootState } from 'redux/store'
+import { ITopMarketObj } from 'types/market'
 
 import './style.scss'
-import { thousandSeparator } from 'helpers/currency'
-import EmptyData from 'components/EmptyData'
-import { marketNames } from 'constants/market'
-
-import UpArrowIcon from 'assets/images/icons/UpArrow.svg'
-import BottomArrowIcon from 'assets/images/icons/BottomArrow.svg'
-import { isSuperAdmin } from 'helpers/auth'
 
 enum searchTypesEnum {
   custom,
@@ -125,9 +126,8 @@ const TopMarketContent = () => {
   const handleReset = () => {
     setSelectedDate(initialSelectedDataObj)
     setSearchDateType(searchTypesEnum.hourly)
-    setResetToggle((prev) => !prev)
+    setResetToggle(prev => !prev)
   }
-  console.log({ orderBy })
 
   const handleOrderChange = (orderKey: orderTypesEnum) => {
     if (orderBy === orderKey || !data?.length) {
@@ -160,7 +160,7 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.hourly)
-            setResetToggle((prev) => !prev)
+            setResetToggle(prev => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.hourly ? 'contained' : 'outlined'
@@ -172,7 +172,7 @@ const TopMarketContent = () => {
           onClick={() => {
             handleDateChange(todayDate.toString(), todayDate.toString())
             setSearchDateType(searchTypesEnum.today)
-            setResetToggle((prev) => !prev)
+            setResetToggle(prev => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.today ? 'contained' : 'outlined'
@@ -188,7 +188,7 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.week)
-            setResetToggle((prev) => !prev)
+            setResetToggle(prev => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.week ? 'contained' : 'outlined'
@@ -204,7 +204,7 @@ const TopMarketContent = () => {
             )
 
             setSearchDateType(searchTypesEnum.month)
-            setResetToggle((prev) => !prev)
+            setResetToggle(prev => !prev)
           }}
           variant={
             searchDateType === searchTypesEnum.month ? 'contained' : 'outlined'

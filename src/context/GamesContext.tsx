@@ -1,9 +1,10 @@
+import React, { useContext, useEffect, useState } from 'react'
+
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
-import React, { useContext, useEffect, useState } from 'react'
 
-export interface GamesProps {
+export type GamesProps = {
   id: number
   name: string
   repeatAfterSeconds: number

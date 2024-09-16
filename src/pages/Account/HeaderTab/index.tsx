@@ -1,12 +1,12 @@
 import { Button } from '@mui/material'
 
+import { ROLES } from 'constants/account'
+import { USER_ROLE } from 'constants/auth'
+import { ROUTES } from 'constants/endpoint'
+import { haveRightToAccess } from 'helpers/auth'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './index.module.scss'
-import { ROUTES } from 'constants/endpoint'
-import { haveRightToAccess } from 'helpers/auth'
-import { ROLES } from 'constants/account'
-import { USER_ROLE } from 'constants/auth'
 
 const buttonsArrCore = [
   {

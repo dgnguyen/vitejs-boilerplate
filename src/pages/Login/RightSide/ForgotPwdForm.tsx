@@ -1,4 +1,4 @@
-import { Box, Link, Button, CircularProgress } from '@mui/material'
+import { Box, Button, CircularProgress,Link } from '@mui/material'
 
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
@@ -6,7 +6,6 @@ import { ROUTES } from 'constants/endpoint'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useNavigate } from 'react-router-dom'
-
 import { forgotPwdSchema } from 'schema/loginSchema'
 
 import styles from './styles.module.scss'
@@ -50,7 +49,7 @@ const ForgotPwdForm = () => {
           onSubmit(values, actions)
         }}
       >
-        {(props) => (
+        {props => (
           <Form
             className='login-form'
             onSubmit={props.handleSubmit}

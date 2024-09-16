@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+
 import { Box, CircularProgress, Snackbar, Typography } from '@mui/material'
 
+import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useSnackbar } from 'hooks/useSnackbar'
 
 import FormSettings from './FormSettings'
-import { API_ENDPOINT } from 'api/endpoint'
 import { HeaderTab } from './HeaderTab'
 
 type ValuesForm = {
@@ -98,7 +99,7 @@ const AccountSettings = () => {
         <FormSettings
           isEditUser
           initialState={state}
-          cb={(message) => openSnackbar({ message })}
+          cb={message => openSnackbar({ message })}
         />
         {message && (
           <MuiMessage

@@ -3,6 +3,7 @@ import { API_ENDPOINT } from 'api/endpoint'
 import { CRUDAction } from 'api/helpers'
 import axios from 'axios'
 import { AppDispatch, RootState } from 'redux/store'
+
 import { DataReturnProps } from './types'
 
 const initialState: DataReturnProps<unknown> = {
@@ -19,7 +20,7 @@ const initialState: DataReturnProps<unknown> = {
 export const PlayerTrackingReducer = createSlice({
   name: 'PlayerTracking',
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase('getPlayersTracking/pending', (state, action) => {
         if (state.page === 1) {
