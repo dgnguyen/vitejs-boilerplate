@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { TextField } from '@mui/material'
+import { Check } from '@mui/icons-material'
+import { Box, Button, TextField } from '@mui/material'
 
 import { IAgentData } from 'types/agent'
 
@@ -12,21 +13,37 @@ type Props = {
 }
 const TagField = ({ row, cancelEdit, loading, onChange }: Props) => {
   const [state, setState] = useState('')
+
+  const editedState = useRef(row?.tag)
   useEffect(() => {
     setState(row?.tag)
   }, [row?.tag, cancelEdit])
 
   return (
-    <TextField
-      value={state}
-      onChange={(e) => setState(e.target.value)}
-      onKeyDown={(e: any) => {
-        if (e.key === 'Enter' && !loading) {
-          onChange(row, e.target.value)
-        }
-      }}
-      fullWidth
-    />
+    <Box display="flex" gap={1}>
+      <TextField
+        value={state}
+        onChange={(e) => setState(e.target.value)}
+        onKeyDown={(e: any) => {
+          if (e.key === 'Enter' && !loading) {
+            onChange(row, e.target.value)
+          }
+        }}
+        fullWidth
+      />
+      {
+
+        <Button
+          disabled={editedState.current === state}
+          size="small"
+          variant="contained"
+          onClick={(e: any) => onChange(row, state)}
+          sx={{ padding: 1 }}
+        >
+          <Check />
+        </Button>
+      }
+    </Box>
   )
 }
 

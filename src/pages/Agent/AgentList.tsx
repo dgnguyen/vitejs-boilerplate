@@ -71,7 +71,7 @@ const AgentList = () => {
     }))
 
   function handleDeleteAgent() {
-    dispatch(deleteAgentAction(optionalState?.id, () => {}))
+    dispatch(deleteAgentAction(optionalState?.id, () => { }))
   }
 
   function toggleBlockAgent() {
