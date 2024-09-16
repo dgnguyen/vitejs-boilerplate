@@ -51,7 +51,7 @@ export function useMarketStats(): MarketStatProps {
 
   const checkIsRunningBallGame = (gameType: number) => {
     const gameInfo = gamesList.find(
-      item => item.id === gameType
+      (item) => item.id === gameType
     ) as GamesProps
     return gameInfo?.category === CATEGORY_GAME.RUNNING_BALL
   }

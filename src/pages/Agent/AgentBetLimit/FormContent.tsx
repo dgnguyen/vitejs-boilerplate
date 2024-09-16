@@ -14,7 +14,6 @@ import {
 
 import { Form, FormikProps, useFormikContext } from 'formik'
 import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
-import { thousandSeparator } from 'helpers/currency'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
 import { useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
 import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
@@ -118,7 +117,9 @@ const FormContent = ({
         >
           {isSuperAdmin() && <AgentSelectForBetLimit props={props} />}
           <FormControl sx={{ width: 150 }}>
-            <InputLabel id='select-game-label'>{loadingGames ? <CircularProgress size={14} /> : "Select Game"}</InputLabel>
+            <InputLabel id='select-game-label'>
+              {loadingGames ? <CircularProgress size={14} /> : 'Select Game'}
+            </InputLabel>
             <Select
               id='select-game'
               label='Select game'
@@ -127,10 +128,10 @@ const FormContent = ({
               value={props.values.gameSelect}
               onBlur={props.handleBlur}
               disabled={(isSuperAdmin() && games.length === 0) || loadingGames}
-              onChange={e =>
+              onChange={(e) =>
                 props.setFieldValue('gameSelect', e.target.value as string)
               }
-            // error={formik.touched.userType && Boolean(formik.errors.userType)}
+              // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {games.map((game: IGamesSelect) => (
@@ -144,7 +145,13 @@ const FormContent = ({
             </Select>
           </FormControl>
           <FormControl sx={{ width: 150 }}>
-            <InputLabel id='select-market-label'>{loadingMarkets ? <CircularProgress size={14} /> : "Select Market"}</InputLabel>
+            <InputLabel id='select-market-label'>
+              {loadingMarkets ? (
+                <CircularProgress size={14} />
+              ) : (
+                'Select Market'
+              )}
+            </InputLabel>
             <Select
               id='select-market'
               label='Select market'
@@ -153,10 +160,10 @@ const FormContent = ({
               value={props.values.marketSelect}
               onBlur={props.handleBlur}
               disabled={markets.length === 0 || loadingMarkets}
-              onChange={e =>
+              onChange={(e) =>
                 props.setFieldValue('marketSelect', e.target.value as string)
               }
-            // error={formik.touched.userType && Boolean(formik.errors.userType)}
+              // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {markets.map((market: IMarketSelect) => (
@@ -170,7 +177,13 @@ const FormContent = ({
             </Select>
           </FormControl>
           <FormControl sx={{ width: 180 }}>
-            <InputLabel id='select-event-label'>{loadingEvents ? <CircularProgress size={14} /> : "Select Sub-Market"}</InputLabel>
+            <InputLabel id='select-event-label'>
+              {loadingEvents ? (
+                <CircularProgress size={14} />
+              ) : (
+                'Select Sub-Market'
+              )}
+            </InputLabel>
             <Select
               id='select-event'
               label='Select Sub-Market'
@@ -179,10 +192,10 @@ const FormContent = ({
               value={props.values.eventSelect}
               onBlur={props.handleBlur}
               disabled={events.length === 0 || loadingEvents}
-              onChange={e =>
+              onChange={(e) =>
                 props.setFieldValue('eventSelect', e.target.value as string)
               }
-            // error={formik.touched.userType && Boolean(formik.errors.userType)}
+              // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {events.map((event: any) => (
@@ -202,7 +215,7 @@ const FormContent = ({
             sx={{ textTransform: 'uppercase' }}
           >
             {submitting && <CircularProgress size={14} />}
-            <Typography>confirm</Typography>
+            <Typography sx={{ textTransform: 'uppercase' }}>confirm</Typography>
           </Button>
         </Box>
       </Box>

@@ -87,7 +87,7 @@ const PlayerContent = () => {
     <Box>
       <Box className='player-content-wrapper'>
         <Box className='player-table-header-wrapper'>
-          {Object.values(header).map(col => (
+          {Object.values(header).map((col) => (
             <Box key={col}>{col}</Box>
           ))}
         </Box>

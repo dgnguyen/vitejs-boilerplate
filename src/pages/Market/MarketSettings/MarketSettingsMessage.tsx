@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Edit,History } from '@mui/icons-material'
+import { Edit, History } from '@mui/icons-material'
 import { Button, FormControlLabel, Typography } from '@mui/material'
 
 import Switch from 'components/Switch'

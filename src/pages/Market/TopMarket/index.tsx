@@ -8,17 +8,14 @@ import MarketTab from '../MarketTab'
 
 import TopMarketContent from './TopMarketContent'
 
-
 const TopMarket = () => {
-
-
   return (
     <Box>
       <PageTitle title='Top Market' />
       <MarketTab />
       <MarketSettingsFilter isTopMarket />
       <TopMarketContent />
-    </Box >
+    </Box>
   )
 }
 

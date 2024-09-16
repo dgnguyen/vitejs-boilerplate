@@ -144,9 +144,9 @@ const BetStatusEditModal: React.FC<{
               validationSchema={Yup.object().shape({
                 password: Yup.string().required('Password is required'),
               })}
-              onSubmit={values => handleSubmit(values, isMsgEdit)}
+              onSubmit={(values) => handleSubmit(values, isMsgEdit)}
             >
-              {props => (
+              {(props) => (
                 <Form
                   className='login-form'
                   onSubmit={props.handleSubmit}
@@ -157,7 +157,7 @@ const BetStatusEditModal: React.FC<{
                       <textarea
                         maxLength={250}
                         name={'textarea'}
-                        onChange={e => {
+                        onChange={(e) => {
                           setTextAreaLength(e.target.textLength)
                           setContents({
                             ...contents,
@@ -165,8 +165,9 @@ const BetStatusEditModal: React.FC<{
                           })
                         }}
                         value={contents[selectedLang]}
-                        placeholder={`Only ${selectedLang === langEnum.eng ? 'English' : 'Korean'
-                          } letters allowed.`}
+                        placeholder={`Only ${
+                          selectedLang === langEnum.eng ? 'English' : 'Korean'
+                        } letters allowed.`}
                       />
                       <p>250/{textAreaLength}</p>
                     </div>

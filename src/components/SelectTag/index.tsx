@@ -73,9 +73,9 @@ export default function SelectTag({ onChange }: { onChange: () => void }) {
           value={personName}
           onChange={handleChange}
           input={<OutlinedInput id='select-tag-chip-input' />}
-          renderValue={selected => (
+          renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map(value => (
+              {selected.map((value) => (
                 <Chip
                   key={value}
                   label={value}
@@ -85,7 +85,7 @@ export default function SelectTag({ onChange }: { onChange: () => void }) {
           )}
           MenuProps={MenuProps}
         >
-          {names.map(name => (
+          {names.map((name) => (
             <MenuItem
               key={name}
               value={name}

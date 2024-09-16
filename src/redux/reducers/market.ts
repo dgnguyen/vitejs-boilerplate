@@ -84,7 +84,7 @@ export const MarketReducer = createSlice({
           state?.betAllowed?.betAllowedMsgEnglish,
       }
     },
-    handleReloadMarket: state => {
+    handleReloadMarket: (state) => {
       state.reload += 1
     },
     setAgentMarketSettings: (state, { payload }) => {

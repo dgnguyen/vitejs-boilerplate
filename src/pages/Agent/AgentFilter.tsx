@@ -68,7 +68,7 @@ const AgentFilter = () => {
           value={searchType.toString()}
           onChange={handleChangeSearchType}
         >
-          {searchTypeAgent.map(item => (
+          {searchTypeAgent.map((item) => (
             <MenuItem
               key={item.value}
               value={item.value}

@@ -50,7 +50,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
       </Box>
       <Divider sx={{ borderColor: 'white', borderWidth: 1, marginY: 2 }} />
       <Box className='marketCard'>
-        {data?.allMarkets?.map(item => {
+        {data?.allMarkets?.map((item) => {
           return (
             <Box
               key={`game-${item.marketName}`}
@@ -81,7 +81,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
               </Box>
               <Divider />
               <Box className='marketStat-content-wrapper'>
-                {item.events.map(eventMarket => {
+                {item.events.map((eventMarket) => {
                   return (
                     <Box
                       key={`game-${item.marketName}-${eventMarket.eventName}`}

@@ -55,7 +55,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
         {!isPageTransactionPlayer && (
           <>
             <TextField
-              placeholder={`Search by ${searchTypeOptions.find(item => item.value === searchType)?.label}`}
+              placeholder={`Search by ${searchTypeOptions.find((item) => item.value === searchType)?.label}`}
               onChange={handleSearchState}
               value={searchState}
               // onKeyDown={(e: any) => {
@@ -72,7 +72,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               onChange={handleChangeSearchType}
               className='bgWhite'
             >
-              {searchTypeOptions.map(searchType => (
+              {searchTypeOptions.map((searchType) => (
                 <MenuItem
                   key={searchType.value}
                   value={searchType.value}
@@ -101,7 +101,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               onChange={handleChangeStatus}
               disabled={disableSearch}
             >
-              {TRStatusSelectOptions.map(status => (
+              {TRStatusSelectOptions.map((status) => (
                 <MenuItem value={status.value}>{status.label}</MenuItem>
               ))}
             </Select>

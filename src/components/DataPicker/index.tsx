@@ -198,14 +198,14 @@ const DataPicker: React.FC<DataPickerProps> = ({
     <Box ref={datePickerRef}>
       <div
         className={styles.pickerContainer}
-        onClick={e => toggle(e)}
+        onClick={(e) => toggle(e)}
         role='button'
       >
         <input
           id='datePicker'
           value={withoutDate ? withoutDate : pickerValue}
           type='text'
-          onClick={e => toggle(e)}
+          onClick={(e) => toggle(e)}
           className={cx(styles.inputEl)}
           readOnly
         />
@@ -224,7 +224,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
       >
         {calendar ? (
           <Calendar
-            onChange={item => {
+            onChange={(item) => {
               if (item) setDate(item)
             }}
             date={date}
@@ -282,7 +282,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
             // buttonSize={'sm'}
             // buttonStyle="outline"
             onClick={() =>
-              setToggleState(prevState => ({ ...prevState, isOpen: false }))
+              setToggleState((prevState) => ({ ...prevState, isOpen: false }))
             }
           >
             Cancel

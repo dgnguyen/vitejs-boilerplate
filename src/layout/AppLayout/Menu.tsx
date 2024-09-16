@@ -38,8 +38,8 @@ const DrawerContent = () => {
       </Box>
       <List>
         {getDrawerItems()
-          .filter(item => item.enable)
-          .map(item => (
+          .filter((item) => item.enable)
+          .map((item) => (
             <ListItem
               key={item.label}
               disablePadding

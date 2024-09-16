@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress,Link } from '@mui/material'
+import { Box, Button, CircularProgress, Link } from '@mui/material'
 
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
@@ -49,7 +49,7 @@ const ForgotPwdForm = () => {
           onSubmit(values, actions)
         }}
       >
-        {props => (
+        {(props) => (
           <Form
             className='login-form'
             onSubmit={props.handleSubmit}

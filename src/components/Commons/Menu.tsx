@@ -42,7 +42,7 @@ const Menu = (props: MenuProps) => {
       {optionsMenuCard?.map(({ icon, name, onClick, dataTestId }, i) => (
         <MenuItem
           key={`menu-${i.toString()}`}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation()
             closeMenu()
             onClick()

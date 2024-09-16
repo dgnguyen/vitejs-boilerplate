@@ -35,7 +35,9 @@ const FormBetLimit = () => {
     eventSelect: '',
   }
 
-  const agentBetLimitDataSelector = useSelector((state: RootState) => state.agent)
+  const agentBetLimitDataSelector = useSelector(
+    (state: RootState) => state.agent
+  )
   const { betLimitData } = agentBetLimitDataSelector
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
@@ -62,16 +64,20 @@ const FormBetLimit = () => {
     const json = JSON.stringify(valuesSendToAPI)
     axios
       .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
-      .then(response => {
+      .then((response) => {
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
           const newBetLimitLine = response?.data?.data
-          const isFirstTimeBetLimitUpdated = !!betLimitData.find((item: IAgentBetLimit) => {
-            return item.agentName === newBetLimitLine.agentName
-              && item.gameName === newBetLimitLine.gameName
-              && item.marketName === newBetLimitLine.marketName
-              && item.eventName === newBetLimitLine.eventName
-          })
+          const isFirstTimeBetLimitUpdated = !!betLimitData.find(
+            (item: IAgentBetLimit) => {
+              return (
+                item.agentName === newBetLimitLine.agentName &&
+                item.gameName === newBetLimitLine.gameName &&
+                item.marketName === newBetLimitLine.marketName &&
+                item.eventName === newBetLimitLine.eventName
+              )
+            }
+          )
           const detailMsg = !isFirstTimeBetLimitUpdated
             ? 'New bet limit values have been applied'
             : `The bet limit values for Agent: "${newBetLimitLine.agentName}", Game: "${newBetLimitLine.gameName}", Market: "${newBetLimitLine.marketName}", Event: "${newBetLimitLine.eventName}" have been changed.`
@@ -80,7 +86,7 @@ const FormBetLimit = () => {
           openSnackbar({ message: response?.data?.message })
         }
       })
-      .catch(e => {
+      .catch((e) => {
         openSnackbar({
           message:
             e?.response?.data?.message || 'Error while set agent bet limit',
@@ -98,7 +104,7 @@ const FormBetLimit = () => {
         initialValues={{ ...initialState }}
         onSubmit={onSubmit}
       >
-        {props => {
+        {(props) => {
           return (
             <FormContent
               props={props}

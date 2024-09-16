@@ -11,7 +11,7 @@ export const userSlice = createSlice({
     token: '',
   },
   reducers: {
-    loginAttempt: state => {
+    loginAttempt: (state) => {
       state.loading = true
       state.errors = false
     },
@@ -24,7 +24,7 @@ export const userSlice = createSlice({
       state.loading = false
       state.errors = action.payload.errors
     },
-    logoutSuccess: state => {
+    logoutSuccess: (state) => {
       state.loading = false
       state.errors = false
       state.token = ''

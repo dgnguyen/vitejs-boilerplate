@@ -101,7 +101,7 @@ const FormSettings = ({
   }
 
   const permissionLevelAllowed = PERMISSION_LEVEL.filter(
-    item => item.value > getUser().role
+    (item) => item.value > getUser().role
   )
   return (
     <Box>
@@ -110,7 +110,7 @@ const FormSettings = ({
         validationSchema={accountSchema}
         onSubmit={onSubmit}
       >
-        {props => {
+        {(props) => {
           return (
             <Form
               id='accountSettingsFormSuperAdmin'
@@ -227,7 +227,7 @@ const FormSettings = ({
                           onChange={props.handleChange}
                           name='permissionLevel'
                         >
-                          {permissionLevelAllowed.map(item => (
+                          {permissionLevelAllowed.map((item) => (
                             <MenuItem
                               key={item.value}
                               value={item.value}
@@ -285,6 +285,35 @@ const FormSettings = ({
                   </Box>
                 )}
               </Box>
+              {isSuperEditUser && (
+                <Box
+                  marginY={2}
+                  display='flex'
+                  gap={2}
+                  flexDirection='column'
+                >
+                  <PasswordInput
+                    id={'password'}
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.password}
+                    error={!!props.errors.password}
+                    helperText={props.errors.password}
+                    label='New Password'
+                    disabled={loading}
+                  />
+                  <PasswordInput
+                    id={'confirmPassword'}
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.confirmPassword}
+                    error={!!props.errors.confirmPassword}
+                    helperText={props.errors.confirmPassword}
+                    label='Confirm New Password'
+                    disabled={loading}
+                  />
+                </Box>
+              )}
 
               <Box
                 display='flex'

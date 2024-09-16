@@ -2,7 +2,7 @@ import { Box, TextField } from '@mui/material'
 
 import { FormikHandlers } from 'formik'
 
-type PartialFormikHandlers = Pick<FormikHandlers, "handleChange" | "handleBlur">
+type PartialFormikHandlers = Pick<FormikHandlers, 'handleChange' | 'handleBlur'>
 
 type Props = {
   id: string
@@ -25,7 +25,7 @@ const MuiTextFieldFormik = ({
   name,
   label,
   touched,
-  errors
+  errors,
 }: Props) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -42,7 +42,7 @@ const MuiTextFieldFormik = ({
         className={touched[name] && errors[name] ? 'error_input' : ''}
       />
       {touched[name] && errors[name] && (
-        <span className="error_text">{errors[name]}</span>
+        <span className='error_text'>{errors[name]}</span>
       )}
     </Box>
   )

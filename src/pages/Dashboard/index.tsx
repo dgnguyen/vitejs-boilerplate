@@ -8,7 +8,7 @@ import DashboardContent from './DashboardContent'
 const Dashboard = () => {
   return (
     <Box>
-      <PageTitle title="Dashboard" />
+      <PageTitle title='Dashboard' />
       <DashboardActions />
       <DashboardContent />
     </Box>

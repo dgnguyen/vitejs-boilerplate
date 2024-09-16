@@ -50,9 +50,10 @@ const BetLimitHistory = () => {
       return thousandSeparator(Number(cell[1]))
     return cell[1]
   }
+
   useEffect(() => {
     fetchHistory()
-  }, [searchValues.value])
+  }, [searchValues])
 
   const { inputRef, height } = useSetHeightInfiniteScroll()
 

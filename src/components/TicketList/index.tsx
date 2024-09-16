@@ -26,7 +26,6 @@ const TicketList: React.FC<IProps> = ({ ticket, ticketLength }) => {
         <Divider sx={{ marginY: 1 }} />
         <div className={'market_section'}>
           {sections?.map((ticket: any, i: number) => {
-
             return (
               <div
                 className={'row'}

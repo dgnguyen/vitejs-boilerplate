@@ -19,7 +19,7 @@ const TagField = ({ row, cancelEdit, loading, onChange }: Props) => {
   return (
     <TextField
       value={state}
-      onChange={e => setState(e.target.value)}
+      onChange={(e) => setState(e.target.value)}
       onKeyDown={(e: any) => {
         if (e.key === 'Enter' && !loading) {
           onChange(row, e.target.value)
