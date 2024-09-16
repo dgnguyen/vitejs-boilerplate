@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Block,Delete, Edit, MoreVert } from '@mui/icons-material'
+import { Block, Delete, Edit, MoreVert } from '@mui/icons-material'
 import {
   Box,
   CircularProgress,
@@ -71,7 +71,7 @@ const AgentList = () => {
     }))
 
   function handleDeleteAgent() {
-    dispatch(deleteAgentAction(optionalState?.id, () => {}))
+    dispatch(deleteAgentAction(optionalState?.id, () => { }))
   }
 
   function toggleBlockAgent() {
@@ -81,7 +81,7 @@ const AgentList = () => {
         optionalState?.isBlock,
         (error?: boolean) => {
           handleState({ key: 'block', value: false })
-          if (!error) openSnackbar({ message: 'Agent has been updated' })
+          if (!error) openSnackbar({ message: `Status of agent ${optionalState.name} has been updated` })
           else {
             openSnackbar({
               message: 'An error has occurred while updating agent status',
@@ -101,7 +101,7 @@ const AgentList = () => {
     dispatch(
       updateAgentAction(optionalState, 'walletTypeId', (error?: boolean) => {
         handleState({ key: 'editWalletType', value: false })
-        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        if (!error) openSnackbar({ message: `Wallet type of agent ${optionalState.name} has been updated` })
         else {
           openSnackbar({
             message: 'An error has occurred while updating agent status',
@@ -136,7 +136,7 @@ const AgentList = () => {
     dispatch(
       updateAgentAction(optionalState, 'tag', (error?: boolean) => {
         handleState({ key: 'editTag', value: false })
-        if (!error) openSnackbar({ message: 'Agent has been updated' })
+        if (!error) openSnackbar({ message: `Category of agent ${optionalState.name} has been updated` })
         else {
           openSnackbar({
             message: 'An error has occurred while updating agent status',
