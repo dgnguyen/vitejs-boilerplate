@@ -1,4 +1,4 @@
-export interface DataReturnProps<T> {
+export type DataReturnProps<T> = {
   data: T[]
   loading: boolean
   isLoadingPage: boolean

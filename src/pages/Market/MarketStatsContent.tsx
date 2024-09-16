@@ -1,10 +1,12 @@
 import { Box, Divider, Tooltip, Typography } from '@mui/material'
+
 import Loader from 'components/Commons/Loader'
-import { marketNames } from './helpers'
 import { addCurrencyToPrice } from 'helpers/currency'
+import { DataMarketStat } from 'hooks/useMarketStats'
+
+import { marketNames } from './helpers'
 
 import './style.scss'
-import { DataMarketStat } from 'hooks/useMarketStats'
 
 type Props = {
   loading: boolean
@@ -48,7 +50,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
       </Box>
       <Divider sx={{ borderColor: 'white', borderWidth: 1, marginY: 2 }} />
       <Box className='marketCard'>
-        {data?.allMarkets?.map((item) => {
+        {data?.allMarkets?.map(item => {
           return (
             <Box
               key={`game-${item.marketName}`}
@@ -79,7 +81,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
               </Box>
               <Divider />
               <Box className='marketStat-content-wrapper'>
-                {item.events.map((eventMarket) => {
+                {item.events.map(eventMarket => {
                   return (
                     <Box
                       key={`game-${item.marketName}-${eventMarket.eventName}`}

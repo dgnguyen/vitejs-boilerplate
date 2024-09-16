@@ -1,20 +1,20 @@
 import { useState } from 'react'
 
-import { Link, Button, CircularProgress, Typography } from '@mui/material'
+import { Button, CircularProgress, Link, Typography } from '@mui/material'
 
 import { ROUTES } from 'constants/endpoint'
+import { useGames } from 'context/GamesContext'
+import { IUser, useUser } from 'context/UserContext'
 import { Form, Formik } from 'formik'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from 'redux/hooks'
-import { useNavigate } from 'react-router-dom'
-
 import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from 'redux/hooks'
+import { loadingLogin,loginUser } from 'redux/reducers/user'
+
 import loginSchema from '../../../schema/loginSchema'
-import { loginUser, loadingLogin } from 'redux/reducers/user'
 
 import styles from './styles.module.scss'
-import { IUser, useUser } from 'context/UserContext'
-import { useGames } from 'context/GamesContext'
 
 const LoginForm = () => {
   const [show, setShow] = useState(false)
@@ -49,7 +49,7 @@ const LoginForm = () => {
         onSubmit(values, actions)
       }}
     >
-      {(props) => (
+      {props => (
         <Form
           className='login-form'
           onSubmit={props.handleSubmit}

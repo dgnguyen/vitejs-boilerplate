@@ -1,12 +1,21 @@
+import { useEffect } from 'react'
+
 import {
   Box,
   CircularProgress,
   LinearProgress,
   Typography,
 } from '@mui/material'
+
+import PaginateInfo from 'components/Commons/PaginateInfo'
+import EmptyData from 'components/EmptyData'
+import { FORMAT_DATE_TIME } from 'constants/date'
+import { ROUTES } from 'constants/endpoint'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
-import { useEffect } from 'react'
+import moment from 'moment'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   errorPlayerSelector,
   getPlayersAction,
@@ -17,14 +26,8 @@ import {
   setPreviousSearchValues,
 } from 'redux/reducers/player'
 import { RootState, useAppDispatch } from 'redux/store'
+
 import { header } from './helpers'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import EmptyData from 'components/EmptyData'
-import { FORMAT_DATE_TIME } from 'constants/date'
-import moment from 'moment'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { ROUTES } from 'constants/endpoint'
-import PaginateInfo from 'components/Commons/PaginateInfo'
 
 const PlayerContent = () => {
   const dispatch = useAppDispatch()
@@ -84,7 +87,7 @@ const PlayerContent = () => {
     <Box>
       <Box className='player-content-wrapper'>
         <Box className='player-table-header-wrapper'>
-          {Object.values(header).map((col) => (
+          {Object.values(header).map(col => (
             <Box key={col}>{col}</Box>
           ))}
         </Box>
@@ -136,7 +139,7 @@ const PlayerContent = () => {
                     <Box>
                       {moment(row?.lastActivity).format(FORMAT_DATE_TIME)}
                     </Box>
-                    <Box className={Boolean(row?.isTester) ? 'test' : 'real'}>
+                    <Box className={row?.isTester ? 'test' : 'real'}>
                       {row?.isTester ? 'Test' : 'Real'}
                     </Box>
                   </Box>

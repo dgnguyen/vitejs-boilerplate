@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import {
   FormControl,
   InputLabel,
@@ -5,8 +7,8 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
+
 import { useFetchAgents } from 'hooks/useFetchAgents'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { setAgentMarketSettings } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
@@ -24,7 +26,7 @@ const AgentSelectForMarket = ({ isTopMarket }: { isTopMarket?: boolean }) => {
 
   useEffect(() => {
     if (!loadingAgents) {
-      dispatch(setAgentMarketSettings(agents.find((item) => !item.isBlock)?.id))
+      dispatch(setAgentMarketSettings(agents.find(item => !item.isBlock)?.id))
     }
   }, [loadingAgents])
 

@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import cx from 'classnames'
-import OutsideClickHandler from 'react-outside-click-handler'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { marketNames } from 'constants/market'
 import DotesIcon from 'assets/images/icons/dotes.svg'
 import EditIcon from 'assets/images/icons/Edit.svg'
+import cx from 'classnames'
+import { marketNames } from 'constants/market'
+import OutsideClickHandler from 'react-outside-click-handler'
+import { useDispatch, useSelector } from 'react-redux'
 import { IMarketData } from 'redux/reducers/market'
-// import { openModal, selectModalIsOpen } from '../../../store/modal/modalSlice'
-
-import './style.scss'
-import { RootState } from 'redux/store'
 import { openModal } from 'redux/reducers/modal'
+import { RootState } from 'redux/store'
+
+// import { openModal, selectModalIsOpen } from '../../../store/modal/modalSlice'
+import './style.scss'
 
 type IProps = {
   ticket: IMarketData

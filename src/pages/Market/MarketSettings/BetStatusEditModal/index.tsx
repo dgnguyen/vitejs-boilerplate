@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 
+import { Box, Button, Snackbar } from '@mui/material'
+
+import WarnIcon from 'assets/images/icons/warnYellowIcon.svg'
+import Modal from 'components/Commons/MuiModal'
 import { Form, Formik } from 'formik'
+import { useSnackbar } from 'hooks/useSnackbar'
 import { useDispatch, useSelector } from 'react-redux'
+import { updateBetAllowStatus } from 'redux/reducers/market'
+import { RootState, useAppDispatch } from 'redux/store'
 import * as Yup from 'yup'
 
-import { Box, Button, Snackbar } from '@mui/material'
-import Modal from 'components/Commons/MuiModal'
-import WarnIcon from 'assets/images/icons/warnYellowIcon.svg'
-import { updateBetAllowStatus } from 'redux/reducers/market'
-
 import styles from './style.module.scss'
-import { RootState, useAppDispatch } from 'redux/store'
-import { useSnackbar } from 'hooks/useSnackbar'
 
 export enum langEnum {
   eng = 1,
@@ -144,9 +144,9 @@ const BetStatusEditModal: React.FC<{
               validationSchema={Yup.object().shape({
                 password: Yup.string().required('Password is required'),
               })}
-              onSubmit={(values) => handleSubmit(values, isMsgEdit)}
+              onSubmit={values => handleSubmit(values, isMsgEdit)}
             >
-              {(props) => (
+              {props => (
                 <Form
                   className='login-form'
                   onSubmit={props.handleSubmit}
@@ -157,7 +157,7 @@ const BetStatusEditModal: React.FC<{
                       <textarea
                         maxLength={250}
                         name={'textarea'}
-                        onChange={(e) => {
+                        onChange={e => {
                           setTextAreaLength(e.target.textLength)
                           setContents({
                             ...contents,

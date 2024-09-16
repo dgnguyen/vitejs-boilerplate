@@ -1,13 +1,16 @@
-import { Button, FormControlLabel, Typography } from '@mui/material'
 import { useState } from 'react'
+
+import { Edit,History } from '@mui/icons-material'
+import { Button, FormControlLabel, Typography } from '@mui/material'
+
+import Switch from 'components/Switch'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
-import Switch from 'components/Switch'
-import { History, Edit } from '@mui/icons-material'
+
+import BetStatusEditModal from './BetStatusEditModal'
+import BetStatusHistoryModal from './BetStatusHistoryModal'
 
 import './style.scss'
-import BetStatusHistoryModal from './BetStatusHistoryModal'
-import BetStatusEditModal from './BetStatusEditModal'
 // import BetStatusEditModal from './BetStatusEditModal'
 
 const initialState = {

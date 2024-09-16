@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react'
+
 import { Refresh } from '@mui/icons-material'
 import { Box, Button, SelectChangeEvent, TextField } from '@mui/material'
+
+import SearchSVG from 'assets/images/search.svg'
 import AgentSelect from 'components/AgentSelect'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
 import { isSuperAdmin } from 'helpers/auth'
-import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {
   getPlayersAction,
@@ -13,7 +16,6 @@ import {
   setSearchValuesPlayer,
 } from 'redux/reducers/player'
 import { RootState, useAppDispatch } from 'redux/store'
-import SearchSVG from 'assets/images/search.svg'
 
 const FilterPlayer = () => {
   const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =

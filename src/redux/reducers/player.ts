@@ -1,17 +1,10 @@
-import {
-  Action,
-  ActionReducerMapBuilder,
-  createAsyncThunk,
-  createSlice,
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { isTesterSelectOptions } from 'constants/filters'
-
-import { AppDispatch, RootState } from 'redux/store'
-import { handleExportRequest } from 'helpers/exportExcel'
-import { ISearchValuesPlayers } from 'types/player'
 import { API_BASE_URL } from 'constants/endpoint'
-import { resetSearchValues } from './transaction'
+import { isTesterSelectOptions } from 'constants/filters'
+import { handleExportRequest } from 'helpers/exportExcel'
+import { AppDispatch, RootState } from 'redux/store'
+import { ISearchValuesPlayers } from 'types/player'
 
 export type IPlayer = {
   agentName: string
@@ -50,7 +43,7 @@ const initialState = {
 export const playerReducer = createSlice({
   name: 'Player',
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase('getPlayers/pending', (state, action) => {
         state.isLoadingData = true
@@ -98,7 +91,7 @@ export const playerReducer = createSlice({
     setPreviousSearchValues: (state, { payload }) => {
       state.searchValues = payload
     },
-    resetSearchValuesPlayer: (state) => {
+    resetSearchValuesPlayer: state => {
       state.searchValues = initialSearchValues
     },
     resetPlayersState: () => {
@@ -109,7 +102,7 @@ export const playerReducer = createSlice({
 
 export const getPlayersAction = createAsyncThunk(
   'getPlayers',
-  async (dispatch, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState }) => {
     const {
       searchValues: { id, page, agentSelected, take, isTester },
     } = (getState() as RootState)?.player
@@ -179,7 +172,7 @@ export const exportPlayers =
         const fileName = `${exportPlayerName}_${isTestAccountName}.xlsx`
         cb(response, fileName)
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 

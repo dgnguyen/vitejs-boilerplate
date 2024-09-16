@@ -1,14 +1,20 @@
-import { Formik } from 'formik'
-import { Box, Snackbar } from '@mui/material'
-import '../style.scss'
 import { useState } from 'react'
-import FormContent from './FormContent'
-import axios from 'axios'
+
+import { Box, Snackbar } from '@mui/material'
+
 import { API_ENDPOINT } from 'api/endpoint'
 import { headersContentType } from 'api/helpers'
+import axios from 'axios'
+import { Formik } from 'formik'
 import { useSnackbar } from 'hooks/useSnackbar'
-import { useAppDispatch } from 'redux/store'
+import { useSelector } from 'react-redux'
 import { addNewAgentBetLimit } from 'redux/reducers/agent'
+import { RootState, useAppDispatch } from 'redux/store'
+import { IAgentBetLimit } from 'types/agent'
+
+import FormContent from './FormContent'
+
+import '../style.scss'
 
 export type AgentBetLimitValuesProps = {
   minBet: string
@@ -29,6 +35,8 @@ const FormBetLimit = () => {
     eventSelect: '',
   }
 
+  const agentBetLimitDataSelector = useSelector((state: RootState) => state.agent)
+  const { betLimitData } = agentBetLimitDataSelector
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
@@ -54,15 +62,25 @@ const FormBetLimit = () => {
     const json = JSON.stringify(valuesSendToAPI)
     axios
       .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
-      .then((response) => {
+      .then(response => {
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
-          openSnackbar({ message: 'New bet limit values has been changed' })
+          const newBetLimitLine = response?.data?.data
+          const isFirstTimeBetLimitUpdated = !!betLimitData.find((item: IAgentBetLimit) => {
+            return item.agentName === newBetLimitLine.agentName
+              && item.gameName === newBetLimitLine.gameName
+              && item.marketName === newBetLimitLine.marketName
+              && item.eventName === newBetLimitLine.eventName
+          })
+          const detailMsg = !isFirstTimeBetLimitUpdated
+            ? 'New bet limit values have been applied'
+            : `The bet limit values for Agent: "${newBetLimitLine.agentName}", Game: "${newBetLimitLine.gameName}", Market: "${newBetLimitLine.marketName}", Event: "${newBetLimitLine.eventName}" have been changed.`
+          openSnackbar({ message: detailMsg })
         } else {
           openSnackbar({ message: response?.data?.message })
         }
       })
-      .catch((e) => {
+      .catch(e => {
         openSnackbar({
           message:
             e?.response?.data?.message || 'Error while set agent bet limit',
@@ -80,7 +98,7 @@ const FormBetLimit = () => {
         initialValues={{ ...initialState }}
         onSubmit={onSubmit}
       >
-        {(props) => {
+        {props => {
           return (
             <FormContent
               props={props}
@@ -92,7 +110,7 @@ const FormBetLimit = () => {
       {snackbar.open && (
         <Snackbar
           open={snackbar.open}
-          autoHideDuration={2000}
+          autoHideDuration={4000}
           onClose={closeSnackbar}
           message={snackbar.message}
           anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

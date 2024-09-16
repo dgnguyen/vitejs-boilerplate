@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react'
+
 import { Box, Button, CircularProgress } from '@mui/material'
+
 import { useGames } from 'context/GamesContext'
+import { useDispatch } from 'react-redux'
+import { setSearchValue } from 'redux/reducers/transaction'
+import { useAppDispatch } from 'redux/store'
 
 import './style.scss'
-import { useEffect, useState } from 'react'
-import { setSearchValue } from 'redux/reducers/transaction'
-import { useDispatch } from 'react-redux'
-import { useAppDispatch } from 'redux/store'
 
 const GameSelect = ({
   handleSelectGame,
@@ -21,7 +23,7 @@ const GameSelect = ({
   const dispatch = useAppDispatch()
   const { gamesList, loadingGames, errorGames } = useGames()
   const [selectGames, setSelectGames] = useState<any[]>([])
-  const gamesListId = gamesList.map((item) => item.id.toString())
+  const gamesListId = gamesList.map(item => item.id.toString())
 
   useEffect(() => {
     if (selectGames.length > 0 && selectGames.length === gamesList.length) {
@@ -52,7 +54,7 @@ const GameSelect = ({
       setSelectedAllGames?.(newValue)
     } else {
       const toggleSelectGame = selectGames?.includes(gameId)
-        ? selectGames.filter((item) => item.toString() !== gameId)
+        ? selectGames.filter(item => item.toString() !== gameId)
         : [...selectGames, gameId]
       setSelectGames(toggleSelectGame)
       setSelectedAllGames?.(null)
@@ -73,7 +75,7 @@ const GameSelect = ({
       >
         All
       </Button>
-      {gamesList.map((game) => (
+      {gamesList.map(game => (
         <Button
           key={game?.id}
           data-testid={`gameType-select-${game?.id}`}

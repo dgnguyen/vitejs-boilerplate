@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react'
+
 import { API_ENDPOINT } from 'api/endpoint'
 import { headersContentType } from 'api/helpers'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 
 export type IGamesSelect = {
   id: number

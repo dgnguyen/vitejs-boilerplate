@@ -1,21 +1,23 @@
-import { useFetchAgents } from 'hooks/useFetchAgents'
-import { isSuperAdminOrAdmin } from 'helpers/auth'
-import AgentSelect from 'components/AgentSelect'
-import MuiModal from 'components/Commons/MuiModal'
+import { useState } from 'react'
+import React from 'react'
+
 import {
   Box,
   Button,
-  SnackbarProps,
   TextField,
   Typography,
 } from '@mui/material'
-import { Dispatch, SetStateAction, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from 'redux/store'
+
+import AgentSelect from 'components/AgentSelect'
+import MuiModal from 'components/Commons/MuiModal'
+import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { useSelector } from 'react-redux'
 import { addPlayerTracking } from 'redux/reducers/playerTracking'
+import { RootState, useAppDispatch } from 'redux/store'
+
 import './style.scss'
 
-const addPlayerTrackingForm = ({
+const AddPlayerTrackingForm = ({
   handleClose,
   open,
   setSnackbar,
@@ -43,7 +45,7 @@ const addPlayerTrackingForm = ({
   const dispatch = useAppDispatch()
 
   function handleChange({ key, value }: { key: string; value: string }) {
-    setState((prevState) => ({
+    setState(prevState => ({
       ...prevState,
       [key]: value,
     }))
@@ -88,7 +90,7 @@ const addPlayerTrackingForm = ({
             {isSuperAdminOrAdmin() && (
               <AgentSelect
                 disableSelectAll
-                handleChange={(e) =>
+                handleChange={e =>
                   handleChange({ key: 'partnerId', value: e.target.value })
                 }
               />
@@ -101,7 +103,7 @@ const addPlayerTrackingForm = ({
               label='Player  ID'
               variant='outlined'
               value={playerId}
-              onChange={(e) =>
+              onChange={e =>
                 handleChange({ key: 'playerId', value: e.target.value })
               }
             />
@@ -130,4 +132,4 @@ const addPlayerTrackingForm = ({
   )
 }
 
-export default addPlayerTrackingForm
+export default AddPlayerTrackingForm

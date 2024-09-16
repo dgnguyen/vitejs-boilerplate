@@ -1,4 +1,3 @@
-import { useFetchAgents } from 'hooks/useFetchAgents'
 import {
   Box,
   FormControl,
@@ -7,6 +6,8 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material'
+
+import { useFetchAgents } from 'hooks/useFetchAgents'
 import { IAgentData } from 'types/agent'
 
 type SelectProps = {

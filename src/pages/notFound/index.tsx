@@ -1,4 +1,5 @@
 import AppLayout from 'layout/AppLayout'
+
 import { Wrapper } from './style'
 
 const NotFound = () => {

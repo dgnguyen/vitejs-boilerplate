@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { DataReturnProps } from './types'
-import { AppDispatch, RootState } from 'redux/store'
-import axios from 'axios'
 import { API_ENDPOINT } from 'api/endpoint'
+import axios from 'axios'
 import { handleExportRequest } from 'helpers/exportExcel'
+import { AppDispatch, RootState } from 'redux/store'
 import { IAgentBetLimit, IAgentData } from 'types/agent'
 
-interface IAgentsStateProps extends DataReturnProps<IAgentData> {
+import { DataReturnProps } from './types'
+
+type IAgentsStateProps = {
   isExporting: boolean
   searchValues: {
     searchType: number
@@ -14,7 +15,7 @@ interface IAgentsStateProps extends DataReturnProps<IAgentData> {
   }
   currency: string
   betLimitData: IAgentBetLimit[]
-}
+} & DataReturnProps<IAgentData>
 
 const initialState: IAgentsStateProps = {
   loading: false,
@@ -37,7 +38,7 @@ const initialState: IAgentsStateProps = {
 export const agentReducer = createSlice({
   name: 'Agent',
   initialState,
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase('getAgents/pending', (state, action) => {
         state.loading = true
@@ -57,7 +58,7 @@ export const agentReducer = createSlice({
         state.isLoadingPage = false
         state.page = settings.hasMore ? state.page + 1 : state.page
       })
-      .addCase('getAgents/rejected', (state) => {
+      .addCase('getAgents/rejected', state => {
         state.loading = false
         state.isLoadingPage = false
         state.data = []
@@ -82,7 +83,7 @@ export const agentReducer = createSlice({
         state.isLoadingPage = false
         state.page = settings.hasMore ? state.page + 1 : state.page
       })
-      .addCase('getAgentsBetLimit/rejected', (state) => {
+      .addCase('getAgentsBetLimit/rejected', state => {
         state.loading = false
         state.isLoadingPage = false
         state.betLimitData = []
@@ -99,7 +100,6 @@ export const agentReducer = createSlice({
       state.data = state.data.filter((agent: any) => agent.id !== payload)
       state.totalCount--
     },
-
     updateAgentData: (state, { payload }) => {
       state.data = state.data.map((agent: any) => {
         if (agent.id === payload.id) {
@@ -116,6 +116,9 @@ export const agentReducer = createSlice({
         ...payload,
       }
     },
+    setPageAgent: (state, { payload }) => {
+      state.page = payload
+    },
     resetAgentState: () => {
       return initialState
     },
@@ -130,6 +133,7 @@ export const {
   updateAgentData,
   setLoadingExport,
   resetAgentState,
+  setPageAgent,
   addNewAgentBetLimit,
 } = agentReducer.actions
 
@@ -268,7 +272,7 @@ export const exportAgentsAction =
         const fileName = `ExportAgent.xlsx`
         cb(response, fileName)
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 
@@ -289,7 +293,7 @@ export const exportAgentsBetLimitAction =
         const fileName = `ExportAgent.xlsx`
         cb(response, fileName)
       })
-      .catch((error) => console.error(error))
+      .catch(error => console.error(error))
       .finally(() => dispatch(setLoadingExport(false)))
   }
 
@@ -300,7 +304,6 @@ export const getHistoryChangeBetLimitAction = createAsyncThunk(
       page,
       take,
       searchValues: { value },
-      // eslint-disable-next-line no-unsafe-optional-chaining
     } = (getState() as RootState)?.agent
     try {
       const json = JSON.stringify({

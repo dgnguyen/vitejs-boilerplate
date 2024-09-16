@@ -1,14 +1,17 @@
-import { Box } from '@mui/material'
-import DateBlock from 'components/DateBlock'
-import AgentTab from './AgentTab'
-import AgentFilter from './AgentFilter'
-import { isSuperAdmin } from 'helpers/auth'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import AgentList from './AgentList'
+
+import { Box } from '@mui/material'
+
 import PageTitle from 'components/Commons/PageTitle'
-import { useAppDispatch } from 'redux/store'
+import DateBlock from 'components/DateBlock'
+import { isSuperAdmin } from 'helpers/auth'
+import { useNavigate } from 'react-router-dom'
 import { resetAgentState } from 'redux/reducers/agent'
+import { useAppDispatch } from 'redux/store'
+
+import AgentFilter from './AgentFilter'
+import AgentList from './AgentList'
+import AgentTab from './AgentTab'
 
 const Agent = () => {
   const dispatch = useAppDispatch()

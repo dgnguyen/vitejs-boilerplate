@@ -1,8 +1,7 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-import { AppDispatch, RootState } from 'redux/store'
 import { removeUser, setToken, setUser } from 'helpers/auth'
+import { AppDispatch, RootState } from 'redux/store'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -12,7 +11,7 @@ export const userSlice = createSlice({
     token: '',
   },
   reducers: {
-    loginAttempt: (state) => {
+    loginAttempt: state => {
       state.loading = true
       state.errors = false
     },
@@ -25,7 +24,7 @@ export const userSlice = createSlice({
       state.loading = false
       state.errors = action.payload.errors
     },
-    logoutSuccess: (state) => {
+    logoutSuccess: state => {
       state.loading = false
       state.errors = false
       state.token = ''

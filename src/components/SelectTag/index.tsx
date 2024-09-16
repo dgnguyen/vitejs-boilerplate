@@ -1,13 +1,14 @@
 import * as React from 'react'
-import { Theme, useTheme } from '@mui/material/styles'
+
+import { TextField } from '@mui/material'
 import Box from '@mui/material/Box'
-import OutlinedInput from '@mui/material/OutlinedInput'
+import Chip from '@mui/material/Chip'
+import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
+import OutlinedInput from '@mui/material/OutlinedInput'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
-import Chip from '@mui/material/Chip'
-import { TextField } from '@mui/material'
+import { Theme, useTheme } from '@mui/material/styles'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -72,9 +73,9 @@ export default function SelectTag({ onChange }: { onChange: () => void }) {
           value={personName}
           onChange={handleChange}
           input={<OutlinedInput id='select-tag-chip-input' />}
-          renderValue={(selected) => (
+          renderValue={selected => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
+              {selected.map(value => (
                 <Chip
                   key={value}
                   label={value}
@@ -84,7 +85,7 @@ export default function SelectTag({ onChange }: { onChange: () => void }) {
           )}
           MenuProps={MenuProps}
         >
-          {names.map((name) => (
+          {names.map(name => (
             <MenuItem
               key={name}
               value={name}

@@ -1,3 +1,6 @@
+import { useState } from 'react'
+
+import { Refresh } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -8,15 +11,16 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { searchTypeAgent } from './helpers'
-import { RootState, useAppDispatch } from 'redux/store'
-import { useSelector } from 'react-redux'
-import './style.scss'
+
 import SearchSVG from 'assets/images/search.svg'
-import { getAgentsListAction, setSearchValuesAgent } from 'redux/reducers/agent'
-import { useState } from 'react'
-import { Refresh } from '@mui/icons-material'
 import ExportExcel from 'components/ExportExcel'
+import { useSelector } from 'react-redux'
+import { getAgentsListAction, setSearchValuesAgent } from 'redux/reducers/agent'
+import { RootState, useAppDispatch } from 'redux/store'
+
+import { searchTypeAgent } from './helpers'
+
+import './style.scss'
 const AgentFilter = () => {
   const [state, setState] = useState('')
   const agentSelector = useSelector((state: RootState) => state.agent)
@@ -64,7 +68,7 @@ const AgentFilter = () => {
           value={searchType.toString()}
           onChange={handleChangeSearchType}
         >
-          {searchTypeAgent.map((item) => (
+          {searchTypeAgent.map(item => (
             <MenuItem
               key={item.value}
               value={item.value}

@@ -1,13 +1,14 @@
 import React, { ReactNode } from 'react'
 
-import cx from 'classnames'
+import { Box } from '@mui/material'
+
 import DollarSvgGreen from 'assets/images/dollar_green.svg'
 import DollarSvgRed from 'assets/images/dollar_red.svg'
 import DownArrowSvg from 'assets/images/down_arrow_red.svg'
 import UpArrowSvg from 'assets/images/up_arrow_green.svg'
+import cx from 'classnames'
 
 import './styles.scss'
-import { Box } from '@mui/material'
 
 type TProps = {
   title?: string

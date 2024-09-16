@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react'
+
 import { SelectChangeEvent } from '@mui/material'
+
 import { API_ENDPOINT } from 'api/endpoint'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { CATEGORY_GAME } from 'constants/games'
 import { useGames } from 'context/GamesContext'
-import { useEffect, useState } from 'react'
 import { GamesProps } from 'context/GamesContext'
 import { IMarketStat } from 'types/market'
 
@@ -49,7 +51,7 @@ export function useMarketStats(): MarketStatProps {
 
   const checkIsRunningBallGame = (gameType: number) => {
     const gameInfo = gamesList.find(
-      (item) => item.id === gameType
+      item => item.id === gameType
     ) as GamesProps
     return gameInfo?.category === CATEGORY_GAME.RUNNING_BALL
   }

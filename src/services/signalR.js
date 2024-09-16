@@ -1,5 +1,5 @@
-import * as signalR from '@microsoft/signalr';
-import { API_BASE_URL } from 'constants/endpoint';
+import * as signalR from '@microsoft/signalr'
+import { API_BASE_URL } from 'constants/endpoint'
 
 const connection = new signalR.HubConnectionBuilder()
   .withUrl(`${API_BASE_URL}/NotificationHub`, {
@@ -9,21 +9,21 @@ const connection = new signalR.HubConnectionBuilder()
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Trace)
   .configureLogging(signalR.LogLevel.Information)
-  .build();
+  .build()
 
 connection.onclose(async () => {
-  await startSocketConnection();
-});
+  await startSocketConnection()
+})
 
 export async function startSocketConnection() {
   try {
-    await connection.start();
-
-    console.log('SignalR Connected successfully!');
-    return { isConnected: true, connection };
+    await connection.start()
+    // eslint-disable-next-line
+    console.log('SignalR Connected successfully!')
+    return { isConnected: true, connection }
   } catch (err) {
-    console.error('SOCKET INITIAL CONNECT ERROR - ', err);
-    setTimeout(startSocketConnection, 5000);
-    return { isConnected: false };
+    console.error('SOCKET INITIAL CONNECT ERROR - ', err)
+    setTimeout(startSocketConnection, 5000)
+    return { isConnected: false }
   }
 }

@@ -11,7 +11,7 @@ class CustomDateRange extends DateRange {
       preview: this.state.preview,
       onRangeFocusChange: this.handleRangeFocusChange,
       ...this.props,
-      onPreviewChange: (value) => {
+      onPreviewChange: value => {
         this.updatePreview(value ? this.calcNewSelection(value) : null)
       },
       showDateDisplay: false, // show input for date
@@ -19,7 +19,7 @@ class CustomDateRange extends DateRange {
       showSelectionPreview: true,
       displayMode: 'dateRange',
       onChange: this.setSelection,
-      updateRange: (val) => this.setSelection(val, false),
+      updateRange: val => this.setSelection(val, false),
     }
     const { onChange, ranges } = this.props
 

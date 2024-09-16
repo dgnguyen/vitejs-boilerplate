@@ -1,11 +1,21 @@
+import { useEffect } from 'react'
+
 import {
   Box,
   CircularProgress,
   LinearProgress,
   Typography,
 } from '@mui/material'
+
+import Accordion from 'components/Accordion'
 import Card from 'components/Card'
-import { useEffect } from 'react'
+import PaginateInfo from 'components/Commons/PaginateInfo'
+import EmptyData from 'components/EmptyData'
+import { thousandSeparator } from 'helpers/currency'
+import { header } from 'helpers/playerTransaction'
+import { SearchTypeValue } from 'helpers/transaction'
+import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import {
   errorLoadTransactions,
@@ -20,17 +30,10 @@ import {
   updateTransactionThroughWS,
 } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
-import { getDashboardCardTitle } from './helpers'
-import Accordion from 'components/Accordion'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
-import EmptyData from 'components/EmptyData'
-import { thousandSeparator } from 'helpers/currency'
-import { header } from 'helpers/playerTransaction'
-import { SearchTypeValue } from 'helpers/transaction'
 import { startSocketConnection } from 'services/signalR'
 import { UpdateCMSDataWS } from 'types/transaction'
-import PaginateInfo from 'components/Commons/PaginateInfo'
+
+import { getDashboardCardTitle } from './helpers'
 
 const TransactionContent = ({
   playerId,
@@ -48,6 +51,17 @@ const TransactionContent = ({
   const loadingPageTransaction = useSelector(transactionIsPageLoadingSelector)
   const errorLoadTransaction = useSelector(errorLoadTransactions)
   const { inputRef, height } = useSetHeightInfiniteScroll()
+
+
+  useEffect(() => {
+    startSocketConnection().then(({ isConnected, connection }) => {
+      if (isConnected && connection) {
+        connection.on('updateTransactionDataCMS', (result: UpdateCMSDataWS) => {
+          dispatch(updateTransactionThroughWS(result))
+        })
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (playerId) {
@@ -82,15 +96,6 @@ const TransactionContent = ({
     )
   }
 
-  useEffect(() => {
-    startSocketConnection().then(({ isConnected, connection }) => {
-      if (isConnected && connection) {
-        connection.on('updateTransactionDataCMS', (result: UpdateCMSDataWS) => {
-          dispatch(updateTransactionThroughWS(result))
-        })
-      }
-    })
-  }, [])
 
   return (
     <Box>
@@ -98,7 +103,7 @@ const TransactionContent = ({
         <Box className='header-transaction-wrapper'>
           {dashboardTransaction &&
             Object.entries(dashboardTransaction)
-              .filter((item) => item[0] !== 'currency')
+              .filter(item => item[0] !== 'currency')
               .map((item: any) => {
                 let displayPrice = thousandSeparator(item[1])
                 if (item[0] === 'ggrInPercent')
@@ -125,7 +130,7 @@ const TransactionContent = ({
           sx={{ height: 'calc(100vh - 560px)' }}
         >
           <Box className='transaction-table-header-wrapper'>
-            {Object.values(header).map((col) => (
+            {Object.values(header).map(col => (
               <Box key={col}>
                 <Typography>{col}</Typography>
                 {[header.betAmount, header.winAmount].includes(col) ? (

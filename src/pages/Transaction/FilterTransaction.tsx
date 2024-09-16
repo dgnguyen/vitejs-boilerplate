@@ -1,3 +1,6 @@
+import { useEffect } from 'react'
+
+import { Refresh } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -6,20 +9,19 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import DataPicker from 'components/DataPicker'
-import TesterSelect from 'components/TesterSelect'
+
 import SearchSVG from 'assets/images/search.svg'
-import { useAppDispatch } from 'redux/store'
+import DataPicker from 'components/DataPicker'
+import ExportExcel from 'components/ExportExcel'
+import TesterSelect from 'components/TesterSelect'
+import { searchTypeOptions, TRStatusSelectOptions } from 'helpers/transaction'
+import useTopDataSearchBar from 'hooks/useTopDataSearchBar'
 import { useSelector } from 'react-redux'
 import {
   setSearchValue,
   transactionSearchValuesSelector,
 } from 'redux/reducers/transaction'
-import useTopDataSearchBar from 'hooks/useTopDataSearchBar'
-import { searchTypeOptions, TRStatusSelectOptions } from 'helpers/transaction'
-import { Refresh } from '@mui/icons-material'
-import ExportExcel from 'components/ExportExcel'
-import { useEffect } from 'react'
+import { useAppDispatch } from 'redux/store'
 
 const FilterTransaction = ({ playerId }: { playerId?: string }) => {
   const dispatch = useAppDispatch()
@@ -53,7 +55,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
         {!isPageTransactionPlayer && (
           <>
             <TextField
-              placeholder={`Search by ${searchTypeOptions.find((item) => item.value === searchType)?.label}`}
+              placeholder={`Search by ${searchTypeOptions.find(item => item.value === searchType)?.label}`}
               onChange={handleSearchState}
               value={searchState}
               // onKeyDown={(e: any) => {
@@ -70,7 +72,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               onChange={handleChangeSearchType}
               className='bgWhite'
             >
-              {searchTypeOptions.map((searchType) => (
+              {searchTypeOptions.map(searchType => (
                 <MenuItem
                   key={searchType.value}
                   value={searchType.value}
@@ -99,7 +101,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               onChange={handleChangeStatus}
               disabled={disableSearch}
             >
-              {TRStatusSelectOptions.map((status) => (
+              {TRStatusSelectOptions.map(status => (
                 <MenuItem value={status.value}>{status.label}</MenuItem>
               ))}
             </Select>

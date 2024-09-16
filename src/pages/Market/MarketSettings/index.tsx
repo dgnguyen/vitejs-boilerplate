@@ -1,8 +1,11 @@
 import { Box } from '@mui/material'
+
 import PageTitle from 'components/Commons/PageTitle'
+
 import MarketTab from '../MarketTab'
-import MarketSettingsFilter from './MarketSettingsFilter'
+
 import MarketSettingsContent from './MarketSettingsContent'
+import MarketSettingsFilter from './MarketSettingsFilter'
 import MarketSettingsMessage from './MarketSettingsMessage'
 
 const MarketSettings = () => {

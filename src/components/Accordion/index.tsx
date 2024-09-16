@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 
-import cx from 'classnames'
-import { format } from 'date-fns'
-import { thousandSeparator } from 'helpers/currency'
-import { StatusTransaction } from 'types/transaction'
-
-import { separateAndUppercase } from 'helpers/stringHelper'
 import BottomArrowIcon from 'assets/images/BottomArrow.svg'
 import UpArrowIcon from 'assets/images/UpArrow.svg'
+import cx from 'classnames'
+import { GamesProps, useGames } from 'context/GamesContext'
+import { format } from 'date-fns'
+import { thousandSeparator } from 'helpers/currency'
+import { separateAndUppercase } from 'helpers/stringHelper'
+import { StatusTransaction } from 'types/transaction'
+
 import { contentHeader, header } from './constants'
 
 import styles from './Accordion.module.scss'
-import { GamesProps, useGames } from 'context/GamesContext'
 
 type RowRecord = {
   betLogId: string
@@ -60,7 +60,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
   const { gamesList } = useGames()
 
   const renderHeader = () => {
-    return Object.keys(header).map((col) => {
+    return Object.keys(header).map(col => {
       let data = row[col as keyof RowRecord]
       let className = ''
       if (col === 'transactionDate') {

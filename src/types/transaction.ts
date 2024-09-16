@@ -1,5 +1,3 @@
-// import { TRListType } from '../components/Accordion'
-
 export enum SearchTypeValue {
   BC_TRANSACTION = 1,
   BET_AMOUNT = 2,
@@ -47,7 +45,6 @@ export type ITransactions = {
   loadingPage: boolean
   errors: boolean
   settings: SettingsTransactions
-  // data: TRListType[]
   data: any //totype
   searchValues: ISearchValuesTransactions
   isExporting: boolean
@@ -93,19 +90,6 @@ type content = {
     minRate: number | null | string
     maxRate: number | null | string
   }[]
-}
-
-type contentRecord = {
-  externalRoundId: string
-  marketName: string
-  eventName: string
-  coefficent: string
-  currency: string
-  gameResult: string
-}
-
-type AccordionProps = {
-  data: RowRecord & content
 }
 
 export type TRListType = RowRecord & content

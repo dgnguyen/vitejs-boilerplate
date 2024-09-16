@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
+
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { IAgentData } from 'types/agent'
 
 export function useFetchAgents() {

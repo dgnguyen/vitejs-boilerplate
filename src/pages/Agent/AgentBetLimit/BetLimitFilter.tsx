@@ -1,10 +1,12 @@
-import { Box, Button, TextField } from '@mui/material'
-import SearchSVG from 'assets/images/search.svg'
-
 import { useState } from 'react'
+
+import { Box, Button, TextField } from '@mui/material'
+
+import SearchSVG from 'assets/images/search.svg'
 import { useSelector } from 'react-redux'
 import {
   getHistoryChangeBetLimitAction,
+  setPageAgent,
   setSearchValuesAgent,
 } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
@@ -17,12 +19,13 @@ const BetLimitFilter = () => {
 
   function handleChangeSearchValue(e: React.ChangeEvent<HTMLInputElement>) {
     setState(e.target.value)
-    dispatch(setSearchValuesAgent({ value: e.target.value }))
   }
 
   function handleSearch() {
-    dispatch(getHistoryChangeBetLimitAction())
+    dispatch(setPageAgent(1))
+    dispatch(setSearchValuesAgent({ value: state }))
   }
+
   return (
     <Box
       display='flex'

@@ -1,4 +1,5 @@
 import { Box, Button } from '@mui/material'
+
 import { GamesProps, useGames } from 'context/GamesContext'
 
 type Props = {

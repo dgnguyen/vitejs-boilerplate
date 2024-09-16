@@ -1,10 +1,16 @@
+import { useEffect } from 'react'
+
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Box, SelectChangeEvent, Typography } from '@mui/material'
+
 import AgentSelect from 'components/AgentSelect'
+import PageTitle from 'components/Commons/PageTitle'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
+import { ROUTES } from 'constants/endpoint'
 import { isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   resetSearchValues,
   setAndLoadData,
@@ -14,13 +20,11 @@ import {
   transactionSearchValuesSelector,
 } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
+
 import FilterTransaction from './FilterTransaction'
-import './style.scss'
 import TransactionContent from './TransactionContent'
-import PageTitle from 'components/Commons/PageTitle'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { ROUTES } from 'constants/endpoint'
-import { useEffect } from 'react'
+
+import './style.scss'
 
 const Transaction = () => {
   const { playerId, isTester } = useParams()

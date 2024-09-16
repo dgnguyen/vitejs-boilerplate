@@ -1,4 +1,9 @@
+import { useEffect } from 'react'
+
 import { Box, CircularProgress, Divider } from '@mui/material'
+
+import Card from 'components/Card'
+import { thousandSeparator } from 'helpers/currency'
 import { useSelector } from 'react-redux'
 import {
   dashboardDataSelector,
@@ -7,13 +12,9 @@ import {
   dashboardLoadingPageSelector,
   getDashboardDataAction,
 } from 'redux/reducers/dashboard'
-
-import Card from 'components/Card'
-import { thousandSeparator } from 'helpers/currency'
+import { useAppDispatch } from 'redux/store'
 
 import './style.scss'
-import { useAppDispatch } from 'redux/store'
-import { useEffect } from 'react'
 
 const DashboardContent = () => {
   const dispatch = useAppDispatch()

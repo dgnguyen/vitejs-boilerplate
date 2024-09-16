@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react'
 
+import { Box, Divider, Typography } from '@mui/material'
+
+import { IMarketData } from 'redux/reducers/market'
+
 import { emptyMarker, prepareArray } from './helpers'
 import Ticket from './Ticket'
-import { IMarketData } from 'redux/reducers/market'
-import { Box, Divider, Typography } from '@mui/material'
 
 type IProps = {
   ticket: IMarketData[]
