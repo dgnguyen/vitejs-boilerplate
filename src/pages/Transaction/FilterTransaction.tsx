@@ -47,8 +47,6 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
     dispatch(handleSearch)
   }
 
-  useEffect(() => {}, [])
-
   return (
     <Box>
       <Box className='filter-wrapper'>

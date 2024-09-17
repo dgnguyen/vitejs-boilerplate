@@ -12,6 +12,7 @@ import {
 
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
+import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
 import { PERMISSION_LEVEL } from 'constants/account'
@@ -76,9 +77,9 @@ const FormSettings = ({
 
         const valuesSendToAPI = isSuperEditUser
           ? {
-              partnerId,
-              ...rest,
-            }
+            partnerId,
+            ...rest,
+          }
           : rest
         const response = await axios.post(
           API_ENDPOINT.UPDATE_ACCOUNT,
@@ -330,16 +331,16 @@ const FormSettings = ({
                     Cancel
                   </Button>
                 )}
-                <Button
+                <MuiButton
                   type='submit'
                   variant='contained'
                   key='updateAccount'
                   sx={{ marginY: 2, width: '200px', display: 'flex', gap: 1 }}
                   disabled={loading}
+                  loading={loading}
                 >
-                  {loading && <CircularProgress size={14} />}
                   {isCreateUser ? 'Create' : 'Update'}
-                </Button>
+                </MuiButton>
               </Box>
             </Form>
           )

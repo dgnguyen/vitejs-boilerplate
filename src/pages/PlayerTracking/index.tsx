@@ -18,11 +18,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
   Typography,
 } from '@mui/material'
 
 import Loader from 'components/Commons/Loader'
+import MuiButton from 'components/Commons/MuiButton'
 import PageTitle from 'components/Commons/PageTitle'
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
@@ -32,7 +32,6 @@ import moment from 'moment'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
 import {
-  addPlayerTracking,
   deletePlayerTracking,
   loadPlayersTracking,
   setErrorPlayersTracking,
@@ -217,19 +216,20 @@ const PlayerTracking = () => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button
+            <MuiButton
               disabled={loading}
               onClick={handleCloseDialog}
             >
               Cancel
-            </Button>
-            <Button
+            </MuiButton>
+            <MuiButton
               disabled={loading}
               onClick={handleDelete}
               variant='contained'
+              loading={loading}
             >
               Confirm
-            </Button>
+            </MuiButton>
           </DialogActions>
         </Dialog>
       )}

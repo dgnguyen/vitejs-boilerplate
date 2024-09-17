@@ -18,8 +18,10 @@ type SelectProps = {
 
 const AgentSelect = ({
   handleChange,
+  agentSelected,
   disableSelectAll,
 }: {
+  agentSelected?: string | number | null
   disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
 }) => {
@@ -46,8 +48,7 @@ const AgentSelect = ({
         <Select
           labelId='select-agents-select-label'
           id='select-agents-select'
-          // value={agentSelected?.toString()}
-          // defaultValue='all'
+          value={agentSelected?.toString()}
           {...(!disableSelectAll ? { defaultValue: 'all' } : {})}
           label='Select Agent'
           onChange={handleChange}
@@ -56,7 +57,7 @@ const AgentSelect = ({
           {!disableSelectAll && (
             <MenuItem
               defaultChecked
-              value='all'
+              value="all"
             >
               All
             </MenuItem>

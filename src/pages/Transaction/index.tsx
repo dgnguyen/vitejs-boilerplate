@@ -33,7 +33,7 @@ const Transaction = () => {
   const location = useLocation()
 
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { selectedAllGames } = searchValues
+  const { selectedAllGames, agentSelected } = searchValues
   const transactionLoading = useSelector(transactionIsLoadingSelector)
   const transactionPageLoading = useSelector(transactionIsPageLoadingSelector)
   const navigate = useNavigate()
@@ -102,7 +102,7 @@ const Transaction = () => {
       >
         <DateBlock />
         {isSuperAdmin() && !isPageTransactionPlayer && (
-          <AgentSelect handleChange={handleChangeAgent} />
+          <AgentSelect agentSelected={agentSelected} handleChange={handleChangeAgent} />
         )}
       </Box>
       <FilterTransaction playerId={playerId} />

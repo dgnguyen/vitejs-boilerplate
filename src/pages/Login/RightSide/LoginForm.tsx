@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { Button, CircularProgress, Link, Typography } from '@mui/material'
 
+import MuiButton from 'components/Commons/MuiButton'
 import { ROUTES } from 'constants/endpoint'
 import { useGames } from 'context/GamesContext'
 import { IUser, useUser } from 'context/UserContext'
@@ -104,17 +105,17 @@ const LoginForm = () => {
               <span className='error_text'>{props.errors.password}</span>
             )}
           </div>
-          <Button
+          <MuiButton
             key='loginButton'
             type='submit'
             disabled={loginIsLoading}
             variant='contained'
             fullWidth
             sx={{ display: 'flex', gap: 1 }}
+            loading={loginIsLoading}
           >
-            {loginIsLoading && <CircularProgress size={14} />}
             <Typography>Login</Typography>
-          </Button>
+          </MuiButton>
           <Link
             sx={{
               textAlign: 'left',

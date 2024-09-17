@@ -21,7 +21,7 @@ const FilterPlayer = () => {
   const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
     useSelector((state: RootState) => state.player)
   const dispatch = useAppDispatch()
-  const { isTester, id } = searchValues
+  const { isTester, id, agentSelected } = searchValues
   const disableSearch = isLoadingData || isLoadingPage
   const [searchState, setSearchState] = useState<string>('')
 
@@ -83,7 +83,12 @@ const FilterPlayer = () => {
         className='searchTextInput bgWhite'
         sx={{ width: '250px' }}
       />
-      {isSuperAdmin() && <AgentSelect handleChange={handleChangeAgent} />}
+      {isSuperAdmin() &&
+        <AgentSelect
+          agentSelected={agentSelected === null ? "all" : agentSelected}
+          handleChange={handleChangeAgent}
+        />
+      }
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

@@ -1,6 +1,7 @@
-import { Box, Button, CircularProgress, Link } from '@mui/material'
+import { Box, Link } from '@mui/material'
 
 import axios from 'axios'
+import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import { ROUTES } from 'constants/endpoint'
 import { Form, Formik, FormikHelpers } from 'formik'
@@ -76,17 +77,17 @@ const ForgotPwdForm = () => {
               </div>
             </div>
 
-            <Button
+            <MuiButton
               type='submit'
               variant='contained'
               fullWidth
               key='sendMailResetPwd'
               sx={{ marginY: 2, display: 'flex', gap: 1 }}
               disabled={loading}
+              loading={loading}
             >
-              {loading && <CircularProgress size={14} />}
               Send
-            </Button>
+            </MuiButton>
           </Form>
         )}
       </Formik>
