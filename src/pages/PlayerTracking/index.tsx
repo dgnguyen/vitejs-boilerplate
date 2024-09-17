@@ -112,7 +112,7 @@ const PlayerTracking = () => {
             textTransform: 'capitalize',
           }}
         >
-          <Typography>Add New Player tracking ID</Typography>
+          <Typography>Add new player tracking ID</Typography>
         </Button>
       </Box>
 

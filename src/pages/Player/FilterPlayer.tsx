@@ -72,7 +72,7 @@ const FilterPlayer = () => {
   return (
     <Box className='filter-wrapper'>
       <TextField
-        placeholder={`Search by player ID`}
+        placeholder="Search by Agent Player ID"
         onChange={handleSearchState}
         value={searchState}
         // onKeyDown={(e: any) => {
