@@ -17,7 +17,7 @@ import './style.scss'
 const MarketSettingsContent = () => {
   const dispatch = useAppDispatch()
   const marketSettingsData = useSelector((state: RootState) => state.market)
-  const { loading, loadingPage, agent, gameType } = marketSettingsData
+  const { loading, loadingPage, searchValues: { agent, gameType } } = marketSettingsData
   const tickets = marketSettingsData.data
   const modalInfo = useSelector((state: RootState) => state.modal)
   const { snackbar, closeSnackbar, openSnackbar } = useSnackbar()

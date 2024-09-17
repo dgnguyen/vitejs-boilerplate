@@ -11,6 +11,7 @@ import {
   dashboardFilterSelector,
   dashboardLoadingPageSelector,
   getDashboardDataAction,
+  resetDashboardFilter,
 } from 'redux/reducers/dashboard'
 import { useAppDispatch } from 'redux/store'
 
@@ -25,6 +26,9 @@ const DashboardContent = () => {
   } = filterDashboard
   useEffect(() => {
     dispatch(getDashboardDataAction())
+    return () => {
+      dispatch(resetDashboardFilter())
+    }
   }, [
     startDate,
     endDate,

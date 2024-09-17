@@ -10,7 +10,7 @@ import {
 
 import { useFetchAgents } from 'hooks/useFetchAgents'
 import { useSelector } from 'react-redux'
-import { setAgentMarketSettings } from 'redux/reducers/market'
+import { setSearchValuesMarket } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentData } from 'types/agent'
 
@@ -18,15 +18,15 @@ const AgentSelectForMarket = ({ isTopMarket }: { isTopMarket?: boolean }) => {
   const { agents, loadingAgents } = useFetchAgents()
   const dispatch = useAppDispatch()
   const marketSettingsSelector = useSelector((state: RootState) => state.market)
-  const { agent } = marketSettingsSelector
+  const { agent } = marketSettingsSelector.searchValues
 
   function handleChangeAgent(e: SelectChangeEvent) {
-    dispatch(setAgentMarketSettings(e.target.value))
+    dispatch(setSearchValuesMarket({ agent: e.target.value }))
   }
 
   useEffect(() => {
     if (!loadingAgents) {
-      dispatch(setAgentMarketSettings(agents.find((item) => !item.isBlock)?.id))
+      dispatch(setSearchValuesMarket({ agent: agents.find((item) => !item.isBlock)?.id }))
     }
   }, [loadingAgents])
 

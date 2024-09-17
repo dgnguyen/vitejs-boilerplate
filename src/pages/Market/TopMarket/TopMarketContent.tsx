@@ -21,7 +21,8 @@ import {
 import { isSuperAdmin } from 'helpers/auth'
 import { thousandSeparator } from 'helpers/currency'
 import { useSelector } from 'react-redux'
-import { RootState } from 'redux/store'
+import { resetMarketFilter } from 'redux/reducers/market'
+import { RootState, useAppDispatch } from 'redux/store'
 import { ITopMarketObj } from 'types/market'
 
 import './style.scss'
@@ -76,10 +77,14 @@ const TopMarketContent = () => {
   const [isLoading, setLoading] = useState(true)
   const [orderBy, setOrderBy] = useState(orderTypesEnum.totalBet)
   const marketSelector = useSelector((state: RootState) => state.market)
-  const { agent, isTester } = marketSelector
+  const { agent, isTester } = marketSelector.searchValues
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if ((isSuperAdmin() && agent) || !isSuperAdmin()) handleDataFetch()
+    return () => {
+      dispatch(resetMarketFilter())
+    }
   }, [selectedDate, agent, isTester])
 
   const handleDataFetch = async () => {
@@ -140,7 +145,7 @@ const TopMarketContent = () => {
       a[orderTypesEnum[orderKey]] < b[orderTypesEnum[orderKey]]
         ? 1
         : // @ts-ignore
-          a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
+        a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
           ? -1
           : 0
     )

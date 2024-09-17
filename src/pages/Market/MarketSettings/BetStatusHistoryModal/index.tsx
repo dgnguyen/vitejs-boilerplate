@@ -16,7 +16,7 @@ const BetStatusHistoryModal: React.FC<{ onModalClose: () => void }> = ({
   onModalClose,
 }) => {
   const marketData = useSelector((state: RootState) => state.market)
-  const { agent, gameType } = marketData
+  const { agent, gameType } = marketData.searchValues
   const [pageSetting, setPageSetting] = useState({
     page: 0, //The page is starting from 0 on the BE side.
     take: 20,
@@ -28,7 +28,7 @@ const BetStatusHistoryModal: React.FC<{ onModalClose: () => void }> = ({
   const [initialLoader, setInitialLoader] = useState(true)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       await getHistoryData()
       setInitialLoader(false)
     })()
