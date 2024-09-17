@@ -24,19 +24,22 @@ const DashboardContent = () => {
     dateRange: { startDate, endDate },
     isTester,
   } = filterDashboard
+
   useEffect(() => {
     dispatch(getDashboardDataAction())
-    return () => {
-      dispatch(resetDashboardFilter())
-    }
+
   }, [
     startDate,
     endDate,
     filterDashboard?.agentSelected,
-    window.location.pathname,
     isTester,
-    dispatch,
   ])
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetDashboardFilter())
+    }
+  }, [])
 
   const loadingPage = useSelector(dashboardLoadingPageSelector)
   const errorMsg = useSelector(dashboardErrorSelector)

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import React from 'react'
 
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material'
 
 import AgentSelect from 'components/AgentSelect'
 import MuiModal from 'components/Commons/MuiModal'
@@ -84,6 +84,7 @@ const AddPlayerTrackingForm = ({
           <Box className='formAddPlayerTracking-wrapper'>
             {isSuperAdminOrAdmin() && (
               <AgentSelect
+                agentSelected={state.partnerId}
                 disableSelectAll
                 handleChange={(e) =>
                   handleChange({ key: 'partnerId', value: e.target.value })
@@ -107,7 +108,9 @@ const AddPlayerTrackingForm = ({
               disabled={loading}
               variant='contained'
               type='submit'
+
             >
+              {loading && <CircularProgress sx={{ marginRight: 1 }} size={14} />}
               Add
             </Button>
           </Box>

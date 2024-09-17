@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 
 import {
   Box,
-  Button,
   CircularProgress,
   FormControl,
   InputLabel,
@@ -12,6 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 
+import MuiButton from 'components/Commons/MuiButton'
 import { Form, FormikProps, useFormikContext } from 'formik'
 import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
@@ -208,15 +208,15 @@ const FormContent = ({
               ))}
             </Select>
           </FormControl>
-          <Button
+          <MuiButton
             disabled={submitting}
             type='submit'
             variant='contained'
             sx={{ textTransform: 'uppercase' }}
+            loading={submitting}
           >
-            {submitting && <CircularProgress size={14} />}
             <Typography sx={{ textTransform: 'uppercase' }}>confirm</Typography>
-          </Button>
+          </MuiButton>
         </Box>
       </Box>
     </Form>
