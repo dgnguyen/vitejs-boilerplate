@@ -134,7 +134,7 @@ const PlayerContent = () => {
                     <Box>{row?.ggr}</Box>
                     <Box>{row?.avgBetAmount}</Box>
                     <Box>
-                      {moment(row?.fistActivity).format(FORMAT_DATE_TIME)}
+                      {moment(row?.firstActivity).format(FORMAT_DATE_TIME)}
                     </Box>
                     <Box>
                       {moment(row?.lastActivity).format(FORMAT_DATE_TIME)}
