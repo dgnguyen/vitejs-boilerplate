@@ -43,13 +43,13 @@
   cursor: pointer;
   display: flex;
   background: #ffffff;
-  border-radius: 10px;
+  border-radius: var(--radius-base);
   //padding: 10px 25px 10px 25px;
-  height: 48px;
+  height: 50px;
   padding-right: 24px;
   text-align: center;
   // justify-content: center;
-  border: none;
+  border: 1px solid #c4c4c4;
   outline: none;
   color: #2c323e;
 }

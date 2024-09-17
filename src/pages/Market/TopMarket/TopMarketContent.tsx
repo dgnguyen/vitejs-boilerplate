@@ -82,10 +82,14 @@ const TopMarketContent = () => {
 
   useEffect(() => {
     if ((isSuperAdmin() && agent) || !isSuperAdmin()) handleDataFetch()
+
+  }, [selectedDate, agent, isTester])
+
+  useEffect(() => {
     return () => {
       dispatch(resetMarketFilter())
     }
-  }, [selectedDate, agent, isTester])
+  }, [])
 
   const handleDataFetch = async () => {
     const partnerId = agent === 'all' ? null : [agent]

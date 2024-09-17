@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Logo from 'assets/images/logo.png'
+import Logo from 'assets/images/runningball-logo.png'
 
 import ForgotPwdForm from './ForgotPwdForm'
 import LoginForm from './LoginForm'
@@ -20,14 +20,14 @@ function withHOC<P extends object>(
     <div className={styles.login_page_right}>
       <div className={styles.logosDiv}>
         <div className={styles.logo}>
-          <div className={styles.powered}>Powered by</div>
           <img
             src={Logo}
             alt='logo'
           />
         </div>
-        <h1 className={styles.title}>Welcome to Powerball Global CMS</h1>
-        <div className={styles.logoClient}></div>
+        <h1 className={styles.title}>
+          Welcome to RunningBall <br />Global Back Office
+        </h1>
       </div>
       <div className={styles.form_wrapper}>
         <WrappedComponent {...(props as P)} />
