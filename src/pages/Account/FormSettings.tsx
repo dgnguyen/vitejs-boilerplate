@@ -72,6 +72,9 @@ const FormSettings = ({
           dispatch(addNewAccount(response?.data?.data))
           cb('Account has been created successfully')
         }
+        else {
+          cb('Failed to create account')
+        }
       } else if (isSuperEditUser || isEditUser) {
         const { isActive, partnerId, ...rest } = values
 
