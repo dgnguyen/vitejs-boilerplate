@@ -82,7 +82,6 @@ const TopMarketContent = () => {
 
   useEffect(() => {
     if ((isSuperAdmin() && agent) || !isSuperAdmin()) handleDataFetch()
-
   }, [selectedDate, agent, isTester])
 
   useEffect(() => {
@@ -149,7 +148,7 @@ const TopMarketContent = () => {
       a[orderTypesEnum[orderKey]] < b[orderTypesEnum[orderKey]]
         ? 1
         : // @ts-ignore
-        a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
+          a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
           ? -1
           : 0
     )

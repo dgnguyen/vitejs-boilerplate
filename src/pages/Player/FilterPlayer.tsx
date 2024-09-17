@@ -72,7 +72,7 @@ const FilterPlayer = () => {
   return (
     <Box className='filter-wrapper'>
       <TextField
-        placeholder="Search by Agent Player ID"
+        placeholder='Search by Agent Player ID'
         onChange={handleSearchState}
         value={searchState}
         // onKeyDown={(e: any) => {
@@ -83,12 +83,12 @@ const FilterPlayer = () => {
         className='searchTextInput bgWhite'
         sx={{ width: '250px' }}
       />
-      {isSuperAdmin() &&
+      {isSuperAdmin() && (
         <AgentSelect
-          agentSelected={agentSelected === null ? "all" : agentSelected}
+          agentSelected={agentSelected === null ? 'all' : agentSelected}
           handleChange={handleChangeAgent}
         />
-      }
+      )}
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

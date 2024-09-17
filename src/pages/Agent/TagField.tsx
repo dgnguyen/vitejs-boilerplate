@@ -27,7 +27,10 @@ const TagField = ({ row, cancelEdit, loading, onChange }: Props) => {
   }, [cancelEdit])
 
   return (
-    <Box display="flex" gap={1}>
+    <Box
+      display='flex'
+      gap={1}
+    >
       <TextField
         value={state}
         onChange={(e) => setState(e.target.value)}
@@ -40,16 +43,14 @@ const TagField = ({ row, cancelEdit, loading, onChange }: Props) => {
         fullWidth
       />
       {
-
         <Button
           disabled={editedState.current === state}
-          size="small"
-          variant="contained"
+          size='small'
+          variant='contained'
           onClick={() => {
             onChange(row, state)
             editedState.current = state
           }}
-
         >
           <Check />
         </Button>

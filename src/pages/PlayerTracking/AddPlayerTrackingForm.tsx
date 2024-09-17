@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import React from 'react'
 
-import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  TextField,
+  Typography,
+} from '@mui/material'
 
 import AgentSelect from 'components/AgentSelect'
 import MuiModal from 'components/Commons/MuiModal'
@@ -108,9 +114,13 @@ const AddPlayerTrackingForm = ({
               disabled={loading}
               variant='contained'
               type='submit'
-
             >
-              {loading && <CircularProgress sx={{ marginRight: 1 }} size={14} />}
+              {loading && (
+                <CircularProgress
+                  sx={{ marginRight: 1 }}
+                  size={14}
+                />
+              )}
               Add
             </Button>
           </Box>

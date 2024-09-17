@@ -9,7 +9,7 @@ import {
 
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
-import { FORMAT_DATE_TIME } from 'constants/date'
+import { FORMAT_DATE, FORMAT_DATE_TIME } from 'constants/date'
 import { ROUTES } from 'constants/endpoint'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import moment from 'moment'
@@ -59,13 +59,21 @@ const PlayerContent = () => {
 
   function goToPlayerTransactionWithPreviousSearch(
     playerId: number,
-    isTester: boolean
+    isTester: boolean,
+    startDate: string,
+    endDate: string,
+    partnerId: number
   ) {
     navigate(
       `${ROUTES.TRANSACTION}/${playerId}/${isTester ? 'test' : 'real'}`,
       {
         state: {
           searchValues,
+          partnerId,
+          dateRange: {
+            startDate: moment(startDate).format(FORMAT_DATE),
+            endDate: moment(endDate).format(FORMAT_DATE),
+          },
         },
       }
     )
@@ -123,7 +131,10 @@ const PlayerContent = () => {
                       onClick={() =>
                         goToPlayerTransactionWithPreviousSearch(
                           row?.bcPlayerId,
-                          row?.isTester
+                          row?.isTester,
+                          row?.firstActivity,
+                          row?.lastActivity,
+                          row?.partnerId
                         )
                       }
                     >
@@ -134,7 +145,7 @@ const PlayerContent = () => {
                     <Box>{row?.ggr}</Box>
                     <Box>{row?.avgBetAmount}</Box>
                     <Box>
-                      {moment(row?.fistActivity).format(FORMAT_DATE_TIME)}
+                      {moment(row?.firstActivity).format(FORMAT_DATE_TIME)}
                     </Box>
                     <Box>
                       {moment(row?.lastActivity).format(FORMAT_DATE_TIME)}

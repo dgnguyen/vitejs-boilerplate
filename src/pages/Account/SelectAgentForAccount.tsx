@@ -15,7 +15,10 @@ const SelectAgentForAccount = ({ props }: Props) => {
   const { agents } = useFetchAgents()
 
   return (
-    <FormControl fullWidth required>
+    <FormControl
+      fullWidth
+      required
+    >
       <InputLabel id='select-agent-account-select-label'>
         Select agent
       </InputLabel>

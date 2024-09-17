@@ -26,7 +26,8 @@ function withHOC<P extends object>(
           />
         </div>
         <h1 className={styles.title}>
-          Welcome to RunningBall <br />Global Back Office
+          Welcome to RunningBall <br />
+          Global Back Office
         </h1>
       </div>
       <div className={styles.form_wrapper}>

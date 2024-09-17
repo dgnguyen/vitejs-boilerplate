@@ -7,12 +7,14 @@ type Props = {
 } & ButtonProps
 
 const MuiButton = (props: Props) => {
-
   return (
-    <Button
-      {...props}
-    >
-      {props.loading && <CircularProgress size={14} sx={{ marginRight: 1 }} />}
+    <Button {...props}>
+      {props.loading && (
+        <CircularProgress
+          size={14}
+          sx={{ marginRight: 1 }}
+        />
+      )}
       {props.children}
     </Button>
   )

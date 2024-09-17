@@ -28,7 +28,7 @@ const BetStatusHistoryModal: React.FC<{ onModalClose: () => void }> = ({
   const [initialLoader, setInitialLoader] = useState(true)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       await getHistoryData()
       setInitialLoader(false)
     })()

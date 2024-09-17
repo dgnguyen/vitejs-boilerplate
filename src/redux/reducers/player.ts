@@ -19,6 +19,7 @@ export type IPlayer = {
   totalBetAmount: number
   totalWinAmount: number
   transactionCount: number
+  partnerId: number
 }
 
 const initialSearchValues: ISearchValuesPlayers = {

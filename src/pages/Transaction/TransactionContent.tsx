@@ -11,12 +11,15 @@ import Accordion from 'components/Accordion'
 import Card from 'components/Card'
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
+import { FORMAT_DATE } from 'constants/date'
 import { thousandSeparator } from 'helpers/currency'
 import { header } from 'helpers/playerTransaction'
 import { SearchTypeValue } from 'helpers/transaction'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
+import moment from 'moment'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import {
   errorLoadTransactions,
   getTransactions,
@@ -52,6 +55,8 @@ const TransactionContent = ({
   const errorLoadTransaction = useSelector(errorLoadTransactions)
   const { inputRef, height } = useSetHeightInfiniteScroll()
 
+  const location = useLocation()
+
   useEffect(() => {
     startSocketConnection().then(({ isConnected, connection }) => {
       if (isConnected && connection) {
@@ -64,21 +69,32 @@ const TransactionContent = ({
 
   useEffect(() => {
     if (playerId) {
-      dispatch(
-        setMultiSearchLoadTransaction(
-          [
-            { id: playerId },
-            { searchType: SearchTypeValue.agentPlayerId },
-            { isTester: isTester === 'test' },
-          ],
-          true
-        )
-      )
+      const date =
+        location.state?.dateRange?.startDate &&
+        location.state?.dateRange?.startDate
+          ? {
+              startDate: moment(location.state?.dateRange?.startDate).format(
+                FORMAT_DATE
+              ),
+              endDate: moment(location.state?.dateRange?.endDate).format(
+                FORMAT_DATE
+              ),
+            }
+          : {}
+      const updatedArraySearchValues = [
+        { id: playerId },
+        { searchType: SearchTypeValue.agentPlayerId },
+        { agentSelected: location.state?.partnerId },
+        { isTester: isTester === 'test' },
+        { date },
+      ]
+
+      dispatch(setMultiSearchLoadTransaction(updatedArraySearchValues, true))
     } else {
       dispatch(resetSearchValues())
       dispatch(getTransactions())
     }
-  }, [playerId])
+  }, [playerId, location.state?.dateRange])
 
   if (errorLoadTransaction) {
     return (
