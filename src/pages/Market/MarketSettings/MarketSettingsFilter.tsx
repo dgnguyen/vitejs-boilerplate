@@ -19,9 +19,7 @@ import { isSuperAdmin } from 'helpers/auth'
 import { useFetchAgents } from 'hooks/useFetchAgents'
 import { useSelector } from 'react-redux'
 import {
-  setAgentMarketSettings,
-  setGameTypeMarketSettings,
-  setIsTesterTopMarket,
+  setSearchValuesMarket,
 } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 
@@ -31,18 +29,18 @@ const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
   const { gamesList } = useGames()
   const dispatch = useAppDispatch()
   const marketSettingsSelector = useSelector((state: RootState) => state.market)
-  const { gameType, isTester } = marketSettingsSelector
+  const { gameType, isTester } = marketSettingsSelector.searchValues
 
   useEffect(() => {
     handleChangeGameType(gamesList[0]?.id)
   }, [])
 
   function handleChangeGameType(value: number) {
-    dispatch(setGameTypeMarketSettings(value))
+    dispatch(setSearchValuesMarket({ gameType: value }))
   }
 
   function handleChangeIsTester(e: SelectChangeEvent) {
-    dispatch(setIsTesterTopMarket(e.target.value))
+    dispatch(setSearchValuesMarket({ isTester: e.target.value }))
   }
 
   const loading = false

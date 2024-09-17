@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { langEnum } from 'constants/market'
-import { useGames } from 'context/GamesContext'
 import { AppDispatch } from 'redux/store'
 
 export type IMarketData = {
@@ -23,15 +22,25 @@ export type IBetAllowed = {
   betAllowedMsgKorean: string
 }
 
+type IMarketSearchValues = {
+  gameType: number | null
+  agent: number | string | null
+  isTester: string
+}
+
 export type MarketState = {
   loadingPage: boolean
   loading: boolean
   data?: IMarketData[][]
   betAllowed: IBetAllowed
   reload: number
-  gameType: number | null
-  agent: number | string | null
-  isTester: string
+  searchValues: IMarketSearchValues
+}
+
+const initialSearchValues = {
+  gameType: null,
+  agent: null,
+  isTester: 'false',
 }
 
 const initialState: MarketState = {
@@ -44,9 +53,7 @@ const initialState: MarketState = {
     betAllowedMsgKorean: '',
   },
   reload: 0,
-  gameType: null,
-  agent: null,
-  isTester: 'false',
+  searchValues: initialSearchValues,
 }
 
 export const MarketReducer = createSlice({
@@ -87,14 +94,14 @@ export const MarketReducer = createSlice({
     handleReloadMarket: (state) => {
       state.reload += 1
     },
-    setAgentMarketSettings: (state, { payload }) => {
-      state.agent = payload
+    setSearchValuesMarket: (state, { payload }) => {
+      state.searchValues = {
+        ...state.searchValues,
+        ...payload,
+      }
     },
-    setGameTypeMarketSettings: (state, { payload }) => {
-      state.gameType = payload
-    },
-    setIsTesterTopMarket: (state, { payload }) => {
-      state.isTester = payload
+    resetMarketFilter: (state) => {
+      state.searchValues = initialSearchValues
     },
   },
 })
@@ -105,23 +112,23 @@ export const {
   setLoadingPage,
   updateBetAllowedState,
   handleReloadMarket,
-  setAgentMarketSettings,
-  setGameTypeMarketSettings,
-  setIsTesterTopMarket,
+  resetMarketFilter,
+  setSearchValuesMarket,
 } = MarketReducer.actions
 
 export const getTickets = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
     try {
-      const { gameType, agent } = getState()?.market
+      const { gameType, agent } = getState()?.market?.searchValues
       dispatch(setLoadingPage(true))
-      const response = await axios.get(
-        `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}/${gameType}`,
-        {
-          headers: {
-            partnerId: agent,
-          },
-        }
+      const json = JSON.stringify({
+        partnerId: agent,
+        gameTypeId: gameType,
+      })
+
+      const response = await axios.post(
+        `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}`,
+        json
       )
       const data = response?.data?.data || null
 
@@ -181,7 +188,7 @@ export const updateBetAllowStatus = (
     dispatch: AppDispatch,
     getState: Function
   ): Promise<{ isSuccess: boolean }> => {
-    const { agent, gameType } = getState().market
+    const { agent, gameType } = getState().market.searchValues
     try {
       const response = await axios.post(
         API_ENDPOINT.UDATE_BET_OPEN_CLOSE_MARKET_SETTINGS,
