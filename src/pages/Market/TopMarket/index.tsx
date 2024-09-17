@@ -1,7 +1,6 @@
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
-import DateBlock from 'components/DateBlock'
 
 import MarketSettingsFilter from '../MarketSettings/MarketSettingsFilter'
 import MarketTab from '../MarketTab'
