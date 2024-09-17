@@ -13,11 +13,9 @@ type Props = {
 
 const SelectAgentForAccount = ({ props }: Props) => {
   const { agents } = useFetchAgents()
-  // prevent creating user with higher role than parent user
-  const agentsModified = agents.filter((item) => item.id > getUser().role)
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth required>
       <InputLabel id='select-agent-account-select-label'>
         Select agent
       </InputLabel>
@@ -28,8 +26,9 @@ const SelectAgentForAccount = ({ props }: Props) => {
         name='partnerId'
         value={props.values.partnerId?.toString() || ''}
         onChange={props.handleChange}
+        required
       >
-        {agentsModified.map((agent: IAgentData) => (
+        {agents.map((agent: IAgentData) => (
           <MenuItem
             key={agent.id}
             value={agent.id}
