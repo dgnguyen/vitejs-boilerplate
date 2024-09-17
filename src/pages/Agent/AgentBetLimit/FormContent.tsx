@@ -81,7 +81,7 @@ const FormContent = ({
               onChange={props.handleChange}
               onBlur={props.handleBlur}
               name='minBet'
-              placeholder='Min bet'
+              placeholder='Min Bet'
               required
             />
           </FormControl>
@@ -93,7 +93,7 @@ const FormContent = ({
               onBlur={props.handleBlur}
               value={props.values?.maxBet}
               name='maxBet'
-              placeholder='Max bet'
+              placeholder='Max Bet'
               required
               thousandSeparator
             />
@@ -131,7 +131,7 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('gameSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {games.map((game: IGamesSelect) => (
@@ -163,7 +163,7 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('marketSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {markets.map((market: IMarketSelect) => (
@@ -195,7 +195,7 @@ const FormContent = ({
               onChange={(e) =>
                 props.setFieldValue('eventSelect', e.target.value as string)
               }
-              // error={formik.touched.userType && Boolean(formik.errors.userType)}
+            // error={formik.touched.userType && Boolean(formik.errors.userType)}
             >
               <MenuItem value='all'>All</MenuItem>
               {events.map((event: any) => (
