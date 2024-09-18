@@ -37,12 +37,10 @@ const GameSelect = ({
     handleSelectGame()
   }
 
-
   useEffect(() => {
     if (selectGames.length > 0 && selectGames.length === gamesList.length) {
       setSelectedAllGames?.('all')
-    }
-    else if (selectedAllGames && selectGames.length < gamesList.length) {
+    } else if (selectedAllGames && selectGames.length < gamesList.length) {
       setSelectGames(gamesListId)
     }
   }, [selectGames])
@@ -52,8 +50,6 @@ const GameSelect = ({
       handleUnSelectAllGames()
     }
   }, [selectedAllGames])
-
-
 
   useEffect(() => {
     if (gamesList?.length > 0) {

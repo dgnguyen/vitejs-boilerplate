@@ -35,6 +35,7 @@ const initialSearchValues: ISearchValuesTransactions = {
   selectedGameType: null,
   selectedAllGames: true,
   agentSelected: 'all',
+  agentSelectedName: 'all',
 }
 
 const initialState: ITransactions = {
@@ -263,6 +264,7 @@ export const exportTransactions =
       isTester,
       TransactionStatus,
       agentSelected,
+      agentSelectedName,
     } = searchValues
 
     const startDate = startD && format(new Date(startD), 'yyyy-MM-dd')
@@ -288,9 +290,12 @@ export const exportTransactions =
           (item) => item.value === TransactionStatus
         )?.label
         const exportTransactionName = id
-          ? `ExportTransactionId-${id}`
-          : 'ExportAllTransactions'
-        const dateRange = `From-${moment(startDate).format(
+          ? `ExportTransactionId-${id}_`
+          : 'ExportAllTransactions_'
+        const exportAgentName = agentSelected
+          ? `Agent-${agentSelectedName}_`
+          : ''
+        const dateRange = `${exportAgentName}From-${moment(startDate).format(
           FORMAT_DATE
         )}To${moment(endDate).format(FORMAT_DATE)}`
         const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}_${status}.xlsx`

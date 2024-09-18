@@ -24,6 +24,7 @@ export type ISearchValuesTransactions = {
   hasMore: boolean
   selectedAllGames: boolean
   agentSelected: string
+  agentSelectedName: string
 }
 
 export type SettingsTransactions = {

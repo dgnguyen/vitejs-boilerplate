@@ -39,6 +39,10 @@ const FilterPlayer = () => {
     )
   }
 
+  const handleChangeAgentName = (val?: string) => {
+    dispatch(setSearchValuesPlayer({ key: 'agentSelectedName', val: val || '' }))
+  }
+
   const handleChangeIsTester = (event: SelectChangeEvent) => {
     dispatch(setAndLoadPlayersData('isTester', event.target.value, true))
   }
@@ -87,6 +91,7 @@ const FilterPlayer = () => {
         <AgentSelect
           agentSelected={agentSelected === null ? 'all' : agentSelected}
           handleChange={handleChangeAgent}
+          cb={handleChangeAgentName}
         />
       )}
       <TesterSelect

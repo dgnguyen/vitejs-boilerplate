@@ -71,15 +71,15 @@ const TransactionContent = ({
     if (playerId) {
       const date =
         location.state?.dateRange?.startDate &&
-          location.state?.dateRange?.startDate
+        location.state?.dateRange?.startDate
           ? {
-            startDate: moment(location.state?.dateRange?.startDate).format(
-              FORMAT_DATE
-            ),
-            endDate: moment(location.state?.dateRange?.endDate).format(
-              FORMAT_DATE
-            ),
-          }
+              startDate: moment(location.state?.dateRange?.startDate).format(
+                FORMAT_DATE
+              ),
+              endDate: moment(location.state?.dateRange?.endDate).format(
+                FORMAT_DATE
+              ),
+            }
           : {}
       const updatedArraySearchValues = [
         { id: playerId },
@@ -121,7 +121,7 @@ const TransactionContent = ({
               .map((item: any) => {
                 let displayPrice = thousandSeparator(item[1])
                 if (item[0] === 'ggrInPercent')
-                  displayPrice = `${(item[1] * 100)}%`
+                  displayPrice = `${item[1] * 100}%`
                 if (item[0] === 'totalCount') displayPrice = item[1].toString()
                 return (
                   <Card
@@ -155,9 +155,7 @@ const TransactionContent = ({
               </Box>
             ))}
           </Box>
-          <div
-            id='scrollableDiv'
-          >
+          <div id='scrollableDiv'>
             {loadingPageTransaction && <CircularProgress />}
             {!loadingPageTransaction && dataTransaction?.length > 0 && (
               <InfiniteScroll

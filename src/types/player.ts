@@ -5,5 +5,6 @@ export type ISearchValuesPlayers = {
   take: number
   totalCount: number
   agentSelected: string | null
+  agentSelectedName: string
   currency: string
 }
