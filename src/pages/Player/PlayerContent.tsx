@@ -11,6 +11,7 @@ import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE, FORMAT_DATE_TIME } from 'constants/date'
 import { ROUTES } from 'constants/endpoint'
+import { thousandSeparator } from 'helpers/currency'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import moment from 'moment'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -140,10 +141,10 @@ const PlayerContent = () => {
                     >
                       <Typography>{row?.transactionCount}</Typography>
                     </Box>
-                    <Box>{row?.totalBetAmount}</Box>
-                    <Box>{row?.totalWinAmount}</Box>
-                    <Box>{row?.ggr}</Box>
-                    <Box>{row?.avgBetAmount}</Box>
+                    <Box>{thousandSeparator(row?.totalBetAmount)}</Box>
+                    <Box>{thousandSeparator(row?.totalWinAmount)}</Box>
+                    <Box>{thousandSeparator(row?.ggr)}</Box>
+                    <Box>{thousandSeparator(row?.avgBetAmount)}</Box>
                     <Box>
                       {moment(row?.firstActivity).format(FORMAT_DATE_TIME)}
                     </Box>
@@ -154,7 +155,6 @@ const PlayerContent = () => {
                       {row?.isTester ? 'Test' : 'Real'}
                     </Box>
                   </Box>
-                  // <Accordion key={`accordion${ind}`} data={row} />
                 ))}
               </InfiniteScroll>
             )}
