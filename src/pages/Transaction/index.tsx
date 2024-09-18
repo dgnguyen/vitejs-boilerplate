@@ -11,7 +11,7 @@ import Switch from 'components/Switch'
 import { FORMAT_DATE } from 'constants/date'
 import { ROUTES } from 'constants/endpoint'
 import { isSuperAdmin } from 'helpers/auth'
-import isEqual from "lodash/isEqual"
+import isEqual from 'lodash/isEqual'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -37,11 +37,9 @@ const Transaction = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
 
-
   const searchValues = useSelector(transactionSearchValuesSelector)
   const { selectedAllGames, agentSelected, date } = searchValues
   const [checkAllTransaction, setCheckAllTransaction] = useState(false)
-
 
   const checkedAllTransactionsPlayer = isEqual(date, location?.state?.dateRange)
   const transactionLoading = useSelector(transactionIsLoadingSelector)
@@ -76,7 +74,6 @@ const Transaction = () => {
     }
   }, [])
 
-
   function backToPlayerWithPreviousSearch() {
     navigate(ROUTES.PLAYER, {
       state: {
@@ -91,22 +88,18 @@ const Transaction = () => {
         {
           date: {
             startDate: moment(new Date()).format(FORMAT_DATE),
-            endDate: moment(new Date()).format(FORMAT_DATE)
-          }
-        }
+            endDate: moment(new Date()).format(FORMAT_DATE),
+          },
+        },
       ]
-      dispatch(
-        setMultiSearchLoadTransaction(updatedArraySearchValues, true)
-      )
+      dispatch(setMultiSearchLoadTransaction(updatedArraySearchValues, true))
     } else {
       const updatedArraySearchValues = [
         {
-          date: location?.state?.dateRange
-        }
+          date: location?.state?.dateRange,
+        },
       ]
-      dispatch(
-        setMultiSearchLoadTransaction(updatedArraySearchValues, true)
-      )
+      dispatch(setMultiSearchLoadTransaction(updatedArraySearchValues, true))
     }
   }
 
@@ -132,7 +125,6 @@ const Transaction = () => {
               : ''
           }
         />
-
       </Box>
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
@@ -146,17 +138,23 @@ const Transaction = () => {
         alignItems='center'
       >
         <DateBlock />
-        {isPageTransactionPlayer &&
-          <Box display="flex" gap={1}>
+        {isPageTransactionPlayer && (
+          <Box
+            display='flex'
+            gap={1}
+          >
             <Switch
               isChecked={checkAllTransaction}
               onChange={toggleCheckAllTransactionsPlayer}
             />
             <Typography>Show all transactions of this player</Typography>
           </Box>
-        }
+        )}
         {isSuperAdmin() && !isPageTransactionPlayer && (
-          <AgentSelect agentSelected={agentSelected} handleChange={handleChangeAgent} />
+          <AgentSelect
+            agentSelected={agentSelected}
+            handleChange={handleChangeAgent}
+          />
         )}
       </Box>
       <FilterTransaction playerId={playerId} />

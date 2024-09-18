@@ -157,7 +157,6 @@ const TransactionContent = ({
           </Box>
           <div
             id='scrollableDiv'
-          //  className={styles.accordion}
           >
             {loadingPageTransaction && <CircularProgress />}
             {!loadingPageTransaction && dataTransaction?.length > 0 && (

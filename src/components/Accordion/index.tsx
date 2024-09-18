@@ -26,7 +26,7 @@ type RowRecord = {
   status: StatusTransaction
 }
 
-export type RowRecordNoCurrency = Omit<RowRecord, "currency">
+export type RowRecordNoCurrency = Omit<RowRecord, 'currency'>
 
 type content = {
   tickets: {
@@ -148,10 +148,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
               style={
                 ind === 1
                   ? {
-                    whiteSpace: 'inherit',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                  }
+                      whiteSpace: 'inherit',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }
                   : {}
               }
               title={ind === 1 ? text : ''}

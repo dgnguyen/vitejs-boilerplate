@@ -35,7 +35,7 @@ const PlayerContent = () => {
   const { searchValues, data, hasMore } = useSelector(
     (state: RootState) => state.player
   )
-  const { agentSelected, totalCount } = searchValues
+  const { agentSelected, totalCount, currency } = searchValues
   const loading = useSelector(loadingPlayerSelector)
   const loadingPage = useSelector(loadingPagePlayerSelector)
   const error = useSelector(errorPlayerSelector)
@@ -96,8 +96,19 @@ const PlayerContent = () => {
     <Box>
       <Box className='player-content-wrapper'>
         <Box className='player-table-header-wrapper'>
-          {Object.values(header).map((col) => (
-            <Box key={col}>{col}</Box>
+          {header.map((col) => (
+            <Box key={col}>
+              {['Total Bet', 'Total Win', 'GGR', 'Average Bet Amount'].includes(
+                col
+              ) ? (
+                <Box>
+                  <Box>{col}</Box>
+                  <Typography fontWeight="bold">{`${currency ? `(${currency})` : ''}`}</Typography>
+                </Box>
+              ) : (
+                col
+              )}
+            </Box>
           ))}
         </Box>
 

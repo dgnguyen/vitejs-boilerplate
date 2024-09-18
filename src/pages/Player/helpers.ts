@@ -1,13 +1,13 @@
-export const header = {
-  playerId: 'RB Player ID',
-  platformPlayerId: 'Agent Player ID',
-  agentName: 'Agent Name',
-  transaction: 'Total Transaction',
-  totalBet: 'Total Bet',
-  totalWin: 'Total Win',
-  ggr: 'GGR',
-  averageBet: 'Average Bet Amount',
-  firstActivity: 'First Activity',
-  lastActivity: 'Last Activity',
-  testRealAccount: 'Test/ Real Account',
-}
+export const header = [
+  'RB Player ID',
+  'Agent Player ID',
+  'Agent Name',
+  'Total Transaction',
+  'Total Bet',
+  'Total Win',
+  'GGR',
+  'Average Bet Amount',
+  'First Activity',
+  'Last Activity',
+  'Test/ Real Account',
+]

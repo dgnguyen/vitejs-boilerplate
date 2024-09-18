@@ -56,11 +56,12 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               placeholder={`Search by ${searchTypeOptions.find((item) => item.value === searchType)?.label}`}
               onChange={handleSearchState}
               value={searchState}
-              // onKeyDown={(e: any) => {
-              //   if (e.key === 'Enter' && !disableSearch) {
-              //     handleSearchState(e)
-              //   }
-              // }}
+              onKeyDown={(e: any) => {
+                if (e.key === 'Enter' && !disableSearch) {
+                  handleSearchState(e)
+                  handleSearch()
+                }
+              }}
               className='searchTextInput bgWhite'
               sx={{ width: '250px' }}
             />

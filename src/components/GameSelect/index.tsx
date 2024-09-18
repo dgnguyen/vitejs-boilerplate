@@ -25,19 +25,35 @@ const GameSelect = ({
   const [selectGames, setSelectGames] = useState<any[]>([])
   const gamesListId = gamesList.map((item) => item.id.toString())
 
-  useEffect(() => {
-    if (selectGames.length > 0 && selectGames.length === gamesList.length) {
-      setSelectedAllGames?.('all')
-    }
-    if (selectedAllGames && selectGames.length < gamesList.length) {
-      setSelectGames(gamesListId)
-    }
-  }, [selectGames])
-
   function handleSelectAllGames() {
     setSelectGames(gamesListId)
     dispatch(setSearchValue({ key: 'selectedGameType', val: gamesListId }))
   }
+
+  function handleUnSelectAllGames() {
+    setSelectGames([])
+    dispatch(setSearchValue({ key: 'selectedGameType', val: [] }))
+    setSelectedAllGames?.(null)
+    handleSelectGame()
+  }
+
+
+  useEffect(() => {
+    if (selectGames.length > 0 && selectGames.length === gamesList.length) {
+      setSelectedAllGames?.('all')
+    }
+    else if (selectedAllGames && selectGames.length < gamesList.length) {
+      setSelectGames(gamesListId)
+    }
+  }, [selectGames])
+
+  useEffect(() => {
+    if (!selectedAllGames && selectGames.length === gamesList.length) {
+      handleUnSelectAllGames()
+    }
+  }, [selectedAllGames])
+
+
 
   useEffect(() => {
     if (gamesList?.length > 0) {
