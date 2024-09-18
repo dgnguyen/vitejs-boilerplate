@@ -7,7 +7,7 @@ export function getWalletName(id: number) {
 }
 
 export const headersAgentList = [
-  'Agent Id',
+  'Agent ID',
   'Agent Code',
   'Agent Name',
   'Register Date',
@@ -29,7 +29,7 @@ export const walletTypeOptions = [
 export const searchTypeAgent = [
   { value: 1, label: 'Agent Name' },
   { value: 2, label: 'Agent Code' },
-  { value: 3, label: 'Agent Id' },
+  { value: 3, label: 'Agent ID' },
 ]
 
 export const headerAgentBetLimit = [
