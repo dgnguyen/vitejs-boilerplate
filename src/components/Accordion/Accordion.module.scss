@@ -1,6 +1,6 @@
 .accordionRow {
   display: grid;
-  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
+  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
   border-top: 1px solid #c7ccdb;
   background-color: white;
   .lost {
@@ -50,7 +50,7 @@
 .content,
 .contentHeader {
   display: grid;
-  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
+  grid-template-columns: 0fr 0.2fr 0.4fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr 0.3fr;
   span {
     padding-bottom: 16px;
     font-size: 14px;
