@@ -103,7 +103,7 @@ const PlayerContent = () => {
               ) ? (
                 <Box>
                   <Box>{col}</Box>
-                  <Typography>{`${currency ? `(${currency})` : ''}`}</Typography>
+                  <Typography fontWeight="bold">{`${currency ? `(${currency})` : ''}`}</Typography>
                 </Box>
               ) : (
                 col

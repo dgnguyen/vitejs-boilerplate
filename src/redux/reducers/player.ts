@@ -21,6 +21,7 @@ export type IPlayer = {
   totalWinAmount: number
   transactionCount: number
   partnerId: number
+  currency: string
 }
 
 const initialSearchValues: ISearchValuesPlayers = {
@@ -165,7 +166,12 @@ export const exportPlayers =
       },
     })
       .then(async (response: any) => {
-        const isTestAccountName = isTester ? 'realAccount' : 'testAccount'
+        const isTestAccountName =
+          isTester === 'null'
+            ? 'RealAndTestAccount'
+            : isTester === 'true'
+              ? 'testAccount'
+              : 'realAccount'
         const exportPlayerName = id
           ? `ExportPlayerId-${id}`
           : 'ExportAllPlayers'
