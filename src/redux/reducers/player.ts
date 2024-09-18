@@ -120,7 +120,7 @@ export const getPlayersAction = createAsyncThunk(
         ...(agentSelected === 'all' || agentSelected === null
           ? { partnerId: null }
           : { partnerId: [agentSelected] }),
-        playerId: id ? Number(id) : null,
+        playerId: id || null,
       })
       const res = await axios.post(API_ENDPOINT.GET_PLAYERS, json, {
         headers: { 'Content-Type': 'application/json' },

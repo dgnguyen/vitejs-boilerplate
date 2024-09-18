@@ -33,7 +33,7 @@
       .transactionCount > p {
         cursor: pointer;
         border: 1px solid var(--blue-primary);
-        border-radius: var(--radius-base);
+        border-radius: 20px;
       }
       > div.real {
         color: var(--green);
