@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 
 import SearchSVG from 'assets/images/search.svg'
+import MuiSearchField from 'components/Commons/MuiSearchField'
 import DataPicker from 'components/DataPicker'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
@@ -52,8 +53,8 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
       <Box className='filter-wrapper'>
         {!isPageTransactionPlayer && (
           <>
-            <TextField
-              placeholder={`Search by ${searchTypeOptions.find((item) => item.value === searchType)?.label}`}
+            <MuiSearchField
+              placeholder="Search"
               onChange={handleSearchState}
               value={searchState}
               onKeyDown={(e: any) => {
@@ -62,8 +63,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
                   handleSearch()
                 }
               }}
-              className='searchTextInput bgWhite'
-              sx={{ width: '250px' }}
+              onClick={handleSearch}
             />
 
             <Select
