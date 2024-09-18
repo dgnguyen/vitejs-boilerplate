@@ -1,6 +1,7 @@
 import { API_BASE_URL } from 'constants/endpoint'
 
 export const API_ENDPOINT = {
+  GET_PLAYERS: `${API_BASE_URL}/AdminPlayer/getPlayerTransactions`,
   GET_GAMES_LIST: `${API_BASE_URL}/admin/game-types/get-list`,
   GET_AGENT: `${API_BASE_URL}/AdminAgent/getList`,
   UPDATE_AGENT: `${API_BASE_URL}/AdminAgent/update`,

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
 import { isTesterSelectOptions } from 'constants/filters'
@@ -29,6 +30,7 @@ const initialSearchValues: ISearchValuesPlayers = {
   take: 20,
   totalCount: 0,
   agentSelected: null,
+  currency: '',
 }
 
 const initialState = {
@@ -55,7 +57,7 @@ export const playerReducer = createSlice({
         }
       })
       .addCase('getPlayers/fulfilled', (state, action: any) => {
-        const { data, totalCount } = action.payload.data
+        const { data, totalCount, currency } = action.payload.data
         state.isLoadingData = false
         state.errors = false
         state.hasMore = action.payload.hasMore
@@ -65,6 +67,7 @@ export const playerReducer = createSlice({
         state.searchValues = {
           ...state.searchValues,
           totalCount,
+          currency,
           page: state.hasMore
             ? state.searchValues.page + 1
             : state.searchValues.page,
@@ -117,13 +120,9 @@ export const getPlayersAction = createAsyncThunk(
           : { partnerId: [agentSelected] }),
         playerId: id ? Number(id) : null,
       })
-      const res = await axios.post(
-        `${API_BASE_URL}/AdminPlayer/getPlayerTransactions`,
-        json,
-        {
-          headers: { 'Content-Type': 'application/json' },
-        }
-      )
+      const res = await axios.post(API_ENDPOINT.GET_PLAYERS, json, {
+        headers: { 'Content-Type': 'application/json' },
+      })
       return {
         data: res?.data,
         hasMore: Math.ceil(res?.data?.totalCount / take) > page,

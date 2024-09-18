@@ -71,15 +71,15 @@ const TransactionContent = ({
     if (playerId) {
       const date =
         location.state?.dateRange?.startDate &&
-          location.state?.dateRange?.startDate
+        location.state?.dateRange?.startDate
           ? {
-            startDate: moment(location.state?.dateRange?.startDate).format(
-              FORMAT_DATE
-            ),
-            endDate: moment(location.state?.dateRange?.endDate).format(
-              FORMAT_DATE
-            ),
-          }
+              startDate: moment(location.state?.dateRange?.startDate).format(
+                FORMAT_DATE
+              ),
+              endDate: moment(location.state?.dateRange?.endDate).format(
+                FORMAT_DATE
+              ),
+            }
           : {}
       const updatedArraySearchValues = [
         { id: playerId },
@@ -157,7 +157,7 @@ const TransactionContent = ({
           </Box>
           <div
             id='scrollableDiv'
-          //  className={styles.accordion}
+            //  className={styles.accordion}
           >
             {loadingPageTransaction && <CircularProgress />}
             {!loadingPageTransaction && dataTransaction?.length > 0 && (
