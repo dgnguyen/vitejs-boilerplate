@@ -26,6 +26,8 @@ type RowRecord = {
   status: StatusTransaction
 }
 
+export type RowRecordNoCurrency = Omit<RowRecord, "currency">
+
 type content = {
   tickets: {
     externalRoundId: string
@@ -56,12 +58,12 @@ export type TRListType = RowRecord & content
 
 const Accordion: React.FC<AccordionProps> = ({ data }) => {
   const [isActive, setIsActive] = useState(false)
-  const { tickets, ...row } = data
+  const { tickets, currency, ...row } = data
   const { gamesList } = useGames()
 
   const renderHeader = () => {
     return Object.keys(header).map((col) => {
-      let data = row[col as keyof RowRecord]
+      let data = row[col as keyof RowRecordNoCurrency]
       let className = ''
       if (col === 'transactionDate') {
         data = format(new Date(row[col]), 'dd.MM.yyyy HH:mm:ss')?.replace(
@@ -78,7 +80,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
 
       if (col === 'status') {
         let status = ''
-        switch (row[col as keyof RowRecord] as any) {
+        switch (row[col as keyof RowRecordNoCurrency] as any) {
           case 0:
             status = 'Pending'
             className = 'refund'
@@ -107,14 +109,15 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
         data = thousandSeparator(data as any)
       }
 
-      return (
-        <span
-          key={col}
-          className={styles[className]}
-        >
-          {data}
-        </span>
-      )
+      if (data)
+        return (
+          <span
+            key={col}
+            className={styles[className]}
+          >
+            {data}
+          </span>
+        )
     })
   }
 
@@ -145,10 +148,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
               style={
                 ind === 1
                   ? {
-                      whiteSpace: 'inherit',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                    }
+                    whiteSpace: 'inherit',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                  }
                   : {}
               }
               title={ind === 1 ? text : ''}

@@ -71,15 +71,15 @@ const TransactionContent = ({
     if (playerId) {
       const date =
         location.state?.dateRange?.startDate &&
-        location.state?.dateRange?.startDate
+          location.state?.dateRange?.startDate
           ? {
-              startDate: moment(location.state?.dateRange?.startDate).format(
-                FORMAT_DATE
-              ),
-              endDate: moment(location.state?.dateRange?.endDate).format(
-                FORMAT_DATE
-              ),
-            }
+            startDate: moment(location.state?.dateRange?.startDate).format(
+              FORMAT_DATE
+            ),
+            endDate: moment(location.state?.dateRange?.endDate).format(
+              FORMAT_DATE
+            ),
+          }
           : {}
       const updatedArraySearchValues = [
         { id: playerId },
@@ -157,7 +157,7 @@ const TransactionContent = ({
           </Box>
           <div
             id='scrollableDiv'
-            //  className={styles.accordion}
+          //  className={styles.accordion}
           >
             {loadingPageTransaction && <CircularProgress />}
             {!loadingPageTransaction && dataTransaction?.length > 0 && (
@@ -169,12 +169,14 @@ const TransactionContent = ({
                 loader={loadingTransaction && <LinearProgress />}
                 scrollableTarget='scrollableDiv'
               >
-                {dataTransaction.map((row: any, ind: number) => (
-                  <Accordion
-                    key={`accordion${ind}`}
-                    data={row}
-                  />
-                ))}
+                {dataTransaction.map((row: any, ind: number) => {
+                  return (
+                    <Accordion
+                      key={`accordion${ind}`}
+                      data={row}
+                    />
+                  )
+                })}
               </InfiniteScroll>
             )}
             {!loadingPageTransaction && !dataTransaction?.length && (
