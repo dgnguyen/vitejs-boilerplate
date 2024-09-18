@@ -4,7 +4,6 @@ import axios, { AxiosResponse } from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
 import { format } from 'date-fns'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
-import { partnerFromUrl } from 'helpers/exportExcel'
 import { AppDispatch, RootState } from 'redux/store'
 
 export type IBetLog = {
@@ -142,7 +141,7 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           if (isTester === 'false') testerType = 'RealAccount'
           link.setAttribute(
             'download',
-            `${partnerFromUrl.toUpperCase()}_Dashboard_${dashboardType}_From${startDateFormatted}To${
+            `Dashboard_${dashboardType}_From${startDateFormatted}To${
               endDateFormatted
             }_${testerType}.xlsx`
           )

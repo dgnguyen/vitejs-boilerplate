@@ -21,7 +21,7 @@ const MuiSearchField = (props: InputBaseProps) => {
         sx={{ ml: 1, flex: 1 }}
         inputProps={{ 'aria-label': 'search text field' }}
       />
-      <SearchIcon />
+      <SearchIcon sx={{ color: "#c4c4c4" }} />
     </Paper>
   )
 }
