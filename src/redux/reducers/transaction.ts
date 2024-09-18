@@ -9,6 +9,7 @@ import { handleExportRequest } from 'helpers/exportExcel'
 import {
   initialDateState,
   searchTypeOptions,
+  SearchTypeValue,
   TRStatusSelectOptions,
 } from 'helpers/transaction'
 import moment from 'moment'
@@ -20,14 +21,6 @@ import {
   StatusTransaction,
   TRListType,
 } from 'types/transaction'
-
-export const SearchTypeValue = {
-  bcTransaction: 1,
-  betAmount: 5,
-  roundId: 2,
-  moaTransaction: 3,
-  bcPlayerId: 4,
-}
 
 const initialSearchValues: ISearchValuesTransactions = {
   id: '',
@@ -176,6 +169,10 @@ export const getTransactions = createAsyncThunk(
         {
           page,
           take,
+          searchType:
+            searchType === SearchTypeValue.moaTransaction
+              ? SearchTypeValue.agentTransaction
+              : searchType,
           ...dateObj,
           ...(TransactionStatus !== 'null' ? { TransactionStatus } : {}),
           ...(isTester !== 'null' ? { isTester } : {}),

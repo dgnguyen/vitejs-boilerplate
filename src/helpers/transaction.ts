@@ -2,19 +2,19 @@ export const SearchTypeValue = {
   agentTransaction: 1,
   betAmount: 5,
   roundId: 2,
-  moaTransaction: 1,
+  moaTransaction: 3,
   agentPlayerId: 4,
 }
 
 export const searchTypeOptions = [
-  { value: SearchTypeValue.agentTransaction, label: 'Agent transaction ID' },
+  { value: SearchTypeValue.agentTransaction, label: 'Agent Transaction ID' },
   { value: SearchTypeValue.betAmount, label: 'Bet Amount' },
   { value: SearchTypeValue.roundId, label: 'Round ID' },
   {
     value: SearchTypeValue.moaTransaction,
     label: 'RB Transaction ID',
   },
-  { value: SearchTypeValue.agentPlayerId, label: 'Agent player ID' },
+  { value: SearchTypeValue.agentPlayerId, label: 'Agent Player ID' },
 ]
 
 export const TRStatusSelectOptions = [
