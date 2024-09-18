@@ -26,7 +26,11 @@ const AgentSelectForMarket = ({ isTopMarket }: { isTopMarket?: boolean }) => {
 
   useEffect(() => {
     if (!loadingAgents) {
-      dispatch(setSearchValuesMarket({ agent: agents.find((item) => !item.isBlock)?.id }))
+      dispatch(
+        setSearchValuesMarket({
+          agent: agents.find((item) => !item.isBlock)?.id,
+        })
+      )
     }
   }, [loadingAgents])
 

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Box, SelectChangeEvent, Typography } from '@mui/material'
@@ -7,13 +7,18 @@ import AgentSelect from 'components/AgentSelect'
 import PageTitle from 'components/Commons/PageTitle'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
+import Switch from 'components/Switch'
+import { FORMAT_DATE } from 'constants/date'
 import { ROUTES } from 'constants/endpoint'
 import { isSuperAdmin } from 'helpers/auth'
+import isEqual from "lodash/isEqual"
+import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   resetSearchValues,
   setAndLoadData,
+  setMultiSearchLoadTransaction,
   setSearchValue,
   transactionIsLoadingSelector,
   transactionIsPageLoadingSelector,
@@ -32,11 +37,24 @@ const Transaction = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
 
+
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { selectedAllGames, agentSelected } = searchValues
+  const { selectedAllGames, agentSelected, date } = searchValues
+  const [checkAllTransaction, setCheckAllTransaction] = useState(false)
+
+
+  const checkedAllTransactionsPlayer = isEqual(date, location?.state?.dateRange)
   const transactionLoading = useSelector(transactionIsLoadingSelector)
   const transactionPageLoading = useSelector(transactionIsPageLoadingSelector)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isPageTransactionPlayer && checkedAllTransactionsPlayer) {
+      setCheckAllTransaction(true)
+    } else {
+      setCheckAllTransaction(false)
+    }
+  }, [isPageTransactionPlayer, checkedAllTransactionsPlayer])
 
   function setSelectedAllGames(selected: string | null) {
     dispatch(
@@ -58,12 +76,38 @@ const Transaction = () => {
     }
   }, [])
 
+
   function backToPlayerWithPreviousSearch() {
     navigate(ROUTES.PLAYER, {
       state: {
         searchValues: location?.state?.searchValues,
       },
     })
+  }
+
+  function toggleCheckAllTransactionsPlayer() {
+    if (checkAllTransaction) {
+      const updatedArraySearchValues = [
+        {
+          date: {
+            startDate: moment(new Date()).format(FORMAT_DATE),
+            endDate: moment(new Date()).format(FORMAT_DATE)
+          }
+        }
+      ]
+      dispatch(
+        setMultiSearchLoadTransaction(updatedArraySearchValues, true)
+      )
+    } else {
+      const updatedArraySearchValues = [
+        {
+          date: location?.state?.dateRange
+        }
+      ]
+      dispatch(
+        setMultiSearchLoadTransaction(updatedArraySearchValues, true)
+      )
+    }
   }
 
   return (
@@ -88,6 +132,7 @@ const Transaction = () => {
               : ''
           }
         />
+
       </Box>
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
@@ -101,6 +146,15 @@ const Transaction = () => {
         alignItems='center'
       >
         <DateBlock />
+        {isPageTransactionPlayer &&
+          <Box display="flex" gap={1}>
+            <Switch
+              isChecked={checkAllTransaction}
+              onChange={toggleCheckAllTransactionsPlayer}
+            />
+            <Typography>Show all transactions of this player</Typography>
+          </Box>
+        }
         {isSuperAdmin() && !isPageTransactionPlayer && (
           <AgentSelect agentSelected={agentSelected} handleChange={handleChangeAgent} />
         )}

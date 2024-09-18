@@ -71,8 +71,7 @@ const FormSettings = ({
         if (response?.data?.isSuccess) {
           dispatch(addNewAccount(response?.data?.data))
           cb('Account has been created successfully')
-        }
-        else {
+        } else {
           cb('Failed to create account')
         }
       } else if (isSuperEditUser || isEditUser) {
@@ -80,9 +79,9 @@ const FormSettings = ({
 
         const valuesSendToAPI = isSuperEditUser
           ? {
-            partnerId,
-            ...rest,
-          }
+              partnerId,
+              ...rest,
+            }
           : rest
         const response = await axios.post(
           API_ENDPOINT.UPDATE_ACCOUNT,

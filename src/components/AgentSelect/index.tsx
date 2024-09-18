@@ -57,7 +57,7 @@ const AgentSelect = ({
           {!disableSelectAll && (
             <MenuItem
               defaultChecked
-              value="all"
+              value='all'
             >
               All
             </MenuItem>

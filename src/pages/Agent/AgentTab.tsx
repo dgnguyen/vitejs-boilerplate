@@ -13,7 +13,7 @@ const AgentTab = () => {
       display='flex'
       gap={2}
       marginY={2}
-      sx={{ "button": { textTransform: "capitalize" } }}
+      sx={{ button: { textTransform: 'capitalize' } }}
     >
       <Button
         variant={`${pathname === ROUTES.AGENT ? 'contained' : 'outlined'}`}

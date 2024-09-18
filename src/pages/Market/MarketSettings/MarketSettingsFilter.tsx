@@ -18,9 +18,7 @@ import { useGames } from 'context/GamesContext'
 import { isSuperAdmin } from 'helpers/auth'
 import { useFetchAgents } from 'hooks/useFetchAgents'
 import { useSelector } from 'react-redux'
-import {
-  setSearchValuesMarket,
-} from 'redux/reducers/market'
+import { setSearchValuesMarket } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 
 import AgentSelectForMarket from './AgentSelectForMarket'

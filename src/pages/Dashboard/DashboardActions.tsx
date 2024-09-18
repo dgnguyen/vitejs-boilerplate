@@ -80,11 +80,12 @@ const DashboardActions = () => {
           oneMonthSelection
         />
       </Box>
-      {isSuperAdmin() &&
+      {isSuperAdmin() && (
         <AgentSelect
           agentSelected={agentSelected}
-          handleChange={handleChangeAgent} />
-      }
+          handleChange={handleChangeAgent}
+        />
+      )}
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

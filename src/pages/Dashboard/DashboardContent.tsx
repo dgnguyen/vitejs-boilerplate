@@ -27,13 +27,7 @@ const DashboardContent = () => {
 
   useEffect(() => {
     dispatch(getDashboardDataAction())
-
-  }, [
-    startDate,
-    endDate,
-    filterDashboard?.agentSelected,
-    isTester,
-  ])
+  }, [startDate, endDate, filterDashboard?.agentSelected, isTester])
 
   useEffect(() => {
     return () => {
