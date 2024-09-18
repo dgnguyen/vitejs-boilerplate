@@ -38,6 +38,7 @@ export type DahsboardState = {
     dateRange: DateRange
     agentSelected: string
     isTester: string
+    agentSelectedName: string
   }
   loading: boolean
   loadingPage: boolean
@@ -54,6 +55,7 @@ export const initialStateFilter = {
   dateRange: initialStateDateRange,
   agentSelected: 'all',
   isTester: 'false',
+  agentSelectedName: 'all',
 }
 const initialState: DahsboardState = {
   filter: initialStateFilter,
@@ -72,6 +74,9 @@ export const dashboardReducer = createSlice({
     },
     setAgent: (state, action) => {
       state.filter.agentSelected = action.payload
+    },
+    setAgentName: (state, action) => {
+      state.filter.agentSelectedName = action.payload
     },
     setDate: (state, action) => {
       state.filter.dateRange = action.payload
@@ -130,7 +135,7 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           const link = document.createElement('a')
           link.href = url
           const dashboardType = partnerId
-            ? 'DashboardByAgent'
+            ? `DashboardByAgent-${getState()?.dashboard?.filter?.agentSelectedName}`
             : 'GlobalDashboard'
           let testerType = 'RealAndTestAccount'
           if (isTester === 'true') testerType = 'TestAccount'
@@ -200,6 +205,7 @@ export const getDashboardDataAction = () => {
 export const {
   setData,
   setAgent,
+  setAgentName,
   setDate,
   setIsTester,
   resetDate,

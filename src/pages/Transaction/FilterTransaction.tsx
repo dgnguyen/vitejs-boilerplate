@@ -55,7 +55,7 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
         {!isPageTransactionPlayer && (
           <>
             <MuiSearchField
-              placeholder="Search"
+              placeholder='Search'
               onChange={handleSearchState}
               value={searchState}
               onKeyDown={(e: any) => {
@@ -66,7 +66,11 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               }}
               onClick={handleSearch}
             />
-            <Box display="flex" alignItems="center" gap={1}>
+            <Box
+              display='flex'
+              alignItems='center'
+              gap={1}
+            >
               <Typography fontSize={18}>by</Typography>
             </Box>
             <Select

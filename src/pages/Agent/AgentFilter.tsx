@@ -82,6 +82,7 @@ const AgentFilter = () => {
         onClick={handleSearch}
         disabled={loading}
         variant='contained'
+        sx={{ height: '48px' }}
       >
         <SearchSVG />
       </Button>

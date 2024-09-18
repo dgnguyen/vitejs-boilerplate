@@ -20,10 +20,12 @@ const AgentSelect = ({
   handleChange,
   agentSelected,
   disableSelectAll,
+  cb,
 }: {
   agentSelected?: string | number | null
   disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
+  cb?: (e?: string) => void
 }) => {
   const { agents, loadingAgents } = useFetchAgents()
   const agentsOptions = (agents || []).reduce(
@@ -38,6 +40,11 @@ const AgentSelect = ({
     []
   )
 
+  function handleSelectChange(e: SelectChangeEvent) {
+    handleChange(e)
+    cb?.(agentsOptions.find((item) => item.value === e.target.value)?.label)
+  }
+
   return (
     <Box className='select-wrapper'>
       <FormControl
@@ -51,7 +58,7 @@ const AgentSelect = ({
           value={agentSelected?.toString()}
           {...(!disableSelectAll ? { defaultValue: 'all' } : {})}
           label='Select Agent'
-          onChange={handleChange}
+          onChange={handleSelectChange}
           disabled={loadingAgents}
         >
           {!disableSelectAll && (

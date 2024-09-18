@@ -31,6 +31,7 @@ const initialSearchValues: ISearchValuesPlayers = {
   take: 20,
   totalCount: 0,
   agentSelected: null,
+  agentSelectedName: '',
   currency: '',
 }
 
@@ -154,7 +155,7 @@ export const exportPlayers =
   (cb: (res: any, name: string) => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     const { searchValues } = (getState() as RootState)?.player
-    const { id, isTester } = searchValues
+    const { id, isTester, agentSelectedName } = searchValues
     dispatch(setLoadingExport(true))
     const url = `${API_BASE_URL}/AdminPlayer/exportPlayersTransactions`
     handleExportRequest({
@@ -172,10 +173,13 @@ export const exportPlayers =
             : isTester === 'true'
               ? 'testAccount'
               : 'realAccount'
+        const exportAgentName = agentSelectedName
+          ? `Agent-${agentSelectedName}_`
+          : ''
         const exportPlayerName = id
           ? `ExportPlayerId-${id}`
           : 'ExportAllPlayers'
-        const fileName = `${exportPlayerName}_${isTestAccountName}.xlsx`
+        const fileName = `${exportPlayerName}_${isTestAccountName}_${exportAgentName}.xlsx`
         cb(response, fileName)
       })
       .catch((error) => console.error(error))

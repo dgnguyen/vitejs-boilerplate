@@ -6,14 +6,14 @@ import Paper from '@mui/material/Paper'
 const MuiSearchField = (props: InputBaseProps) => {
   return (
     <Paper
-      component="form"
+      component='form'
       sx={{
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
         width: 170,
-        boxShadow: "none",
-        border: "1px solid #c4c4c4"
+        boxShadow: 'none',
+        border: '1px solid #c4c4c4',
       }}
     >
       <InputBase
@@ -22,7 +22,11 @@ const MuiSearchField = (props: InputBaseProps) => {
         inputProps={{ 'aria-label': 'search text field' }}
       />
       <Box onClick={props?.onClick}>
-        <IconButton type="button" sx={{ p: '10px' }} aria-label="search" >
+        <IconButton
+          type='button'
+          sx={{ p: '10px' }}
+          aria-label='search'
+        >
           <SearchIcon />
         </IconButton>
       </Box>

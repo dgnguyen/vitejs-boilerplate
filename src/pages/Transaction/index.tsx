@@ -68,6 +68,10 @@ const Transaction = () => {
     dispatch(setAndLoadData('agentSelected', event.target.value, true))
   }
 
+  const handleChangeAgentName = (val?: string) => {
+    dispatch(setSearchValue({ key: 'agentSelectedName', val: val || '' }))
+  }
+
   useEffect(() => {
     return () => {
       dispatch(resetSearchValues())
@@ -154,6 +158,7 @@ const Transaction = () => {
           <AgentSelect
             agentSelected={agentSelected}
             handleChange={handleChangeAgent}
+            cb={handleChangeAgentName}
           />
         )}
       </Box>

@@ -143,7 +143,7 @@ export const getAgentsListAction = createAsyncThunk(
     const {
       page,
       take,
-      searchValues: { value },
+      searchValues: { searchType, value },
       // eslint-disable-next-line no-unsafe-optional-chaining
     } = (getState() as RootState)?.agent
     try {
@@ -151,6 +151,7 @@ export const getAgentsListAction = createAsyncThunk(
         page,
         take,
         searchValue: value,
+        searchType,
       })
 
       const response = await axios.post(API_ENDPOINT.GET_AGENT, json, {
@@ -268,7 +269,7 @@ export const exportAgentsAction =
       },
     })
       .then(async (response: any) => {
-        const fileName = `ExportAgent.xlsx`
+        const fileName = `ExportAgent${value.replace(',', '') ? `_Search-${value.replace(',', '')}` : ''}.xlsx`
         cb(response, fileName)
       })
       .catch((error) => console.error(error))

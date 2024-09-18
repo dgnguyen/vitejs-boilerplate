@@ -1,29 +1,19 @@
 import { Refresh } from '@mui/icons-material'
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from '@mui/material'
+import { Box, Button, SelectChangeEvent } from '@mui/material'
 
 import AgentSelect from 'components/AgentSelect'
 import DataPicker from 'components/DataPicker'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
-import { ROUTES } from 'constants/endpoint'
 import { isSuperAdmin, isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import {
   dashboardFilterSelector,
   dashboardLoadingSelector,
-  DateRange,
   getDashboardDataAction,
   resetDashboardFilter,
-  resetDate,
   setAgent,
+  setAgentName,
   setDate,
   setIsTester,
 } from 'redux/reducers/dashboard'
@@ -67,6 +57,10 @@ const DashboardActions = () => {
     dispatch(setAgent(event.target.value))
   }
 
+  const handleChangeAgentName = (value?: string) => {
+    dispatch(setAgentName(value || ''))
+  }
+
   const handleChangeIsTester = (event: SelectChangeEvent) => {
     dispatch(setIsTester(event.target.value))
   }
@@ -84,6 +78,7 @@ const DashboardActions = () => {
         <AgentSelect
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}
+          cb={handleChangeAgentName}
         />
       )}
       <TesterSelect
