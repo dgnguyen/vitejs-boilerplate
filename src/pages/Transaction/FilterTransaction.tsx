@@ -8,6 +8,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from '@mui/material'
 
 import SearchSVG from 'assets/images/search.svg'
@@ -65,7 +66,9 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
               }}
               onClick={handleSearch}
             />
-
+            <Box display="flex" alignItems="center" gap={1}>
+              <Typography fontSize={18}>by</Typography>
+            </Box>
             <Select
               value={searchType.toString()}
               onChange={handleChangeSearchType}
