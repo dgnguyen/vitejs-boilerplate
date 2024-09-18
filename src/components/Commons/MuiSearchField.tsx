@@ -8,10 +8,10 @@ const MuiSearchField = (props: InputBaseProps) => {
     <Paper
       component='form'
       sx={{
+        ...props.sx,
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        width: 170,
         boxShadow: 'none',
         border: '1px solid #c4c4c4',
       }}
@@ -21,15 +21,7 @@ const MuiSearchField = (props: InputBaseProps) => {
         sx={{ ml: 1, flex: 1 }}
         inputProps={{ 'aria-label': 'search text field' }}
       />
-      <Box onClick={props?.onClick}>
-        <IconButton
-          type='button'
-          sx={{ p: '10px' }}
-          aria-label='search'
-        >
-          <SearchIcon />
-        </IconButton>
-      </Box>
+      <SearchIcon />
     </Paper>
   )
 }

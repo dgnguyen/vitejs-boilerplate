@@ -5,6 +5,7 @@ import { Box, Button, SelectChangeEvent, TextField } from '@mui/material'
 
 import SearchSVG from 'assets/images/search.svg'
 import AgentSelect from 'components/AgentSelect'
+import MuiSearchField from 'components/Commons/MuiSearchField'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
 import { isSuperAdmin } from 'helpers/auth'
@@ -18,7 +19,7 @@ import {
 import { RootState, useAppDispatch } from 'redux/store'
 
 const FilterPlayer = () => {
-  const { searchValues, isLoadingData, isLoadingPage, data, hasMore } =
+  const { searchValues, isLoadingData, isLoadingPage } =
     useSelector((state: RootState) => state.player)
   const dispatch = useAppDispatch()
   const { isTester, id, agentSelected } = searchValues
@@ -75,17 +76,18 @@ const FilterPlayer = () => {
 
   return (
     <Box className='filter-wrapper'>
-      <TextField
+      <MuiSearchField
         placeholder='Search by Agent Player ID'
         onChange={handleSearchState}
         value={searchState}
-        // onKeyDown={(e: any) => {
-        //   if (e.key === 'Enter' && !disableSearch) {
-        //     handleSearchState(e)
-        //   }
-        // }}
+        onKeyDown={(e: any) => {
+          if (e.key === 'Enter' && !disableSearch) {
+            handleSearchState(e)
+            handleSearch()
+          }
+        }}
         className='searchTextInput bgWhite'
-        sx={{ width: '250px' }}
+        sx={{ width: '260px' }}
       />
       {isSuperAdmin() && (
         <AgentSelect

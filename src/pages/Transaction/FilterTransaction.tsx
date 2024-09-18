@@ -64,7 +64,6 @@ const FilterTransaction = ({ playerId }: { playerId?: string }) => {
                   handleSearch()
                 }
               }}
-              onClick={handleSearch}
             />
             <Box
               display='flex'
