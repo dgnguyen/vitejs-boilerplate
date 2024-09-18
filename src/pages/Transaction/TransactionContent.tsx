@@ -121,7 +121,7 @@ const TransactionContent = ({
               .map((item: any) => {
                 let displayPrice = thousandSeparator(item[1])
                 if (item[0] === 'ggrInPercent')
-                  displayPrice = `${(item[1] * 100).toFixed(2)}%`
+                  displayPrice = `${(item[1] * 100)}%`
                 if (item[0] === 'totalCount') displayPrice = item[1].toString()
                 return (
                   <Card
