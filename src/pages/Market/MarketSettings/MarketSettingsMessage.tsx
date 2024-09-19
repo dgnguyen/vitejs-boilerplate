@@ -1,9 +1,10 @@
 import { useState } from 'react'
 
 import { Edit, History } from '@mui/icons-material'
-import { Button, FormControlLabel, Typography } from '@mui/material'
+import { Button, Snackbar, Typography } from '@mui/material'
 
 import Switch from 'components/Switch'
+import { useSnackbar } from 'hooks/useSnackbar'
 import { useSelector } from 'react-redux'
 import { RootState } from 'redux/store'
 
@@ -11,7 +12,6 @@ import BetStatusEditModal from './BetStatusEditModal'
 import BetStatusHistoryModal from './BetStatusHistoryModal'
 
 import './style.scss'
-// import BetStatusEditModal from './BetStatusEditModal'
 
 const initialState = {
   open: false,
@@ -26,6 +26,7 @@ const MarketSettingsMessage = () => {
   })
   const [isBetStatusHistoryModalShow, setBetStatusHistoryModalShow] =
     useState(initialState)
+  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
   if (!betAllowed) return null
   return (
@@ -73,12 +74,22 @@ const MarketSettingsMessage = () => {
           onModalHide={() =>
             setBetAllowShowing({ open: false, isMsgEdit: false })
           }
+          openSnackbar={openSnackbar}
         />
       )}
 
       {isBetStatusHistoryModalShow.open && (
         <BetStatusHistoryModal
           onModalClose={() => setBetStatusHistoryModalShow(initialState)}
+        />
+      )}
+      {snackbar.open && (
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={2000}
+          onClose={closeSnackbar}
+          message={snackbar.message}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         />
       )}
     </div>

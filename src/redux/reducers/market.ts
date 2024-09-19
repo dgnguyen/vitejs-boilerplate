@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { langEnum } from 'constants/market'
 import { AppDispatch } from 'redux/store'
 
@@ -187,7 +187,7 @@ export const updateBetAllowStatus = (
   return async (
     dispatch: AppDispatch,
     getState: Function
-  ): Promise<{ isSuccess: boolean }> => {
+  ): Promise<{ isSuccess: boolean; error?: any }> => {
     const { agent, gameType } = getState().market.searchValues
     try {
       const response = await axios.post(
@@ -213,8 +213,12 @@ export const updateBetAllowStatus = (
       }
 
       return response.data
-    } catch (e) {
-      return { isSuccess: false }
+    } catch (e: any) {
+      return {
+        isSuccess: false,
+        error:
+          e.response?.data?.message || 'Error while update bet allow status',
+      }
     }
   }
 }
