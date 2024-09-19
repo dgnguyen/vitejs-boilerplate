@@ -5,8 +5,7 @@ import { Box, Button, Snackbar } from '@mui/material'
 import WarnIcon from 'assets/images/icons/warnYellowIcon.svg'
 import Modal from 'components/Commons/MuiModal'
 import { Form, Formik } from 'formik'
-import { useSnackbar } from 'hooks/useSnackbar'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { updateBetAllowStatus } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
 import * as Yup from 'yup'
@@ -21,7 +20,8 @@ export enum langEnum {
 const BetStatusEditModal: React.FC<{
   onModalHide: () => void
   isMsgEdit: boolean
-}> = ({ onModalHide, isMsgEdit }) => {
+  openSnackbar: ({ message }: { message: string }) => void
+}> = ({ onModalHide, isMsgEdit, openSnackbar }) => {
   const dispatch = useAppDispatch()
   const marketSelector = useSelector((state: RootState) => state.market)
   const { status, betAllowedMsgEnglish, betAllowedMsgKorean } =
@@ -35,7 +35,6 @@ const BetStatusEditModal: React.FC<{
   const [textAreaLength, setTextAreaLength] = useState(
     contents[selectedLang]?.length
   )
-  const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
   const handleSubmit = async (
     { password }: { password: string },
     isMsgEdit: boolean
@@ -43,28 +42,12 @@ const BetStatusEditModal: React.FC<{
     try {
       const res = await dispatch(
         updateBetAllowStatus(isMsgEdit ? status : !status, contents, password)
-      )
+      ) as any
       if (res.isSuccess) {
-        openSnackbar({
-          message: isMsgEdit ? (
-            <p>
-              Message successfully <span className={'color-green'}>edited</span>
-            </p>
-          ) : (
-            <p>
-              The Markets are turned{' '}
-              {status ? (
-                <span className={'color-red'}>OFF</span>
-              ) : (
-                <span className={'color-green'}>ON</span>
-              )}{' '}
-              <br /> successfully
-            </p>
-          ),
-        })
+        openSnackbar({ message: isMsgEdit ? "Message successfully edited" : `The Markets are turned ${status ? 'OFF' : 'ON'} successfully` })
         onModalHide()
       } else {
-        openSnackbar({ message: 'Error while open / close game' })
+        openSnackbar({ message: res?.error })
       }
     } catch (err) {
       console.error(err)
@@ -165,9 +148,8 @@ const BetStatusEditModal: React.FC<{
                           })
                         }}
                         value={contents[selectedLang]}
-                        placeholder={`Only ${
-                          selectedLang === langEnum.eng ? 'English' : 'Korean'
-                        } letters allowed.`}
+                        placeholder={`Only ${selectedLang === langEnum.eng ? 'English' : 'Korean'
+                          } letters allowed.`}
                       />
                       <p>250/{textAreaLength}</p>
                     </div>
@@ -228,15 +210,7 @@ const BetStatusEditModal: React.FC<{
           </div>
         </div>
       </Modal>
-      {snackbar.open && (
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={2000}
-          onClose={closeSnackbar}
-          message={snackbar.message}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        />
-      )}
+
     </Box>
   )
 }
