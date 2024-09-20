@@ -63,7 +63,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
 
   const renderHeader = () => {
     return Object.keys(header).map((col) => {
-      let data = row[col as keyof RowRecordNoCurrency]
+      let data = row[col as keyof RowRecordNoCurrency] as any
       let className = ''
       if (col === 'transactionDate') {
         data = format(new Date(row[col]), 'dd.MM.yyyy HH:mm:ss')?.replace(
@@ -106,8 +106,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
         data = status
       }
       if (['winAmount', 'betAmount'].includes(col)) {
-        data = thousandSeparator(data as any)
+        data = data !== null ? thousandSeparator(data) : '-'
       }
+
+
 
       if (data)
         return (
@@ -148,10 +150,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
               style={
                 ind === 1
                   ? {
-                      whiteSpace: 'inherit',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                    }
+                    whiteSpace: 'inherit',
+                    textOverflow: 'ellipsis',
+                    overflow: 'hidden',
+                  }
                   : {}
               }
               title={ind === 1 ? text : ''}
