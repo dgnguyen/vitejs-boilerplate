@@ -18,14 +18,14 @@ export const getToken = () => {
 }
 
 export const isAuthenticated = () => {
-  return !!getToken() // && getExpiresAt();
+  return !!getUser() // && getExpiresAt();
 }
 
-export const isMasterAgent = () => getUser().role === 3
+export const isMasterAgent = () => getUser().role === 2
 
 export const isAgent = () => getUser().role === 4
 
-export const isAdmin = () => getUser().role === 2
+export const isAdmin = () => getUser().role === 3
 
 export const isSuperAdmin = () => {
   return getUser().role === 1
@@ -39,6 +39,10 @@ export const isSuperAdminOrAdmin = () => getUser().role <= 2
 
 export const removeToken = () => {
   localStorage.removeItem('token')
+}
+
+export const removeUser = () => {
+  localStorage.removeItem('user')
 }
 
 export const setUser = (user: IUser) => {

@@ -1,0 +1,46 @@
+.player-wrapper {
+  .filter-player-wrapper {
+    margin: 16px 0;
+    display: flex;
+    gap: 8px;
+  }
+  .player-content-wrapper {
+    border-radius: var(--radius-base);
+    margin-top: 16px;
+    background-color: white;
+    .player-table-header-wrapper {
+      border-bottom: 1px solid var(--color-grey);
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      padding: 8px;
+      gap: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+}
+
+.player-content-wrapper {
+  padding: 8px;
+  .player-table-content-wrapper {
+    .playerRow-wrapper {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      padding: 24px 8px;
+      gap: 8px;
+      border-bottom: 1px solid var(--color-grey);
+      text-align: center;
+      .transactionCount > p {
+        cursor: pointer;
+        border: 1px solid var(--blue-primary);
+        border-radius: 20px;
+      }
+      > div.real {
+        color: var(--green);
+      }
+      > div.test {
+        color: var(--orange);
+      }
+    }
+  }
+}

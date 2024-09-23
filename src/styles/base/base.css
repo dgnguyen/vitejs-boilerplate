@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
 :root {
-  --font: sans-serif;
+  --font: 'Poppins, sans-serif';
   --primary: #333333;
   --white: #ffffff;
   --bg-primary: #fafafa;
@@ -28,7 +30,7 @@ html {
 }
 
 body {
-  font-family: var(--font);
+  font-family: Poppins, sans-serif;
   font-size: 14px;
   line-height: 17px;
   font-style: normal;
@@ -56,4 +58,14 @@ body {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: var(--bg-grey);
+}
+
+.select-wrapper {
+  .MuiFormControl-root {
+    margin: 0;
+    .MuiInputBase-root {
+      background-color: white;
+      height: 50px;
+    }
+  }
 }

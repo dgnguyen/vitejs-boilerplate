@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
+
 import Body from './Body'
 import Menu from './Menu'
+
 import './style.scss'
 
 const AppLayout = ({ children }: { children: React.ReactNode }) => {

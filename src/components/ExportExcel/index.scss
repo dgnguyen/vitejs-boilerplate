@@ -1,0 +1,48 @@
+.exportWrapper {
+  width: 110px;
+  border-color: transparent;
+  fieldset {
+    border-radius: var(--radius-base);
+  }
+  .export-excel {
+    border-radius: var(--radius-base);
+    &:focus {
+      border-color: transparent;
+      border-radius: var(--radius-base);
+    }
+  }
+  .MuiSelect-select {
+    height: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    &:focus {
+      border-radius: var(--radius-base);
+    }
+    &.Mui-disabled {
+      -webkit-text-fill-color: white;
+      color: white;
+      opacity: 0.8;
+    }
+  }
+  .MuiMenu-list {
+    padding: 0;
+  }
+  .MuiSelect-outlined {
+    border-radius: var(--radius-base);
+    display: flex;
+    justify-content: center;
+    background-color: #5863ff;
+    .MuiListItemIcon-root {
+      min-width: 26px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .MuiSvgIcon-root {
+    fill: white !important;
+  }
+}
+
+.exportExcelButton {
+  gap: 8px;
+}

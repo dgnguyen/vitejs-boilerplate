@@ -1,0 +1,28 @@
+export const SearchTypeValue = {
+  agentTransaction: 1,
+  betAmount: 5,
+  roundId: 2,
+  moaTransaction: 3,
+  agentPlayerId: 4,
+}
+
+export const searchTypeOptions = [
+  { value: SearchTypeValue.agentTransaction, label: 'Agent Transaction ID' },
+  { value: SearchTypeValue.betAmount, label: 'Bet Amount' },
+  { value: SearchTypeValue.roundId, label: 'Round ID' },
+  {
+    value: SearchTypeValue.moaTransaction,
+    label: 'RB Transaction ID',
+  },
+  { value: SearchTypeValue.agentPlayerId, label: 'Agent Player ID' },
+]
+
+export const TRStatusSelectOptions = [
+  { value: 'null', label: 'All' },
+  { value: 2, label: 'Win' },
+  { value: 1, label: 'Lost' },
+  { value: 4, label: 'Refund' },
+  { value: 0, label: 'Pending' },
+]
+
+export const initialDateState = { startDate: new Date(), endDate: new Date() }

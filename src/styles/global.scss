@@ -2,6 +2,14 @@
   //colors
   --white: #ffffff;
   --bg-color: #f0f5f9;
+  --color-grey: #c7ccdb;
+  --color-text-dark: #2a324b;
+  --blue-primary: #5863ff;
+  --radius-base: 5px;
+  --green: #0acf97;
+  --orange: #faa500;
+  --color-light-blue: #5863ff;
+  --color-daisy: #4e23ad;
 }
 
 .d-flex {
@@ -15,4 +23,50 @@
 hr {
   margin-block: 1.6rem;
   border-bottom: 1px solid var(--blue-border-color);
+}
+
+// style for every input text
+.filter-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+  > div {
+    height: 48px;
+    &.bgWhite {
+      background-color: white;
+    }
+  }
+}
+
+// .MuiButtonBase-root {
+//   height: 48px;
+// }
+
+.MuiSelect-select,
+.MuiOutlinedInput-root {
+  background-color: white;
+}
+
+.MuiInputBase-input.MuiOutlinedInput-input {
+  padding: 13px 6px;
+}
+// .MuiFormLabel-root.MuiInputLabel-root.MuiInputLabel-formControl {
+//   line-height: 2em;
+// }
+
+//Table
+.MuiTableCell-root.MuiTableCell-head {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+.MuiTableCell-root.MuiTableCell-body {
+  text-align: center;
+}
+
+//error text in form
+.error_text {
+  font-size: 14px;
+  color: red;
 }

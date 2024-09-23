@@ -1,0 +1,54 @@
+.market-settings-content-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+// new modal style
+.marketName {
+  > p {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 36px;
+    color: #5863ff;
+    text-align: center;
+  }
+}
+.eventName {
+  color: #2a324b;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  margin-bottom: 16px;
+  .ticket_point_bracket {
+    margin-left: 10px;
+  }
+}
+
+.modalText {
+  color: #2a324b;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+}
+
+// marketsettingsmessage
+.betStatusSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 23px; // as Market header title component also has margin-bottom: 23px
+
+  > button {
+    margin-right: 8px;
+  }
+}
+
+.warnTextSection {
+  margin-bottom: 30px !important;
+}
+.toggleDiv {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}

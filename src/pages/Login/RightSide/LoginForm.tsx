@@ -1,29 +1,38 @@
 import { useState } from 'react'
 
-// import { LoadingButton } from '@mui/lab'
-import { Link, Button } from '@mui/material'
+import { Button, CircularProgress, Link, Typography } from '@mui/material'
 
+import MuiButton from 'components/Commons/MuiButton'
 import { ROUTES } from 'constants/endpoint'
+import { useGames } from 'context/GamesContext'
+import { IUser, useUser } from 'context/UserContext'
 import { Form, Formik } from 'formik'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from 'redux/hooks'
-import { useNavigate } from 'react-router-dom'
-
 import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from 'redux/hooks'
+import { loadingLogin, loginUser } from 'redux/reducers/user'
+
 import loginSchema from '../../../schema/loginSchema'
-import { loginUser, loadingLogin } from 'redux/reducers/user'
 
 import styles from './styles.module.scss'
 
 const LoginForm = () => {
   const [show, setShow] = useState(false)
+  const { handleLogin } = useUser()
   const dispatch = useAppDispatch()
   const loginIsLoading = useSelector(loadingLogin)
   const navigate = useNavigate()
+  const { fetchGames } = useGames()
 
   const onSubmit = async (values: any, action: any) => {
     try {
-      await dispatch(loginUser(values))
+      await dispatch(
+        loginUser(values, (newUserLogin: IUser) => {
+          handleLogin(newUserLogin)
+          fetchGames()
+        })
+      )
       navigate(isSuperAdminOrAdmin() ? ROUTES.DASHBOARD : ROUTES.TRANSACTION)
     } catch (e) {
       action.setErrors({
@@ -96,17 +105,17 @@ const LoginForm = () => {
               <span className='error_text'>{props.errors.password}</span>
             )}
           </div>
-          <Button
+          <MuiButton
             key='loginButton'
             type='submit'
             disabled={loginIsLoading}
-            // loading={loginIsLoading}
             variant='contained'
             fullWidth
-            // loadingPosition="start"
+            sx={{ display: 'flex', gap: 1 }}
+            loading={loginIsLoading}
           >
-            <span>Login</span>
-          </Button>
+            <Typography>Login</Typography>
+          </MuiButton>
           <Link
             sx={{
               textAlign: 'left',

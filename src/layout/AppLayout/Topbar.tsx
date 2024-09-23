@@ -1,41 +1,65 @@
 import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
-import MenuItem from '@mui/material/MenuItem'
+
+import { Logout, People } from '@mui/icons-material'
 import AdbIcon from '@mui/icons-material/Adb'
+import MenuIcon from '@mui/icons-material/Menu'
+import AppBar from '@mui/material/AppBar'
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+
+import { ROUTES } from 'constants/endpoint'
+import { useUser } from 'context/UserContext'
+import { useNavigate } from 'react-router-dom'
+import { logout } from 'redux/reducers/user'
+import { useAppDispatch } from 'redux/store'
+
+import { stringAvatar } from './helpers'
 
 const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 function ResponsiveAppBar() {
+  const dispatch = useAppDispatch()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
+  const navigate = useNavigate()
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget)
+  function handleLogout() {
+    dispatch(logout())
+    navigate('/')
   }
+
+  const settings = [
+    {
+      label: 'Profile',
+      icon: <People />,
+      onClick: () => navigate(ROUTES.ACCOUNT_SETTINGS),
+    },
+    {
+      label: 'Logout',
+      icon: <Logout />,
+      onClick: () => handleLogout(),
+    },
+  ]
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
-  }
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null)
   }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+
+  const { currentUser } = useUser() as any
 
   return (
     <AppBar position='static'>
@@ -48,8 +72,9 @@ function ResponsiveAppBar() {
                 sx={{ p: 0 }}
               >
                 <Avatar
-                  alt='Remy Sharp'
-                  src='/static/images/avatar/2.jpg'
+                  {...stringAvatar(
+                    `${currentUser?.firstName} ${currentUser?.lastName}`
+                  )}
                 />
               </IconButton>
             </Tooltip>
@@ -71,10 +96,19 @@ function ResponsiveAppBar() {
             >
               {settings.map((setting) => (
                 <MenuItem
-                  key={setting}
-                  onClick={handleCloseUserMenu}
+                  key={setting.label}
+                  onClick={() => {
+                    setting.onClick()
+                    handleCloseUserMenu()
+                  }}
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    justifyContent: 'space-around',
+                  }}
                 >
-                  <Typography textAlign='center'>{setting}</Typography>
+                  {setting.icon}
+                  <Typography textAlign='center'>{setting.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>

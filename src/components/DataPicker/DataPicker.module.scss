@@ -1,0 +1,76 @@
+.pickerWrapper {
+  // margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #ffffff;
+  max-width: 906px;
+  border-radius: 16px;
+  padding: 16px;
+  position: absolute;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 500;
+  text-align: left;
+  left: 240px;
+}
+
+.pickerContainer {
+  position: relative;
+  cursor: pointer;
+}
+
+.pickerIcon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 8px;
+  svg {
+    width: 15px;
+  }
+}
+
+.datePicker {
+  border-radius: 16px;
+  div[class='rdrDateDisplay'] {
+    display: none;
+  }
+  div[class='rdrDateRangeWrapper'] {
+    width: 610px;
+  }
+}
+
+.inputEl {
+  cursor: pointer;
+  display: flex;
+  background: #ffffff;
+  border-radius: var(--radius-base);
+  //padding: 10px 25px 10px 25px;
+  height: 50px;
+  padding-right: 24px;
+  text-align: center;
+  // justify-content: center;
+  border: 1px solid #c4c4c4;
+  outline: none;
+  color: #2c323e;
+}
+
+.buttonWraper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    margin-right: 16px;
+  }
+}
+
+// .open {
+//   display: block;
+// }
+
+.errorInput {
+  border: 1px solid red;
+  &:hover,
+  &:focus {
+    border: 1px solid red;
+  }
+}
