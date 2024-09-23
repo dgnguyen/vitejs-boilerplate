@@ -1,0 +1,82 @@
+.market {
+  & > div:last-child {
+    & > h1:before {
+      content: '';
+      width: 14px;
+      height: 14px;
+      background-color: #0acf97;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 13px;
+    }
+  }
+}
+
+.marketCard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+  > div {
+    background-color: white;
+    padding: 16px;
+    border-radius: var(--radius-base);
+  }
+}
+
+.headerTitleDiv {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 16px;
+  button {
+    border-radius: 10px;
+  }
+}
+
+.gameTypesDiv {
+  display: flex;
+  font-size: 12px;
+  column-gap: 12px;
+  padding-bottom: 22px;
+
+  button {
+    padding: 8px 12px;
+  }
+}
+
+.totalByEventName {
+  color: var(--blue-primary);
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: end;
+}
+
+.market_section_title {
+  text-transform: capitalize;
+  margin-top: 18px;
+  margin-bottom: 19px;
+  &:before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #38cb99;
+    margin-right: 10px;
+    display: inline-block;
+  }
+}
+
+.marketStat-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  gap: 16px;
+}
+
+@media screen and (max-width: 1200px) {
+  .marketStat-content-wrapper {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

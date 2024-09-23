@@ -1,8 +1,7 @@
 import { createSlice, Dispatch } from '@reduxjs/toolkit'
 import axios from 'axios'
-
-import { AppDispatch, RootState } from 'redux/store'
 import { removeUser, setToken, setUser } from 'helpers/auth'
+import { AppDispatch, RootState } from 'redux/store'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -36,7 +35,7 @@ export const userSlice = createSlice({
 export const { loginAttempt, loginSuccess, loginFailed, logoutSuccess } =
   userSlice.actions
 
-export const loginUser = (formValues: any) => {
+export const loginUser = (formValues: any, cb?: (values: any) => void) => {
   return async (dispatch: AppDispatch) => {
     try {
       dispatch(loginAttempt())
@@ -47,7 +46,7 @@ export const loginUser = (formValues: any) => {
       const token = response.data.token
       setToken(token)
       setUser(response.data)
-
+      cb?.(response.data)
       // auth.setExpiresAt(response.data.loginExpirationDate)
 
       dispatch(loginSuccess({ token }))

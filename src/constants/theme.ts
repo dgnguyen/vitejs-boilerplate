@@ -1,13 +1,5 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
-declare module '@mui/material/styles/createPalette' {
-  interface CommonColors {
-    darkGrey: string
-    background: string
-    lightGrey: string
-  }
-}
-
 export const theme = extendTheme({
   typography: {
     allVariants: {
@@ -24,7 +16,6 @@ export const theme = extendTheme({
       lineHeight: '22px',
       fontWeight: 'bold',
     },
-
     button: {
       textTransform: 'none',
     },
@@ -35,8 +26,6 @@ export const theme = extendTheme({
         common: {
           black: '#000',
           white: '#fff',
-          lightGrey: '#474747',
-          darkGrey: '#555',
           background: '#f5f6fe',
         },
         primary: {

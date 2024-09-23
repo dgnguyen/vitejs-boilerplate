@@ -9,4 +9,3 @@ build
 .idea
 helm
 public
-env.d.ts

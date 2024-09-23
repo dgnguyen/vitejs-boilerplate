@@ -1,13 +1,12 @@
-// impoyrt { LoadingButton } from '@mui/lab'
-import { Box, Link, Button, Typography } from '@mui/material'
+import { Box, Link } from '@mui/material'
 
 import axios from 'axios'
+import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import { ROUTES } from 'constants/endpoint'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useNavigate } from 'react-router-dom'
-
 import { forgotPwdSchema } from 'schema/loginSchema'
 
 import styles from './styles.module.scss'
@@ -78,18 +77,17 @@ const ForgotPwdForm = () => {
               </div>
             </div>
 
-            <Button
+            <MuiButton
               type='submit'
               variant='contained'
               fullWidth
               key='sendMailResetPwd'
-              sx={{ marginY: 2 }}
-              // loadingPosition="start"
+              sx={{ marginY: 2, display: 'flex', gap: 1 }}
               disabled={loading}
-            // loading={loading}
+              loading={loading}
             >
               Send
-            </Button>
+            </MuiButton>
           </Form>
         )}
       </Formik>

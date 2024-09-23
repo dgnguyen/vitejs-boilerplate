@@ -11,15 +11,22 @@ type Props = {
 const EmptyData = ({ minHeight, sx }: Props) => {
   return (
     <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
+      display='flex'
+      justifyContent='center'
+      alignItems='center'
       minHeight={minHeight || 300}
-      sx={sx}
+      sx={{
+        ...sx,
+        background: 'white',
+      }}
     >
-      <Typography color="gray" fontSize={24} sx={{
-        textTransform: "none"
-      }}>
+      <Typography
+        color='gray'
+        fontSize={24}
+        sx={{
+          textTransform: 'none',
+        }}
+      >
         No data to display...
       </Typography>
     </Box>

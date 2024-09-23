@@ -1,0 +1,11 @@
+.formAddPlayerTracking-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 500px;
+
+  button {
+    height: 48px;
+    flex-grow: 1;
+  }
+}

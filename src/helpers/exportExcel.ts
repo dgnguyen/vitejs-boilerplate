@@ -1,10 +1,3 @@
-import { API_BASE_URL } from 'constants/endpoint'
-
-export const partnerFromUrl = (API_BASE_URL || '')
-  .replace('https://powerball-', '')
-  .replace('-dev', '')
-  .replace('.axolotl18.com', '')
-
 import axios from 'axios'
 
 type Props = {
@@ -21,8 +14,8 @@ export async function handleExportRequest({ url, params }: Props) {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         Accept: 'application/json',
-        Connection: 'keep-alive',
-        timeout: 60000,
+        // Connection: 'keep-alive',
+        // timeout: 60000,
       },
     })
 

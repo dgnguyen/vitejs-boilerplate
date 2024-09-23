@@ -3,7 +3,7 @@ import { Box, CircularProgress, Stack } from '@mui/material'
 const PaginateData = ({
   currentView,
   totalCount,
-  loading
+  loading,
 }: {
   currentView: number
   totalCount: number
@@ -11,12 +11,12 @@ const PaginateData = ({
 }) => {
   return (
     <Stack
-      display="flex"
-      flexDirection="row"
+      display='flex'
+      flexDirection='row'
       gap={1}
-      justifyContent="flex-end"
+      justifyContent='flex-end'
       marginY={1}
-      width="100%"
+      width='100%'
     >
       <Box>Total Search Count : </Box>
       <Box>{loading ? <CircularProgress size={12} /> : totalCount}</Box>

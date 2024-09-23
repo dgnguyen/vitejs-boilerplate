@@ -1,27 +1,33 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Box } from '@mui/material'
-
-import cx from 'classnames'
-import {
-  addDays,
-  differenceInCalendarDays,
-  differenceInDays,
-  format,
-  isSameDay,
-  lastDayOfMonth,
-  subDays
-} from 'date-fns'
-import { useClickOutside } from 'hooks/useClickOutside'
-import moment from 'moment'
-import { Calendar, DateRangePicker, RangeKeyDict, Range } from 'react-date-range'
+import Button from '@mui/material/Button'
 
 import BottomArrowIcon from 'assets/images/BottomArrow.svg'
 import UpArrowIcon from 'assets/images/UpArrow.svg'
-import Button from '@mui/material/Button'
+import cx from 'classnames'
+import {
+  addDays,
+  addMonths,
+  differenceInCalendarDays,
+  differenceInDays,
+  format,
+  isAfter,
+  isSameDay,
+  lastDayOfMonth,
+  subDays,
+} from 'date-fns'
+import { useClickOutside } from 'hooks/useClickOutside'
+import moment from 'moment'
+import {
+  Calendar,
+  DateRangePicker,
+  Range,
+  RangeKeyDict,
+} from 'react-date-range'
 
 import { initialState } from './config'
-import DateRange from "./CustomDateRange"
+import DateRange from './CustomDateRange'
 
 import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
@@ -41,7 +47,6 @@ type DataPickerProps = {
   style?: {}
 }
 
-
 const DataPicker: React.FC<DataPickerProps> = ({
   changeHandler,
   oneMonthSelection,
@@ -50,14 +55,14 @@ const DataPicker: React.FC<DataPickerProps> = ({
   reset,
   initialSetDate,
   disabled = false,
-  style = {}
+  style = {},
 }) => {
   const [state, setState] = useState<any>([
     {
       ...(initialSetDate ? initialSetDate : initialState),
       key: 'selection',
-      color: '#5863FF'
-    }
+      color: '#5863FF',
+    },
   ])
 
   const initialRenderRef = useRef(false)
@@ -67,40 +72,43 @@ const DataPicker: React.FC<DataPickerProps> = ({
       initialRenderRef.current = true
     } else {
       const initialDateObj = {
-        ...(initialSetDate ? initialSetDate : initialState)
+        ...(initialSetDate ? initialSetDate : initialState),
       }
       setDate(null)
       setState([
         {
           ...initialDateObj,
           key: 'selection',
-          color: '#5863FF'
-        }
+          color: '#5863FF',
+        },
       ])
 
       setSelectedState(initialDateObj)
 
       setToggleState({
         isOpen: false,
-        y: 0
+        y: 0,
       })
     }
   }, [initialSetDate, reset])
 
   const [date, setDate] = useState<any>(null)
   const [selectedRange, setSelectedState] = useState({
-    ...(initialSetDate ? initialSetDate : initialState)
+    ...(initialSetDate ? initialSetDate : initialState),
   })
   const [toggleState, setToggleState] = useState({
     isOpen: false,
-    y: 0
+    y: 0,
   })
   const today = new Date()
+  const endDateMaxToAllow = state[0].startDate
+    ? subDays(addMonths(state[0].startDate, 1), 1)
+    : today //The backend side is adding the validation with 30 days.
 
   const { ref: datePickerRef } = useClickOutside(() => {
     setToggleState({
       isOpen: false,
-      y: 0
+      y: 0,
     })
   })
 
@@ -109,7 +117,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
     const rect = node.getBoundingClientRect()
     setToggleState({
       isOpen: !toggleState.isOpen,
-      y: rect.bottom + 5
+      y: rect.bottom + 5,
     })
   }
 
@@ -129,7 +137,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
       if (date) setSelectedState(date)
       setToggleState({
         isOpen: false,
-        y: 0
+        y: 0,
       })
 
       changeHandler && changeHandler(startDate, endDate)
@@ -137,10 +145,14 @@ const DataPicker: React.FC<DataPickerProps> = ({
       setSelectedState({ ...state[0] })
       setToggleState({
         isOpen: false,
-        y: 0
+        y: 0,
       })
       const { startDate, endDate } = state[0]
-      changeHandler && startDate && endDate && changeHandler(startDate, endDate)
+      const maxEndDateAllow = isAfter(endDate, today) ? today : endDate
+      changeHandler &&
+        startDate &&
+        endDate &&
+        changeHandler(startDate, maxEndDateAllow)
     }
   }
 
@@ -156,13 +168,18 @@ const DataPicker: React.FC<DataPickerProps> = ({
       const delayDate = Math.abs(
         differenceInDays(item.selection?.endDate, item.selection?.startDate)
       )
-      const itemState =
-        delayDate > 30
-          ? {
-            ...item.selection,
-            endDate: addDays(item.selection.startDate, 30)
-          }
-          : item.selection
+      let itemState = item.selection
+      if (delayDate > 30)
+        itemState = {
+          ...item.selection,
+          endDate: addDays(item.selection.startDate, 30),
+        }
+      if (isAfter(item.selection.endDate, today))
+        itemState = {
+          ...item.selection,
+          endDate: today,
+        }
+
       setState([itemState])
     }
   }
@@ -171,7 +188,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
     const itemState = {
       ...state[0],
       startDate: newShowDate,
-      endDate: lastDayOfMonth(newShowDate)
+      endDate: lastDayOfMonth(newShowDate),
     }
 
     setState([itemState])
@@ -181,14 +198,14 @@ const DataPicker: React.FC<DataPickerProps> = ({
     <Box ref={datePickerRef}>
       <div
         className={styles.pickerContainer}
-        onClick={e => toggle(e)}
-        role="button"
+        onClick={(e) => toggle(e)}
+        role='button'
       >
         <input
-          id="datePicker"
+          id='datePicker'
           value={withoutDate ? withoutDate : pickerValue}
-          type="text"
-          onClick={e => toggle(e)}
+          type='text'
+          onClick={(e) => toggle(e)}
           className={cx(styles.inputEl)}
           readOnly
         />
@@ -207,7 +224,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
       >
         {calendar ? (
           <Calendar
-            onChange={item => {
+            onChange={(item) => {
               if (item) setDate(item)
             }}
             date={date}
@@ -221,9 +238,11 @@ const DataPicker: React.FC<DataPickerProps> = ({
                 moveRangeOnFirstSelection={false}
                 months={2}
                 ranges={state}
-                direction="horizontal"
+                direction='horizontal'
                 className={styles.datePicker}
-                maxDate={today}
+                maxDate={
+                  isAfter(endDateMaxToAllow, today) ? today : endDateMaxToAllow
+                }
                 inputRanges={[
                   {
                     label: 'days up to today',
@@ -231,26 +250,26 @@ const DataPicker: React.FC<DataPickerProps> = ({
                       if (value > 30) {
                         return {
                           startDate: today,
-                          endDate: today
+                          endDate: today,
                         }
                       }
                       return {
                         startDate: subDays(today, Number(value)),
-                        endDate: today
+                        endDate: today,
                       }
                     },
                     getCurrentValue(range: any) {
                       if (!isSameDay(range.endDate, today)) return 0
                       return differenceInCalendarDays(today, range.startDate)
-                    }
-                  }
+                    },
+                  },
                 ]}
               />
             ) : (
               <DateRange
                 onChange={handleChangeDate}
                 ranges={state}
-                direction="horizontal"
+                direction='horizontal'
               />
             )}
           </>
@@ -263,7 +282,7 @@ const DataPicker: React.FC<DataPickerProps> = ({
             // buttonSize={'sm'}
             // buttonStyle="outline"
             onClick={() =>
-              setToggleState(prevState => ({ ...prevState, isOpen: false }))
+              setToggleState((prevState) => ({ ...prevState, isOpen: false }))
             }
           >
             Cancel

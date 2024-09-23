@@ -1,18 +1,15 @@
-import {
-  Action,
-  ActionReducerMapBuilder,
-  createAsyncThunk,
-  createSlice,
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
-import { isTesterSelectOptions } from 'constants/filters'
-
-import { AppDispatch, RootState } from 'redux/store'
-import { handleExportRequest } from 'helpers/exportExcel'
-import { ISearchValuesPlayers } from 'types/player'
 import { API_BASE_URL } from 'constants/endpoint'
+import { isTesterSelectOptions } from 'constants/filters'
+import { handleExportRequest } from 'helpers/exportExcel'
+import { AppDispatch, RootState } from 'redux/store'
+import { ISearchValuesPlayers } from 'types/player'
 
 export type IPlayer = {
+  agentName: string
+  fistActivity: string
   avgBetAmount: number
   bcPlayerId: number
   firstActivity: string
@@ -23,6 +20,8 @@ export type IPlayer = {
   totalBetAmount: number
   totalWinAmount: number
   transactionCount: number
+  partnerId: number
+  currency: string
 }
 
 const initialSearchValues: ISearchValuesPlayers = {
@@ -32,11 +31,13 @@ const initialSearchValues: ISearchValuesPlayers = {
   take: 20,
   totalCount: 0,
   agentSelected: null,
+  agentSelectedName: '',
+  currency: '',
 }
 
 const initialState = {
-  isLoadingData: true,
-  isLoadingPage: true,
+  isLoadingData: false,
+  isLoadingPage: false,
   errors: false,
   hasMore: false,
   data: [] as IPlayer[],
@@ -58,7 +59,7 @@ export const playerReducer = createSlice({
         }
       })
       .addCase('getPlayers/fulfilled', (state, action: any) => {
-        const { data, totalCount } = action.payload.data
+        const { data, totalCount, currency } = action.payload.data
         state.isLoadingData = false
         state.errors = false
         state.hasMore = action.payload.hasMore
@@ -68,6 +69,7 @@ export const playerReducer = createSlice({
         state.searchValues = {
           ...state.searchValues,
           totalCount,
+          currency,
           page: state.hasMore
             ? state.searchValues.page + 1
             : state.searchValues.page,
@@ -83,7 +85,7 @@ export const playerReducer = createSlice({
     setLoadingExport: (state, { payload }) => {
       state.isExporting = payload
     },
-    setSearchValues: (state, { payload: { key, val } }) => {
+    setSearchValuesPlayer: (state, { payload: { key, val } }) => {
       state.searchValues = { ...state.searchValues, [key]: val }
     },
     setIsTesterPlayer: (state, { payload }) => {
@@ -92,7 +94,12 @@ export const playerReducer = createSlice({
     setSelectAgent: (state, { payload }) => {
       state.searchValues.agentSelected = payload
     },
-
+    setPreviousSearchValues: (state, { payload }) => {
+      state.searchValues = payload
+    },
+    resetSearchValuesPlayer: (state) => {
+      state.searchValues = initialSearchValues
+    },
     resetPlayersState: () => {
       return initialState
     },
@@ -101,27 +108,23 @@ export const playerReducer = createSlice({
 
 export const getPlayersAction = createAsyncThunk(
   'getPlayers',
-  async (dispatch, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState }) => {
     const {
-      searchValues: { id, page, take, isTester },
+      searchValues: { id, page, agentSelected, take, isTester },
     } = (getState() as RootState)?.player
-
     try {
       const json = JSON.stringify({
         page,
         take,
         ...(isTester !== 'null' ? { isTester } : {}),
-        playerId: id ? Number(id) : null,
+        ...(agentSelected === 'all' || agentSelected === null
+          ? { partnerId: null }
+          : { partnerId: [agentSelected] }),
+        playerId: id || null,
       })
-
-      const res = await axios.post(
-        `${API_BASE_URL}/AdminPlayer/getPlayerTransactions`,
-        json,
-        {
-          headers: { 'Content-Type': 'application/json' },
-          timeout: 60000,
-        }
-      )
+      const res = await axios.post(API_ENDPOINT.GET_PLAYERS, json, {
+        headers: { 'Content-Type': 'application/json' },
+      })
       return {
         data: res?.data,
         hasMore: Math.ceil(res?.data?.totalCount / take) > page,
@@ -141,10 +144,9 @@ export const setAndLoadPlayersData = (
 ) => {
   return async (dispatch: AppDispatch) => {
     if (fromStartOfThePage) {
-      await dispatch(setSearchValues({ key: 'page', val: 1 }))
+      await dispatch(setSearchValuesPlayer({ key: 'page', val: 1 }))
     }
-
-    await dispatch(setSearchValues({ key, val }))
+    await dispatch(setSearchValuesPlayer({ key, val }))
     await dispatch(getPlayersAction())
   }
 }
@@ -153,7 +155,7 @@ export const exportPlayers =
   (cb: (res: any, name: string) => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     const { searchValues } = (getState() as RootState)?.player
-    const { id, isTester } = searchValues
+    const { id, isTester, agentSelectedName } = searchValues
     dispatch(setLoadingExport(true))
     const url = `${API_BASE_URL}/AdminPlayer/exportPlayersTransactions`
     handleExportRequest({
@@ -165,11 +167,19 @@ export const exportPlayers =
       },
     })
       .then(async (response: any) => {
-        const isTestAccountName = isTester ? 'realAccount' : 'testAccount'
+        const isTestAccountName =
+          isTester === 'null'
+            ? 'RealAndTestAccount'
+            : isTester === 'true'
+              ? 'testAccount'
+              : 'realAccount'
+        const exportAgentName = agentSelectedName
+          ? `Agent-${agentSelectedName}_`
+          : ''
         const exportPlayerName = id
           ? `ExportPlayerId-${id}`
           : 'ExportAllPlayers'
-        const fileName = `${exportPlayerName}_${isTestAccountName}.xlsx`
+        const fileName = `${exportPlayerName}_${isTestAccountName}_${exportAgentName}.xlsx`
         cb(response, fileName)
       })
       .catch((error) => console.error(error))
@@ -177,15 +187,29 @@ export const exportPlayers =
   }
 
 export const {
-  setSearchValues,
+  setSearchValuesPlayer,
   setSelectAgent,
   setIsTesterPlayer,
   setLoadingExport,
   resetPlayersState,
+  setPreviousSearchValues,
+  resetSearchValuesPlayer,
 } = playerReducer.actions
 
 export const getLoadingExportSelector = (state: RootState) => {
   return state?.player?.isExporting
 }
+
+export const loadingPagePlayerSelector = (state: RootState) => {
+  return state?.player?.isLoadingPage
+}
+export const loadingPlayerSelector = (state: RootState) => {
+  return state?.player?.isLoadingData
+}
+export const errorPlayerSelector = (state: RootState) => {
+  return state?.player?.errors
+}
+
+export const playerDataSelector = (state: RootState) => state?.player?.data
 
 export default playerReducer.reducer

@@ -1,12 +1,14 @@
 import { Box } from '@mui/material'
-import DashboardHeader from './DashboardHeader'
+
+import PageTitle from 'components/Commons/PageTitle'
+
 import DashboardActions from './DashboardActions'
 import DashboardContent from './DashboardContent'
 
 const Dashboard = () => {
   return (
     <Box>
-      <DashboardHeader />
+      <PageTitle title='Dashboard' />
       <DashboardActions />
       <DashboardContent />
     </Box>

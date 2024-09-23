@@ -1,5 +1,7 @@
-import { SelectChangeEvent } from '@mui/material'
 import { useEffect, useState } from 'react'
+
+import { SelectChangeEvent } from '@mui/material'
+
 import { useSelector } from 'react-redux'
 import {
   resetFilterAndLoadData,
@@ -17,7 +19,7 @@ import { DateRange } from 'types/transaction'
 export default function useTopDataSearchBar() {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { date, searchType, isTester } = searchValues
+  const { date, searchType, isTester, id } = searchValues
 
   const [searchState, setSearchState] = useState<string>('')
 
@@ -80,11 +82,11 @@ export default function useTopDataSearchBar() {
       return
     }
     dispatch(setSearchValue({ key: 'id', val: searchState }))
-    dispatch(setAndLoadData('searchType', searchType, true))
+    dispatch(setAndLoadData('searchType', event.target.value, true))
   }
 
   const handleChangeStatus = (event: SelectChangeEvent) => {
-    dispatch(setSearchValue({ key: 'id', val: searchState }))
+    dispatch(setSearchValue({ key: 'id', val: searchState || id }))
     dispatch(setAndLoadData('TransactionStatus', event.target.value, true))
   }
 

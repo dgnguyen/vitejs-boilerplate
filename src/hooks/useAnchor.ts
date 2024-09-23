@@ -2,7 +2,7 @@ import * as React from 'react'
 
 const useAnchor = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const [optionalState, setOptionalState] = React.useState(null)
+  const [optionalState, setOptionalState] = React.useState<any | null>(null)
 
   const handleOpen = (
     param?:

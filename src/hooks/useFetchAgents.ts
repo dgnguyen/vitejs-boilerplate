@@ -1,11 +1,11 @@
-import { API_ENDPOINT } from 'api/endpoint'
-import axios from 'axios'
-import httpStatus from 'constants/httpStatus'
-import { useUser } from 'context/UserContext'
 import { useEffect, useState } from 'react'
 
+import { API_ENDPOINT } from 'api/endpoint'
+import axios from 'axios'
+import { IAgentData } from 'types/agent'
+
 export function useFetchAgents() {
-  const [agents, setAgents] = useState([])
+  const [agents, setAgents] = useState<IAgentData[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
 
@@ -13,13 +13,13 @@ export function useFetchAgents() {
     try {
       setLoading(true)
 
-      const { data } = await axios.post(API_ENDPOINT.GET_AGENT, {
+      const result = await axios.post(API_ENDPOINT.GET_AGENT, {
         headers: {
           'Content-Type': 'application/json',
         },
       })
-      if (data.isSuccess) {
-        setAgents(data?.data)
+      if (result?.data?.isSuccess) {
+        setAgents(result?.data?.data)
       }
     } catch (err: any) {
       console.error({ err })

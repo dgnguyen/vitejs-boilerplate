@@ -1,5 +1,7 @@
 import { Box } from '@mui/material'
+
 import { DRAWER_WIDTH } from 'constants/layout'
+
 import Topbar from './Topbar'
 
 const Body = ({ children }: { children: React.ReactNode }) => {

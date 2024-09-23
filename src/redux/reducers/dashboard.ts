@@ -1,19 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { AppDispatch, RootState } from 'redux/store'
-import axios, { AxiosResponse } from 'axios'
-import {
-  format,
-  isFirstDayOfMonth,
-  isLastDayOfMonth,
-  isSameMonth,
-  isToday,
-  isYesterday,
-  subMonths,
-} from 'date-fns'
 import { API_ENDPOINT } from 'api/endpoint'
-import { partnerFromUrl } from 'helpers/exportExcel'
+import axios, { AxiosResponse } from 'axios'
 import { API_BASE_URL } from 'constants/endpoint'
+import { format } from 'date-fns'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { AppDispatch, RootState } from 'redux/store'
 
 export type IBetLog = {
   betAmount: number
@@ -36,16 +27,17 @@ export type IDashboardData = {
   betLogs: IBetLog[]
 }
 
-export interface DateRange {
+export type DateRange = {
   startDate: Date
   endDate: Date
 }
 
-export interface DahsboardState {
+export type DahsboardState = {
   filter: {
     dateRange: DateRange
     agentSelected: string
     isTester: string
+    agentSelectedName: string
   }
   loading: boolean
   loadingPage: boolean
@@ -62,6 +54,7 @@ export const initialStateFilter = {
   dateRange: initialStateDateRange,
   agentSelected: 'all',
   isTester: 'false',
+  agentSelectedName: 'all',
 }
 const initialState: DahsboardState = {
   filter: initialStateFilter,
@@ -80,6 +73,9 @@ export const dashboardReducer = createSlice({
     },
     setAgent: (state, action) => {
       state.filter.agentSelected = action.payload
+    },
+    setAgentName: (state, action) => {
+      state.filter.agentSelectedName = action.payload
     },
     setDate: (state, action) => {
       state.filter.dateRange = action.payload
@@ -124,7 +120,7 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           {
             SearchFrom: startDateFormatted,
             SearchTo: endDateFormatted,
-            ...(isTester ? { isTester } : {}),
+            ...(isTester !== 'null' ? { isTester } : {}),
             ...(partnerId ? { partnerId } : {}),
           },
           { responseType: 'blob' }
@@ -137,13 +133,17 @@ export const exportDashboardDataAction = (startDate: Date, endDate: Date) => {
           )
           const link = document.createElement('a')
           link.href = url
+          const dashboardType = partnerId
+            ? `DashboardByAgent-${getState()?.dashboard?.filter?.agentSelectedName}`
+            : 'GlobalDashboard'
+          let testerType = 'RealAndTestAccount'
+          if (isTester === 'true') testerType = 'TestAccount'
+          if (isTester === 'false') testerType = 'RealAccount'
           link.setAttribute(
             'download',
-            `${partnerFromUrl.toUpperCase()}_${
-              startDateFormatted === endDateFormatted
-                ? startDateFormatted
-                : `${startDateFormatted}/${endDateFormatted}`
-            }.xlsx`
+            `Dashboard_${dashboardType}_From${startDateFormatted}To${
+              endDateFormatted
+            }_${testerType}.xlsx`
           )
           document.body.appendChild(link)
           link.click()
@@ -204,6 +204,7 @@ export const getDashboardDataAction = () => {
 export const {
   setData,
   setAgent,
+  setAgentName,
   setDate,
   setIsTester,
   resetDate,

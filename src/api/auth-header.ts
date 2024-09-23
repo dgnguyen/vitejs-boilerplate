@@ -1,6 +1,5 @@
 import axios from 'axios'
 import httpStatus from 'constants/httpStatus'
-
 import { getToken } from 'helpers/auth'
 
 function authHeader() {
@@ -10,7 +9,7 @@ function authHeader() {
       config.headers.Token = `${token}`
       config.headers.PartnerId = 2
       // config.headers.Accept = 'application/json'
-      // config.headers['Content-Type'] = 'application/json-patch+json'
+      config.headers['Content-Type'] = 'application/json-patch+json'
     }
 
     return config
@@ -22,6 +21,7 @@ function authHeader() {
       if (error.response.status === httpStatus.UNAUTHORIZED) {
         window.location.href = '/'
       }
+      return Promise.reject(error)
     }
   )
 }

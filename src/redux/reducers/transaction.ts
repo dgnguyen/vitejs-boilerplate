@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { ResponseBlob } from 'components/ExportExcel/helpers'
 import { FORMAT_DATE } from 'constants/date'
@@ -10,6 +9,7 @@ import { handleExportRequest } from 'helpers/exportExcel'
 import {
   initialDateState,
   searchTypeOptions,
+  SearchTypeValue,
   TRStatusSelectOptions,
 } from 'helpers/transaction'
 import moment from 'moment'
@@ -22,14 +22,6 @@ import {
   TRListType,
 } from 'types/transaction'
 
-export const SearchTypeValue = {
-  bcTransaction: 1,
-  betAmount: 5,
-  roundId: 2,
-  moaTransaction: 3,
-  bcPlayerId: 4,
-}
-
 const initialSearchValues: ISearchValuesTransactions = {
   id: '',
   searchType: searchTypeOptions[0].value,
@@ -40,9 +32,10 @@ const initialSearchValues: ISearchValuesTransactions = {
   take: 20,
   totalCount: 0,
   hasMore: false,
-  selectedGameType: [],
+  selectedGameType: null,
   selectedAllGames: true,
   agentSelected: 'all',
+  agentSelectedName: 'all',
 }
 
 const initialState: ITransactions = {
@@ -104,6 +97,15 @@ export const transactionReducer = createSlice({
     setSearchValue: (state, { payload: { key, val } }) => {
       state.searchValues = { ...state.searchValues, [key]: val }
     },
+    setMultipleSearchValues: (state, { payload }) => {
+      const payLoadSearchState = payload.reduce((acc: any, cur: any) => {
+        return {
+          ...acc,
+          ...cur,
+        }
+      }, {})
+      state.searchValues = { ...state.searchValues, ...payLoadSearchState }
+    },
     updateTransactionThroughWS: (state, { payload }) => {
       for (const ub of state.data) {
         if (ub.status === 0) {
@@ -113,6 +115,7 @@ export const transactionReducer = createSlice({
           if (updateData) {
             ub.status = (updateData.winAmount ? 2 : 1) as StatusTransaction
             ub.winAmount = updateData.winAmount || 0
+            ub.tickets[0].gameResult = updateData.gameResult
           } else {
             continue
           }
@@ -159,7 +162,7 @@ export const getTransactions = createAsyncThunk(
 
       const replacer = (key: string, value?: string) =>
         typeof value === 'undefined' ? null : value
-      //if MoA Transaction ID passing value 1 to request
+      //if RunningBall Transaction ID passing value 1 to request
       let searchTypeValue = Number(searchType)
       searchTypeValue =
         searchTypeValue === SearchTypeValue.moaTransaction ? 1 : searchTypeValue
@@ -167,10 +170,14 @@ export const getTransactions = createAsyncThunk(
         {
           page,
           take,
+          searchType:
+            searchType === SearchTypeValue.moaTransaction
+              ? SearchTypeValue.agentTransaction
+              : searchType,
           ...dateObj,
           ...(TransactionStatus !== 'null' ? { TransactionStatus } : {}),
           ...(isTester !== 'null' ? { isTester } : {}),
-          id: id ? Number(id) : null,
+          id: id || null,
           ...(id ? { searchType: searchTypeValue } : {}),
           gametypeID: selectedGameType,
           partnerId: agentSelected !== 'all' ? [agentSelected] : null,
@@ -179,7 +186,7 @@ export const getTransactions = createAsyncThunk(
       )
 
       const response2 = await axios.post(
-        `${API_BASE_URL}/v2/AdminTransaction/gettransactions`,
+        `${API_BASE_URL}/v3/AdminTransaction/gettransactions`,
         json,
         {
           headers: {
@@ -229,19 +236,35 @@ export const setAndLoadData = (
   }
 }
 
+export const setMultiSearchLoadTransaction = (
+  updateSearchValues: any,
+  fromStartOfThePage = false
+) => {
+  return async (dispatch: AppDispatch) => {
+    if (fromStartOfThePage) {
+      await dispatch(setSearchValue({ key: 'page', val: 1 }))
+    }
+    await dispatch(setMultipleSearchValues(updateSearchValues))
+    await dispatch(getTransactions())
+  }
+}
+
 export const exportTransactions =
   (cb: (res: ResponseBlob, name: string) => void) =>
   async (dispatch: AppDispatch, getState: Function) => {
     const { searchValues } = (getState() as RootState)?.transaction
 
     dispatch(setLoadingExport(true))
-    const url = `${API_BASE_URL}/v2/AdminTransaction/exportTransactions`
+    const url = `${API_BASE_URL}/v3/AdminTransaction/exportTransactions`
     const {
       id,
       date: { startDate: startD, endDate: endD },
       searchType,
       selectedGameType,
       isTester,
+      TransactionStatus,
+      agentSelected,
+      agentSelectedName,
     } = searchValues
 
     const startDate = startD && format(new Date(startD), 'yyyy-MM-dd')
@@ -257,17 +280,25 @@ export const exportTransactions =
         id: id || null,
         searchType: id ? searchType : 0,
         gametypeID: selectedGameType,
+        TransactionStatus,
+        partnerId: agentSelected === 'all' ? null : [Number(agentSelected)],
       },
     })
       .then(async (response: any) => {
-        const isTestAccountName = isTester ? 'realAccount' : 'testAccount'
+        const isTestAccountName = isTester ? 'RealAccount' : 'TestAccount'
+        const status = TRStatusSelectOptions.find(
+          (item) => item.value === TransactionStatus
+        )?.label
         const exportTransactionName = id
-          ? `ExportTransactionId-${id}`
-          : 'ExportAllTransactions'
-        const dateRange = `From-${moment(startDate).format(
+          ? `ExportTransactionId-${id}_`
+          : 'ExportAllTransactions_'
+        const exportAgentName = agentSelected
+          ? `Agent-${agentSelectedName}_`
+          : ''
+        const dateRange = `${exportAgentName}From-${moment(startDate).format(
           FORMAT_DATE
         )}To${moment(endDate).format(FORMAT_DATE)}`
-        const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}.xlsx`
+        const fileName = `${exportTransactionName}_${dateRange}_${isTestAccountName}_${status}.xlsx`
         cb(response, fileName)
       })
       .catch((error) => console.error(error))
@@ -287,7 +318,7 @@ export const exportSpecificPlayersTransactions =
     const endDate = endD && format(new Date(endD), 'yyyy-MM-dd')
 
     dispatch(setLoadingExport(true))
-    const url = `${API_BASE_URL}/v2/AdminTransaction/exportSpecificPlayerTransactions`
+    const url = `${API_BASE_URL}/v3/AdminTransaction/exportSpecificPlayerTransactions`
     handleExportRequest({
       url,
       params: {
@@ -335,6 +366,7 @@ export default transactionReducer.reducer
 export const {
   updateTransactionThroughWS,
   setSearchValue,
+  setMultipleSearchValues,
   resetSearchValues,
   resetTransactionState,
   setLoadingExport,

@@ -30,6 +30,6 @@ VITE_API_BASE_URL='http://localhost/api'
 
 ## Web documentation
 
-### User : SuperAdmin (1) > Admin(2) > AgentMaster(3) > Agent(4)
+### User : SuperAdmin (1) > MasterAgent(2) > Admin(3) > Agent(4)
 
 ### Pages

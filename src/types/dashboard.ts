@@ -1,4 +1,4 @@
-export interface IAgent {
+export type IAgent = {
   id: number
   externalId: string
   name: string

@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 
-import cx from 'classnames'
-import { format } from 'date-fns'
-import { thousandSeparator } from 'helpers/currency'
-import { StatusTransaction } from 'types/transaction'
-
-import { separateAndUppercase } from 'helpers/stringHelper'
 import BottomArrowIcon from 'assets/images/BottomArrow.svg'
 import UpArrowIcon from 'assets/images/UpArrow.svg'
+import cx from 'classnames'
+import { GamesProps, useGames } from 'context/GamesContext'
+import { format } from 'date-fns'
+import { thousandSeparator } from 'helpers/currency'
+import { separateAndUppercase } from 'helpers/stringHelper'
+import { StatusTransaction } from 'types/transaction'
+
 import { contentHeader, header } from './constants'
 
 import styles from './Accordion.module.scss'
-import { GamesProps, useGames } from 'context/GamesContext'
 
 type RowRecord = {
   betLogId: string
@@ -25,6 +25,8 @@ type RowRecord = {
   winAmount: number | null
   status: StatusTransaction
 }
+
+export type RowRecordNoCurrency = Omit<RowRecord, 'currency'>
 
 type content = {
   tickets: {
@@ -56,18 +58,18 @@ export type TRListType = RowRecord & content
 
 const Accordion: React.FC<AccordionProps> = ({ data }) => {
   const [isActive, setIsActive] = useState(false)
-  const { tickets, ...row } = data
+  const { tickets, currency, ...row } = data
   const { gamesList } = useGames()
 
   const renderHeader = () => {
-    return Object.keys(header).map(col => {
-      let data = row[col as keyof RowRecord]
+    return Object.keys(header).map((col) => {
+      let data = row[col as keyof RowRecordNoCurrency] as any
       let className = ''
       if (col === 'transactionDate') {
-        data = format(
-          new Date(row[col]),
-          'dd.MM.yyyy HH:mm:ss'
-        )?.replace(' ', '\n')
+        data = format(new Date(row[col]), 'dd.MM.yyyy HH:mm:ss')?.replace(
+          ' ',
+          '\n'
+        )
       }
       if (col === 'gameType') {
         const gameTypeObj = gamesList.filter(
@@ -78,7 +80,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
 
       if (col === 'status') {
         let status = ''
-        switch (row[col as keyof RowRecord] as any) {
+        switch (row[col as keyof RowRecordNoCurrency] as any) {
           case 0:
             status = 'Pending'
             className = 'refund'
@@ -104,14 +106,20 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
         data = status
       }
       if (['winAmount', 'betAmount'].includes(col)) {
-        data = thousandSeparator(data as any)
+        data = data !== null ? thousandSeparator(data) : '-'
       }
 
-      return (
-        <span key={col} className={styles[className]}>
-          {data}
-        </span>
-      )
+
+
+      if (data)
+        return (
+          <span
+            key={col}
+            className={styles[className]}
+          >
+            {data}
+          </span>
+        )
     })
   }
 
@@ -127,7 +135,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
               : ''
 
           return (
-            <span key={`${col}${rowInd}`} className={styles[`box${ind + 1}`]}>
+            <span
+              key={`${col}${rowInd}`}
+              className={styles[`box${ind + 1}`]}
+            >
               {separateAndUppercase(text) + evenNumber}{' '}
             </span>
           )
@@ -141,7 +152,7 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
                   ? {
                     whiteSpace: 'inherit',
                     textOverflow: 'ellipsis',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
                   }
                   : {}
               }
@@ -172,7 +183,10 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
           <div className={styles.contentHeader}>
             {Object.values(contentHeader).map((col, ind) => {
               return (
-                <span key={col} className={styles[`box${ind + 1}`]}>
+                <span
+                  key={col}
+                  className={styles[`box${ind + 1}`]}
+                >
                   {col}
                 </span>
               )

@@ -4,6 +4,7 @@
   align-items: center;
   flex-direction: column;
 }
+
 .login_page_right > h1 {
   font-size: 24px;
   line-height: 36px;
@@ -18,17 +19,10 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  img {
+    width: 200px;
+  }
 }
-.powered {
-  color: #2a324b;
-  line-height: 27px;
-  display: flex;
-  align-items: center;
-  width: 163px;
-  margin: 0 auto 15px auto;
-  text-align: left;
-}
-
 .title {
   font-size: 24px;
   line-height: 36px;
@@ -142,11 +136,4 @@
 
 .checkbox_wrap input:checked ~ .checkmark:after {
   display: block;
-}
-
-.logoClient {
-  width: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }

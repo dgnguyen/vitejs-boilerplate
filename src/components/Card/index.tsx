@@ -1,13 +1,14 @@
 import React, { ReactNode } from 'react'
 
-import cx from 'classnames'
+import { Box } from '@mui/material'
+
 import DollarSvgGreen from 'assets/images/dollar_green.svg'
 import DollarSvgRed from 'assets/images/dollar_red.svg'
 import DownArrowSvg from 'assets/images/down_arrow_red.svg'
 import UpArrowSvg from 'assets/images/up_arrow_green.svg'
+import cx from 'classnames'
 
 import './styles.scss'
-import { Box } from '@mui/material'
 
 type TProps = {
   title?: string
@@ -29,31 +30,29 @@ const Card: React.FC<TProps> = ({
   icon,
 }) => {
   if (children) {
-    return <div className={cx("card", className)}>{children}</div>
+    return <div className={cx('card', className)}>{children}</div>
   }
 
   const arrayIcon: {
     [key: string]: ReactNode
   } = {
-    'dollarSvgGreen': <DollarSvgGreen />,
-    'dollarSvgRed': <DollarSvgRed />,
-    'downArrowSvg': <DownArrowSvg />,
-    'upArrowSvg': <UpArrowSvg />
+    dollarSvgGreen: <DollarSvgGreen />,
+    dollarSvgRed: <DollarSvgRed />,
+    downArrowSvg: <DownArrowSvg />,
+    upArrowSvg: <UpArrowSvg />,
   }
 
   return (
-    <Box className={cx("card", className)}>
-      <Box sx={{ display: "flex" }}>
+    <Box className={cx('card', className)}>
+      <Box sx={{ display: 'flex' }}>
         {icon && arrayIcon[icon]}
-        <Box className="title">
-          {title}
-        </Box>
+        <Box className='title'>{title}</Box>
       </Box>
       <Box sx={{ minHeight: '25px' }}>
-        <Box className={"price"}>{price || 0}</Box>
-        <Box className="currency">{currency}</Box>
+        <Box className={'price'}>{price || 0}</Box>
+        <Box className='currency'>{currency}</Box>
       </Box>
-      <Box className="date">{date}</Box>
+      <Box className='date'>{date}</Box>
     </Box>
   )
 }

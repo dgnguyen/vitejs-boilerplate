@@ -1,33 +1,47 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import DataPicker from 'components/DataPicker'
-import { useSelector } from 'react-redux'
-import { useAppDispatch } from "redux/store"
-import { dashboardFilterSelector, dashboardLoadingSelector, DateRange, getDashboardDataAction, resetDashboardFilter, resetDate, setAgent, setDate, setIsTester } from 'redux/reducers/dashboard'
-import { isSuperAdminOrAdmin } from 'helpers/auth'
-import AgentSelect from 'components/AgentSelect'
-
-import "./style.scss"
-import { ROUTES } from 'constants/endpoint'
-import TesterSelect from 'components/TesterSelect'
-import ExportExcel from 'components/ExportExcel'
 import { Refresh } from '@mui/icons-material'
+import { Box, Button, SelectChangeEvent } from '@mui/material'
+
+import AgentSelect from 'components/AgentSelect'
+import DataPicker from 'components/DataPicker'
+import ExportExcel from 'components/ExportExcel'
+import TesterSelect from 'components/TesterSelect'
+import { isSuperAdmin, isSuperAdminOrAdmin } from 'helpers/auth'
+import { useSelector } from 'react-redux'
+import {
+  dashboardFilterSelector,
+  dashboardLoadingSelector,
+  getDashboardDataAction,
+  resetDashboardFilter,
+  setAgent,
+  setAgentName,
+  setDate,
+  setIsTester,
+} from 'redux/reducers/dashboard'
+import { useAppDispatch } from 'redux/store'
+
+import './style.scss'
 
 const DashboardActions = () => {
   const dispatch = useAppDispatch()
-  const dasboardFilter = useSelector(dashboardFilterSelector)
-  const { dateRange, agentSelected, isTester } = dasboardFilter
+  const dashboardFilter = useSelector(dashboardFilterSelector)
+  const { dateRange, agentSelected, isTester } = dashboardFilter
 
   const loadingDashboard = useSelector(dashboardLoadingSelector)
 
-  async function handleDateChange(startDate?: string | Date, endDate?: string | Date) {
+  async function handleDateChange(
+    startDate?: string | Date,
+    endDate?: string | Date
+  ) {
     if (startDate && endDate) {
       const startDateObj = new Date(startDate)
       const endDateObj = new Date(endDate)
 
-      dispatch(setDate({
-        startDate: startDateObj,
-        endDate: endDateObj
-      }))
+      dispatch(
+        setDate({
+          startDate: startDateObj,
+          endDate: endDateObj,
+        })
+      )
     }
   }
 
@@ -43,14 +57,16 @@ const DashboardActions = () => {
     dispatch(setAgent(event.target.value))
   }
 
+  const handleChangeAgentName = (value?: string) => {
+    dispatch(setAgentName(value || ''))
+  }
+
   const handleChangeIsTester = (event: SelectChangeEvent) => {
     dispatch(setIsTester(event.target.value))
   }
 
-
-
   return (
-    <Box className="dashboard-actions-wrapper">
+    <Box className='dashboard-actions-wrapper'>
       <Box>
         <DataPicker
           changeHandler={handleDateChange}
@@ -58,31 +74,43 @@ const DashboardActions = () => {
           oneMonthSelection
         />
       </Box>
-      {
-        isSuperAdminOrAdmin() && window.location.pathname === ROUTES.DASHBOARD_AGENT &&
+      {isSuperAdmin() && (
         <AgentSelect
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}
+          cb={handleChangeAgentName}
         />
-      }
+      )}
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}
       />
 
-      <Button variant="contained" data-testid="resetFilterDashboard" onClick={handleReset}>
+      <Button
+        variant='contained'
+        data-testid='resetFilterDashboard'
+        onClick={handleReset}
+      >
         Reset
       </Button>
-      <Box marginLeft="auto" display="flex" gap={2}>
-        <Button variant="contained" data-testid="refreshDashboard" onClick={handleRefresh}>
+      <Box
+        marginLeft='auto'
+        display='flex'
+        gap={2}
+      >
+        <Button
+          variant='contained'
+          data-testid='refreshDashboard'
+          onClick={handleRefresh}
+        >
           <Refresh />
         </Button>
         <ExportExcel
-          id="export-excel-dashboard"
+          id='export-excel-dashboard'
           disableSearch={loadingDashboard}
           optionalData={{
             startDate: dateRange.startDate,
-            endDate: dateRange.endDate
+            endDate: dateRange.endDate,
           }}
         />
       </Box>

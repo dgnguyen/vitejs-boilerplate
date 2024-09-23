@@ -7,26 +7,28 @@ import {
   ListItemText,
   MenuItem,
   Select,
-  Typography
+  Typography,
 } from '@mui/material'
-
-import { useSelector } from 'react-redux'
-import { exportDashboardDataAction } from 'redux/reducers/dashboard'
 
 import ExcelIcon from 'assets/images/icons/excel.svg'
 import ExportIcon from 'assets/images/icons/export-icon-white.svg'
+import { useSelector } from 'react-redux'
+import {
+  exportAgentsAction,
+  exportAgentsBetLimitAction,
+} from 'redux/reducers/agent'
+import { exportDashboardDataAction } from 'redux/reducers/dashboard'
 import { exportPlayers, getLoadingExportSelector } from 'redux/reducers/player'
-// import { getLoadingExportTransactionSelector } from 'store/transaction/selector'
-// import {
-//   exportSpecificPlayersTransactions,
-//   exportTransactions
-// } from 'store/transaction/transactionSlice'
+import {
+  exportSpecificPlayersTransactions,
+  exportTransactions,
+  getLoadingExportTransactionSelector,
+} from 'redux/reducers/transaction'
+import { useAppDispatch } from 'redux/store'
 
 import { setupDownload } from './helpers'
 
 import './index.scss'
-import { useAppDispatch } from 'redux/store'
-import { exportTransactions, getLoadingExportTransactionSelector } from 'redux/reducers/transaction'
 
 export type OptionalData = {
   transactionId?: string
@@ -36,10 +38,12 @@ export type OptionalData = {
 
 type Props = {
   id:
-  | 'export-excel-transactions'
-  | 'export-excel-players'
-  | 'export-excel-specific-player-transactions'
-  | 'export-excel-dashboard'
+    | 'export-excel-transactions'
+    | 'export-excel-players'
+    | 'export-excel-specific-player-transactions'
+    | 'export-excel-dashboard'
+    | 'export-excel-agent'
+    | 'export-excel-agent-bet-limit'
   disableSearch?: boolean
   optionalData?: OptionalData
 }
@@ -62,9 +66,15 @@ const ExportExcel = (props: Props) => {
       case 'export-excel-players':
         dispatch(exportPlayers(setupDownload))
         break
-      // case 'export-excel-specific-player-transactions':
-      //   dispatch(exportSpecificPlayersTransactions(setupDownload))
-      //   break
+      case 'export-excel-specific-player-transactions':
+        dispatch(exportSpecificPlayersTransactions(setupDownload))
+        break
+      case 'export-excel-agent':
+        dispatch(exportAgentsAction(setupDownload))
+        break
+      case 'export-excel-agent-bet-limit':
+        dispatch(exportAgentsBetLimitAction(setupDownload))
+        break
       case 'export-excel-dashboard':
         if (optionalData?.startDate && optionalData?.endDate)
           dispatch(
@@ -87,41 +97,50 @@ const ExportExcel = (props: Props) => {
         border: 'none',
         borderRadius: '10px',
         '& .MuiListItemIcon-root': {
-          minWidth: '20px !important'
+          minWidth: '20px !important',
         },
         '& .MuiButtonBase-root:nth-child(1)': {
-          display: 'none'
-        }
-      }
-    }
+          display: 'none',
+        },
+      },
+    },
   }
 
   return (
-    <FormControl className="exportWrapper" size="small">
+    <FormControl
+      className='exportWrapper'
+      size='small'
+    >
       <Select
-        className="export-excel"
-        id="runningGame-select"
-        value=""
+        className='export-excel'
+        id='runningGame-select'
+        value=''
         onChange={handleExport}
         displayEmpty
         MenuProps={menuProps}
         disabled={disableSearch}
       >
-        <MenuItem value="">
+        <MenuItem value=''>
           <ListItemIcon>
             {isExporting ? (
-              <CircularProgress size={14} sx={{ color: 'white' }} />
+              <CircularProgress
+                size={14}
+                sx={{ color: 'white' }}
+              />
             ) : (
               <ExportIcon />
             )}
           </ListItemIcon>
           <ListItemText>
-            <Typography color="white" fontSize={12}>
+            <Typography
+              color='white'
+              fontSize={12}
+            >
               Export
             </Typography>
           </ListItemText>
         </MenuItem>
-        <MenuItem value="excel">
+        <MenuItem value='excel'>
           <ListItemIcon>
             <ExcelIcon />
           </ListItemIcon>

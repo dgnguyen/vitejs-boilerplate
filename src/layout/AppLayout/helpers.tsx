@@ -1,18 +1,18 @@
+import Account from 'assets/images/menu/Account.svg'
+import Agent from 'assets/images/menu/Agent.svg'
+import Dashboard from 'assets/images/menu/Dashboard.svg'
+import Market from 'assets/images/menu/Market.svg'
+import Player from 'assets/images/menu/Player.svg'
+import PlayerTracking from 'assets/images/menu/PlayerTracking.svg'
+import Transaction from 'assets/images/menu/Transaction.svg'
 import { USER_ROLE } from 'constants/auth'
 import { ROUTES } from 'constants/endpoint'
-import Account from "assets/images/menu/Account.svg"
-import Dashboard from "assets/images/menu/Dashboard.svg"
-import Agent from "assets/images/menu/Agent.svg"
-import Market from "assets/images/menu/Market.svg"
-import Player from "assets/images/menu/Player.svg"
-import PlayerTracking from "assets/images/menu/PlayerTracking.svg"
-import Transaction from "assets/images/menu/Transaction.svg"
 import {
-  isAdmin,
-  isSuperAdmin,
-  isMasterAgent,
-  isAgent,
   getUser,
+  isAdmin,
+  isAgent,
+  isMasterAgent,
+  isSuperAdmin,
 } from 'helpers/auth'
 
 type MenuItemProps = {
@@ -28,7 +28,7 @@ export const getDrawerItems = () => {
       label: 'Dashboard',
       icon: <Dashboard />,
       href: ROUTES.DASHBOARD,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: true,
     },
     {
       label: 'Transaction',
@@ -46,24 +46,27 @@ export const getDrawerItems = () => {
       label: 'Player Tracking',
       icon: <PlayerTracking />,
       href: ROUTES.PLAYER_TRACKING,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: true,
     },
     {
       label: 'Agent',
       icon: <Agent />,
-      href: ROUTES.AGENT,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      href:
+        getUser()?.role === USER_ROLE.MASTER_AGENT
+          ? ROUTES.AGENT_BETLIMIT
+          : ROUTES.AGENT,
+      enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
     },
     {
       label: 'Market',
       icon: <Market />,
       href: ROUTES.MARKET,
-      enable: getUser()?.role < USER_ROLE.ADMIN,
+      enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
     },
     {
       label: 'Account',
       icon: <Account />,
-      href: ROUTES.ACCOUNT,
+      href: ROUTES.ACCOUNT_SETTINGS,
       enable: getUser()?.role < USER_ROLE.ADMIN,
     },
   ] as MenuItemProps[]
