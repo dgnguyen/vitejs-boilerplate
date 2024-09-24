@@ -12,7 +12,7 @@ pipeline {
     ENV = "${env.GIT_BRANCH}"
     ENV_FILE_CP10_STG = "VITE_API_BASE_URL=https://cp10-runningball-stg.axolotl18.com"
     ENV_FILE_CP10_DEV = "VITE_API_BASE_URL=https://cp10-runningball-dev.axolotl18.com"
-    ENV_FILE_CP10 = "VITE_API_BASE_URLI=https://cp10-runningball.axolotl18.com"      
+    ENV_FILE_CP10 = "VITE_API_BASE_URL=https://cp10-runningball.axolotl18.com"      
   }
 
   stages {
