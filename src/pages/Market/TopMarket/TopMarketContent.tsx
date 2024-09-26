@@ -91,7 +91,7 @@ const TopMarketContent = () => {
   }, [])
 
   const handleDataFetch = async () => {
-    const partnerId = agent === 'all' ? null : [agent]
+    const partnerId = agent === 'all' || agent === null ? null : [agent]
     setLoading(true)
     setData([])
     try {
@@ -148,7 +148,7 @@ const TopMarketContent = () => {
       a[orderTypesEnum[orderKey]] < b[orderTypesEnum[orderKey]]
         ? 1
         : // @ts-ignore
-          a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
+        a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
           ? -1
           : 0
     )

@@ -11,7 +11,7 @@ import {
 
 import AgentSelect from 'components/AgentSelect'
 import MuiModal from 'components/Commons/MuiModal'
-import { isSuperAdminOrAdmin } from 'helpers/auth'
+import { isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import { addPlayerTracking } from 'redux/reducers/playerTracking'
 import { RootState, useAppDispatch } from 'redux/store'
@@ -88,7 +88,7 @@ const AddPlayerTrackingForm = ({
         </Typography>
         <form onSubmit={handleAddPlayerTracking}>
           <Box className='formAddPlayerTracking-wrapper'>
-            {isSuperAdminOrAdmin() && (
+            {isSuperAdmin() && (
               <AgentSelect
                 agentSelected={state.partnerId}
                 disableSelectAll
