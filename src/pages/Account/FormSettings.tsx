@@ -15,9 +15,10 @@ import axios from 'axios'
 import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
-import { PERMISSION_LEVEL } from 'constants/account'
+import { PERMISSION_LEVEL, ROLES } from 'constants/account'
+import { USER_ROLE } from 'constants/auth'
 import { Form, Formik } from 'formik'
-import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { getUser, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
@@ -79,9 +80,9 @@ const FormSettings = ({
 
         const valuesSendToAPI = isSuperEditUser
           ? {
-              partnerId,
-              ...rest,
-            }
+            partnerId,
+            ...rest,
+          }
           : rest
         const response = await axios.post(
           API_ENDPOINT.UPDATE_ACCOUNT,
@@ -103,8 +104,8 @@ const FormSettings = ({
     }
   }
 
-  const permissionLevelAllowed = PERMISSION_LEVEL.filter(
-    (item) => item.value > getUser().role
+  const permissionLevelAllowed = isSuperAdmin() ? PERMISSION_LEVEL : PERMISSION_LEVEL.filter(
+    (item) => item.value > getUser().role && item.value !== USER_ROLE.ADMIN
   )
   return (
     <Box>

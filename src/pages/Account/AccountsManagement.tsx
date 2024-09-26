@@ -29,7 +29,8 @@ import MuiModal from 'components/Commons/MuiModal'
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
-import { isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { isSuperAdmin } from 'helpers/auth'
+import { getUser } from "helpers/auth"
 import useAnchor from 'hooks/useAnchor'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useSnackbar } from 'hooks/useSnackbar'
@@ -127,6 +128,7 @@ const AccountsManagement = () => {
     setOptionalState(row)
     handleState({ key: 'block', value: true })
   }
+
 
   const optionsMenuCard = [
     {
@@ -336,7 +338,7 @@ const AccountsManagement = () => {
             open={state.edit}
           >
             <FormSettings
-              isSuperEditUser={isSuperAdmin() || isMasterAgent()}
+              isSuperEditUser={isSuperAdmin()}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
               cb={(message) => openSnackbar({ message })}
