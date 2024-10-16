@@ -10,9 +10,9 @@ pipeline {
   environment {
     GCR_REPO = "asia.gcr.io/prj-gke-asia-northeast3-3e7d/cp10-front-cms"
     ENV = "${env.GIT_BRANCH}"
-    ENV_FILE_CP10_STG = "VITE_API_BASE_URL=https://cp10-runningball-stg.axolotl18.com"
-    ENV_FILE_CP10_DEV = "VITE_API_BASE_URL=https://cp10-runningball-dev.axolotl18.com"
-    ENV_FILE_CP10 = "VITE_API_BASE_URL=https://cp10-runningball.axolotl18.com"      
+    ENV_FILE_CP10_STG = "VITE_API_BASE_URL=https://cp10-games-stg.running-ball.com/api"
+    ENV_FILE_CP10_DEV = "VITE_API_BASE_URL=https://cp10-games-dev.running-ball.com/api"
+    ENV_FILE_CP10 = "VITE_API_BASE_URL=https://cp10-games.running-ball.com/api"      
   }
 
   stages {
@@ -175,7 +175,7 @@ Boolean triggeredByGCPJenkins() {
 }
 // return true if job is trigger by GitHub push to Master stage
 Boolean triggeredByStage() {
-  return (env.GIT_BRANCH == "stage")
+  return (env.GIT_BRANCH == "Stage")
 }
 // return true if job is trigger by GitHub push to Master branch
 Boolean triggeredByMaster() {
