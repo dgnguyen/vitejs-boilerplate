@@ -58,11 +58,11 @@ resources:
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
    limits:
-     cpu: 1000m
-     memory: 2048Mi
+     cpu: 700m
+     memory: 1024Mi
    requests:
      cpu: 500m
-     memory: 1024Mi
+     memory: 128Mi
 
 autoscaling:
   enabled: true
@@ -72,7 +72,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 nodeSelector: 
-  node_pool: dev-node-pool
+  node_pool: prod-pool-pwb
 
 tolerations: []
 
