@@ -1,4 +1,6 @@
-import { ROLES } from 'constants/account'
+import { PERMISSION_LEVEL, ROLES } from 'constants/account'
+import { USER_ROLE } from 'constants/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 
 export function getUserRole(role: number): ROLES {
   switch (role) {
@@ -23,4 +25,16 @@ export const initialStateCreateAccount = {
   confirmPassword: '',
   partnerId: '',
   agentList: [],
+}
+
+export const getPermissionLevelBasedOnUser = () => {
+  if (isSuperAdmin()) {
+    return PERMISSION_LEVEL
+  }
+  if (isOperator()) {
+    return PERMISSION_LEVEL.filter(
+      (item) => item.value === USER_ROLE.SUB_OPERATOR
+    )
+  }
+  return []
 }

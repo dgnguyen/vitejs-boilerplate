@@ -34,14 +34,12 @@ const MarketFilter = (props: OmitMarketProps) => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdmin() && (
-          <AgentSelect
-            agentSelected={filter.partnerId || ''}
-            handleChange={(val: SelectChangeEvent) => {
-              handleFilter('partnerId', val)
-            }}
-          />
-        )}
+        <AgentSelect
+          agentSelected={filter.partnerId || ''}
+          handleChange={(val: SelectChangeEvent) => {
+            handleFilter('partnerId', val)
+          }}
+        />
         <DataPicker
           changeHandler={handleChangeDate}
           initialSetDate={{

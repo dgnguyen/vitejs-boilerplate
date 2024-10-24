@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, useTheme } from '@mui/material'
+import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, } from '@mui/material'
 
 import { USER_ROLE } from 'constants/auth'
 import { FormikProps } from 'formik'
@@ -20,40 +20,25 @@ const MenuProps = {
   },
 }
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-]
-
-function getStyles(name: string, personName: string[], theme: Theme) {
-  return {
-    fontWeight: personName.includes(name)
-      ? theme.typography.fontWeightMedium
-      : theme.typography.fontWeightRegular,
-  }
-}
 
 
 type Props = {
-  props: FormikProps<ValuesForm>
+  props: FormikProps<ValuesForm>,
+  disabled: boolean,
 }
 
-const SelectAgentForAccount = ({ props }: Props) => {
-  const theme = useTheme()
+const SelectAgentForAccount = ({ props, disabled }: Props) => {
   const { agents } = useFetchAgents()
-  const isSelectMultiple = props.values.permissionLevel === USER_ROLE.OPERATOR
-  const { setFieldValue } = props
+  const { values: {
+    permissionLevel,
+    agentList,
+  },
+    setFieldValue,
+    handleChange } = props
+  const isSelectMultiple = permissionLevel === USER_ROLE.OPERATOR || permissionLevel === USER_ROLE.ADMIN
   const [personName, setPersonName] = useState<string[] | number[]>([])
   useEffect(() => {
-    if (isSelectMultiple && props.values.agentList) setPersonName(props.values.agentList)
+    if (isSelectMultiple && agentList) setPersonName(agentList)
   }, [])
 
 
@@ -92,7 +77,7 @@ const SelectAgentForAccount = ({ props }: Props) => {
           onClose={
             () => setFieldValue("agentList", personName)
           }
-          disabled={!props.values.permissionLevel}
+          disabled={!permissionLevel}
 
         >
           {agents.map((agent) => (
@@ -100,7 +85,7 @@ const SelectAgentForAccount = ({ props }: Props) => {
               key={agent.id}
               value={agent.id}
               disabled={agent.isBlock}
-            // style={getStyles(agent.name, personName, theme)}
+
             >
               {agent.name}
             </MenuItem>
@@ -113,10 +98,10 @@ const SelectAgentForAccount = ({ props }: Props) => {
           id='select-agent-single'
           label='Select agent'
           name='agentList'
-          value={props.values.agentList?.[0]}
-          onChange={props.handleChange}
+          value={agentList?.[0]}
+          onChange={handleChange}
           required
-          disabled={!props.values.permissionLevel}
+          disabled={!permissionLevel}
         >
           {agents.map((agent: IAgentData) => (
             <MenuItem
