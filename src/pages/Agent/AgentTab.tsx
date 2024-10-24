@@ -16,8 +16,8 @@ const AgentTab = () => {
       sx={{ button: { textTransform: 'capitalize' } }}
     >
       <Button
-        variant={`${pathname === ROUTES.AGENT ? 'contained' : 'outlined'}`}
-        onClick={() => navigate(ROUTES.AGENT)}
+        variant={`${pathname === ROUTES.SUB_OPERATOR ? 'contained' : 'outlined'}`}
+        onClick={() => navigate(ROUTES.SUB_OPERATOR)}
       >
         Agent overview
       </Button>

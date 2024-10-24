@@ -18,6 +18,19 @@ export type IMarketStat = {
   total: number
 }
 
+export type EventGGR = {
+  eventName: string
+  totalBet: number
+  totalWin: number
+  ggr: number
+}
+
+export type IMarketGGR = {
+  marketName: string
+  total: number
+  events: EventGGR[]
+}
+
 export type ITopMarketObj = {
   marketName: string
   eventName: string

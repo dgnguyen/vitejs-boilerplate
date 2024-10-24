@@ -19,14 +19,14 @@ export const HeaderTab = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const buttonsArr = haveRightToAccess(USER_ROLE.MASTER_AGENT)
+  const buttonsArr = haveRightToAccess(USER_ROLE.OPERATOR)
     ? [
-        ...buttonsArrCore,
-        {
-          name: 'Account Management',
-          location: ROUTES.ACCOUNT_MANAGEMENT,
-        },
-      ]
+      ...buttonsArrCore,
+      {
+        name: 'Account Management',
+        location: ROUTES.ACCOUNT_MANAGEMENT,
+      },
+    ]
     : buttonsArrCore
 
   return (

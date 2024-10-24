@@ -1,5 +1,4 @@
 import { USER_ROLE } from 'constants/auth'
-import { getUser } from 'helpers/auth'
 import AccountSettings from 'pages/Account/AccountSettings'
 import AccountsManagement from 'pages/Account/AccountsManagement'
 import Agent from 'pages/Agent'
@@ -7,6 +6,7 @@ import AgentBetLimit from 'pages/Agent/AgentBetLimit'
 import Dashboard from 'pages/Dashboard'
 import Login from 'pages/Login'
 import MarketStats from 'pages/Market'
+import MarketGGR from 'pages/Market/MarketGGR'
 import MarketSettings from 'pages/Market/MarketSettings'
 import TopMarket from 'pages/Market/TopMarket'
 import NotFound from 'pages/notFound'
@@ -49,7 +49,7 @@ const allRoutes: RouteObject[] = [
     element: <AuthRoute element={<PlayerTracking />} />,
   },
   {
-    path: ROUTES.AGENT,
+    path: ROUTES.SUB_OPERATOR,
     element: (
       <AuthRoute
         element={<Agent />}
@@ -62,7 +62,7 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<AgentBetLimit />}
-        role={USER_ROLE.MASTER_AGENT}
+        role={USER_ROLE.OPERATOR}
       />
     ),
   },
@@ -71,7 +71,16 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<MarketStats />}
-        role={USER_ROLE.MASTER_AGENT}
+        role={USER_ROLE.OPERATOR}
+      />
+    ),
+  },
+  {
+    path: ROUTES.MARKET_GGR,
+    element: (
+      <AuthRoute
+        element={<MarketGGR />}
+        role={USER_ROLE.OPERATOR}
       />
     ),
   },
@@ -80,7 +89,7 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<MarketSettings />}
-        role={USER_ROLE.MASTER_AGENT}
+        role={USER_ROLE.OPERATOR}
       />
     ),
   },
@@ -89,10 +98,11 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<TopMarket />}
-        role={USER_ROLE.MASTER_AGENT}
+        role={USER_ROLE.OPERATOR}
       />
     ),
   },
+
   {
     path: ROUTES.ACCOUNT_SETTINGS,
     element: <AuthRoute element={<AccountSettings />} />,
@@ -102,7 +112,7 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<AccountsManagement />}
-        role={USER_ROLE.MASTER_AGENT}
+        role={USER_ROLE.OPERATOR}
       />
     ),
   },
