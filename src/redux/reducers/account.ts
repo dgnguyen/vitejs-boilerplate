@@ -1,8 +1,7 @@
-import type { PayloadAction } from '@reduxjs/toolkit'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
-import { AppDispatch, RootState } from 'redux/store'
+import { AppDispatch } from 'redux/store'
 import { IAccount, IAccounts } from 'types/account'
 
 export const initialState = {

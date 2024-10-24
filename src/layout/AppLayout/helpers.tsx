@@ -52,16 +52,16 @@ export const getDrawerItems = () => {
       label: 'Agent',
       icon: <Agent />,
       href:
-        getUser()?.role === USER_ROLE.MASTER_AGENT
+        getUser()?.role === USER_ROLE.OPERATOR
           ? ROUTES.AGENT_BETLIMIT
-          : ROUTES.AGENT,
-      enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
+          : ROUTES.SUB_OPERATOR,
+      enable: ![USER_ROLE.ADMIN, USER_ROLE.SUB_OPERATOR].includes(getUser()?.role),
     },
     {
       label: 'Market',
       icon: <Market />,
       href: ROUTES.MARKET,
-      enable: ![USER_ROLE.ADMIN, USER_ROLE.AGENT].includes(getUser()?.role),
+      enable: ![USER_ROLE.ADMIN, USER_ROLE.SUB_OPERATOR].includes(getUser()?.role),
     },
     {
       label: 'Account',

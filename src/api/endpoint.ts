@@ -32,4 +32,5 @@ export const API_ENDPOINT = {
   CREATE_ACCOUNT: `${API_BASE_URL}/AdminUser/createUser`,
   BLOCK_ACCOUNT: `${API_BASE_URL}/AdminUser/blockUser`,
   UNBLOCK_ACCOUNT: `${API_BASE_URL}/AdminUser/unblockUser`,
+  GET_MARKET_GGR: `${API_BASE_URL}/MainMarket/GGRStatByMarket`,
 }

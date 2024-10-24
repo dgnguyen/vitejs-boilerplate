@@ -1,6 +1,6 @@
 export const USER_ROLE = {
   SUPER_ADMIN: 1,
-  MASTER_AGENT: 2,
+  OPERATOR: 2,
   ADMIN: 3,
-  AGENT: 4,
+  SUB_OPERATOR: 4,
 }

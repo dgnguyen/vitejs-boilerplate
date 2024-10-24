@@ -5,12 +5,12 @@ export function getUserRole(role: number): ROLES {
     case 1:
       return ROLES.SUPER_ADMIN
     case 2:
-      return ROLES.MASTER_AGENT
+      return ROLES.OPERATOR
     case 3:
       return ROLES.ADMIN
     case 4:
     default:
-      return ROLES.AGENT
+      return ROLES.SUB_OPERATOR
   }
 }
 
@@ -21,4 +21,6 @@ export const initialStateCreateAccount = {
   permissionLevel: undefined,
   password: '',
   confirmPassword: '',
+  partnerId: '',
+  agentList: [],
 }

@@ -16,8 +16,9 @@ import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
 import { PERMISSION_LEVEL } from 'constants/account'
+import { USER_ROLE } from 'constants/auth'
 import { Form, Formik } from 'formik'
-import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { getUser, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
@@ -31,11 +32,12 @@ export type ValuesForm = {
   name: string
   surname: string
   isActive?: boolean
-  partnerId?: number
+  partnerId: any
   permissionLevel?: number
   oldPassword?: string
   password?: string
   confirmPassword?: string
+  agentList: number[] | string[]
 }
 
 type Props = {
@@ -77,12 +79,7 @@ const FormSettings = ({
       } else if (isSuperEditUser || isEditUser) {
         const { isActive, partnerId, ...rest } = values
 
-        const valuesSendToAPI = isSuperEditUser
-          ? {
-              partnerId,
-              ...rest,
-            }
-          : rest
+        const valuesSendToAPI = rest
         const response = await axios.post(
           API_ENDPOINT.UPDATE_ACCOUNT,
           valuesSendToAPI
@@ -106,6 +103,7 @@ const FormSettings = ({
   const permissionLevelAllowed = PERMISSION_LEVEL.filter(
     (item) => item.value > getUser().role
   )
+
   return (
     <Box>
       <Formik
@@ -114,6 +112,11 @@ const FormSettings = ({
         onSubmit={onSubmit}
       >
         {(props) => {
+          // super admin can create operator with select multiple agent
+          // operator can create other operator with same access to agents like him
+          // operator can create sub operator with select only 1 agent
+          const showSelectAgent = isSuperAdmin()
+            || props.values?.permissionLevel === USER_ROLE.SUB_OPERATOR
           return (
             <Form
               id='accountSettingsFormSuperAdmin'
@@ -210,7 +213,7 @@ const FormSettings = ({
                       gap: 2,
                       display: 'flex',
                       justifyContent: 'space-between',
-                      alignItems: 'center',
+                      alignItems: 'flext-start',
                     }}
                   >
                     {(isSuperEditUser || isCreateUser) && (
@@ -241,7 +244,7 @@ const FormSettings = ({
                         </Select>
                       </FormControl>
                     )}
-                    {isSuperAdmin() && <SelectAgentForAccount props={props} />}
+                    {showSelectAgent && <SelectAgentForAccount props={props} />}
                   </Box>
                 </Box>
                 {(isCreateUser || isEditUser) && (
