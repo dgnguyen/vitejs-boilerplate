@@ -50,7 +50,7 @@ const FormBetLimit = () => {
     const valuesSendToAPI = {
       partnerId:
         values?.agentSelect !== 'all' && values?.agentSelect !== ''
-          ? values?.agentSelect
+          ? [values?.agentSelect]
           : null,
       minBet: values?.minBet,
       maxBet: values?.maxBet,
@@ -63,7 +63,7 @@ const FormBetLimit = () => {
     }
     const json = JSON.stringify(valuesSendToAPI)
     axios
-      .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
+      .post(API_ENDPOINT.ADD_BET_LIMIT_AGENT, json, headersContentType)
       .then((response) => {
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))

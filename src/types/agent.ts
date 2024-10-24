@@ -8,6 +8,8 @@ export type IAgentData = {
   isBlock: boolean
   walletTypeId: number
   tag: string
+  minBet: number
+  maxBet: number
 }
 
 export type IAgentBetLimit = {

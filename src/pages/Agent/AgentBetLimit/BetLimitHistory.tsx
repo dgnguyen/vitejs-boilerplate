@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 
+import { Delete, MoreVert } from '@mui/icons-material'
 import {
   Box,
   CircularProgress,
@@ -44,6 +45,7 @@ const BetLimitHistory = () => {
   }
 
   function displayCell(cell: [string, string | number]) {
+
     if (cell[0] === 'appliedDate')
       return moment(cell?.[1]).format(FORMAT_DATE_TIME)
     if (['minBet', 'maxBet'].includes(cell[0]))
@@ -94,6 +96,7 @@ const BetLimitHistory = () => {
                           {header}
                         </TableCell>
                       ))}
+                      <TableCell />
                     </TableRow>
                   </TableHead>
                   <TableBody id='scrollableDiv'>
@@ -106,16 +109,23 @@ const BetLimitHistory = () => {
                           }}
                         >
                           {Object.entries(row).map(
-                            (cell: [string, string | number]) => (
-                              <TableCell
-                                component='th'
-                                scope='row'
-                                key={cell?.[0]}
-                              >
-                                {displayCell(cell)}
-                              </TableCell>
-                            )
+                            (cell: [string, string | number]) => {
+                              if (cell[0] !== 'groupPermissionId')
+                                return (
+
+                                  <TableCell
+                                    component='th'
+                                    scope='row'
+                                    key={cell?.[0]}
+                                  >
+                                    {displayCell(cell)}
+                                  </TableCell>
+                                )
+                            }
                           )}
+                          <TableCell>
+                            <Delete />
+                          </TableCell>
                         </TableRow>
                       )
                     })}
