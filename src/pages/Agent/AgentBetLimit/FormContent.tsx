@@ -13,7 +13,7 @@ import {
 
 import MuiButton from 'components/Commons/MuiButton'
 import { Form, FormikProps, useFormikContext } from 'formik'
-import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { getUser, isOperator, isSuperAdmin } from 'helpers/auth'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
 import { useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
 import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
@@ -34,7 +34,7 @@ const FormContent = ({
   const { values, setFieldValue } = useFormikContext<AgentBetLimitValuesProps>()
   const currency = useSelector((state: RootState) => state?.agent.currency)
   //if its master agent, take his own partnerid to request gamesbyagent, if is superadmin show select agent
-  const agentToAPI = isMasterAgent()
+  const agentToAPI = isOperator()
     ? getUser()?.partnerId
     : values?.agentSelect
   const { games, loadingGames } = useFetchGamesByAgent(agentToAPI)

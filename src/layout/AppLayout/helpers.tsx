@@ -10,8 +10,8 @@ import { ROUTES } from 'constants/endpoint'
 import {
   getUser,
   isAdmin,
-  isAgent,
-  isMasterAgent,
+  isOperator,
+  isSubOperator,
   isSuperAdmin,
 } from 'helpers/auth'
 

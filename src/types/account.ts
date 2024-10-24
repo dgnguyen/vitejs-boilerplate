@@ -1,6 +1,6 @@
 export type IAccount = {
   partnerId: number
-  agentName: string
+  agentName: string[]
   name: string
   surname: string
   email: string
