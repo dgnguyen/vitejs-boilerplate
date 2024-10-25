@@ -12,14 +12,21 @@ export type IAgentData = {
   maxBet: number
 }
 
+type OptionSelect = {
+  name: string
+  id: number
+}
+
 export type IAgentBetLimit = {
+  id: number
   type: string
-  agentName: string
-  gameName: string
-  marketName: string
-  eventName: string
+  agent: OptionSelect
+  gameType: OptionSelect
+  market: OptionSelect
+  event: OptionSelect
   minBet: number
   maxBet: number
-  appliedBy: string
   appliedDate: string
+  appliedBy: string
+  groupPermissionId: number
 }

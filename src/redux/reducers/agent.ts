@@ -122,6 +122,11 @@ export const agentReducer = createSlice({
     resetAgentState: () => {
       return initialState
     },
+    deleteBetLimitAgent: (state, { payload }) => {
+      state.betLimitData = state.betLimitData.filter(
+        (item) => item.id === payload.id
+      )
+    },
   },
 })
 
@@ -135,6 +140,7 @@ export const {
   resetAgentState,
   setPageAgent,
   addNewAgentBetLimit,
+  deleteBetLimitAgent,
 } = agentReducer.actions
 
 export const getAgentsListAction = createAsyncThunk(
@@ -336,5 +342,34 @@ export const getHistoryChangeBetLimitAction = createAsyncThunk(
     }
   }
 )
+
+export const deleteBetLimitAction =
+  (id: number, cb?: (result: any) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    dispatch(setLoadingAgent(true))
+    const json = JSON.stringify({
+      id,
+    })
+    try {
+      const response = await axios.post(
+        API_ENDPOINT.REMOVE_BET_LIMIT_AGENT,
+        json,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (response?.data?.isSuccess) {
+        dispatch(deleteBetLimitAgent(id))
+      }
+      if (cb) cb(response?.data?.message)
+    } catch (error) {
+      if (cb) cb('Something went wrong')
+      console.error(error)
+    } finally {
+      dispatch(setLoadingAgent(false))
+    }
+  }
 
 export default agentReducer.reducer
