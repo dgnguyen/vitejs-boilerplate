@@ -23,9 +23,21 @@ export type AgentBetLimitValuesProps = {
   gameSelect: string
   marketSelect: string
   eventSelect: string
+  id: number | null,
+  groupPermissionId: number | null
 }
 
-const FormBetLimit = () => {
+const FormBetLimit = ({ editBetId }: { editBetId?: number }) => {
+
+
+
+
+
+  const agentBetLimitDataSelector = useSelector(
+    (state: RootState) => state.agent
+  )
+  const { betLimitData } = agentBetLimitDataSelector
+  const initialStateEdit = editBetId && betLimitData.find((item) => item.id === editBetId)
   const initialState: AgentBetLimitValuesProps = {
     minBet: '',
     maxBet: '',
@@ -33,12 +45,10 @@ const FormBetLimit = () => {
     gameSelect: '',
     marketSelect: '',
     eventSelect: '',
+    id: null,
+    groupPermissionId: null
   }
 
-  const agentBetLimitDataSelector = useSelector(
-    (state: RootState) => state.agent
-  )
-  const { betLimitData } = agentBetLimitDataSelector
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
@@ -50,7 +60,7 @@ const FormBetLimit = () => {
     const valuesSendToAPI = {
       partnerId:
         values?.agentSelect !== 'all' && values?.agentSelect !== ''
-          ? values?.agentSelect
+          ? [values?.agentSelect]
           : null,
       minBet: values?.minBet,
       maxBet: values?.maxBet,
@@ -63,7 +73,7 @@ const FormBetLimit = () => {
     }
     const json = JSON.stringify(valuesSendToAPI)
     axios
-      .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
+      .post(API_ENDPOINT.ADD_BET_LIMIT_AGENT, json, headersContentType)
       .then((response) => {
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
@@ -71,10 +81,10 @@ const FormBetLimit = () => {
           const isFirstTimeBetLimitUpdated = !!betLimitData.find(
             (item: IAgentBetLimit) => {
               return (
-                item.agentName === newBetLimitLine.agentName &&
-                item.gameName === newBetLimitLine.gameName &&
-                item.marketName === newBetLimitLine.marketName &&
-                item.eventName === newBetLimitLine.eventName
+                item?.agent?.id === newBetLimitLine?.agent?.id &&
+                item?.gameType?.id === newBetLimitLine?.gameType?.id &&
+                item?.market?.id === newBetLimitLine?.market?.id &&
+                item?.event?.id === newBetLimitLine?.event?.id
               )
             }
           )

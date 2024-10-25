@@ -26,6 +26,7 @@ import MuiDialog from 'components/Commons/MuiDialog'
 import EmptyData from 'components/EmptyData'
 import { WALLET_TYPE, WALLET_TYPE_NAME } from 'constants/agent'
 import { FORMAT_DATE_TIME } from 'constants/date'
+import { thousandSeparator } from 'helpers/currency'
 import useAnchor from 'hooks/useAnchor'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useSnackbar } from 'hooks/useSnackbar'
@@ -71,7 +72,7 @@ const AgentList = () => {
     }))
 
   function handleDeleteAgent() {
-    dispatch(deleteAgentAction(optionalState?.id, () => {}))
+    dispatch(deleteAgentAction(optionalState?.id, () => { }))
   }
 
   function toggleBlockAgent() {
@@ -238,6 +239,8 @@ const AgentList = () => {
                               onChange={handleEditTag}
                             />
                           </TableCell>
+                          <TableCell>{thousandSeparator(row.minBet)}</TableCell>
+                          <TableCell>{thousandSeparator(row.maxBet)}</TableCell>
                           <TableCell>
                             <FormControl
                               variant='standard'
@@ -259,6 +262,7 @@ const AgentList = () => {
                               </Select>
                             </FormControl>
                           </TableCell>
+
                           <TableCell>
                             <FormControl
                               variant='standard'
@@ -280,6 +284,7 @@ const AgentList = () => {
                               </Select>
                             </FormControl>
                           </TableCell>
+
                         </TableRow>
                       )
                     })}
