@@ -15,7 +15,7 @@ import DateBlock from 'components/DateBlock'
 import GameSelectButtons from 'components/GameSelectButtons'
 import TesterSelect from 'components/TesterSelect'
 import { useGames } from 'context/GamesContext'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { useFetchAgents } from 'hooks/useFetchAgents'
 import { useSelector } from 'react-redux'
 import { setSearchValuesMarket } from 'redux/reducers/market'
@@ -58,7 +58,7 @@ const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdmin() && <AgentSelectForMarket isTopMarket={isTopMarket} />}
+        {isSuperAdmin() || isOperator() && <AgentSelectForMarket isTopMarket={isTopMarket} />}
         {isTopMarket && (
           <TesterSelect
             disabled={loading}

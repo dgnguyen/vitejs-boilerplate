@@ -5,7 +5,7 @@ import { Box, Button, Snackbar, Typography } from '@mui/material'
 import Loader from 'components/Commons/Loader'
 import MuiModal from 'components/Commons/MuiModal'
 import TicketList from 'components/TicketList'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { useSnackbar } from 'hooks/useSnackbar'
 import { useSelector } from 'react-redux'
 import { getTickets, updateTicketEventOdd } from 'redux/reducers/market'
@@ -33,7 +33,7 @@ const MarketSettingsContent = () => {
 
   useEffect(() => {
     //if superadmin, need agent and gametype to fetch tickets, other user just need gametype
-    if ((isSuperAdmin() && agent && gameType) || (!isSuperAdmin() && gameType))
+    if (((isSuperAdmin() || isOperator()) && agent && gameType) || (!isSuperAdmin() && !isOperator() && gameType))
       dispatch(getTickets())
   }, [agent, gameType])
 

@@ -36,9 +36,7 @@ const FormContent = ({
   const { values, setFieldValue } = useFormikContext<AgentBetLimitValuesProps>()
   const currency = useSelector((state: RootState) => state?.agent.currency)
   //if its master agent, take his own partnerid to request gamesbyagent, if is superadmin show select agent
-  const agentToAPI = isOperator()
-    ? getUser()?.partnerId
-    : values?.agentSelect
+  const agentToAPI = values?.agentSelect
   const { games, loadingGames } = useFetchGamesByAgent(agentToAPI)
   const { markets, loadingMarkets } = useFetchMarketByGame({
     gameId: values?.gameSelect,
@@ -120,7 +118,7 @@ const FormContent = ({
             gap={2}
             alignItems='center'
           >
-            {isSuperAdmin() && <AgentSelectForBetLimit props={props} />}
+            {(isSuperAdmin() || isOperator()) && <AgentSelectForBetLimit props={props} />}
             <FormControl sx={{ width: 150 }}>
               <InputLabel id='select-game-label'>
                 {loadingGames ? <CircularProgress size={14} /> : 'Select Game'}
@@ -132,7 +130,7 @@ const FormContent = ({
                 name='gameSelect'
                 value={props.values.gameSelect}
                 onBlur={props.handleBlur}
-                disabled={(isSuperAdmin() && games.length === 0) || loadingGames}
+                disabled={((isSuperAdmin() || isOperator()) && games.length === 0) || loadingGames}
                 onChange={(e) =>
                   props.setFieldValue('gameSelect', e.target.value as string)
                 }
