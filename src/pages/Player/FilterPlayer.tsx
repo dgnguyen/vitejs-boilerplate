@@ -89,7 +89,7 @@ const FilterPlayer = () => {
         className='searchTextInput bgWhite'
         sx={{ width: '260px' }}
       />
-      {isSuperAdmin() || isOperator() && (
+      {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
           agentSelected={agentSelected === null ? 'all' : agentSelected}
           handleChange={handleChangeAgent}

@@ -74,7 +74,7 @@ const DashboardActions = () => {
           oneMonthSelection
         />
       </Box>
-      {isSuperAdmin() || isOperator() && (
+      {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}

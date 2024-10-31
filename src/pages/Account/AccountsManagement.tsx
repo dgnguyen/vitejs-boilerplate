@@ -343,7 +343,7 @@ const AccountsManagement = () => {
             open={state.edit}
           >
             <FormSettings
-              isSuperEditUser={isSuperAdmin() || isOperator()}
+              isSuperEditUser={(isSuperAdmin() || isOperator())}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
               cb={(message) => openSnackbar({ message })}
