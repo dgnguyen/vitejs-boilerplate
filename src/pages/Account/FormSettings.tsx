@@ -18,7 +18,7 @@ import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
 import { PERMISSION_LEVEL } from 'constants/account'
 import { USER_ROLE } from 'constants/auth'
 import { Form, Formik } from 'formik'
-import { getUser, isAdmin, isSubOperator, isSuperAdmin } from 'helpers/auth'
+import { getUser, isAdmin, isOperator, isSubOperator, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
@@ -120,7 +120,7 @@ const FormSettings = ({
           // super admin can create operator with select multiple agent
           // operator can create other operator with same access to agents like him
           // operator can create sub operator with select only 1 agent
-          const showSelectAgent = isSuperAdmin()
+          const showSelectAgent = isSuperAdmin() || isOperator()
             || props.values?.permissionLevel === USER_ROLE.SUB_OPERATOR
           return (
             <Form
