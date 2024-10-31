@@ -33,7 +33,7 @@ const MarketSettingsContent = () => {
 
   useEffect(() => {
     //if superadmin, need agent and gametype to fetch tickets, other user just need gametype
-    if (((isSuperAdmin() || isOperator()) && agent && gameType) || (!isSuperAdmin() && !isOperator() && gameType))
+    if (((isSuperAdmin() || isOperator()) && agent && gameType) || ((!isSuperAdmin() && !isOperator()) && gameType))
       dispatch(getTickets())
   }, [agent, gameType])
 

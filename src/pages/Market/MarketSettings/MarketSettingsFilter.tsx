@@ -58,7 +58,7 @@ const MarketSettingsFilter = ({ isTopMarket }: { isTopMarket?: boolean }) => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdmin() || isOperator() && <AgentSelectForMarket isTopMarket={isTopMarket} />}
+        {(isSuperAdmin() || isOperator()) && <AgentSelectForMarket isTopMarket={isTopMarket} />}
         {isTopMarket && (
           <TesterSelect
             disabled={loading}

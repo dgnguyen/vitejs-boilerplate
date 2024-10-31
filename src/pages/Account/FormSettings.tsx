@@ -120,7 +120,7 @@ const FormSettings = ({
           // super admin can create operator with select multiple agent
           // operator can create other operator with same access to agents like him
           // operator can create sub operator with select only 1 agent
-          const showSelectAgent = isSuperAdmin() || isOperator()
+          const showSelectAgent = (isSuperAdmin() || isOperator())
             || props.values?.permissionLevel === USER_ROLE.SUB_OPERATOR
           return (
             <Form

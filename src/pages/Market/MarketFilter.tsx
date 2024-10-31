@@ -42,7 +42,7 @@ const MarketFilter = (props: MarketFilterProps) => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdmin() || isOperator() && (
+        {(isSuperAdmin() || isOperator()) && (
           <AgentSelect
             agentSelected={filter.agent}
             handleChange={handleChangeAgent}
