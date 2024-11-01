@@ -27,7 +27,7 @@ import { AgentBetLimitValuesProps } from './FormBetLimit'
 const FormContent = ({
   props,
   submitting,
-  isEdit = false,
+  isEdit,
 }: {
   props: FormikProps<AgentBetLimitValuesProps>
   submitting: boolean
@@ -47,23 +47,40 @@ const FormContent = ({
     gameId: values?.gameSelect,
     agentId: agentToAPI,
   })
+  
+    useEffect(() => {
+      if (isEdit) {
+        // Set initial values for editing
+        setFieldValue('minBet', props.values.minBet)
+        setFieldValue('maxBet', props.values.maxBet)
+        setFieldValue('agentSelect', props.values.agentSelect)
+        setFieldValue('gameSelect', props.values.gameSelect)
+        setFieldValue('marketSelect', props.values.marketSelect)
+        setFieldValue('eventSelect', props.values.eventSelect)
+      }
+    }, [isEdit, props.values, setFieldValue])
 
-  useEffect(() => {
-    setFieldValue('gameSelect', '')
-  }, [values.agentSelect])
-
-  useEffect(() => {
-    setFieldValue('marketSelect', '')
-  }, [values.gameSelect])
-
-  useEffect(() => {
-    setFieldValue('eventSelect', '')
-  }, [values.marketSelect])
-
+    useEffect(() => {
+      if (!isEdit) {
+        setFieldValue('gameSelect', '')
+      }
+    }, [values.agentSelect])
+  
+    useEffect(() => {
+      if (!isEdit) {
+        setFieldValue('marketSelect', '')
+      }
+    }, [values.gameSelect])
+  
+    useEffect(() => {
+      if (!isEdit) {
+        setFieldValue('eventSelect', '')
+      }
+    }, [values.marketSelect])
 
   return (
     <Box>
-      <Typography variant='h5'>{isEdit ? `Edit bet limit id` : 'Add new bet limit'}</Typography>
+      <Typography variant='h5'>{isEdit ? `Edit Bet Limit` : 'Add New Bet Limit'}</Typography>
       <Form
         id='betLimitFormSuperAdmin'
         autoComplete='off'

@@ -13,6 +13,7 @@ import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentBetLimit } from 'types/agent'
 
 import FormContent from './FormContent'
+import { getInitState } from './helpers'
 
 import '../style.scss'
 
@@ -27,6 +28,20 @@ export type AgentBetLimitValuesProps = {
   groupPermissionId: number | null
 }
 
+export type AgentBetLimitEditValuesProps = {
+  minBet: string
+  maxBet: string
+  agentSelect: string
+  gameSelect: string
+  marketSelect: string
+  eventSelect: string
+  id: string
+  type: string
+  groupPermissionId: string
+  appliedBy: string
+  appliedDate: string
+}
+
 const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?: (msg: string) => void }) => {
   
   const agentBetLimitDataSelector = useSelector(
@@ -34,19 +49,21 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
   )
 
   const { betLimitData } = agentBetLimitDataSelector
-  const initialData = editBetId ? betLimitData.find((item) => item.id === editBetId) : null
 
-  const initialState: AgentBetLimitValuesProps = {
-    minBet: initialData ? initialData.minBet.toString() : '',
-    maxBet: initialData ? initialData.maxBet.toString() : '',
-    agentSelect: initialData ? initialData.agent.id.toString() : '',
-    gameSelect: initialData ? initialData.gameType.id.toString() : '',
-    marketSelect: initialData ? initialData.market.id.toString() : '',
-    eventSelect: initialData ? initialData.event.id.toString() : '',
-    id: initialData ? initialData.id: 0,
-    groupPermissionId: initialData ? initialData.groupPermissionId: 0
+  const initialStateCreate: AgentBetLimitValuesProps = {
+    minBet: '',
+    maxBet: '',
+    agentSelect: '',
+    gameSelect: '',
+    marketSelect: '',
+    eventSelect: '',
+    id: null,
+    groupPermissionId: null
   }
 
+  const editState = betLimitData.find((item) => item.id === editBetId)
+  const initialState = editBetId && editState ? getInitState(editState) : initialStateCreate
+  const isEdit = (editBetId !== undefined && editState !==  undefined)
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
@@ -108,6 +125,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
             <FormContent
               props={props}
               submitting={submitting}
+              isEdit={isEdit}
             />
           )
         }}
