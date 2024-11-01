@@ -46,6 +46,7 @@ const initState = {
 const BetLimitHistory = () => {
   const [openModal, setopenModal] = useState<{
     id?: number,
+    groupPermissionId?: number,
     edit: boolean
     delete: boolean,
   }>(initState)
@@ -59,6 +60,10 @@ const BetLimitHistory = () => {
   }
   function handleCloseModalEdit() {
     setopenModal(initState)
+  }
+  function handleEditSuccess(msg: string) {
+    handleCloseModalEdit() // Close the modal
+    openSnackbar({ message: msg }) // Show the snackbar with the message
   }
 
   function displayCell(cell: any) {
@@ -87,10 +92,11 @@ const BetLimitHistory = () => {
     }))
   }
 
-  function handleDeleteBetLimit(id: number) {
+  function handleDeleteBetLimit(id: number, groupPermissionId: number) {
     setopenModal((prevState) => ({
       ...prevState,
       id,
+      groupPermissionId,
       delete: true
     }))
   }
@@ -103,7 +109,7 @@ const BetLimitHistory = () => {
   }
 
   function onSubmitDeleteBetLimit() {
-    if (openModal.id) dispatch(deleteBetLimitAction(openModal.id, (msg) => cbCloseModal(msg)))
+    if (openModal.id && openModal.groupPermissionId) dispatch(deleteBetLimitAction(openModal.id, openModal.groupPermissionId, (msg) => cbCloseModal(msg)))
   }
 
   return (
@@ -173,7 +179,7 @@ const BetLimitHistory = () => {
                             }
                           )}
                           <TableCell>
-                            <Delete onClick={() => handleDeleteBetLimit(row.id)} />
+                            <Delete onClick={() => handleDeleteBetLimit(row.id, row.groupPermissionId)} />
                           </TableCell>
                         </TableRow>
                       )
@@ -195,13 +201,7 @@ const BetLimitHistory = () => {
           handleClose={handleCloseModalEdit}
           open={openModal.edit}
         >
-          {/* <FormSettings
-              isSuperEditUser={isSuperAdmin() || isOperator()}
-              initialState={optionalState}
-              // handleClose={() => handleState({ key: 'edit', value: false })}
-              cb={(message) => openSnackbar({ message })}
-            /> */}
-          <FormBetLimit editBetId={openModal.id} />
+          <FormBetLimit editBetId={openModal.id} onSuccess={handleEditSuccess}/>
         </MuiModal>
       }
       {

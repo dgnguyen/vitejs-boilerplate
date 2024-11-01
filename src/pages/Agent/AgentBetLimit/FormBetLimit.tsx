@@ -27,26 +27,24 @@ export type AgentBetLimitValuesProps = {
   groupPermissionId: number | null
 }
 
-const FormBetLimit = ({ editBetId }: { editBetId?: number }) => {
-
-
-
-
-
+const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?: (msg: string) => void }) => {
+  
   const agentBetLimitDataSelector = useSelector(
     (state: RootState) => state.agent
   )
+
   const { betLimitData } = agentBetLimitDataSelector
-  const initialStateEdit = editBetId && betLimitData.find((item) => item.id === editBetId)
+  const initialData = editBetId ? betLimitData.find((item) => item.id === editBetId) : null
+
   const initialState: AgentBetLimitValuesProps = {
-    minBet: '',
-    maxBet: '',
-    agentSelect: '',
-    gameSelect: '',
-    marketSelect: '',
-    eventSelect: '',
-    id: null,
-    groupPermissionId: null
+    minBet: initialData ? initialData.minBet.toString() : '',
+    maxBet: initialData ? initialData.maxBet.toString() : '',
+    agentSelect: initialData ? initialData.agent.id.toString() : '',
+    gameSelect: initialData ? initialData.gameType.id.toString() : '',
+    marketSelect: initialData ? initialData.market.id.toString() : '',
+    eventSelect: initialData ? initialData.event.id.toString() : '',
+    id: initialData ? initialData.id: 0,
+    groupPermissionId: initialData ? initialData.groupPermissionId: 0
   }
 
   const [submitting, setSubmiting] = useState(false)
@@ -58,6 +56,7 @@ const FormBetLimit = ({ editBetId }: { editBetId?: number }) => {
     setSubmiting(true)
 
     const valuesSendToAPI = {
+      id: editBetId,
       partnerId:
         values?.agentSelect !== 'all' && values?.agentSelect !== ''
           ? [values?.agentSelect]
@@ -70,30 +69,20 @@ const FormBetLimit = ({ editBetId }: { editBetId?: number }) => {
         values?.eventSelect !== 'all' ? values?.eventSelect || null : null,
       gameTypeId:
         values?.gameSelect !== 'all' ? values?.gameSelect || null : null,
+      groupPermissionId: values?.groupPermissionId
     }
+
+    const endpoint = editBetId ? API_ENDPOINT.UPDATE_BET_LIMIT_AGENT : API_ENDPOINT.ADD_BET_LIMIT_AGENT
+
     const json = JSON.stringify(valuesSendToAPI)
     axios
-      .post(API_ENDPOINT.ADD_BET_LIMIT_AGENT, json, headersContentType)
+      .post(endpoint, json, headersContentType)
       .then((response) => {
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
-          const newBetLimitLine = response?.data?.data
-          const isFirstTimeBetLimitUpdated = !!betLimitData.find(
-            (item: IAgentBetLimit) => {
-              return (
-                item?.agent?.id === newBetLimitLine?.agent?.id &&
-                item?.gameType?.id === newBetLimitLine?.gameType?.id &&
-                item?.market?.id === newBetLimitLine?.market?.id &&
-                item?.event?.id === newBetLimitLine?.event?.id
-              )
-            }
-          )
-          const detailMsg = !isFirstTimeBetLimitUpdated
-            ? 'New bet limit values have been applied'
-            : `The bet limit values for Agent: "${newBetLimitLine.agentName}", Game: "${newBetLimitLine.gameName}", Market: "${newBetLimitLine.marketName}", Event: "${newBetLimitLine.eventName}" have been changed.`
-          openSnackbar({ message: detailMsg })
-        } else {
-          openSnackbar({ message: response?.data?.message })
+          if (onSuccess) {
+              onSuccess(response?.data?.message)
+          }
         }
       })
       .catch((e) => {

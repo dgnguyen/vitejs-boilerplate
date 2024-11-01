@@ -95,7 +95,7 @@ export function useMarketGGR(): MarketGGRProps {
             : { partnerId: null }),
           ...(filterMarket?.isTester !== 'null'
             ? { isTester: filterMarket?.isTester === 'true' }
-            : {}),
+            : { isTester: null}),
         }
       )
       const { data, isSuccess, message } = response?.data || null
