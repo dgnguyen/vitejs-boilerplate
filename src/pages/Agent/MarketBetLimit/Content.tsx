@@ -4,7 +4,7 @@ import Loader from 'components/Commons/Loader'
 import { thousandSeparator } from 'helpers/currency'
 import { DataMarketBetLimit } from 'hooks/useMarketBetLimit'
 
-import { marketNames } from '../helpers'
+import { marketNames } from '../../Agent/helpers'
 
 import { headerMarketBetLimit } from './helpers'
 

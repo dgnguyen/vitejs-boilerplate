@@ -3,7 +3,7 @@ import { Box } from '@mui/material'
 import PageTitle from 'components/Commons/PageTitle'
 import { useMarketBetLimit } from 'hooks/useMarketBetLimit'
 
-import MarketTab from '../MarketTab'
+import AgentTab from '../AgentTab'
 
 import Content from './Content'
 import MarketFilter from './MarketFilter'
@@ -24,7 +24,7 @@ const MarketBetLimit = () => {
   return (
     <Box className='market-stats-wrapper'>
       <PageTitle title='Bet Limit Overview' />
-      <MarketTab />
+      <AgentTab />
       <MarketFilter
         loading={loading}
         gamesList={gamesList}

@@ -27,6 +27,12 @@ const AgentTab = () => {
       >
         Bet limit settings
       </Button>
+      <Button
+        variant={`${pathname === ROUTES.AGENT_BETLIMIT_OVERVIEW ? 'contained' : 'outlined'}`}
+        onClick={() => navigate(ROUTES.AGENT_BETLIMIT_OVERVIEW)}
+      >
+        Bet Limit Overview
+      </Button>
     </Box>
   )
 }
