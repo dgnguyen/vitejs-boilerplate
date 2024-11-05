@@ -100,6 +100,9 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
           if (onSuccess) {
               onSuccess(response?.data?.message)
           }
+          openSnackbar({
+            message: response?.data?.message,
+          })
         }
       })
       .catch((e) => {
