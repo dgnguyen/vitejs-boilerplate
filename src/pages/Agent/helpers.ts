@@ -35,7 +35,7 @@ export const searchTypeAgent = [
 ]
 
 export const headerAgentBetLimit = [
-  'Id',
+  'ID',
   'Type',
   'Agent Name',
   'Game Name',

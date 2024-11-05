@@ -14,6 +14,7 @@ export const ROUTES = {
   MARKET_SETTINGS: '/market/settings',
   MARKET_GGR: '/market/ggr',
   TOP_MARKET: '/market/top-market',
+  MARKET_BETLIMIT: '/market/betlimit',
   ACCOUNT_SETTINGS: '/account/settings',
   ACCOUNT_MANAGEMENT: '/account/management',
   FORGOT_PASSWORD: '/forgot-password',

@@ -21,6 +21,7 @@ export const API_ENDPOINT = {
   REMOVE_BET_LIMIT_AGENT: `${API_BASE_URL}/AdminAgent/betLimit/remove`,
   EXPORT_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/exportHistoryChange`,
   GET_AGENT_BET_LIMIT_CHANGE: `${API_BASE_URL}/AdminAgent/betLimit/getHistoryChange`,
+  GET_MARKET_BETLIMIT: `${API_BASE_URL}/AdminAgent/betLimit/getList`,
   GET_MARKET_STATS: `${API_BASE_URL}/v3/MainMarket/statistic`,
   GET_EVENT_MARKET_SETTINGS: `${API_BASE_URL}/v3/MainMarket/getallevents`,
   UPDATE_EVENT_ODD_MARKET_SETTINGS: `${API_BASE_URL}/v2/MainMarket/updateodds`,

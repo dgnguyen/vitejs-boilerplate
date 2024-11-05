@@ -27,6 +27,12 @@ const MarketTab = () => {
         Market Settings
       </Button>
       <Button
+        variant={`${pathname === ROUTES.MARKET_BETLIMIT ? 'contained' : 'outlined'}`}
+        onClick={() => navigate(ROUTES.MARKET_BETLIMIT)}
+      >
+        Bet Limit Overview
+      </Button>
+      <Button
         variant={`${pathname === ROUTES.TOP_MARKET ? 'contained' : 'outlined'}`}
         onClick={() => navigate(ROUTES.TOP_MARKET)}
       >

@@ -6,6 +6,7 @@ import AgentBetLimit from 'pages/Agent/AgentBetLimit'
 import Dashboard from 'pages/Dashboard'
 import Login from 'pages/Login'
 import MarketStats from 'pages/Market'
+import MarketBetLimit from 'pages/Market/MarketBetLimit'
 import MarketGGR from 'pages/Market/MarketGGR'
 import MarketSettings from 'pages/Market/MarketSettings'
 import TopMarket from 'pages/Market/TopMarket'
@@ -98,6 +99,15 @@ const allRoutes: RouteObject[] = [
     element: (
       <AuthRoute
         element={<TopMarket />}
+        role={USER_ROLE.OPERATOR}
+      />
+    ),
+  },
+  {
+    path: ROUTES.MARKET_BETLIMIT,
+    element: (
+      <AuthRoute
+        element={<MarketBetLimit />}
         role={USER_ROLE.OPERATOR}
       />
     ),

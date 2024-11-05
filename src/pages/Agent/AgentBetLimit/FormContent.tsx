@@ -51,12 +51,12 @@ const FormContent = ({
     useEffect(() => {
       if (isEdit) {
         // Set initial values for editing
-        setFieldValue('minBet', props.values.minBet)
-        setFieldValue('maxBet', props.values.maxBet)
-        setFieldValue('agentSelect', props.values.agentSelect)
-        setFieldValue('gameSelect', props.values.gameSelect)
-        setFieldValue('marketSelect', props.values.marketSelect)
-        setFieldValue('eventSelect', props.values.eventSelect)
+        setFieldValue('minBet', props.values.minBet || '')
+        setFieldValue('maxBet', props.values.maxBet || '')
+        setFieldValue('agentSelect', props.values.agentSelect || '')
+        setFieldValue('gameSelect', props.values.gameSelect || '')
+        setFieldValue('marketSelect', props.values.marketSelect || '')
+        setFieldValue('eventSelect', props.values.eventSelect || '')
       }
     }, [isEdit, props.values, setFieldValue])
 
