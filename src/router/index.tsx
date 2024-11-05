@@ -3,10 +3,10 @@ import AccountSettings from 'pages/Account/AccountSettings'
 import AccountsManagement from 'pages/Account/AccountsManagement'
 import Agent from 'pages/Agent'
 import AgentBetLimit from 'pages/Agent/AgentBetLimit'
+import MarketBetLimit from 'pages/Agent/MarketBetLimit'
 import Dashboard from 'pages/Dashboard'
 import Login from 'pages/Login'
 import MarketStats from 'pages/Market'
-import MarketBetLimit from 'pages/Market/MarketBetLimit'
 import MarketGGR from 'pages/Market/MarketGGR'
 import MarketSettings from 'pages/Market/MarketSettings'
 import TopMarket from 'pages/Market/TopMarket'
@@ -68,6 +68,15 @@ const allRoutes: RouteObject[] = [
     ),
   },
   {
+    path: ROUTES.AGENT_BETLIMIT_OVERVIEW,
+    element: (
+      <AuthRoute
+        element={<MarketBetLimit />}
+        role={USER_ROLE.OPERATOR}
+      />
+    ),
+  },
+  {
     path: ROUTES.MARKET,
     element: (
       <AuthRoute
@@ -103,16 +112,6 @@ const allRoutes: RouteObject[] = [
       />
     ),
   },
-  {
-    path: ROUTES.MARKET_BETLIMIT,
-    element: (
-      <AuthRoute
-        element={<MarketBetLimit />}
-        role={USER_ROLE.OPERATOR}
-      />
-    ),
-  },
-
   {
     path: ROUTES.ACCOUNT_SETTINGS,
     element: <AuthRoute element={<AccountSettings />} />,

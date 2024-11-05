@@ -46,3 +46,16 @@ export const headerAgentBetLimit = [
   'Applied Date',
   'Applied By',
 ]
+
+export const marketNames = {
+  oddsmall: 'Odd + Small',
+  oddmedium: 'Odd + Medium',
+  oddlarge: 'Odd + Large',
+  evensmall: 'Even + Small',
+  evenmedium: 'Even + Medium',
+  evenlarge: 'Even + Large',
+  oddunder: 'Odd + Under',
+  evenunder: 'Even + Under',
+  oddover: 'Odd + Over',
+  evenover: 'Even + Over',
+}
