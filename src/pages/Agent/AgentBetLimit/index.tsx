@@ -6,7 +6,7 @@ import { Box, Button, Divider } from '@mui/material'
 import PageTitle from 'components/Commons/PageTitle'
 import DateBlock from 'components/DateBlock'
 import ExportExcel from 'components/ExportExcel'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import { resetAgentState } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
@@ -30,7 +30,7 @@ const AgentBetLimit = () => {
   return (
     <Box>
       <PageTitle title='Agent Bet Limit' />
-      {isSuperAdmin() && <AgentTab />}
+      {(isSuperAdmin()|| isOperator()) && <AgentTab />}
       <Box
         display='flex'
         alignItems='center'
