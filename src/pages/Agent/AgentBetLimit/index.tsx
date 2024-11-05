@@ -30,7 +30,7 @@ const AgentBetLimit = () => {
   return (
     <Box>
       <PageTitle title='Agent Bet Limit' />
-      {(isSuperAdmin()|| isOperator()) && <AgentTab />}
+      {(isSuperAdmin()) && <AgentTab />}
       <Box
         display='flex'
         alignItems='center'
