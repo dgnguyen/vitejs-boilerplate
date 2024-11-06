@@ -1,20 +1,22 @@
 import { Box, Divider, Tooltip, Typography } from '@mui/material'
 
 import Loader from 'components/Commons/Loader'
-import { addCurrencyToPrice } from 'helpers/currency'
-import { DataMarketStat } from 'hooks/useMarketStats'
+import { addCurrencyToPrice, thousandSeparator } from 'helpers/currency'
+import { DataMarketGGR } from 'hooks/useMarketGGR'
 
-import { marketNames } from './helpers'
+import { marketNames } from '../helpers'
 
-import './style.scss'
+import { headerMarketGGR } from './helpers'
+
+import '../style.scss'
 
 type Props = {
   loading: boolean
-  data?: DataMarketStat
+  data?: DataMarketGGR
   error?: string
 }
 
-const MarketStatisticContent = ({ error, loading, data }: Props) => {
+const MarketGGRContent = ({ error, loading, data }: Props) => {
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <Loader isOutSideOfRelativeContainer />
 
@@ -32,25 +34,18 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
           variant='h6'
           sx={{ color: 'var(--blue-primary)' }}
         >
-          RoundID :
-        </Typography>
-        <Typography variant='h6'> {data?.roundId}</Typography>
-        <Box
-          sx={{ borderRight: '3px solid lightgray' }}
-          height='20px'
-          marginX={1}
-        />
-        <Typography
-          variant='h6'
-          sx={{ color: 'var(--blue-primary)' }}
-        >
           Total :
         </Typography>
-        <Typography variant='h6'> {addCurrencyToPrice(data?.total)}</Typography>
+        <Typography variant='h6'
+          sx={{
+            color: data && data?.total >= 0 ? 'var(--blue-primary)' : 'var(--red)',
+          }}
+          fontWeight="bold"
+        > {addCurrencyToPrice(data?.total, data?.currency)}</Typography>
       </Box>
       <Divider sx={{ borderColor: 'white', borderWidth: 1, marginY: 2 }} />
       <Box className='marketCard'>
-        {data?.allMarkets?.map((item) => {
+        {data?.allMarkets.map((item) => {
           return (
             <Box
               key={`game-${item.marketName}`}
@@ -71,27 +66,42 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                 </Typography>
                 <Typography
                   sx={{
-                    color: 'var(--blue-primary)',
+                    color: item.total >= 0 ? 'var(--blue-primary)' : 'var(--red)',
                   }}
                   fontWeight='bold'
                   fontSize={20}
                 >
-                  {addCurrencyToPrice(item?.total)}
+                  {addCurrencyToPrice(item.total)}
                 </Typography>
               </Box>
               <Divider />
-              <Box className='marketStat-content-wrapper'>
-                {item.events.map((eventMarket) => {
-                  return (
-                    <Box
-                      key={`game-${item.marketName}-${eventMarket.eventName}`}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        flexWrap: 'nowrap',
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box className='marketGGR-content-wrapper'>
+                <Box className="header">
+                  {
+                    headerMarketGGR.map((header, index) => (
+                      (
+                        <Box key={`${item.marketName}${header}`}>
+                          <Typography>
+                            {header}
+                          </Typography>
+                          {
+                            index > 0 &&
+                            <Typography>
+                              ({data?.currency})
+                            </Typography>
+                          }
+                        </Box>
+                      )
+                    ))
+                  }
+                </Box>
+                <Box className="content">
+                  {item.events.map((eventMarket) => {
+                    return (
+                      <Box
+                        key={`game-${item.marketName}-${eventMarket.eventName}`}
+
+                      >
                         <Typography
                           sx={{
                             color: 'var(--blue-primary)',
@@ -101,40 +111,31 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                             eventMarket.eventName as keyof typeof marketNames
                           ] || eventMarket.eventName}
                         </Typography>
-                        <Box sx={{ marginLeft: 1 }}>
-                          {eventMarket.maxRate ? (
-                            <span className='ticket_point_bracket'>
-                              {`(${eventMarket.minRate} - ${eventMarket.maxRate})`}
-                            </span>
-                          ) : (
-                            <span className='ticket_point_bracket'>
-                              {eventMarket.minRate
-                                ? `(${eventMarket.minRate})`
-                                : ''}
-                            </span>
-                          )}
-                        </Box>
-                      </Box>
-                      <Box>
+                        <Typography>
+                          {thousandSeparator(eventMarket.totalBet)}
+                        </Typography>
+                        <Typography>
+                          {thousandSeparator(eventMarket.totalWin)}
+                        </Typography>
                         <Tooltip
-                          className='totalByEventName'
-                          title={addCurrencyToPrice(eventMarket.total)}
+                          className="totalByEventName"
+                          title={thousandSeparator(eventMarket.ggr)}
                         >
                           <Box
                             sx={{
                               color:
-                                eventMarket.total < 0
+                                eventMarket.ggr < 0
                                   ? 'var(--red)'
                                   : 'default',
                             }}
                           >
-                            {addCurrencyToPrice(eventMarket.total)}
+                            {thousandSeparator(eventMarket.ggr)}
                           </Box>
                         </Tooltip>
                       </Box>
-                    </Box>
-                  )
-                })}
+                    )
+                  })}
+                </Box>
               </Box>
             </Box>
           )
@@ -144,4 +145,4 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
   )
 }
 
-export default MarketStatisticContent
+export default MarketGGRContent

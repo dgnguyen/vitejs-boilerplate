@@ -8,7 +8,7 @@ import AgentSelect from 'components/AgentSelect'
 import MuiSearchField from 'components/Commons/MuiSearchField'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import {
   getPlayersAction,
@@ -89,7 +89,7 @@ const FilterPlayer = () => {
         className='searchTextInput bgWhite'
         sx={{ width: '260px' }}
       />
-      {isSuperAdmin() && (
+      {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
           agentSelected={agentSelected === null ? 'all' : agentSelected}
           handleChange={handleChangeAgent}

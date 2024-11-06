@@ -32,6 +32,12 @@ const MarketTab = () => {
       >
         Top Market
       </Button>
+      <Button
+        variant={`${pathname === ROUTES.MARKET_GGR ? 'contained' : 'outlined'}`}
+        onClick={() => navigate(ROUTES.MARKET_GGR)}
+      >
+        GGR Stats by Market
+      </Button>
     </Box>
   )
 }

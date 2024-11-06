@@ -10,12 +10,39 @@ export type IEvents = {
   dependancy: string
   gameType: number
   total: number
+  minBet: number
+  maxBet: number
 }
 
 export type IMarketStat = {
   events: IEvents[]
   marketName: string
   total: number
+}
+
+export type EventGGR = {
+  eventName: string
+  totalBet: number
+  totalWin: number
+  ggr: number
+}
+
+export type EventBetLimit = {
+  eventName: string
+  minBet: number
+  maxBet: number
+}
+
+export type IMarketGGR = {
+  marketName: string
+  total: number
+  events: EventGGR[]
+}
+
+export type IMarketBetLimit = {
+  marketName: string
+  total: number
+  events: EventBetLimit[]
 }
 
 export type ITopMarketObj = {

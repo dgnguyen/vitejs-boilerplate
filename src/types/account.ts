@@ -1,16 +1,18 @@
 export type IAccount = {
+  partnerId: number
+  agentName: string[]
   name: string
   surname: string
   email: string
   permissionLevel: number
   userId: number
   isActive: boolean
-  loginDate: Date
-  createDate: Date
-  updateDate: Date
-  createdBy: string
-  agentName: string
   isBlock: boolean
+  agentList: number[]
+  loginDate: string
+  createDate: string
+  updateDate: string
+  createdBy: string
 }
 
 export type IAccounts = {
