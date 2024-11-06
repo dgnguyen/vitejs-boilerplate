@@ -10,7 +10,7 @@ export const thousandSeparator = (
 
 export const addCurrencyToPrice = (
   price?: number | null,
-  currency?: ICURRENCY
+  currency?: ICURRENCY | string
 ) => {
   return price !== null
     ? `${thousandSeparator(price)} ${currency || CURRENCY.KRW}`

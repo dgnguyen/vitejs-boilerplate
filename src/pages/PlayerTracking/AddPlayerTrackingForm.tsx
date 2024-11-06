@@ -90,7 +90,7 @@ const AddPlayerTrackingForm = ({
           <Box className='formAddPlayerTracking-wrapper'>
             {isSuperAdmin() && (
               <AgentSelect
-                agentSelected={state.partnerId}
+                agentSelected={state.partnerId || ''}
                 disableSelectAll
                 handleChange={(e) =>
                   handleChange({ key: 'partnerId', value: e.target.value })

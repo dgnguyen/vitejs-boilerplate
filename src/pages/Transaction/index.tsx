@@ -10,7 +10,7 @@ import GameSelect from 'components/GameSelect'
 import Switch from 'components/Switch'
 import { FORMAT_DATE } from 'constants/date'
 import { ROUTES } from 'constants/endpoint'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import isEqual from 'lodash/isEqual'
 import moment from 'moment'
 import { useSelector } from 'react-redux'
@@ -154,7 +154,7 @@ const Transaction = () => {
             <Typography>Show all transactions of this player</Typography>
           </Box>
         )}
-        {isSuperAdmin() && !isPageTransactionPlayer && (
+        {(isSuperAdmin() || isOperator()) && !isPageTransactionPlayer && (
           <AgentSelect
             agentSelected={agentSelected}
             handleChange={handleChangeAgent}

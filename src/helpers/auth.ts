@@ -21,9 +21,9 @@ export const isAuthenticated = () => {
   return !!getUser() // && getExpiresAt();
 }
 
-export const isMasterAgent = () => getUser().role === 2
+export const isOperator = () => getUser().role === 2
 
-export const isAgent = () => getUser().role === 4
+export const isSubOperator = () => getUser().role === 4
 
 export const isAdmin = () => getUser().role === 3
 

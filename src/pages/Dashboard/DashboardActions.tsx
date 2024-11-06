@@ -5,7 +5,7 @@ import AgentSelect from 'components/AgentSelect'
 import DataPicker from 'components/DataPicker'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
-import { isSuperAdmin, isSuperAdminOrAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin, isSuperAdminOrAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import {
   dashboardFilterSelector,
@@ -74,7 +74,7 @@ const DashboardActions = () => {
           oneMonthSelection
         />
       </Box>
-      {isSuperAdmin() && (
+      {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Box, CircularProgress, Snackbar, Typography } from '@mui/material'
+import { Box, CircularProgress, Snackbar } from '@mui/material'
 
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
@@ -16,11 +16,12 @@ type ValuesForm = {
   name: string
   surname: string
   isActive?: boolean
-  partnerId?: number
+  partnerId: string
   permissionLevel?: number
   oldPassword?: string
   password?: string
   confirmPassword?: string
+  agentList: string[] | number[]
 }
 
 const initialState = {
@@ -31,6 +32,8 @@ const initialState = {
   password: '',
   confirmPassword: '',
   permissionLevel: undefined,
+  partnerId: '',
+  agentList: []
 }
 
 const AccountSettings = () => {
