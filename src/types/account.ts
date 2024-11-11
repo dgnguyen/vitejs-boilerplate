@@ -25,3 +25,17 @@ export type IAccounts = {
   hasMore: boolean
   totalCount: number
 }
+
+export type ValuesForm = {
+  email: string
+  name: string
+  surname: string
+  isActive?: boolean
+  partnerId: string
+  permissionLevel?: number
+  oldPassword?: string
+  password?: string
+  confirmPassword?: string
+  agentList: string[] | number[]
+  agentName: string[]
+}

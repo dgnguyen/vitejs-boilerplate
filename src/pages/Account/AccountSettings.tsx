@@ -7,22 +7,11 @@ import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useSnackbar } from 'hooks/useSnackbar'
+import { ValuesForm } from 'types/account'
 
 import FormSettings from './FormSettings'
 import { HeaderTab } from './HeaderTab'
 
-type ValuesForm = {
-  email: string
-  name: string
-  surname: string
-  isActive?: boolean
-  partnerId: string
-  permissionLevel?: number
-  oldPassword?: string
-  password?: string
-  confirmPassword?: string
-  agentList: string[] | number[]
-}
 
 const initialState = {
   email: '',
@@ -33,7 +22,8 @@ const initialState = {
   confirmPassword: '',
   permissionLevel: undefined,
   partnerId: '',
-  agentList: []
+  agentList: [],
+  agentName: []
 }
 
 const AccountSettings = () => {

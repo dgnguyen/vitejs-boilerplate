@@ -25,6 +25,7 @@ export const initialStateCreateAccount = {
   confirmPassword: '',
   partnerId: '',
   agentList: [],
+  agentName: [],
 }
 
 export const getPermissionLevelBasedOnUser = () => {
@@ -33,8 +34,9 @@ export const getPermissionLevelBasedOnUser = () => {
   }
   if (isOperator()) {
     return PERMISSION_LEVEL.filter(
-      (item) => item.value === USER_ROLE.SUB_OPERATOR ||
-                item.value === USER_ROLE.OPERATOR
+      (item) =>
+        item.value === USER_ROLE.SUB_OPERATOR ||
+        item.value === USER_ROLE.OPERATOR
     )
   }
   return []

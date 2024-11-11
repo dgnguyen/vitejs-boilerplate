@@ -17,29 +17,20 @@ import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
 import { PERMISSION_LEVEL } from 'constants/account'
 import { USER_ROLE } from 'constants/auth'
+import { ROUTES } from 'constants/endpoint'
 import { Form, Formik } from 'formik'
 import { getUser, isAdmin, isOperator, isSubOperator, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
 import accountSchema from 'schema/accountSchema'
+import { ValuesForm } from 'types/account'
 
 import { getPermissionLevelBasedOnUser } from './helpers'
 import { PasswordInput } from './Input'
 import SelectAgentForAccount from './SelectAgentForAccount'
 
-export type ValuesForm = {
-  email: string
-  name: string
-  surname: string
-  isActive?: boolean
-  partnerId: any
-  permissionLevel?: number
-  oldPassword?: string
-  password?: string
-  confirmPassword?: string
-  agentList: number[] | string[]
-}
 
 type Props = {
   initialState: ValuesForm
@@ -61,6 +52,7 @@ const FormSettings = ({
   const { loading, setLoading, error, setError, message, setMessage } =
     useSimpleForm()
 
+
   const dispatch = useDispatch()
 
   const onSubmit = async (values: ValuesForm) => {
@@ -68,7 +60,7 @@ const FormSettings = ({
     setMessage('')
     try {
       if (isCreateUser) {
-        const { partnerId, agentList, ...rest } = values
+        const { partnerId, agentList, agentName, ...rest } = values
         const valuesSendToAPI = {
           ...rest,
           agentList: typeof (agentList) !== "object" ? [agentList] : agentList
@@ -83,7 +75,8 @@ const FormSettings = ({
           cb('Failed to create account')
         }
       } else if (isSuperEditUser || isEditUser) {
-        const { isActive, partnerId, agentList, ...rest } = values
+        const { isActive, partnerId, agentName, ...rest } = values
+
 
         const valuesSendToAPI = rest
         const response = await axios.post(

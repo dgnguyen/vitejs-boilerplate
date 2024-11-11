@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react'
 import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, } from '@mui/material'
 
 import { USER_ROLE } from 'constants/auth'
+import { ROUTES } from 'constants/endpoint'
 import { FormikProps } from 'formik'
 import { useFetchAgents } from 'hooks/useFetchAgents'
+import { useLocation } from 'react-router-dom'
+import { ValuesForm } from 'types/account'
 import { IAgentData } from 'types/agent'
 
-import { ValuesForm } from './FormSettings'
+
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -21,13 +24,15 @@ const MenuProps = {
 }
 
 
-
 type Props = {
   props: FormikProps<ValuesForm>,
   disabled: boolean,
 }
 
 const SelectAgentForAccount = ({ props, disabled }: Props) => {
+  const location = useLocation()
+  const isAccountSettingsPage = ROUTES.ACCOUNT_SETTINGS === location.pathname
+
   const { agents } = useFetchAgents()
   const { values: {
     permissionLevel,
@@ -35,24 +40,23 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
   },
     setFieldValue,
     handleChange } = props
-  const isSelectMultiple = permissionLevel === USER_ROLE.OPERATOR || permissionLevel === USER_ROLE.ADMIN
-  const [personName, setPersonName] = useState<string[] | number[]>([])
+  const isSelectMultiple = [USER_ROLE.OPERATOR, USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN].includes(permissionLevel || 0)
+  const [agentName, setAgentName] = useState<string[] | number[]>([])
   useEffect(() => {
-    if (isSelectMultiple && agentList) setPersonName(agentList)
+    if (isSelectMultiple && agentList) setAgentName(agentList)
   }, [])
 
 
-  const handleChangeMultiple = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChangeMultiple = (event: SelectChangeEvent<typeof agentName>) => {
     const {
       target: { value },
     } = event
 
-    setPersonName(
+    setAgentName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     )
   }
-
 
   return (
     <FormControl
@@ -69,15 +73,15 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
           id='select-agent-multiple'
           label='Select agent'
           name='agentList'
-          value={personName}
+          value={agentName}
           onChange={handleChangeMultiple}
           required
           input={<OutlinedInput label="Select agent" />}
           MenuProps={MenuProps}
           onClose={
-            () => setFieldValue("agentList", personName)
+            () => setFieldValue("agentList", agentName)
           }
-          disabled={!permissionLevel}
+          disabled={!permissionLevel || isAccountSettingsPage}
 
         >
           {agents.map((agent) => (
@@ -101,7 +105,7 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
           value={agentList?.[0]}
           onChange={handleChange}
           required
-          disabled={!permissionLevel}
+          disabled={!permissionLevel || isAccountSettingsPage}
         >
           {agents.map((agent: IAgentData) => (
             <MenuItem
