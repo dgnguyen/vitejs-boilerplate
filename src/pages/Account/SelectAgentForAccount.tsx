@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react'
 import { FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, SelectChangeEvent, } from '@mui/material'
 
 import { USER_ROLE } from 'constants/auth'
+import { ROUTES } from 'constants/endpoint'
 import { FormikProps } from 'formik'
 import { useFetchAgents } from 'hooks/useFetchAgents'
+import { useLocation } from 'react-router-dom'
+import { ValuesForm } from 'types/account'
 import { IAgentData } from 'types/agent'
 
-import { ValuesForm } from './FormSettings'
+
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -21,13 +24,15 @@ const MenuProps = {
 }
 
 
-
 type Props = {
   props: FormikProps<ValuesForm>,
   disabled: boolean,
 }
 
 const SelectAgentForAccount = ({ props, disabled }: Props) => {
+  const location = useLocation()
+  const isAccountSettingsPage = ROUTES.ACCOUNT_SETTINGS === location.pathname
+
   const { agents } = useFetchAgents()
   const { values: {
     permissionLevel,
@@ -76,7 +81,7 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
           onClose={
             () => setFieldValue("agentList", agentName)
           }
-          disabled={!permissionLevel}
+          disabled={!permissionLevel || isAccountSettingsPage}
 
         >
           {agents.map((agent) => (
@@ -100,7 +105,7 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
           value={agentList?.[0]}
           onChange={handleChange}
           required
-          disabled={!permissionLevel}
+          disabled={!permissionLevel || isAccountSettingsPage}
         >
           {agents.map((agent: IAgentData) => (
             <MenuItem
