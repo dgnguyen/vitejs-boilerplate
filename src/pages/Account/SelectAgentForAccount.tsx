@@ -35,24 +35,23 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
   },
     setFieldValue,
     handleChange } = props
-  const isSelectMultiple = permissionLevel === USER_ROLE.OPERATOR || permissionLevel === USER_ROLE.ADMIN
-  const [personName, setPersonName] = useState<string[] | number[]>([])
+  const isSelectMultiple = [USER_ROLE.OPERATOR, USER_ROLE.ADMIN, USER_ROLE.SUPER_ADMIN].includes(permissionLevel || 0)
+  const [agentName, setAgentName] = useState<string[] | number[]>([])
   useEffect(() => {
-    if (isSelectMultiple && agentList) setPersonName(agentList)
+    if (isSelectMultiple && agentList) setAgentName(agentList)
   }, [])
 
 
-  const handleChangeMultiple = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChangeMultiple = (event: SelectChangeEvent<typeof agentName>) => {
     const {
       target: { value },
     } = event
 
-    setPersonName(
+    setAgentName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     )
   }
-
 
   return (
     <FormControl
@@ -69,13 +68,13 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
           id='select-agent-multiple'
           label='Select agent'
           name='agentList'
-          value={personName}
+          value={agentName}
           onChange={handleChangeMultiple}
           required
           input={<OutlinedInput label="Select agent" />}
           MenuProps={MenuProps}
           onClose={
-            () => setFieldValue("agentList", personName)
+            () => setFieldValue("agentList", agentName)
           }
           disabled={!permissionLevel}
 

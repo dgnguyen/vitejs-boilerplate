@@ -6,7 +6,7 @@ export const ROUTES = {
   TRANSACTION: '/transaction',
   TRANSACTION_PLAYER: '/transaction/player',
   PLAYER: '/player',
-  PLAYER_TRACKING: '/player_tracking',
+  PLAYER_TRACKING: '/tracking',
   SUB_OPERATOR: '/agent',
   AGENT_BETLIMIT: '/agent/betlimit',
   AGENT_BETLIMIT_OVERVIEW: '/agent/betlimit_overview',

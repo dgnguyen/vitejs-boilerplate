@@ -39,27 +39,30 @@ const DrawerContent = () => {
       <List>
         {getDrawerItems()
           .filter((item) => item.enable)
-          .map((item) => (
-            <ListItem
-              key={item.label}
-              disablePadding
-            >
-              <ListItemButton
-                onClick={() => navigate(item.href)}
-                selected={rootPathname === item.href}
+          .map((item) => {
+
+            return (
+              <ListItem
+                key={item.label}
+                disablePadding
               >
-                <ListItemIcon
-                  sx={{
-                    alignItems: 'center',
-                    display: 'flex',
-                  }}
+                <ListItemButton
+                  onClick={() => navigate(item.href)}
+                  selected={item.href.includes(rootPathname)}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={{
+                      alignItems: 'center',
+                      display: 'flex',
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.label} />
+                </ListItemButton>
+              </ListItem>
+            )
+          })}
       </List>
     </div>
   )
