@@ -10,11 +10,11 @@ export type IUser = {
 
 export const UserContext = React.createContext({
   currentUser: null,
-  handleLogin: (user: IUser) => {},
+  handleLogin: (user: IUser) => { },
 })
 
 const getInitialState = () => {
-  const currentUser = localStorage.getItem('user')
+  const currentUser = sessionStorage.getItem('user')
   return currentUser ? JSON.parse(currentUser) : null
 }
 
