@@ -10,11 +10,11 @@ type IUser = {
 }
 
 export const setToken = (token: string) => {
-  localStorage.setItem('token', token)
+  sessionStorage.setItem('token', token)
 }
 
 export const getToken = () => {
-  return localStorage.getItem('token')
+  return sessionStorage.getItem('token')
 }
 
 export const isAuthenticated = () => {
@@ -38,27 +38,27 @@ export function haveRightToAccess(role: number) {
 export const isSuperAdminOrAdmin = () => getUser().role <= 2
 
 export const removeToken = () => {
-  localStorage.removeItem('token')
+  sessionStorage.removeItem('token')
 }
 
 export const removeUser = () => {
-  localStorage.removeItem('user')
+  sessionStorage.removeItem('user')
 }
 
 export const setUser = (user: IUser) => {
-  localStorage.setItem('user', JSON.stringify(user))
+  sessionStorage.setItem('user', JSON.stringify(user))
 }
 
 export const getUser = () => {
-  return JSON.parse(localStorage.getItem('user') || '{"token":"","role":0}')
+  return JSON.parse(sessionStorage.getItem('user') || '{"token":"","role":0}')
 }
 
 export const setExpiresAt = (date: string) => {
-  return localStorage.setItem('expires_at', date)
+  return sessionStorage.setItem('expires_at', date)
 }
 
 export const getExpiresAt = () => {
-  const date = localStorage.getItem('expires_at')
+  const date = sessionStorage.getItem('expires_at')
   let expiresAt
 
   if (date) expiresAt = Date.parse(date)

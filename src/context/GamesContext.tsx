@@ -21,11 +21,11 @@ export const GamesContext = React.createContext({
   gamesList: [] as GamesProps[],
   errorGames: false as boolean,
   loadingGames: false as boolean,
-  fetchGames: () => {},
+  fetchGames: () => { },
 })
 
 const getInitialState = () => {
-  const gamesListLocal = localStorage.getItem('gamesList')
+  const gamesListLocal = sessionStorage.getItem('gamesList')
   return gamesListLocal ? JSON.parse(gamesListLocal) : []
 }
 
@@ -59,7 +59,7 @@ export const GamesContextProvider = ({
   // }, [])
   useEffect(() => {
     if (gamesList?.length > 0)
-      localStorage.setItem('gamesList', JSON.stringify(gamesList))
+      sessionStorage.setItem('gamesList', JSON.stringify(gamesList))
   }, [gamesList])
 
   return (
