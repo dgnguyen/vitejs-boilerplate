@@ -131,6 +131,7 @@ const AccountsManagement = () => {
     handleState({ key: 'block', value: true })
   }
 
+
   const optionsMenuCard = [
     {
       onClick: () => handleState({ key: 'edit', value: true }),

@@ -57,12 +57,12 @@ resources:
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  limits:
-    cpu: 700m
-    memory: 1024Mi
-  requests:
-    cpu: 500m
-    memory: 128Mi
+   limits:
+     cpu: 700m
+     memory: 1024Mi
+   requests:
+     cpu: 500m
+     memory: 128Mi
 
 autoscaling:
   enabled: true
@@ -71,7 +71,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-nodeSelector:
+nodeSelector: 
   node_pool: prod-pool-pwb
 
 tolerations: []

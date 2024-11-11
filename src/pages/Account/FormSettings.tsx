@@ -1,12 +1,10 @@
 import {
   Box,
   Button,
-  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   Typography,
 } from '@mui/material'
 
@@ -15,14 +13,11 @@ import axios from 'axios'
 import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
-import { PERMISSION_LEVEL } from 'constants/account'
 import { USER_ROLE } from 'constants/auth'
-import { ROUTES } from 'constants/endpoint'
 import { Form, Formik } from 'formik'
-import { getUser, isAdmin, isOperator, isSubOperator, isSuperAdmin } from 'helpers/auth'
+import { isAdmin, isOperator, isSubOperator, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
-import { useLocation } from 'react-router-dom'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
 import accountSchema from 'schema/accountSchema'
 import { ValuesForm } from 'types/account'
