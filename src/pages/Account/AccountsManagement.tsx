@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 
+import { Tag } from '@mui/icons-material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {
   Box,
   Button,
+  Chip,
   CircularProgress,
   FormControl,
   LinearProgress,
@@ -29,7 +31,8 @@ import MuiModal from 'components/Commons/MuiModal'
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
-import { isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
+import { getColorFromString } from 'helpers/color'
 import useAnchor from 'hooks/useAnchor'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useSnackbar } from 'hooks/useSnackbar'
@@ -127,6 +130,7 @@ const AccountsManagement = () => {
     setOptionalState(row)
     handleState({ key: 'block', value: true })
   }
+
 
   const optionsMenuCard = [
     {
@@ -236,7 +240,11 @@ const AccountsManagement = () => {
                         component='th'
                         scope='row'
                       >
-                        {row?.agentName}
+                        <Box display="flex" gap={1} >
+                          {row?.agentName.map((item) => (
+                            <Chip key={item} label={item} />
+                          ))}
+                        </Box>
                       </TableCell>
                       <TableCell
                         component='th'
@@ -336,7 +344,7 @@ const AccountsManagement = () => {
             open={state.edit}
           >
             <FormSettings
-              isSuperEditUser={isSuperAdmin() || isMasterAgent()}
+              isSuperEditUser={(isSuperAdmin() || isOperator())}
               initialState={optionalState}
               handleClose={() => handleState({ key: 'edit', value: false })}
               cb={(message) => openSnackbar({ message })}

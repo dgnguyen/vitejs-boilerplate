@@ -34,7 +34,7 @@ const Ticket: React.FC<IProps> = ({ ticket }) => {
     }
   })
 
-  useEffect(() => {}, [])
+  useEffect(() => { }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value

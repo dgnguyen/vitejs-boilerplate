@@ -14,6 +14,8 @@ export type IMarketData = {
   maxRate: number | null
   minRate: number
   odds: number | null
+  minBet: number
+  maxBet: number
 }
 
 export type IBetAllowed = {
@@ -128,6 +130,34 @@ export const getTickets = () => {
 
       const response = await axios.post(
         `${API_ENDPOINT.GET_EVENT_MARKET_SETTINGS}`,
+        json
+      )
+      const data = response?.data?.data || null
+
+      if (data) dispatch(setData(data))
+      return response.data
+    } catch (e) {
+      // eslint-disable-next-line
+      console.error(e)
+
+      throw e
+    } finally {
+      dispatch(setLoadingPage(false))
+    }
+  }
+}
+export const getBetLimit = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+    try {
+      const { gameType, agent } = getState()?.market?.searchValues
+      dispatch(setLoadingPage(true))
+      const json = JSON.stringify({
+        partnerId: agent,
+        gameTypeId: gameType,
+      })
+
+      const response = await axios.post(
+        `${API_ENDPOINT.GET_MARKET_BETLIMIT}`,
         json
       )
       const data = response?.data?.data || null

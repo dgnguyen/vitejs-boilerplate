@@ -1,12 +1,10 @@
 import {
   Box,
   Button,
-  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  Snackbar,
   Typography,
 } from '@mui/material'
 
@@ -15,28 +13,19 @@ import axios from 'axios'
 import MuiButton from 'components/Commons/MuiButton'
 import MuiMessage from 'components/Commons/MuiMessage'
 import MuiTextFieldFormik from 'components/Commons/MuiTextFieldFormik'
-import { PERMISSION_LEVEL } from 'constants/account'
+import { USER_ROLE } from 'constants/auth'
 import { Form, Formik } from 'formik'
-import { getUser, isMasterAgent, isSuperAdmin } from 'helpers/auth'
+import { isAdmin, isOperator, isSubOperator, isSuperAdmin } from 'helpers/auth'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useDispatch } from 'react-redux'
 import { addNewAccount, updateAccount } from 'redux/reducers/account'
 import accountSchema from 'schema/accountSchema'
+import { ValuesForm } from 'types/account'
 
+import { getPermissionLevelBasedOnUser } from './helpers'
 import { PasswordInput } from './Input'
 import SelectAgentForAccount from './SelectAgentForAccount'
 
-export type ValuesForm = {
-  email: string
-  name: string
-  surname: string
-  isActive?: boolean
-  partnerId?: number
-  permissionLevel?: number
-  oldPassword?: string
-  password?: string
-  confirmPassword?: string
-}
 
 type Props = {
   initialState: ValuesForm
@@ -58,6 +47,7 @@ const FormSettings = ({
   const { loading, setLoading, error, setError, message, setMessage } =
     useSimpleForm()
 
+
   const dispatch = useDispatch()
 
   const onSubmit = async (values: ValuesForm) => {
@@ -65,7 +55,12 @@ const FormSettings = ({
     setMessage('')
     try {
       if (isCreateUser) {
-        const response = await axios.post(API_ENDPOINT.CREATE_ACCOUNT, values)
+        const { partnerId, agentList, agentName, ...rest } = values
+        const valuesSendToAPI = {
+          ...rest,
+          agentList: typeof (agentList) !== "object" ? [agentList] : agentList
+        }
+        const response = await axios.post(API_ENDPOINT.CREATE_ACCOUNT, valuesSendToAPI)
         setError(!response?.data?.isSuccess)
         setMessage(response?.data?.message)
         if (response?.data?.isSuccess) {
@@ -75,14 +70,10 @@ const FormSettings = ({
           cb('Failed to create account')
         }
       } else if (isSuperEditUser || isEditUser) {
-        const { isActive, partnerId, ...rest } = values
+        const { isActive, partnerId, agentName, ...rest } = values
 
-        const valuesSendToAPI = isSuperEditUser
-          ? {
-              partnerId,
-              ...rest,
-            }
-          : rest
+
+        const valuesSendToAPI = rest
         const response = await axios.post(
           API_ENDPOINT.UPDATE_ACCOUNT,
           valuesSendToAPI
@@ -103,9 +94,9 @@ const FormSettings = ({
     }
   }
 
-  const permissionLevelAllowed = PERMISSION_LEVEL.filter(
-    (item) => item.value > getUser().role
-  )
+
+  const permissionLevelAllowed = getPermissionLevelBasedOnUser()
+
   return (
     <Box>
       <Formik
@@ -114,6 +105,11 @@ const FormSettings = ({
         onSubmit={onSubmit}
       >
         {(props) => {
+          // super admin can create operator with select multiple agent
+          // operator can create other operator with same access to agents like him
+          // operator can create sub operator with select only 1 agent
+          const showSelectAgent = (isSuperAdmin() || isOperator())
+            || props.values?.permissionLevel === USER_ROLE.SUB_OPERATOR
           return (
             <Form
               id='accountSettingsFormSuperAdmin'
@@ -210,7 +206,7 @@ const FormSettings = ({
                       gap: 2,
                       display: 'flex',
                       justifyContent: 'space-between',
-                      alignItems: 'center',
+                      alignItems: 'flext-start',
                     }}
                   >
                     {(isSuperEditUser || isCreateUser) && (
@@ -241,8 +237,13 @@ const FormSettings = ({
                         </Select>
                       </FormControl>
                     )}
-                    {isSuperAdmin() && <SelectAgentForAccount props={props} />}
+                    {!isSubOperator() && !isAdmin() &&
+                      <SelectAgentForAccount props={props}
+                        disabled={showSelectAgent}
+                      />
+                    }
                   </Box>
+
                 </Box>
                 {(isCreateUser || isEditUser) && (
                   <Box

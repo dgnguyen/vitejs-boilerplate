@@ -12,6 +12,8 @@ export const headersAgentList = [
   'Agent Name',
   'Register Date',
   ['Category', '(Agent Tag)'],
+  'Min Bet',
+  'Max Bet',
   'Wallet Type',
   'Status',
 ]
@@ -33,6 +35,7 @@ export const searchTypeAgent = [
 ]
 
 export const headerAgentBetLimit = [
+  'ID',
   'Type',
   'Agent Name',
   'Game Name',
@@ -43,3 +46,16 @@ export const headerAgentBetLimit = [
   'Applied Date',
   'Applied By',
 ]
+
+export const marketNames = {
+  oddsmall: 'Odd + Small',
+  oddmedium: 'Odd + Medium',
+  oddlarge: 'Odd + Large',
+  evensmall: 'Even + Small',
+  evenmedium: 'Even + Medium',
+  evenlarge: 'Even + Large',
+  oddunder: 'Odd + Under',
+  evenunder: 'Even + Under',
+  oddover: 'Odd + Over',
+  evenover: 'Even + Over',
+}

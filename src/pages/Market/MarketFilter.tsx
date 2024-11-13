@@ -13,7 +13,7 @@ import AgentSelect from 'components/AgentSelect'
 import DateBlock from 'components/DateBlock'
 import TesterSelect from 'components/TesterSelect'
 import { GamesProps } from 'context/GamesContext'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { MarketStatProps } from 'hooks/useMarketStats'
 
 import { isNextRoundSelectOptions } from './helpers'
@@ -42,7 +42,7 @@ const MarketFilter = (props: MarketFilterProps) => {
         alignItems='center'
       >
         <DateBlock />
-        {isSuperAdmin() && (
+        {(isSuperAdmin() || isOperator()) && (
           <AgentSelect
             agentSelected={filter.agent}
             handleChange={handleChangeAgent}

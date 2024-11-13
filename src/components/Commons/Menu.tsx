@@ -12,6 +12,7 @@ type MenuOptionProps = {
   name: string
   onClick: () => void
   dataTestId: string
+  disabled?: boolean
 }
 type MenuProps = {
   anchorEl: Element
@@ -39,7 +40,7 @@ const Menu = (props: MenuProps) => {
         vertical: 'top',
       }}
     >
-      {optionsMenuCard?.map(({ icon, name, onClick, dataTestId }, i) => (
+      {optionsMenuCard?.map(({ icon, name, onClick, dataTestId, disabled }, i) => (
         <MenuItem
           key={`menu-${i.toString()}`}
           onClick={(e) => {
@@ -49,6 +50,7 @@ const Menu = (props: MenuProps) => {
           }}
           data-testid={dataTestId}
           id={`actionItem-${name}-${id}`}
+          disabled={disabled}
         >
           {icon && <ListItemIcon>{icon}</ListItemIcon>}
           <ListItemText>{name}</ListItemText>

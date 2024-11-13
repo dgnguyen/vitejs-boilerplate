@@ -13,6 +13,7 @@ import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentBetLimit } from 'types/agent'
 
 import FormContent from './FormContent'
+import { getInitState } from './helpers'
 
 import '../style.scss'
 
@@ -23,22 +24,46 @@ export type AgentBetLimitValuesProps = {
   gameSelect: string
   marketSelect: string
   eventSelect: string
+  id: number | null,
+  groupPermissionId: number | null
 }
 
-const FormBetLimit = () => {
-  const initialState: AgentBetLimitValuesProps = {
+export type AgentBetLimitEditValuesProps = {
+  minBet: string
+  maxBet: string
+  agentSelect: string
+  gameSelect: string
+  marketSelect: string
+  eventSelect: string
+  id: string
+  type: string
+  groupPermissionId: string
+  appliedBy: string
+  appliedDate: string
+}
+
+const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?: (msg: string) => void }) => {
+  
+  const agentBetLimitDataSelector = useSelector(
+    (state: RootState) => state.agent
+  )
+
+  const { betLimitData } = agentBetLimitDataSelector
+
+  const initialStateCreate: AgentBetLimitValuesProps = {
     minBet: '',
     maxBet: '',
     agentSelect: '',
     gameSelect: '',
     marketSelect: '',
     eventSelect: '',
+    id: null,
+    groupPermissionId: null
   }
 
-  const agentBetLimitDataSelector = useSelector(
-    (state: RootState) => state.agent
-  )
-  const { betLimitData } = agentBetLimitDataSelector
+  const editState = betLimitData.find((item) => item.id === editBetId)
+  const initialState = editBetId && editState ? getInitState(editState) : initialStateCreate
+  const isEdit = (editBetId !== undefined && editState !==  undefined)
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
@@ -48,9 +73,10 @@ const FormBetLimit = () => {
     setSubmiting(true)
 
     const valuesSendToAPI = {
+      id: editBetId,
       partnerId:
         values?.agentSelect !== 'all' && values?.agentSelect !== ''
-          ? values?.agentSelect
+          ? [values?.agentSelect]
           : null,
       minBet: values?.minBet,
       maxBet: values?.maxBet,
@@ -60,30 +86,23 @@ const FormBetLimit = () => {
         values?.eventSelect !== 'all' ? values?.eventSelect || null : null,
       gameTypeId:
         values?.gameSelect !== 'all' ? values?.gameSelect || null : null,
+      groupPermissionId: values?.groupPermissionId
     }
+
+    const endpoint = editBetId ? API_ENDPOINT.UPDATE_BET_LIMIT_AGENT : API_ENDPOINT.ADD_BET_LIMIT_AGENT
+
     const json = JSON.stringify(valuesSendToAPI)
     axios
-      .post(API_ENDPOINT.UPDATE_BET_LIMIT_AGENT, json, headersContentType)
+      .post(endpoint, json, headersContentType)
       .then((response) => {
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
-          const newBetLimitLine = response?.data?.data
-          const isFirstTimeBetLimitUpdated = !!betLimitData.find(
-            (item: IAgentBetLimit) => {
-              return (
-                item.agentName === newBetLimitLine.agentName &&
-                item.gameName === newBetLimitLine.gameName &&
-                item.marketName === newBetLimitLine.marketName &&
-                item.eventName === newBetLimitLine.eventName
-              )
-            }
-          )
-          const detailMsg = !isFirstTimeBetLimitUpdated
-            ? 'New bet limit values have been applied'
-            : `The bet limit values for Agent: "${newBetLimitLine.agentName}", Game: "${newBetLimitLine.gameName}", Market: "${newBetLimitLine.marketName}", Event: "${newBetLimitLine.eventName}" have been changed.`
-          openSnackbar({ message: detailMsg })
-        } else {
-          openSnackbar({ message: response?.data?.message })
+          if (onSuccess) {
+              onSuccess(response?.data?.message)
+          }
+          openSnackbar({
+            message: response?.data?.message,
+          })
         }
       })
       .catch((e) => {
@@ -109,6 +128,7 @@ const FormBetLimit = () => {
             <FormContent
               props={props}
               submitting={submitting}
+              isEdit={isEdit}
             />
           )
         }}

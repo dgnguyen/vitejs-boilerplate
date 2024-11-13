@@ -1,16 +1,18 @@
 export type IAccount = {
+  partnerId: number
+  agentName: string[]
   name: string
   surname: string
   email: string
   permissionLevel: number
   userId: number
   isActive: boolean
-  loginDate: Date
-  createDate: Date
-  updateDate: Date
-  createdBy: string
-  agentName: string
   isBlock: boolean
+  agentList: number[]
+  loginDate: string
+  createDate: string
+  updateDate: string
+  createdBy: string
 }
 
 export type IAccounts = {
@@ -22,4 +24,18 @@ export type IAccounts = {
   take: number
   hasMore: boolean
   totalCount: number
+}
+
+export type ValuesForm = {
+  email: string
+  name: string
+  surname: string
+  isActive?: boolean
+  partnerId: string
+  permissionLevel?: number
+  oldPassword?: string
+  password?: string
+  confirmPassword?: string
+  agentList: string[] | number[]
+  agentName: string[]
 }

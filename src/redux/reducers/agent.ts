@@ -108,7 +108,26 @@ export const agentReducer = createSlice({
       })
     },
     addNewAgentBetLimit: (state, { payload }) => {
-      state.betLimitData.unshift(payload)
+      const existingIndex = state.betLimitData.findIndex((item) => item.id === payload.id)
+      if (existingIndex !== -1) {
+        // Update the existing item’s properties
+        state.betLimitData[existingIndex] = {
+          ...state.betLimitData[existingIndex],
+          type: payload.type,
+          agent: payload.agent,
+          gameType: payload.gameType,
+          market: payload.market,
+          event: payload.event,
+          minBet: payload.minBet,
+          maxBet: payload.maxBet,
+          appliedDate: payload.appliedDate,
+          appliedBy: payload.appliedBy,
+          groupPermissionId: payload.groupPermissionId
+        }
+      } else {
+        // Add the new item if it doesn’t exist
+        state.betLimitData.unshift(payload)
+      }
     },
     setSearchValuesAgent: (state, { payload }) => {
       state.searchValues = {
@@ -121,6 +140,11 @@ export const agentReducer = createSlice({
     },
     resetAgentState: () => {
       return initialState
+    },
+    deleteBetLimitAgent: (state, { payload }) => {
+      state.betLimitData = state.betLimitData.filter(
+        (item) => item.id !== payload.id
+      )
     },
   },
 })
@@ -135,6 +159,7 @@ export const {
   resetAgentState,
   setPageAgent,
   addNewAgentBetLimit,
+  deleteBetLimitAgent,
 } = agentReducer.actions
 
 export const getAgentsListAction = createAsyncThunk(
@@ -336,5 +361,35 @@ export const getHistoryChangeBetLimitAction = createAsyncThunk(
     }
   }
 )
+
+export const deleteBetLimitAction =
+  (id: number, groupPermissionId: number, cb?: (result: any) => void) =>
+  async (dispatch: AppDispatch, getState: Function) => {
+    dispatch(setLoadingAgent(true))
+    const json = JSON.stringify({
+      id,
+      groupPermissionId,
+    })
+    try {
+      const response = await axios.post(
+        API_ENDPOINT.REMOVE_BET_LIMIT_AGENT,
+        json,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      if (response?.data?.isSuccess) {
+        dispatch(deleteBetLimitAgent({id}))
+      }
+      if (cb) cb(response?.data?.message)
+    } catch (error) {
+      if (cb) cb('Something went wrong')
+      console.error(error)
+    } finally {
+      dispatch(setLoadingAgent(false))
+    }
+  }
 
 export default agentReducer.reducer

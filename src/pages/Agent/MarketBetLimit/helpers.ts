@@ -1,0 +1,1 @@
+export const headerMarketBetLimit = ['Sub-Market', 'Min Bet', 'Max Bet']

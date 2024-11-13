@@ -1,27 +1,17 @@
 import { useEffect, useState } from 'react'
 
-import { Box, CircularProgress, Snackbar, Typography } from '@mui/material'
+import { Box, CircularProgress, Snackbar } from '@mui/material'
 
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import MuiMessage from 'components/Commons/MuiMessage'
 import { useSimpleForm } from 'hooks/useSimpleForm'
 import { useSnackbar } from 'hooks/useSnackbar'
+import { ValuesForm } from 'types/account'
 
 import FormSettings from './FormSettings'
 import { HeaderTab } from './HeaderTab'
 
-type ValuesForm = {
-  email: string
-  name: string
-  surname: string
-  isActive?: boolean
-  partnerId?: number
-  permissionLevel?: number
-  oldPassword?: string
-  password?: string
-  confirmPassword?: string
-}
 
 const initialState = {
   email: '',
@@ -31,6 +21,9 @@ const initialState = {
   password: '',
   confirmPassword: '',
   permissionLevel: undefined,
+  partnerId: '',
+  agentList: [],
+  agentName: []
 }
 
 const AccountSettings = () => {

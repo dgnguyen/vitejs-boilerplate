@@ -18,7 +18,7 @@ import {
   subMonths,
   subWeeks,
 } from 'date-fns'
-import { isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { thousandSeparator } from 'helpers/currency'
 import { useSelector } from 'react-redux'
 import { resetMarketFilter } from 'redux/reducers/market'
@@ -81,7 +81,7 @@ const TopMarketContent = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if ((isSuperAdmin() && agent) || !isSuperAdmin()) handleDataFetch()
+    if (((isSuperAdmin() || isOperator()) && agent) || (!isSuperAdmin() && !isOperator())) handleDataFetch()
   }, [selectedDate, agent, isTester])
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const TopMarketContent = () => {
   }, [])
 
   const handleDataFetch = async () => {
-    const partnerId = agent === 'all' ? null : [agent]
+    const partnerId = agent === 'all' || agent === null ? null : [agent]
     setLoading(true)
     setData([])
     try {
@@ -148,7 +148,7 @@ const TopMarketContent = () => {
       a[orderTypesEnum[orderKey]] < b[orderTypesEnum[orderKey]]
         ? 1
         : // @ts-ignore
-          a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
+        a[orderTypesEnum[orderKey]] > b[orderTypesEnum[orderKey]]
           ? -1
           : 0
     )
