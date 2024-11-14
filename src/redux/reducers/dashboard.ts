@@ -5,6 +5,7 @@ import { API_BASE_URL } from 'constants/endpoint'
 import { format } from 'date-fns'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { AppDispatch, RootState } from 'redux/store'
+import { ICURRENCY } from 'types/currency'
 
 export type IBetLog = {
   betAmount: number
@@ -27,6 +28,10 @@ export type IDashboardData = {
   betLogs: IBetLog[]
 }
 
+export type IDashboardDataByCurrency = {
+  [key in string]: IDashboardData
+}
+
 export type DateRange = {
   startDate: Date
   endDate: Date
@@ -42,7 +47,7 @@ export type DahsboardState = {
   loading: boolean
   loadingPage: boolean
   errorMsg: string
-  data: IDashboardData | null
+  data: IDashboardDataByCurrency | null
 }
 
 const initialStateDateRange = {

@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 
 import { isTesterSelectOptions } from 'constants/filters'
-import { IAgent } from 'types/dashboard'
+import { IAgent } from 'types/listAgents'
 
 const TesterSelect = ({
   isTester,
