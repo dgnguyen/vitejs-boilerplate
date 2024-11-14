@@ -1,7 +1,7 @@
 import { Refresh } from '@mui/icons-material'
 import { Box, Button, SelectChangeEvent } from '@mui/material'
 
-import AgentSelect from 'components/AgentSelect'
+import AgentSelect from 'components/AgentSelectV2'
 import DataPicker from 'components/DataPicker'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
@@ -17,15 +17,18 @@ import {
   setDate,
   setIsTester,
 } from 'redux/reducers/dashboard'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
 
 import './style.scss'
 
 const DashboardActions = () => {
   const dispatch = useAppDispatch()
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading, error } = listAgents
+
   const dashboardFilter = useSelector(dashboardFilterSelector)
   const { dateRange, agentSelected, isTester } = dashboardFilter
-
   const loadingDashboard = useSelector(dashboardLoadingSelector)
 
   async function handleDateChange(
@@ -76,6 +79,9 @@ const DashboardActions = () => {
       </Box>
       {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
+          agents={agents}
+          loading={loading}
+          error={error}
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}
           cb={handleChangeAgentName}

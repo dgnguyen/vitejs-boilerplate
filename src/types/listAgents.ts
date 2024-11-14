@@ -1,3 +1,5 @@
+import { ICURRENCY } from './currency'
+
 export type IAgent = {
   id: number
   externalId: string
@@ -7,4 +9,5 @@ export type IAgent = {
   isActive: boolean
   isBlock: boolean
   walletTypeId: number
+  currency: ICURRENCY[]
 }

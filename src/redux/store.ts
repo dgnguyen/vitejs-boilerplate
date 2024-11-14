@@ -4,6 +4,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import accountReducer from './reducers/account'
 import agentReducer from './reducers/agent'
 import dashboardReducer from './reducers/dashboard'
+import listAgentReducer from './reducers/listAgents'
 import marketReducer from './reducers/market'
 import modalReducer from './reducers/modal'
 import playerReducer from './reducers/player'
@@ -24,7 +25,13 @@ export const store = configureStore({
     market: marketReducer,
     modal: modalReducer,
     account: accountReducer,
+    listAgents: listAgentReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      // disable serializableCheck to avoid serializableCheck warning in console
+      serializableCheck: false,
+    }),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
