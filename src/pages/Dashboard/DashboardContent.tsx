@@ -15,7 +15,6 @@ import {
 } from 'redux/reducers/dashboard'
 import { listAgentsSelector, setListAgents } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
-import { ICURRENCY } from 'types/currency'
 
 import DashboardContentByCurrency from './DashboardContentByCurrency'
 import { getCurrencyByAgent } from './helpers'
@@ -73,23 +72,25 @@ const DashboardContent = () => {
           overflowY: 'auto',
         }}
       >
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={tabValue}
+            onChange={handleChangeTab}
+            variant="scrollable"
+            scrollButtons="auto"
+            aria-label="scrollable currency"
+          >
 
-        <Tabs
-          sx={{ marginY: 1 }}
-          value={tabValue}
-          onChange={handleChangeTab}
-          variant="scrollable"
-          scrollButtons="auto"
-          aria-label="scrollable currency"
-        >
-
-          {
-            currencyTabs?.map((item) => (
-              <Tab value={item} key={item} label={item} />
-            ))
-          }
-        </Tabs>
-        {data?.[tabValue] && <DashboardContentByCurrency data={data?.[tabValue]} />}
+            {
+              currencyTabs?.map((item) => (
+                <Tab value={item} key={item} label={item} />
+              ))
+            }
+          </Tabs>
+        </Box>
+        <Box sx={{ marginTop: 2 }}>
+          {data?.[tabValue] && <DashboardContentByCurrency data={data?.[tabValue]} />}
+        </Box>
       </Box>
     </Box>
   )
