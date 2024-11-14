@@ -2,16 +2,18 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
 import axios from 'axios'
 import { AppDispatch, RootState } from 'redux/store'
-import { IAgent } from 'types/listAgents'
+import { IAgent, IRate } from 'types/listAgents'
 
 export type ListAgents = {
   data: IAgent[]
   loading: boolean
   error: boolean
+  rate: IRate
 }
 
 const initialState: ListAgents = {
   data: [],
+  rate: {},
   loading: false,
   error: false,
 }
@@ -26,8 +28,9 @@ export const listAgentsReducer = createSlice({
     setError: (state, action) => {
       state.error = action?.payload
     },
-    setListAgents: (state, action) => {
-      state.data = action?.payload
+    setListAgents: (state, { payload: { data, conversionRates } }) => {
+      state.data = data
+      state.rate = conversionRates
     },
     resetListAgents: () => {
       return initialState
@@ -57,7 +60,7 @@ export const getListAgents = () => {
       const data = response?.data?.data || null
 
       if (data) dispatch(setListAgents(data))
-      return response.data
+      return response
     } catch (e) {
       // eslint-disable-next-line
       console.error(e)

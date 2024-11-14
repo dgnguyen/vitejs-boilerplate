@@ -11,3 +11,7 @@ export type IAgent = {
   walletTypeId: number
   currency: ICURRENCY[]
 }
+
+export type IRate = {
+  [key: string]: number
+}

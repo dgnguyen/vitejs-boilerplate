@@ -5,7 +5,6 @@ import { API_BASE_URL } from 'constants/endpoint'
 import { format } from 'date-fns'
 import { isSuperAdminOrAdmin } from 'helpers/auth'
 import { AppDispatch, RootState } from 'redux/store'
-import { ICURRENCY } from 'types/currency'
 
 export type IBetLog = {
   betAmount: number
@@ -43,6 +42,7 @@ export type DahsboardState = {
     agentSelected: string
     isTester: string
     agentSelectedName: string
+    currencySelected: string
   }
   loading: boolean
   loadingPage: boolean
@@ -60,6 +60,7 @@ export const initialStateFilter = {
   agentSelected: 'all',
   isTester: 'false',
   agentSelectedName: 'all',
+  currencySelected: 'TOTAL',
 }
 const initialState: DahsboardState = {
   filter: initialStateFilter,
@@ -81,6 +82,9 @@ export const dashboardReducer = createSlice({
     },
     setAgentName: (state, action) => {
       state.filter.agentSelectedName = action.payload
+    },
+    setCurrency: (state, action) => {
+      state.filter.currencySelected = action.payload
     },
     setDate: (state, action) => {
       state.filter.dateRange = action.payload
@@ -210,6 +214,7 @@ export const {
   setData,
   setAgent,
   setAgentName,
+  setCurrency,
   setDate,
   setIsTester,
   resetDate,
