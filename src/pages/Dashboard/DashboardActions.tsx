@@ -1,7 +1,8 @@
 import { Refresh } from '@mui/icons-material'
 import { Box, Button, SelectChangeEvent } from '@mui/material'
 
-import AgentSelect from 'components/AgentSelect'
+import AgentSelect from 'components/AgentSelectV2'
+import CurrencySelect from 'components/CurrencySelect'
 import DataPicker from 'components/DataPicker'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
@@ -14,19 +15,28 @@ import {
   resetDashboardFilter,
   setAgent,
   setAgentName,
+  setCurrency,
   setDate,
   setIsTester,
 } from 'redux/reducers/dashboard'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
+
+import { getCurrencyByAgent } from './helpers'
 
 import './style.scss'
 
 const DashboardActions = () => {
   const dispatch = useAppDispatch()
-  const dashboardFilter = useSelector(dashboardFilterSelector)
-  const { dateRange, agentSelected, isTester } = dashboardFilter
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading, error } = listAgents
 
+  const dashboardFilter = useSelector(dashboardFilterSelector)
+  const { dateRange, agentSelected, currencySelected, isTester } = dashboardFilter
   const loadingDashboard = useSelector(dashboardLoadingSelector)
+
+  const currencyTabs = getCurrencyByAgent(agentSelected, agents)
+
 
   async function handleDateChange(
     startDate?: string | Date,
@@ -61,6 +71,11 @@ const DashboardActions = () => {
     dispatch(setAgentName(value || ''))
   }
 
+
+  const handleChangeCurrency = (event: SelectChangeEvent) => {
+    dispatch(setCurrency(event.target.value))
+  }
+
   const handleChangeIsTester = (event: SelectChangeEvent) => {
     dispatch(setIsTester(event.target.value))
   }
@@ -76,11 +91,21 @@ const DashboardActions = () => {
       </Box>
       {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
+          agents={agents}
+          loading={loading}
+          error={error}
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}
           cb={handleChangeAgentName}
         />
       )}
+      <CurrencySelect
+        loading={loading}
+        error={error}
+        currencySelected={currencySelected}
+        currenciesList={currencyTabs}
+        handleChangeCurrency={handleChangeCurrency}
+      />
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

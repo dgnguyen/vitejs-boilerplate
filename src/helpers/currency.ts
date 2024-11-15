@@ -1,5 +1,4 @@
-import { CURRENCY } from 'constants/currency'
-import { ICURRENCY } from 'types/currency'
+import { CURRENCY, ICURRENCY } from 'types/currency'
 
 export const thousandSeparator = (
   number?: number | string | null,

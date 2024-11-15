@@ -27,6 +27,10 @@ export type IDashboardData = {
   betLogs: IBetLog[]
 }
 
+export type IDashboardDataByCurrency = {
+  [key in string]: IDashboardData
+}
+
 export type DateRange = {
   startDate: Date
   endDate: Date
@@ -38,11 +42,12 @@ export type DahsboardState = {
     agentSelected: string
     isTester: string
     agentSelectedName: string
+    currencySelected: string
   }
   loading: boolean
   loadingPage: boolean
   errorMsg: string
-  data: IDashboardData | null
+  data: IDashboardDataByCurrency | null
 }
 
 const initialStateDateRange = {
@@ -55,6 +60,7 @@ export const initialStateFilter = {
   agentSelected: 'all',
   isTester: 'false',
   agentSelectedName: 'all',
+  currencySelected: 'all',
 }
 const initialState: DahsboardState = {
   filter: initialStateFilter,
@@ -76,6 +82,9 @@ export const dashboardReducer = createSlice({
     },
     setAgentName: (state, action) => {
       state.filter.agentSelectedName = action.payload
+    },
+    setCurrency: (state, action) => {
+      state.filter.currencySelected = action.payload
     },
     setDate: (state, action) => {
       state.filter.dateRange = action.payload
@@ -205,6 +214,7 @@ export const {
   setData,
   setAgent,
   setAgentName,
+  setCurrency,
   setDate,
   setIsTester,
   resetDate,

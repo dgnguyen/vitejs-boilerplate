@@ -146,6 +146,7 @@ export const getTickets = () => {
     }
   }
 }
+
 export const getBetLimit = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
     try {

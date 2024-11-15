@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 
-import { Box, CircularProgress, Divider } from '@mui/material'
+import { Box, CircularProgress, } from '@mui/material'
 
-import Card from 'components/Card'
-import { thousandSeparator } from 'helpers/currency'
+import EmptyData from 'components/EmptyData'
 import { useSelector } from 'react-redux'
 import {
   dashboardDataSelector,
@@ -13,21 +12,30 @@ import {
   getDashboardDataAction,
   resetDashboardFilter,
 } from 'redux/reducers/dashboard'
+import { listAgentsSelector, } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
+
+import DashboardContentByCurrency from './DashboardContentByCurrency'
 
 import './style.scss'
 
 const DashboardContent = () => {
   const dispatch = useAppDispatch()
+  const listAgentsData = useSelector(listAgentsSelector)
+  const { data: listAgents, error: errorLoadAgents, loading: loadingAgents } = listAgentsData
   const filterDashboard = useSelector(dashboardFilterSelector)
   const {
     dateRange: { startDate, endDate },
     isTester,
+    agentSelected,
+    currencySelected,
   } = filterDashboard
+
+  const currencySelectedKey = currencySelected.toUpperCase()
 
   useEffect(() => {
     dispatch(getDashboardDataAction())
-  }, [startDate, endDate, filterDashboard?.agentSelected, isTester])
+  }, [startDate, endDate, agentSelected, isTester])
 
   useEffect(() => {
     return () => {
@@ -39,8 +47,11 @@ const DashboardContent = () => {
   const errorMsg = useSelector(dashboardErrorSelector)
   const data = useSelector(dashboardDataSelector)
 
-  if (loadingPage) return <CircularProgress />
+
+  if (loadingPage || loadingAgents) return <CircularProgress />
   if (errorMsg) return <Box>{errorMsg}</Box>
+  if (errorLoadAgents) return <Box>Error load agents</Box>
+
 
   return (
     <Box className='dashboard-content-wrapper'>
@@ -50,79 +61,13 @@ const DashboardContent = () => {
           overflowY: 'auto',
         }}
       >
-        <div className='card_wrap_dashboard'>
-          <Card
-            // className={'d-flex flex-column'}
-            title={'Bet Amount'}
-            price={thousandSeparator(data?.totalBetAmount)}
-            currency={'KRW'}
-            icon='dollarSvgGreen'
-          />
-          <Card
-            // className={'d-flex flex-column'}
-            title={'Win Amount'}
-            price={thousandSeparator(data?.totalWinAmount)}
-            currency={'KRW'}
-            icon={
-              !data?.playerNumber
-                ? ''
-                : data.totalBetAmount - data.totalWinAmount
-                  ? 'dollarSvgRed'
-                  : 'dollarSvgGreen'
-            }
-          />
-          <Card
-            // className={'d-flex flex-column'}
-            title={'GGR'}
-            price={thousandSeparator(data?.grossRevenue)}
-            currency={'KRW'}
-            icon={
-              !data?.playerNumber
-                ? ''
-                : data.grossRevenue > 0
-                  ? 'upArrowSvg'
-                  : 'downArrowSvg'
-            }
-          />
-          <Card
-            // className={'d-flex flex-column'}
-            title='GGR in %'
-            price={`${data?.profitPercentage}%`}
-            icon={
-              !data?.playerNumber
-                ? ''
-                : data.profitPercentage > 0
-                  ? 'upArrowSvg'
-                  : 'downArrowSvg'
-            }
-          />
-        </div>
+        <Box sx={{ marginTop: 2 }}>
 
-        <Divider />
-
-        <div className={'main_statistics_data'}>
-          <Card
-            // className={'d-flex flex-column'}
-            title={'Total Transactions'}
-            price={data?.totalTransactions}
-          />
-          <Card
-            // className={'d-flex flex-column'}
-            title={'Win Transactions'}
-            price={data?.winTransactions}
-          />
-          <Card
-            // className={'d-flex flex-column'}
-            title={'Average Bet Amount'}
-            price={thousandSeparator(data?.averageBetAmount)}
-            currency={'KRW'}
-          />
-          <Card
-            // className={'d-flex flex-column'}
-            title={'Number of Players'}
-            price={data?.playerNumber}
-          />
-        </div>
+          {data?.[currencySelected]
+            ? <DashboardContentByCurrency currency={currencySelected} data={data?.[currencySelected]} />
+            : <EmptyData />
+          }
+        </Box>
       </Box>
     </Box>
   )
