@@ -47,7 +47,7 @@ const TransactionContent = ({
 }) => {
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { hasMore, totalCount } = searchValues
+  const { hasMore, totalCount, currencySelected } = searchValues
   const dataTransaction = useSelector(transactionDataSelector)
   const dashboardTransaction = useSelector(transactionDashboardSelector)
   const loadingTransaction = useSelector(transactionIsLoadingSelector)
@@ -115,23 +115,24 @@ const TransactionContent = ({
     <Box>
       <Box className='transaction-content-wrapper'>
         <Box className='header-transaction-wrapper'>
-          {dashboardTransaction &&
-            Object.entries(dashboardTransaction)
-              .filter((item) => item[0] !== 'currency')
-              .map((item: any) => {
+          {dashboardTransaction?.[currencySelected] &&
+            Object.entries(dashboardTransaction?.[currencySelected])
+              .map((item, index) => {
+
                 let displayPrice = thousandSeparator(item[1])
                 if (item[0] === 'ggrInPercent')
                   displayPrice = `${item[1]}%`
                 if (item[0] === 'totalCount') displayPrice = item[1].toString()
                 return (
                   <Card
+                    key={index}
                     title={getDashboardCardTitle(item[0])}
                     price={displayPrice}
                     currency={
                       ['ggr', 'totalBetAmount', 'totalWinAmount'].includes(
                         item[0]
                       )
-                        ? 'KRW'
+                        ? currencySelected !== "all" ? currencySelected : ''
                         : ''
                     }
                   />
@@ -147,11 +148,6 @@ const TransactionContent = ({
             {Object.values(header).map((col) => (
               <Box key={col}>
                 <Typography>{col}</Typography>
-                {[header.betAmount, header.winAmount].includes(col) ? (
-                  <Typography>({dashboardTransaction?.currency})</Typography>
-                ) : (
-                  ''
-                )}
               </Box>
             ))}
           </Box>

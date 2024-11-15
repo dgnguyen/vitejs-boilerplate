@@ -5,6 +5,8 @@ import { Box, SelectChangeEvent, Typography } from '@mui/material'
 
 import AgentSelect from 'components/AgentSelect'
 import PageTitle from 'components/Commons/PageTitle'
+import ConversionRate from 'components/ConversionRate'
+import CurrencySelect from 'components/CurrencySelect'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
 import Switch from 'components/Switch'
@@ -13,8 +15,10 @@ import { ROUTES } from 'constants/endpoint'
 import { isOperator, isSuperAdmin } from 'helpers/auth'
 import isEqual from 'lodash/isEqual'
 import moment from 'moment'
+import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getListAgents, listAgentsSelector, resetListAgents } from 'redux/reducers/listAgents'
 import {
   resetSearchValues,
   setAndLoadData,
@@ -30,6 +34,7 @@ import FilterTransaction from './FilterTransaction'
 import TransactionContent from './TransactionContent'
 
 import './style.scss'
+// import { setCurrency } from 'redux/reducers/dashboard'
 
 const Transaction = () => {
   const { playerId, isTester } = useParams()
@@ -38,13 +43,25 @@ const Transaction = () => {
   const location = useLocation()
 
   const searchValues = useSelector(transactionSearchValuesSelector)
-  const { selectedAllGames, agentSelected, date } = searchValues
+  const { selectedAllGames, currencySelected, agentSelected, date } = searchValues
   const [checkAllTransaction, setCheckAllTransaction] = useState(false)
 
   const checkedAllTransactionsPlayer = isEqual(date, location?.state?.dateRange)
   const transactionLoading = useSelector(transactionIsLoadingSelector)
   const transactionPageLoading = useSelector(transactionIsPageLoadingSelector)
   const navigate = useNavigate()
+
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading, error } = listAgents
+  const currencyTabs = getCurrencyByAgent(agentSelected, agents)
+
+
+  useEffect(() => {
+    dispatch(getListAgents())
+    return () => {
+      dispatch(resetListAgents())
+    }
+  }, [])
 
   useEffect(() => {
     if (isPageTransactionPlayer && checkedAllTransactionsPlayer) {
@@ -53,6 +70,11 @@ const Transaction = () => {
       setCheckAllTransaction(false)
     }
   }, [isPageTransactionPlayer, checkedAllTransactionsPlayer])
+
+  function handleChangeCurrency(event: SelectChangeEvent) {
+    dispatch(setSearchValue({ key: 'currencySelected', val: event.target.value || '' }))
+  }
+
 
   function setSelectedAllGames(selected: string | null) {
     dispatch(
@@ -107,6 +129,8 @@ const Transaction = () => {
     }
   }
 
+
+
   return (
     <Box>
       <Box
@@ -130,12 +154,14 @@ const Transaction = () => {
           }
         />
       </Box>
+      <ConversionRate />
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
         selectedAllGames={selectedAllGames}
         disabled={transactionLoading || transactionPageLoading}
         handleSelectGame={handleSelectGame}
       />
+
       <Box
         display='flex'
         gap={2}
@@ -161,6 +187,13 @@ const Transaction = () => {
             cb={handleChangeAgentName}
           />
         )}
+        <CurrencySelect
+          loading={loading}
+          error={error}
+          currencySelected={currencySelected}
+          currenciesList={currencyTabs}
+          handleChangeCurrency={handleChangeCurrency}
+        />
       </Box>
       <FilterTransaction playerId={playerId} />
       <TransactionContent

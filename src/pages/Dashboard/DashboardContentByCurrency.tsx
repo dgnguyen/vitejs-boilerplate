@@ -4,7 +4,8 @@ import Card from 'components/Card'
 import { thousandSeparator } from 'helpers/currency'
 import { IDashboardData } from 'redux/reducers/dashboard'
 
-const DashboardContentByCurrency = ({ data }: { data: IDashboardData | null }) => {
+const DashboardContentByCurrency = ({ data, currency }: { currency: string, data: IDashboardData | null }) => {
+
   return (
     <Box>
       <Box className='card_wrap_dashboard'>
@@ -12,14 +13,14 @@ const DashboardContentByCurrency = ({ data }: { data: IDashboardData | null }) =
           // className={'d-flex flex-column'}
           title={'Bet Amount'}
           price={thousandSeparator(data?.totalBetAmount)}
-          currency={'KRW'}
+          currency={currency}
           icon='dollarSvgGreen'
         />
         <Card
           // className={'d-flex flex-column'}
           title={'Win Amount'}
           price={thousandSeparator(data?.totalWinAmount)}
-          currency={'KRW'}
+          currency={currency}
           icon={
             !data?.playerNumber
               ? ''
@@ -32,7 +33,7 @@ const DashboardContentByCurrency = ({ data }: { data: IDashboardData | null }) =
           // className={'d-flex flex-column'}
           title={'GGR'}
           price={thousandSeparator(data?.grossRevenue)}
-          currency={'KRW'}
+          currency={currency}
           icon={
             !data?.playerNumber
               ? ''
@@ -72,7 +73,7 @@ const DashboardContentByCurrency = ({ data }: { data: IDashboardData | null }) =
           // className={'d-flex flex-column'}
           title={'Average Bet Amount'}
           price={thousandSeparator(data?.averageBetAmount)}
-          currency={'KRW'}
+          currency={currency}
         />
         <Card
           // className={'d-flex flex-column'}

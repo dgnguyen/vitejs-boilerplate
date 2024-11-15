@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
-import { useFetchAgents } from 'hooks/useFetchAgents'
-import { getListAgents, resetListAgents } from 'redux/reducers/listAgents'
+import ConversionRate from 'components/ConversionRate'
+import { getListAgents, listAgentsSelector, resetListAgents } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
 
 import DashboardActions from './DashboardActions'
@@ -23,6 +23,7 @@ const Dashboard = () => {
   return (
     <Box>
       <PageTitle title='Dashboard' />
+      <ConversionRate />
       <DashboardActions />
       <DashboardContent />
     </Box>

@@ -25,6 +25,7 @@ export type ISearchValuesTransactions = {
   selectedAllGames: boolean
   agentSelected: string
   agentSelectedName: string
+  currencySelected: string
 }
 
 export type SettingsTransactions = {
@@ -32,13 +33,17 @@ export type SettingsTransactions = {
   hasMore: boolean
 }
 
-export type IDashboardTransaction = {
+export type IDashboardGGR = {
   ggr: number
   ggrInPercent: number
   totalBetAmount: number
   totalCount: number
   totalWinAmount: number
   currency: string
+}
+
+export type IDashboardTransaction = {
+  [key: string]: IDashboardGGR
 }
 
 export type ITransactions = {
