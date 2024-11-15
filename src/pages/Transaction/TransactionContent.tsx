@@ -48,6 +48,8 @@ const TransactionContent = ({
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
   const { hasMore, totalCount, currencySelected } = searchValues
+  const currencySelectedKey = currencySelected.toUpperCase()
+
   const dataTransaction = useSelector(transactionDataSelector)
   const dashboardTransaction = useSelector(transactionDashboardSelector)
   const loadingTransaction = useSelector(transactionIsLoadingSelector)
@@ -115,8 +117,8 @@ const TransactionContent = ({
     <Box>
       <Box className='transaction-content-wrapper'>
         <Box className='header-transaction-wrapper'>
-          {dashboardTransaction?.[currencySelected] &&
-            Object.entries(dashboardTransaction?.[currencySelected])
+          {dashboardTransaction?.[currencySelectedKey] &&
+            Object.entries(dashboardTransaction?.[currencySelectedKey])
               .map((item, index) => {
 
                 let displayPrice = thousandSeparator(item[1])

@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import { Box, CircularProgress, } from '@mui/material'
 
+import EmptyData from 'components/EmptyData'
 import { useSelector } from 'react-redux'
 import {
   dashboardDataSelector,
@@ -30,6 +31,8 @@ const DashboardContent = () => {
     currencySelected,
   } = filterDashboard
 
+  const currencySelectedKey = currencySelected.toUpperCase()
+
   useEffect(() => {
     dispatch(getDashboardDataAction())
   }, [startDate, endDate, agentSelected, isTester])
@@ -50,7 +53,6 @@ const DashboardContent = () => {
   if (errorLoadAgents) return <Box>Error load agents</Box>
 
 
-
   return (
     <Box className='dashboard-content-wrapper'>
       <Box
@@ -60,7 +62,11 @@ const DashboardContent = () => {
         }}
       >
         <Box sx={{ marginTop: 2 }}>
-          {data?.[currencySelected] && <DashboardContentByCurrency currency={currencySelected} data={data?.[currencySelected]} />}
+
+          {data?.[currencySelectedKey]
+            ? <DashboardContentByCurrency currency={currencySelectedKey} data={data?.[currencySelectedKey]} />
+            : <EmptyData />
+          }
         </Box>
       </Box>
     </Box>
