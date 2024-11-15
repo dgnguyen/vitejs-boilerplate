@@ -19,7 +19,7 @@ const initialState: ListAgents = {
 }
 
 export const listAgentsReducer = createSlice({
-  name: 'test',
+  name: 'listAgents',
   initialState,
   reducers: {
     setLoading: (state, action) => {
@@ -28,9 +28,9 @@ export const listAgentsReducer = createSlice({
     setError: (state, action) => {
       state.error = action?.payload
     },
-    setListAgents: (state, { payload: { data, conversionRates } }) => {
-      state.data = data
-      state.rate = conversionRates
+    setListAgents: (state, action) => {
+      state.data = action?.payload?.data
+      state.rate = action?.payload?.conversionRates
     },
     resetListAgents: () => {
       return initialState
@@ -57,10 +57,10 @@ export const getListAgents = () => {
         },
       })
 
-      const data = response?.data?.data || null
+      const data = response?.data || null
 
       if (data) dispatch(setListAgents(data))
-      return response
+      return data
     } catch (e) {
       // eslint-disable-next-line
       console.error(e)
