@@ -48,7 +48,6 @@ const TransactionContent = ({
   const dispatch = useAppDispatch()
   const searchValues = useSelector(transactionSearchValuesSelector)
   const { hasMore, totalCount, currencySelected } = searchValues
-  const currencySelectedKey = currencySelected.toUpperCase()
 
   const dataTransaction = useSelector(transactionDataSelector)
   const dashboardTransaction = useSelector(transactionDashboardSelector)
@@ -117,10 +116,9 @@ const TransactionContent = ({
     <Box>
       <Box className='transaction-content-wrapper'>
         <Box className='header-transaction-wrapper'>
-          {dashboardTransaction?.[currencySelectedKey] &&
-            Object.entries(dashboardTransaction?.[currencySelectedKey])
+          {dashboardTransaction?.[currencySelected.toUpperCase()] &&
+            Object.entries(dashboardTransaction?.[currencySelected.toUpperCase()])
               .map((item, index) => {
-
                 let displayPrice = thousandSeparator(item[1])
                 if (item[0] === 'ggrInPercent')
                   displayPrice = `${item[1]}%`
