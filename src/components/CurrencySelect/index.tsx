@@ -14,7 +14,7 @@ const CurrencySelect = ({ currenciesList, loading, error, currencySelected, hand
         sx={{ m: 1, minWidth: 150 }}
         size='small'
       >
-        <InputLabel id='select-currency-select-label'>Select agent</InputLabel>
+        <InputLabel id='select-currency-select-label'>Select Currency</InputLabel>
         <Select
           labelId='select-currency-select-label'
           id='select-agents-select'
@@ -29,7 +29,7 @@ const CurrencySelect = ({ currenciesList, loading, error, currencySelected, hand
               key={item}
               value={item}
             >
-              {item}
+              {item === 'all' ? "All" : item}
             </MenuItem>
           ))}
         </Select>

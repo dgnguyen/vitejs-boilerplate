@@ -1,4 +1,3 @@
-import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils'
 import { ICURRENCY } from 'types/currency'
 import { IAgent } from 'types/listAgents'
 
@@ -21,5 +20,5 @@ export function getCurrencyByAgent(
     listCurrencies = listAgents.find(
       (agent) => agent.id.toString() === agentSelected.toString()
     )?.currency as string[]
-  return ['TOTAL', ...listCurrencies]
+  return ['all', ...listCurrencies]
 }

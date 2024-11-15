@@ -60,7 +60,7 @@ export const initialStateFilter = {
   agentSelected: 'all',
   isTester: 'false',
   agentSelectedName: 'all',
-  currencySelected: 'TOTAL',
+  currencySelected: 'all',
 }
 const initialState: DahsboardState = {
   filter: initialStateFilter,

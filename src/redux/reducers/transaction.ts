@@ -36,6 +36,7 @@ const initialSearchValues: ISearchValuesTransactions = {
   selectedAllGames: true,
   agentSelected: 'all',
   agentSelectedName: 'all',
+  currencySelected: 'all',
 }
 
 const initialState: ITransactions = {
@@ -72,7 +73,7 @@ export const transactionReducer = createSlice({
         state.data =
           state.searchValues.page === 1
             ? action.payload.data
-            : [...state.data, ...action.payload.data]
+            : [...state.data, ...action.payload.transactionsList]
         state.dashboard = action.payload?.dashboard
         state.loadingPage = false
         state.searchValues = {
@@ -195,11 +196,11 @@ export const getTransactions = createAsyncThunk(
         }
       )
 
-      const { transactionsList, ...rest } = response2?.data
+      const { transactionsList, transactionGGR, ...rest } = response2?.data
 
       return {
         data: transactionsList,
-        dashboard: rest,
+        dashboard: transactionGGR,
         settings: {
           totalCount: response2.data.totalCount,
           hasMore: Math.ceil(response2.data.totalCount / take) > page,
