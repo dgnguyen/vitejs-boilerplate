@@ -8,6 +8,14 @@ type Props = {
   error: boolean
 }
 const CurrencySelect = ({ currenciesList, loading, error, currencySelected, handleChangeCurrency }: Props) => {
+  const optionsCurrency = currenciesList.map((item) => (
+    {
+      label: item === 'all' ? "All" : item,
+      value: item
+    }
+  )
+  )
+
   return (
     <Box className="select-wrapper">
       <FormControl
@@ -24,12 +32,12 @@ const CurrencySelect = ({ currenciesList, loading, error, currencySelected, hand
           disabled={loading || error}
         >
 
-          {currenciesList.map((item) => (
+          {optionsCurrency.map((item) => (
             <MenuItem
-              key={item}
-              value={item}
+              key={item.value}
+              value={item.value}
             >
-              {item === 'all' ? "All" : item}
+              {item.label}
             </MenuItem>
           ))}
         </Select>

@@ -63,8 +63,8 @@ const DashboardContent = () => {
       >
         <Box sx={{ marginTop: 2 }}>
 
-          {data?.[currencySelectedKey]
-            ? <DashboardContentByCurrency currency={currencySelectedKey} data={data?.[currencySelectedKey]} />
+          {data?.[currencySelected]
+            ? <DashboardContentByCurrency currency={currencySelected} data={data?.[currencySelected]} />
             : <EmptyData />
           }
         </Box>
