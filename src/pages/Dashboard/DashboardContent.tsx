@@ -31,7 +31,6 @@ const DashboardContent = () => {
     currencySelected,
   } = filterDashboard
 
-  const currencySelectedKey = currencySelected.toUpperCase()
 
   useEffect(() => {
     dispatch(getDashboardDataAction())
@@ -52,7 +51,6 @@ const DashboardContent = () => {
   if (errorMsg) return <Box>{errorMsg}</Box>
   if (errorLoadAgents) return <Box>Error load agents</Box>
 
-
   return (
     <Box className='dashboard-content-wrapper'>
       <Box
@@ -63,8 +61,8 @@ const DashboardContent = () => {
       >
         <Box sx={{ marginTop: 2 }}>
 
-          {data?.[currencySelected]
-            ? <DashboardContentByCurrency currency={currencySelected} data={data?.[currencySelected]} />
+          {data?.[currencySelected.toUpperCase()]
+            ? <DashboardContentByCurrency currency={currencySelected} data={data?.[currencySelected.toUpperCase()]} />
             : <EmptyData />
           }
         </Box>

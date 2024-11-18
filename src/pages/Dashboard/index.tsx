@@ -4,7 +4,7 @@ import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
 import ConversionRate from 'components/ConversionRate'
-import { getListAgents, listAgentsSelector, resetListAgents } from 'redux/reducers/listAgents'
+import { getListAgents, resetListAgents } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
 
 import DashboardActions from './DashboardActions'
