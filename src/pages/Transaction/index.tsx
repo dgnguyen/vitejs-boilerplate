@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Box, SelectChangeEvent, Typography } from '@mui/material'
 
-import AgentSelect from 'components/AgentSelect'
+import AgentSelect from 'components/AgentSelectV2'
 import PageTitle from 'components/Commons/PageTitle'
 import ConversionRate from 'components/ConversionRate'
 import CurrencySelect from 'components/CurrencySelect'
@@ -34,7 +34,6 @@ import FilterTransaction from './FilterTransaction'
 import TransactionContent from './TransactionContent'
 
 import './style.scss'
-// import { setCurrency } from 'redux/reducers/dashboard'
 
 const Transaction = () => {
   const { playerId, isTester } = useParams()
@@ -182,6 +181,9 @@ const Transaction = () => {
         )}
         {(isSuperAdmin() || isOperator()) && !isPageTransactionPlayer && (
           <AgentSelect
+            agents={agents}
+            loading={loading}
+            error={error}
             agentSelected={agentSelected}
             handleChange={handleChangeAgent}
             cb={handleChangeAgentName}

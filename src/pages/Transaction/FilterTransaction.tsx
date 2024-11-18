@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 
 import { Refresh } from '@mui/icons-material'
 import {
@@ -7,7 +6,6 @@ import {
   FormControl,
   MenuItem,
   Select,
-  TextField,
   Typography,
 } from '@mui/material'
 
@@ -20,7 +18,6 @@ import { searchTypeOptions, TRStatusSelectOptions } from 'helpers/transaction'
 import useTopDataSearchBar from 'hooks/useTopDataSearchBar'
 import { useSelector } from 'react-redux'
 import {
-  setSearchValue,
   transactionSearchValuesSelector,
 } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
