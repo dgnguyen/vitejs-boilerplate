@@ -27,6 +27,7 @@ import {
   setPreviousSearchValues,
 } from 'redux/reducers/player'
 import { RootState, useAppDispatch } from 'redux/store'
+import { CURRENCY } from 'types/currency'
 
 import { header } from './helpers'
 
@@ -98,16 +99,7 @@ const PlayerContent = () => {
         <Box className='player-table-header-wrapper'>
           {header.map((col) => (
             <Box key={col}>
-              {['Total Bet', 'Total Win', 'GGR', 'Average Bet Amount'].includes(
-                col
-              ) ? (
-                <Box>
-                  <Box>{col}</Box>
-                  <Typography fontWeight='bold'>{`${currency ? `(${currency})` : ''}`}</Typography>
-                </Box>
-              ) : (
-                col
-              )}
+              <Box>{col}</Box>
             </Box>
           ))}
         </Box>
@@ -156,6 +148,7 @@ const PlayerContent = () => {
                     <Box>{thousandSeparator(row?.totalWinAmount)}</Box>
                     <Box>{thousandSeparator(row?.ggr)}</Box>
                     <Box>{thousandSeparator(row?.avgBetAmount)}</Box>
+                    <Box>{row?.currency}</Box>
                     <Box>
                       {moment(row?.firstActivity).format(FORMAT_DATE_TIME)}
                     </Box>

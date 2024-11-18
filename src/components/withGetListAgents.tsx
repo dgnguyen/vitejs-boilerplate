@@ -4,7 +4,7 @@ import { getListAgents, resetListAgents } from 'redux/reducers/listAgents'
 import { useAppDispatch } from 'redux/store'
 
 const withGetListAgent = <P extends {}>(Wrapped: React.ComponentType<P>) => {
-  const Hoc = () => {
+  const Hoc = (props: P) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -14,10 +14,10 @@ const withGetListAgent = <P extends {}>(Wrapped: React.ComponentType<P>) => {
       }
     }, [])
 
-    return <Hoc />
+    return <Wrapped {...props as P} />
   }
-  return (props: any) => (
-    <Wrapped {...props as P} />
+  return (props: P) => (
+    <Hoc {...props as P} />
   )
 }
 

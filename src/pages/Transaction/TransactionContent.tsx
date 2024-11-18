@@ -8,12 +8,12 @@ import {
 } from '@mui/material'
 
 import Accordion from 'components/Accordion'
+import { header } from 'components/Accordion/constants'
 import Card from 'components/Card'
 import PaginateInfo from 'components/Commons/PaginateInfo'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE } from 'constants/date'
 import { thousandSeparator } from 'helpers/currency'
-import { header } from 'helpers/playerTransaction'
 import { SearchTypeValue } from 'helpers/transaction'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import moment from 'moment'
@@ -34,6 +34,7 @@ import {
 } from 'redux/reducers/transaction'
 import { useAppDispatch } from 'redux/store'
 import { startSocketConnection } from 'services/signalR'
+import { CURRENCY } from 'types/currency'
 import { UpdateCMSDataWS } from 'types/transaction'
 
 import { getDashboardCardTitle } from './helpers'
@@ -132,7 +133,7 @@ const TransactionContent = ({
                       ['ggr', 'totalBetAmount', 'totalWinAmount'].includes(
                         item[0]
                       )
-                        ? currencySelected !== "all" ? currencySelected : ''
+                        ? currencySelected !== "all" ? currencySelected : CURRENCY.KRW
                         : ''
                     }
                   />

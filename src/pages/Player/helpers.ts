@@ -7,6 +7,7 @@ export const header = [
   'Total Win',
   'GGR',
   'Average Bet Amount',
+  'Currency',
   'First Activity',
   'Last Activity',
   'Test/ Real Account',

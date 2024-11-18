@@ -73,7 +73,7 @@ export const transactionReducer = createSlice({
         state.data =
           state.searchValues.page === 1
             ? action.payload.data
-            : [...state.data, ...action.payload.transactionsList]
+            : [...state.data, ...action.payload.data]
         state.dashboard = action.payload?.dashboard
         state.loadingPage = false
         state.searchValues = {
@@ -152,6 +152,7 @@ export const getTransactions = createAsyncThunk(
         isTester,
         selectedGameType,
         agentSelected,
+        currencySelected,
       },
       // eslint-disable-next-line no-unsafe-optional-chaining
     } = (getState() as RootState)?.transaction
@@ -182,6 +183,7 @@ export const getTransactions = createAsyncThunk(
           ...(id ? { searchType: searchTypeValue } : {}),
           gametypeID: selectedGameType,
           partnerId: agentSelected !== 'all' ? [agentSelected] : null,
+          currency: currencySelected !== 'all' ? currencySelected : null,
         },
         replacer
       )

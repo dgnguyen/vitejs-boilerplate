@@ -27,7 +27,7 @@ const AgentSelect = ({
   agents: IAgent[],
   loading: boolean,
   error: boolean
-  agentSelected: string | number
+  agentSelected: string | null
   disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
   cb?: (e?: string) => void
