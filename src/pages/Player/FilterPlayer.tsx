@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 
 import { Refresh } from '@mui/icons-material'
-import { Box, Button, SelectChangeEvent, TextField } from '@mui/material'
+import { Box, Button, SelectChangeEvent } from '@mui/material'
 
 import SearchSVG from 'assets/images/search.svg'
-import AgentSelect from 'components/AgentSelect'
+import AgentSelect from 'components/AgentSelectV2'
 import MuiSearchField from 'components/Commons/MuiSearchField'
+import CurrencySelect from 'components/CurrencySelect'
 import ExportExcel from 'components/ExportExcel'
 import TesterSelect from 'components/TesterSelect'
 import { isOperator, isSuperAdmin } from 'helpers/auth'
+import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
 import { useSelector } from 'react-redux'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 import {
   getPlayersAction,
   resetPlayersState,
@@ -22,9 +25,15 @@ const FilterPlayer = () => {
   const { searchValues, isLoadingData, isLoadingPage } =
     useSelector((state: RootState) => state.player)
   const dispatch = useAppDispatch()
-  const { isTester, id, agentSelected } = searchValues
+  const { isTester, id, agentSelected, currency } = searchValues
   const disableSearch = isLoadingData || isLoadingPage
   const [searchState, setSearchState] = useState<string>('')
+
+
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading, error } = listAgents
+  const currencyTabs = getCurrencyByAgent(agentSelected, agents)
+
 
   useEffect(() => {
     setSearchState(id)
@@ -46,6 +55,10 @@ const FilterPlayer = () => {
 
   const handleChangeIsTester = (event: SelectChangeEvent) => {
     dispatch(setAndLoadPlayersData('isTester', event.target.value, true))
+  }
+
+  const handleChangeCurrency = (event: SelectChangeEvent) => {
+    dispatch(setAndLoadPlayersData('currency', event.target.value, true))
   }
 
   const handleSearch = async () => {
@@ -91,11 +104,21 @@ const FilterPlayer = () => {
       />
       {(isSuperAdmin() || isOperator()) && (
         <AgentSelect
-          agentSelected={agentSelected === null ? 'all' : agentSelected}
+          agents={agents}
+          loading={loading}
+          error={error}
+          agentSelected={agentSelected}
           handleChange={handleChangeAgent}
           cb={handleChangeAgentName}
         />
       )}
+      <CurrencySelect
+        loading={loading}
+        error={error}
+        currencySelected={currency}
+        currenciesList={currencyTabs}
+        handleChangeCurrency={handleChangeCurrency}
+      />
       <TesterSelect
         isTester={isTester}
         handleChangeIsTester={handleChangeIsTester}

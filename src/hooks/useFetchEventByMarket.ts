@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { API_ENDPOINT } from 'api/endpoint'
 import { headersContentType } from 'api/helpers'
-import axios, { AxiosResponse } from 'axios'
-import { header } from 'helpers/playerTransaction'
+import axios from 'axios'
 
 export type IEventSelect = {
   eventId: number

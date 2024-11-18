@@ -6,7 +6,7 @@ export function getStyledButton(route: string) {
 }
 
 export function getCurrencyByAgent(
-  agentSelected: string,
+  agentSelected: string | null,
   listAgents: IAgent[]
 ) {
   let listCurrencies = [] as string[]
@@ -17,8 +17,10 @@ export function getCurrencyByAgent(
       return acc
     }, [])
   } else
-    listCurrencies = listAgents.find(
-      (agent) => agent.id.toString() === agentSelected.toString()
-    )?.currency as string[]
+    listCurrencies =
+      (listAgents.find(
+        (agent) => agent.id.toString() === agentSelected?.toString()
+      )?.currency as string[]) || []
+
   return ['all', ...listCurrencies]
 }

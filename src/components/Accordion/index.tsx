@@ -108,8 +108,9 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
       if (['winAmount', 'betAmount'].includes(col)) {
         data = data !== null ? thousandSeparator(data) : '-'
       }
-
-
+      if (col === 'currency') {
+        data = currency
+      }
 
       if (data)
         return (

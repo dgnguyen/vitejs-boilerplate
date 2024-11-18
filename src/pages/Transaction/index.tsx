@@ -10,6 +10,7 @@ import CurrencySelect from 'components/CurrencySelect'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
 import Switch from 'components/Switch'
+import withGetListAgent from 'components/withGetListAgents'
 import { FORMAT_DATE } from 'constants/date'
 import { ROUTES } from 'constants/endpoint'
 import { isOperator, isSuperAdmin } from 'helpers/auth'
@@ -18,7 +19,7 @@ import moment from 'moment'
 import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getListAgents, listAgentsSelector, resetListAgents } from 'redux/reducers/listAgents'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 import {
   resetSearchValues,
   setAndLoadData,
@@ -54,14 +55,6 @@ const Transaction = () => {
   const { data: agents, loading, error } = listAgents
   const currencyTabs = getCurrencyByAgent(agentSelected, agents)
 
-
-  useEffect(() => {
-    dispatch(getListAgents())
-    return () => {
-      dispatch(resetListAgents())
-    }
-  }, [])
-
   useEffect(() => {
     if (isPageTransactionPlayer && checkedAllTransactionsPlayer) {
       setCheckAllTransaction(true)
@@ -70,9 +63,6 @@ const Transaction = () => {
     }
   }, [isPageTransactionPlayer, checkedAllTransactionsPlayer])
 
-  function handleChangeCurrency(event: SelectChangeEvent) {
-    dispatch(setSearchValue({ key: 'currencySelected', val: event.target.value || '' }))
-  }
 
 
   function setSelectedAllGames(selected: string | null) {
@@ -88,6 +78,11 @@ const Transaction = () => {
   const handleChangeAgent = (event: SelectChangeEvent) => {
     dispatch(setAndLoadData('agentSelected', event.target.value, true))
   }
+
+  function handleChangeCurrency(event: SelectChangeEvent) {
+    dispatch(setAndLoadData('currencySelected', event.target.value || '', true))
+  }
+
 
   const handleChangeAgentName = (val?: string) => {
     dispatch(setSearchValue({ key: 'agentSelectedName', val: val || '' }))
@@ -128,8 +123,6 @@ const Transaction = () => {
     }
   }
 
-
-
   return (
     <Box>
       <Box
@@ -160,7 +153,6 @@ const Transaction = () => {
         disabled={transactionLoading || transactionPageLoading}
         handleSelectGame={handleSelectGame}
       />
-
       <Box
         display='flex'
         gap={2}
@@ -189,13 +181,14 @@ const Transaction = () => {
             cb={handleChangeAgentName}
           />
         )}
-        <CurrencySelect
+        {!isPageTransactionPlayer && <CurrencySelect
           loading={loading}
           error={error}
           currencySelected={currencySelected}
           currenciesList={currencyTabs}
           handleChangeCurrency={handleChangeCurrency}
         />
+        }
       </Box>
       <FilterTransaction playerId={playerId} />
       <TransactionContent
@@ -206,4 +199,4 @@ const Transaction = () => {
   )
 }
 
-export default Transaction
+export default withGetListAgent(Transaction)

@@ -30,9 +30,9 @@ const initialSearchValues: ISearchValuesPlayers = {
   page: 1,
   take: 20,
   totalCount: 0,
-  agentSelected: null,
+  agentSelected: 'all',
   agentSelectedName: '',
-  currency: '',
+  currency: 'all',
 }
 
 const initialState = {
@@ -59,7 +59,7 @@ export const playerReducer = createSlice({
         }
       })
       .addCase('getPlayers/fulfilled', (state, action: any) => {
-        const { data, totalCount, currency } = action.payload.data
+        const { data, totalCount } = action.payload.data
         state.isLoadingData = false
         state.errors = false
         state.hasMore = action.payload.hasMore
@@ -69,7 +69,6 @@ export const playerReducer = createSlice({
         state.searchValues = {
           ...state.searchValues,
           totalCount,
-          currency,
           page: state.hasMore
             ? state.searchValues.page + 1
             : state.searchValues.page,
@@ -110,7 +109,7 @@ export const getPlayersAction = createAsyncThunk(
   'getPlayers',
   async (_, { rejectWithValue, getState }) => {
     const {
-      searchValues: { id, page, agentSelected, take, isTester },
+      searchValues: { id, page, agentSelected, take, isTester, currency },
     } = (getState() as RootState)?.player
     try {
       const json = JSON.stringify({
@@ -121,6 +120,7 @@ export const getPlayersAction = createAsyncThunk(
           ? { partnerId: null }
           : { partnerId: [agentSelected] }),
         playerId: id || null,
+        currency: currency !== 'all' ? currency : null,
       })
       const res = await axios.post(API_ENDPOINT.GET_PLAYERS, json, {
         headers: { 'Content-Type': 'application/json' },
