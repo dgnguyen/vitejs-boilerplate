@@ -4,10 +4,6 @@ import { Refresh } from '@mui/icons-material'
 import {
   Box,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   SelectChangeEvent,
 } from '@mui/material'
 
@@ -16,7 +12,6 @@ import GameSelectButtons from 'components/GameSelectButtons'
 import TesterSelect from 'components/TesterSelect'
 import { useGames } from 'context/GamesContext'
 import { isOperator, isSuperAdmin } from 'helpers/auth'
-import { useFetchAgents } from 'hooks/useFetchAgents'
 import { useSelector } from 'react-redux'
 import { setSearchValuesMarket } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'

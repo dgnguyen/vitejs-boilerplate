@@ -3,6 +3,7 @@ import { Box, Divider, Tooltip, Typography } from '@mui/material'
 import Loader from 'components/Commons/Loader'
 import { addCurrencyToPrice } from 'helpers/currency'
 import { DataMarketStat } from 'hooks/useMarketStats'
+import { CURRENCY } from 'types/currency'
 
 import { marketNames } from './helpers'
 
@@ -11,12 +12,14 @@ import './style.scss'
 type Props = {
   loading: boolean
   data?: DataMarketStat
+  currency: string
   error?: string
 }
 
-const MarketStatisticContent = ({ error, loading, data }: Props) => {
+const MarketStatisticContent = ({ error, loading, data, currency }: Props) => {
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <Loader isOutSideOfRelativeContainer />
+  const displayCurrency = currency && currency !== 'all' ? currency : CURRENCY.KRW
 
   return (
     <Box sx={{ overflow: 'auto' }}>
@@ -46,7 +49,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
         >
           Total :
         </Typography>
-        <Typography variant='h6'> {addCurrencyToPrice(data?.total)}</Typography>
+        <Typography variant='h6'> {addCurrencyToPrice(data?.total, displayCurrency)}</Typography>
       </Box>
       <Divider sx={{ borderColor: 'white', borderWidth: 1, marginY: 2 }} />
       <Box className='marketCard'>
@@ -76,7 +79,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                   fontWeight='bold'
                   fontSize={20}
                 >
-                  {addCurrencyToPrice(item?.total)}
+                  {addCurrencyToPrice(item?.total, displayCurrency)}
                 </Typography>
               </Box>
               <Divider />
@@ -118,7 +121,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                       <Box>
                         <Tooltip
                           className='totalByEventName'
-                          title={addCurrencyToPrice(eventMarket.total)}
+                          title={addCurrencyToPrice(eventMarket.total, displayCurrency)}
                         >
                           <Box
                             sx={{
@@ -128,7 +131,7 @@ const MarketStatisticContent = ({ error, loading, data }: Props) => {
                                   : 'default',
                             }}
                           >
-                            {addCurrencyToPrice(eventMarket.total)}
+                            {addCurrencyToPrice(eventMarket.total, displayCurrency)}
                           </Box>
                         </Tooltip>
                       </Box>

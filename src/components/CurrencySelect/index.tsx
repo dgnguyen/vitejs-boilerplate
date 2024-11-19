@@ -22,12 +22,12 @@ const CurrencySelect = ({ currenciesList, loading, error, currencySelected, hand
         sx={{ m: 1, minWidth: 150 }}
         size='small'
       >
-        <InputLabel id='select-currency-select-label'>Select Currency</InputLabel>
+        <InputLabel id='select-currency-select-label'>Select currency</InputLabel>
         <Select
           labelId='select-currency-select-label'
           id='select-agents-select'
           value={currencySelected?.toString()}
-          label='Select Currency'
+          label='Select currency'
           onChange={handleChangeCurrency}
           disabled={loading || error}
         >

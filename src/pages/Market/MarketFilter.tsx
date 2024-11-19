@@ -9,12 +9,16 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 
-import AgentSelect from 'components/AgentSelect'
+import AgentSelect from 'components/AgentSelectV2'
+import CurrencySelect from 'components/CurrencySelect'
 import DateBlock from 'components/DateBlock'
 import TesterSelect from 'components/TesterSelect'
 import { GamesProps } from 'context/GamesContext'
 import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { MarketStatProps } from 'hooks/useMarketStats'
+import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
+import { useSelector } from 'react-redux'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 
 import { isNextRoundSelectOptions } from './helpers'
 
@@ -32,8 +36,14 @@ const MarketFilter = (props: MarketFilterProps) => {
     handleSearch,
     handleSelectGame,
     handleChangeAgent,
+    handleChangeCurrency,
     isRunningBallGame,
   } = props
+
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading: loadingAgents, error } = listAgents
+  const currencyTabs = getCurrencyByAgent(filter?.agent.toString(), agents)
+
   return (
     <Box>
       <Box
@@ -44,10 +54,21 @@ const MarketFilter = (props: MarketFilterProps) => {
         <DateBlock />
         {(isSuperAdmin() || isOperator()) && (
           <AgentSelect
-            agentSelected={filter.agent}
+            agents={agents}
+            loading={loadingAgents}
+            error={error}
+            agentSelected={filter?.agent.toString()}
             handleChange={handleChangeAgent}
+          // cb={handleChangeAgentName}
           />
         )}
+        <CurrencySelect
+          loading={loading}
+          error={error}
+          currencySelected={filter.currency}
+          currenciesList={currencyTabs}
+          handleChangeCurrency={handleChangeCurrency}
+        />
         {isRunningBallGame && (
           <FormControl
             sx={{ m: 1, minWidth: 150 }}

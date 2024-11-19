@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Block, Delete, Edit, MoreVert } from '@mui/icons-material'
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import {
   Box,
   CircularProgress,
@@ -19,6 +19,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from '@mui/material'
 
 import Loader from 'components/Commons/Loader'
@@ -117,14 +118,6 @@ const AgentList = () => {
       })
     )
   }
-
-  // to refactor
-
-  // function handleEditAgent({
-  //   row: IAgentData,
-  //   e?: SelectChangeEvent,
-  //   key: string
-  // })
 
   function handleChangeStatus(row: IAgentData) {
     setOptionalState(row)
@@ -239,8 +232,25 @@ const AgentList = () => {
                               onChange={handleEditTag}
                             />
                           </TableCell>
-                          <TableCell>{thousandSeparator(row.minBet)}</TableCell>
-                          <TableCell>{thousandSeparator(row.maxBet)}</TableCell>
+                          <TableCell>
+                            {
+                              Object.entries(row.betLimitByCurrency).map((item) => (
+                                <Box key={`betlimit-${item[0]}`}
+                                  display='flex' alignItems="center" gap={1} justifyContent="left"
+                                  width="200px"
+                                >
+
+                                  <Typography>{thousandSeparator(item[1].minBet)}</Typography>
+                                  <Typography fontWeight="bold"> {item[0]}</Typography>
+                                  <ArrowRightAltIcon />
+                                  <Typography>{thousandSeparator(item[1].maxBet)}</Typography>
+                                  <Typography fontWeight="bold"> {item[0]}</Typography>
+
+                                </Box>
+
+                              ))
+                            }
+                          </TableCell>
                           <TableCell>
                             <FormControl
                               variant='standard'
@@ -294,59 +304,69 @@ const AgentList = () => {
           </TableContainer>
         )}
       </div>
-      {state.editWalletType && (
-        <MuiDialog
-          loading={loading}
-          open={state.editWalletType}
-          title='Change Wallet Type'
-          content={`Are you sure you want to change wallet type of "${optionalState?.name}" to ${optionalState?.walletTypeId === WALLET_TYPE.SEAMLESS ? WALLET_TYPE_NAME.TRANSFER : WALLET_TYPE_NAME.SEAMLESS}?`}
-          handleClose={() =>
-            handleState({ key: 'editWalletType', value: false })
-          }
-          handleSubmit={handleSubmitNewWalletType}
-        />
-      )}
-      {state.block && (
-        <MuiDialog
-          loading={loading}
-          open={state.block}
-          title={optionalState?.isBlock ? 'Active agent' : 'Block agent'}
-          content={`Are you sure you want to ${optionalState?.isBlock ? 'active agent' : 'block agent'} "${optionalState?.name}"?`}
-          handleClose={() => handleState({ key: 'block', value: false })}
-          handleSubmit={() => toggleBlockAgent()}
-        />
-      )}
-      {state.delete && (
-        <MuiDialog
-          loading={loading}
-          open={state.delete}
-          title='Delete Agent'
-          content={`Are you sure you want to delete agent "${optionalState?.name}"? This action cannot be undone.`}
-          handleClose={() => handleState({ key: 'delete', value: false })}
-          handleSubmit={handleDeleteAgent}
-        />
-      )}
-      {state.editTag && (
-        <MuiDialog
-          loading={loading}
-          open={!!state.editTag}
-          title='Edit Category Agent'
-          content={`Are you sure you want to edit tag agent to "${optionalState.tag}"?`}
-          handleClose={() => handleState({ key: 'editTag', value: false })}
-          handleSubmit={handleSubmitNewTag}
-        />
-      )}
+      {
+        state.editWalletType && (
+          <MuiDialog
+            loading={loading}
+            open={state.editWalletType}
+            title='Change Wallet Type'
+            content={`Are you sure you want to change wallet type of "${optionalState?.name}" to ${optionalState?.walletTypeId === WALLET_TYPE.SEAMLESS ? WALLET_TYPE_NAME.TRANSFER : WALLET_TYPE_NAME.SEAMLESS}?`}
+            handleClose={() =>
+              handleState({ key: 'editWalletType', value: false })
+            }
+            handleSubmit={handleSubmitNewWalletType}
+          />
+        )
+      }
+      {
+        state.block && (
+          <MuiDialog
+            loading={loading}
+            open={state.block}
+            title={optionalState?.isBlock ? 'Active agent' : 'Block agent'}
+            content={`Are you sure you want to ${optionalState?.isBlock ? 'active agent' : 'block agent'} "${optionalState?.name}"?`}
+            handleClose={() => handleState({ key: 'block', value: false })}
+            handleSubmit={() => toggleBlockAgent()}
+          />
+        )
+      }
+      {
+        state.delete && (
+          <MuiDialog
+            loading={loading}
+            open={state.delete}
+            title='Delete Agent'
+            content={`Are you sure you want to delete agent "${optionalState?.name}"? This action cannot be undone.`}
+            handleClose={() => handleState({ key: 'delete', value: false })}
+            handleSubmit={handleDeleteAgent}
+          />
+        )
+      }
+      {
+        state.editTag && (
+          <MuiDialog
+            loading={loading}
+            open={!!state.editTag}
+            title='Edit Category Agent'
+            content={`Are you sure you want to edit tag agent to "${optionalState.tag}"?`}
+            handleClose={() => handleState({ key: 'editTag', value: false })}
+            handleSubmit={handleSubmitNewTag}
+          />
+        )
+      }
       {!isLoadingPage && !data?.length && <EmptyData />}
-      {snackbar.open && (
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={2000}
-          onClose={closeSnackbar}
-          message={snackbar.message}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        />
-      )}
-    </Box>
+      {
+        snackbar.open && (
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={2000}
+            onClose={closeSnackbar}
+            message={snackbar.message}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          />
+        )
+      }
+    </Box >
   )
 }
 

@@ -67,9 +67,9 @@ const DashboardActions = () => {
     dispatch(setAgent(event.target.value))
   }
 
-  const handleChangeAgentName = (value?: string) => {
-    dispatch(setAgentName(value || ''))
-  }
+  // const handleChangeAgentName = (value?: string) => {
+  //   dispatch(setAgentName(value || ''))
+  // }
 
 
   const handleChangeCurrency = (event: SelectChangeEvent) => {
@@ -96,7 +96,7 @@ const DashboardActions = () => {
           error={error}
           agentSelected={agentSelected}
           handleChange={handleChangeAgent}
-          cb={handleChangeAgentName}
+        // cb={handleChangeAgentName}
         />
       )}
       <CurrencySelect
