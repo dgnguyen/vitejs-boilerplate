@@ -7,6 +7,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 
+import CurrencySelect from 'components/CurrencySelect'
 import DateBlock from 'components/DateBlock'
 import GameSelectButtons from 'components/GameSelectButtons'
 import TesterSelect from 'components/TesterSelect'

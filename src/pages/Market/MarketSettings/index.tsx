@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
+import withGetListAgent from 'components/withGetListAgents'
 
 import MarketTab from '../MarketTab'
 
@@ -26,4 +27,4 @@ const MarketSettings = () => {
   )
 }
 
-export default MarketSettings
+export default withGetListAgent(MarketSettings)

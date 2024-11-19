@@ -5,13 +5,16 @@ import {
   SelectChangeEvent,
 } from '@mui/material'
 
-import AgentSelect from 'components/AgentSelect'
+import AgentSelect from 'components/AgentSelectV2'
+import CurrencySelect from 'components/CurrencySelect'
 import DataPicker from 'components/DataPicker'
 import DateBlock from 'components/DateBlock'
 import TesterSelect from 'components/TesterSelect'
 import { GamesProps } from 'context/GamesContext'
-import { isSuperAdmin } from 'helpers/auth'
 import { MarketGGRProps } from 'hooks/useMarketGGR'
+import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
+import { useSelector } from 'react-redux'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 
 type OmitMarketProps = Omit<MarketGGRProps, 'data' | 'error'>
 
@@ -26,6 +29,11 @@ const MarketFilter = (props: OmitMarketProps) => {
     handleSelectGame,
     handleChangeDate,
   } = props
+
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading: loadingAgents, error } = listAgents
+  const currencyTabs = getCurrencyByAgent(filter.partnerId, agents)
+
   return (
     <Box>
       <Box
@@ -35,9 +43,21 @@ const MarketFilter = (props: OmitMarketProps) => {
       >
         <DateBlock />
         <AgentSelect
+          error={error}
+          agents={agents}
+          loading={loadingAgents}
           agentSelected={filter.partnerId || ''}
           handleChange={(val: SelectChangeEvent) => {
             handleFilter('partnerId', val)
+          }}
+        />
+        <CurrencySelect
+          loading={loadingAgents}
+          error={error}
+          currencySelected={filter.currency}
+          currenciesList={currencyTabs}
+          handleChangeCurrency={(val: SelectChangeEvent) => {
+            handleFilter('currency', val)
           }}
         />
         <DataPicker

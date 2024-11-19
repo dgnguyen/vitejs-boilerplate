@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react'
 import { SelectChangeEvent } from '@mui/material'
 
 import { API_ENDPOINT } from 'api/endpoint'
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { FORMAT_DATE } from 'constants/date'
-import { CATEGORY_GAME } from 'constants/games'
 import { useGames } from 'context/GamesContext'
 import { GamesProps } from 'context/GamesContext'
 import moment from 'moment'
@@ -17,11 +16,11 @@ export type FilterProps = {
   searchTo: Date
   gameTypeId: number
   partnerId: string | null
+  currency: string
 }
 
 export type DataMarketGGR = {
   allMarkets: IMarketGGR[]
-  currency: string
   total: number
 }
 
@@ -50,6 +49,7 @@ export function useMarketGGR(): MarketGGRProps {
     partnerId: null,
     searchFrom: new Date(),
     searchTo: new Date(),
+    currency: 'all',
   })
 
   const handleFilterSelect = (key: string, event: SelectChangeEvent) =>
@@ -95,7 +95,10 @@ export function useMarketGGR(): MarketGGRProps {
             : { partnerId: null }),
           ...(filterMarket?.isTester !== 'null'
             ? { isTester: filterMarket?.isTester === 'true' }
-            : { isTester: null}),
+            : { isTester: null }),
+          ...(filterMarket?.currency !== 'all'
+            ? { currency: filterMarket?.currency }
+            : { currency: null }),
         }
       )
       const { data, isSuccess, message } = response?.data || null

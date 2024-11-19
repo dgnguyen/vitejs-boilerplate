@@ -23,6 +23,7 @@ import { thousandSeparator } from 'helpers/currency'
 import { useSelector } from 'react-redux'
 import { resetMarketFilter } from 'redux/reducers/market'
 import { RootState, useAppDispatch } from 'redux/store'
+import { CURRENCY } from 'types/currency'
 import { ITopMarketObj } from 'types/market'
 
 import './style.scss'
@@ -77,12 +78,12 @@ const TopMarketContent = () => {
   const [isLoading, setLoading] = useState(true)
   const [orderBy, setOrderBy] = useState(orderTypesEnum.totalBet)
   const marketSelector = useSelector((state: RootState) => state.market)
-  const { agent, isTester } = marketSelector.searchValues
+  const { agent, isTester, currency } = marketSelector.searchValues
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (((isSuperAdmin() || isOperator()) && agent) || (!isSuperAdmin() && !isOperator())) handleDataFetch()
-  }, [selectedDate, agent, isTester])
+  }, [selectedDate, agent, isTester, currency])
 
   useEffect(() => {
     return () => {
@@ -105,6 +106,7 @@ const TopMarketContent = () => {
         searchType: searchDateType,
         orderBy: orderBy,
         partnerId,
+        currency: currency && currency !== 'all' ? currency : null,
         isTester:
           isTester === 'true' ? true : isTester === 'false' ? false : null,
       })
@@ -284,10 +286,18 @@ const TopMarketContent = () => {
                       ) : (
                         <BottomArrowIcon />
                       )}
-                      <Typography>Total Bet</Typography>
+                      <Box>
+                        <Typography>Total Bet</Typography>
+                        <Typography>({currency && currency !== 'all' ? currency : CURRENCY.KRW})</Typography>
+                      </Box>
                     </Box>
                   </th>
-                  <th>Total Win</th>
+                  <th>
+                    <Box>
+                      <Typography>Total Win</Typography>
+                      <Typography>({currency && currency !== 'all' ? currency : CURRENCY.KRW})</Typography>
+                    </Box>
+                  </th>
                   <th className='canBeOrderedTH'>
                     <Box
                       display='flex'
@@ -300,7 +310,10 @@ const TopMarketContent = () => {
                       ) : (
                         <BottomArrowIcon />
                       )}
-                      <Typography> GGR</Typography>
+                      <Box>
+                        <Typography>GGR</Typography>
+                        <Typography>({currency && currency !== 'all' ? currency : CURRENCY.KRW})</Typography>
+                      </Box>
                     </Box>
                   </th>
                 </tr>

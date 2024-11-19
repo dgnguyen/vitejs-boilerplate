@@ -12,7 +12,6 @@ const TopMarket = () => {
   return (
     <Box>
       <PageTitle title='Top Market' haveRate />
-
       <MarketTab />
       <MarketSettingsFilter isTopMarket />
       <TopMarketContent />
