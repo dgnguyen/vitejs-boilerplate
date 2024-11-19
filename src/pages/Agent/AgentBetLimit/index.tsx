@@ -7,7 +7,7 @@ import PageTitle from 'components/Commons/PageTitle'
 import DateBlock from 'components/DateBlock'
 import ExportExcel from 'components/ExportExcel'
 import withGetListAgent from 'components/withGetListAgents'
-import { isOperator, isSuperAdmin } from 'helpers/auth'
+import { isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import { resetAgentState } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
@@ -30,7 +30,7 @@ const AgentBetLimit = () => {
 
   return (
     <Box>
-      <PageTitle title='Agent Bet Limit' />
+      <PageTitle title='Agent Bet Limit' haveRate />
       {(isSuperAdmin()) && <AgentTab />}
       <Box
         display='flex'

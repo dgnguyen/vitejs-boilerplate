@@ -5,7 +5,6 @@ import { Box, SelectChangeEvent, Typography } from '@mui/material'
 
 import AgentSelect from 'components/AgentSelectV2'
 import PageTitle from 'components/Commons/PageTitle'
-import ConversionRate from 'components/ConversionRate'
 import CurrencySelect from 'components/CurrencySelect'
 import DateBlock from 'components/DateBlock'
 import GameSelect from 'components/GameSelect'
@@ -128,6 +127,7 @@ const Transaction = () => {
       <Box
         display='flex'
         alignItems='center'
+        width="100%"
       >
         {isPageTransactionPlayer && (
           <ChevronLeftIcon
@@ -144,9 +144,9 @@ const Transaction = () => {
               ? `Player Id: ${playerId} / Is Test: ${isTester === 'test' ? 'Yes' : 'No'}`
               : ''
           }
+          haveRate
         />
       </Box>
-      <ConversionRate />
       <GameSelect
         setSelectedAllGames={setSelectedAllGames}
         selectedAllGames={selectedAllGames}

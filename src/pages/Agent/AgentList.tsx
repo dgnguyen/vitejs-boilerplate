@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt'
 import {
   Box,
   CircularProgress,
   FormControl,
-  InputLabel,
   LinearProgress,
   MenuItem,
-  NativeSelect,
   Paper,
   Select,
   SelectChangeEvent,
@@ -152,15 +149,12 @@ const AgentList = () => {
   return (
     <Box
       ref={inputRef}
-      sx={{
-        height: 'calc(100vh - 300px)',
-        marginY: 2,
-      }}
+      className="agentBody-wrapper"
     >
       <div id='scrollableDiv'>
         {isLoadingPage && <CircularProgress />}
         {data?.length > 0 && (
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} >
             <InfiniteScroll
               dataLength={data?.length || 0}
               next={() => dispatch(getAgentsListAction())}
@@ -172,7 +166,7 @@ const AgentList = () => {
               <Table
                 stickyHeader
                 aria-label='sticky table'
-                sx={{ minWidth: 650 }}
+                className="agent-table"
               >
                 <TableHead>
                   <TableRow>
@@ -233,23 +227,20 @@ const AgentList = () => {
                             />
                           </TableCell>
                           <TableCell>
-                            {
-                              Object.entries(row.betLimitByCurrency).map((item) => (
-                                <Box key={`betlimit-${item[0]}`}
-                                  display='flex' alignItems="center" gap={1} justifyContent="left"
-                                  width="200px"
-                                >
+                            <Box className="minMaxBetCell">
+                              {
+                                Object.entries(row.betLimitByCurrency).map((item) => (
+                                  <Box key={`betlimit-${item[0]}`}>
+                                    <Typography>{thousandSeparator(item[1].minBet)}</Typography>
+                                    <Typography>to</Typography>
+                                    <Typography>{thousandSeparator(item[1].maxBet)}</Typography>
+                                    <Typography fontWeight="bold"> {item[0]}</Typography>
 
-                                  <Typography>{thousandSeparator(item[1].minBet)}</Typography>
-                                  <Typography fontWeight="bold"> {item[0]}</Typography>
-                                  <ArrowRightAltIcon />
-                                  <Typography>{thousandSeparator(item[1].maxBet)}</Typography>
-                                  <Typography fontWeight="bold"> {item[0]}</Typography>
+                                  </Box>
 
-                                </Box>
-
-                              ))
-                            }
+                                ))
+                              }
+                            </Box>
                           </TableCell>
                           <TableCell>
                             <FormControl

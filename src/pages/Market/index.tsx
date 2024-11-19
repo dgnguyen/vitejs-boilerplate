@@ -1,7 +1,6 @@
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
-import ConversionRate from 'components/ConversionRate'
 import withGetListAgent from 'components/withGetListAgents'
 import { useMarketStats } from 'hooks/useMarketStats'
 
@@ -26,8 +25,7 @@ const MarketStats = () => {
 
   return (
     <Box className='market-stats-wrapper'>
-      <PageTitle title='Market Stats' />
-      <ConversionRate />
+      <PageTitle title='Market Stats' haveRate />
       <MarketTab />
       <MarketFilter
         loading={loading}

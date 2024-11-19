@@ -22,7 +22,7 @@ const AgentSelectForBetLimit = ({ props, agents, loadingAgents, error }: Props) 
         name='agentSelect'
         value={props.values.agentSelect || 'all'}
         onBlur={props.handleBlur}
-        disabled={loadingAgents}
+        disabled={loadingAgents || error}
         onChange={(e) =>
           props.setFieldValue('agentSelect', e.target.value as string)
         }

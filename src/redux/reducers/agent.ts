@@ -13,7 +13,6 @@ type IAgentsStateProps = {
     searchType: number
     value: string
   }
-  currency: string
   betLimitData: IAgentBetLimit[]
 } & DataReturnProps<IAgentData>
 
@@ -27,7 +26,6 @@ const initialState: IAgentsStateProps = {
   totalCount: 0,
   hasMore: false,
   isExporting: false,
-  currency: '',
   searchValues: {
     searchType: 1,
     value: '',
@@ -77,7 +75,6 @@ export const agentReducer = createSlice({
         state.errors = false
         state.totalCount = settings?.totalCount
         state.hasMore = settings.hasMore
-        state.currency = settings?.currency
         state.betLimitData =
           state.page === 1 ? data : [...state.betLimitData, ...data]
         state.isLoadingPage = false
@@ -108,7 +105,9 @@ export const agentReducer = createSlice({
       })
     },
     addNewAgentBetLimit: (state, { payload }) => {
-      const existingIndex = state.betLimitData.findIndex((item) => item.id === payload.id)
+      const existingIndex = state.betLimitData.findIndex(
+        (item) => item.id === payload.id
+      )
       if (existingIndex !== -1) {
         // Update the existing item’s properties
         state.betLimitData[existingIndex] = {
@@ -122,7 +121,7 @@ export const agentReducer = createSlice({
           maxBet: payload.maxBet,
           appliedDate: payload.appliedDate,
           appliedBy: payload.appliedBy,
-          groupPermissionId: payload.groupPermissionId
+          groupPermissionId: payload.groupPermissionId,
         }
       } else {
         // Add the new item if it doesn’t exist
@@ -381,7 +380,7 @@ export const deleteBetLimitAction =
         }
       )
       if (response?.data?.isSuccess) {
-        dispatch(deleteBetLimitAgent({id}))
+        dispatch(deleteBetLimitAgent({ id }))
       }
       if (cb) cb(response?.data?.message)
     } catch (error) {

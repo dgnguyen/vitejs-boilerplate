@@ -42,6 +42,7 @@ export const headerAgentBetLimit = [
   'Sub-Market Name',
   'Min',
   'Max',
+  'Currency',
   'Applied Date',
   'Applied By',
 ]

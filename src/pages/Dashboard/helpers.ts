@@ -11,7 +11,7 @@ export function getCurrencyByAgent(
   noAllValue?: boolean
 ) {
   let listCurrencies = [] as string[]
-  if (agentSelected === 'all') {
+  if (!agentSelected || agentSelected === 'all') {
     listCurrencies = listAgents.reduce((acc: ICURRENCY[], cur: IAgent) => {
       if (!acc.some((item: ICURRENCY) => cur.currency.includes(item)))
         return [...acc, ...cur?.currency]

@@ -23,7 +23,6 @@ import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
 import { listAgentsSelector } from 'redux/reducers/listAgents'
-import { RootState } from 'redux/store'
 
 import AgentSelectForBetLimit from './AgentSelectForBetLimit'
 import { AgentBetLimitValuesProps } from './FormBetLimit'
@@ -38,10 +37,10 @@ const FormContent = ({
   isEdit?: boolean
 }) => {
   const { values, setFieldValue } = useFormikContext<AgentBetLimitValuesProps>()
-  const currency = useSelector((state: RootState) => state?.agent.currency)
   //if its master agent, take his own partnerid to request gamesbyagent, if is superadmin show select agent
   const agentToAPI = values?.agentSelect
   const { games, loadingGames } = useFetchGamesByAgent(agentToAPI)
+
   const { markets, loadingMarkets } = useFetchMarketByGame({
     gameId: values?.gameSelect,
     agentId: agentToAPI,
@@ -50,13 +49,12 @@ const FormContent = ({
     marketId: values?.marketSelect,
     gameId: values?.gameSelect,
     agentId: agentToAPI,
+    currency: values?.currency
   })
 
   const listAgents = useSelector(listAgentsSelector)
   const { data: agents, loading, error } = listAgents
   const currencyTabs = getCurrencyByAgent(props.values.agentSelect, agents, true)
-
-
 
   useEffect(() => {
     if (isEdit) {
@@ -64,17 +62,26 @@ const FormContent = ({
       setFieldValue('minBet', props.values.minBet || '')
       setFieldValue('maxBet', props.values.maxBet || '')
       setFieldValue('agentSelect', props.values.agentSelect || '')
+      setFieldValue('currency', props.values.currency || '')
       setFieldValue('gameSelect', props.values.gameSelect || '')
       setFieldValue('marketSelect', props.values.marketSelect || '')
       setFieldValue('eventSelect', props.values.eventSelect || '')
     }
   }, [isEdit, props.values, setFieldValue])
 
+
   useEffect(() => {
     if (!isEdit) {
       setFieldValue('gameSelect', '')
+      setFieldValue('currencySelect', '')
     }
   }, [values.agentSelect])
+
+  useEffect(() => {
+    if (!isEdit) {
+      setFieldValue('eventSelect', '')
+    }
+  }, [values.currency])
 
   useEffect(() => {
     if (!isEdit) {
@@ -89,7 +96,7 @@ const FormContent = ({
   }, [values.marketSelect])
 
   const handleChangeCurrency = (e: SelectChangeEvent) => {
-    props.setFieldValue('currencySelect', e.target.value as string)
+    props.setFieldValue('currency', e.target.value as string)
   }
 
   return (
@@ -134,12 +141,7 @@ const FormContent = ({
             </FormControl>
           </Box>
           <Box>
-            <Typography
-              fontSize={18}
-              fontWeight='bold'
-            >
-              {currency}
-            </Typography>
+            <Typography fontWeight="bold">{props.values.currency}</Typography>
           </Box>
         </Box>
         <Box className='flex-wrapper-equal-portion'>
@@ -148,6 +150,7 @@ const FormContent = ({
             display='flex'
             gap={2}
             alignItems='center'
+            flexWrap="wrap"
           >
             {(isSuperAdmin() || isOperator()) &&
               <AgentSelectForBetLimit
@@ -157,9 +160,10 @@ const FormContent = ({
                 props={props} />
             }
             <CurrencySelect
+              required
               loading={loading}
               error={error}
-              currencySelected={props.values.currencySelect}
+              currencySelected={props.values.currency}
               currenciesList={currencyTabs}
               handleChangeCurrency={handleChangeCurrency}
             />
@@ -238,7 +242,7 @@ const FormContent = ({
                 name='eventSelect'
                 value={props.values.eventSelect}
                 onBlur={props.handleBlur}
-                disabled={events.length === 0 || loadingEvents}
+                disabled={events.length === 0 || loadingEvents || !props.values.currency}
                 onChange={(e) =>
                   props.setFieldValue('eventSelect', e.target.value as string)
                 }

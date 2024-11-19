@@ -10,7 +10,6 @@ const ConversionRate = () => {
   const listAgentsData = useSelector(listAgentsSelector)
   const { rate, loading, error } = listAgentsData
 
-
   return (
     <Box className="rate-wrapper">
       {!loading && !error && (
