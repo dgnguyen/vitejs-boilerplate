@@ -154,9 +154,6 @@ const FormContent = ({
           >
             {(isSuperAdmin() || isOperator()) &&
               <AgentSelectForBetLimit
-                agents={agents}
-                error={error}
-                loadingAgents={loading}
                 props={props} />
             }
             <CurrencySelect

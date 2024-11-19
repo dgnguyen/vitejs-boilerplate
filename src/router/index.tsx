@@ -68,7 +68,7 @@ const allRoutes: RouteObject[] = [
     ),
   },
   {
-    path: ROUTES.AGENT_BETLIMIT_OVERVIEW,
+    path: ROUTES.AGENT_BETLIMIT_OVERVIEW, // this page show bet limit by events, currently in standby
     element: (
       <AuthRoute
         element={<MarketBetLimit />}

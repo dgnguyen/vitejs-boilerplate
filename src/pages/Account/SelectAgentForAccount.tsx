@@ -63,19 +63,19 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
       required
     >
       <InputLabel id='select-agent-account-select-label'>
-        Select agent
+        Select Agent
       </InputLabel>
       {isSelectMultiple ?
         <Select
           multiple
           labelId='select-agent-account-select-label'
           id='select-agent-multiple'
-          label='Select agent'
+          label='Select Agent'
           name='agentList'
           value={agentName}
           onChange={handleChangeMultiple}
           required
-          input={<OutlinedInput label="Select agent" />}
+          input={<OutlinedInput label="Select Agent" />}
           MenuProps={MenuProps}
           onClose={
             () => setFieldValue("agentList", agentName)
@@ -99,7 +99,7 @@ const SelectAgentForAccount = ({ props, disabled }: Props) => {
         <Select
           labelId='select-agent-account-select-label'
           id='select-agent-single'
-          label='Select agent'
+          label='Select Agent'
           name='agentList'
           value={agentList?.[0]}
           onChange={handleChange}

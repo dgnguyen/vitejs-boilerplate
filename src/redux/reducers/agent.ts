@@ -112,16 +112,7 @@ export const agentReducer = createSlice({
         // Update the existing item’s properties
         state.betLimitData[existingIndex] = {
           ...state.betLimitData[existingIndex],
-          type: payload.type,
-          agent: payload.agent,
-          gameType: payload.gameType,
-          market: payload.market,
-          event: payload.event,
-          minBet: payload.minBet,
-          maxBet: payload.maxBet,
-          appliedDate: payload.appliedDate,
-          appliedBy: payload.appliedBy,
-          groupPermissionId: payload.groupPermissionId,
+          ...payload,
         }
       } else {
         // Add the new item if it doesn’t exist

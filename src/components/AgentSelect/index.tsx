@@ -51,7 +51,7 @@ const AgentSelect = ({
         sx={{ m: 1, minWidth: 150 }}
         size='small'
       >
-        <InputLabel id='select-agents-select-label'>Select agent</InputLabel>
+        <InputLabel id='select-agents-select-label'>Select Agent</InputLabel>
         <Select
           labelId='select-agents-select-label'
           id='select-agents-select'

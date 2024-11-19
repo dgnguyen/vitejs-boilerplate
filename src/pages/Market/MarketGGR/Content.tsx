@@ -12,11 +12,13 @@ import '../style.scss'
 
 type Props = {
   loading: boolean
+  currency: string
   data?: DataMarketGGR
   error?: string
+
 }
 
-const MarketGGRContent = ({ error, loading, data }: Props) => {
+const MarketGGRContent = ({ error, currency, loading, data }: Props) => {
   if (error) return <Typography color='error'>{error}</Typography>
   if (loading) return <Loader isOutSideOfRelativeContainer />
 
@@ -41,7 +43,7 @@ const MarketGGRContent = ({ error, loading, data }: Props) => {
             color: data && data?.total >= 0 ? 'var(--blue-primary)' : 'var(--red)',
           }}
           fontWeight="bold"
-        > {addCurrencyToPrice(data?.total, data?.currency)}</Typography>
+        > {addCurrencyToPrice(data?.total, currency)}</Typography>
       </Box>
       <Divider sx={{ borderColor: 'white', borderWidth: 1, marginY: 2 }} />
       <Box className='marketCard'>
@@ -71,7 +73,7 @@ const MarketGGRContent = ({ error, loading, data }: Props) => {
                   fontWeight='bold'
                   fontSize={20}
                 >
-                  {addCurrencyToPrice(item.total)}
+                  {addCurrencyToPrice(item.total, currency)}
                 </Typography>
               </Box>
               <Divider />
@@ -87,7 +89,7 @@ const MarketGGRContent = ({ error, loading, data }: Props) => {
                           {
                             index > 0 &&
                             <Typography>
-                              ({data?.currency})
+                              ({currency})
                             </Typography>
                           }
                         </Box>

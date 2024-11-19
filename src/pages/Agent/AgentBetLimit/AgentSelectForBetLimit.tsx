@@ -1,23 +1,26 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 
 import { FormikProps } from 'formik'
+import { useSelector } from 'react-redux'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 import { IAgentData } from 'types/agent'
+import { IAgent } from 'types/listAgents'
 
 import { AgentBetLimitValuesProps } from './FormBetLimit'
 
 type Props = {
   props: FormikProps<AgentBetLimitValuesProps>
-  agents: any[]
-  loadingAgents: boolean
-  error: boolean
 }
-const AgentSelectForBetLimit = ({ props, agents, loadingAgents, error }: Props) => {
+const AgentSelectForBetLimit = ({ props }: Props) => {
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading: loadingAgents, error } = listAgents
+
   return (
     <FormControl sx={{ width: 150 }}>
       <InputLabel id='select-agent-label'>Select Agent</InputLabel>
       <Select
         id='select-agent'
-        label='Select agent'
+        label='Select Agent'
         labelId='select-agent-label'
         name='agentSelect'
         value={props.values.agentSelect || 'all'}
@@ -29,7 +32,7 @@ const AgentSelectForBetLimit = ({ props, agents, loadingAgents, error }: Props) 
       // error={formik.touched.userType && Boolean(formik.errors.userType)}
       >
         <MenuItem value='all'>All</MenuItem>
-        {agents.map((agent: IAgentData) => (
+        {agents.map((agent: IAgent) => (
           <MenuItem
             key={agent.id}
             value={agent.id}

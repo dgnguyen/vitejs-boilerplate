@@ -1,7 +1,9 @@
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
+import withGetListAgent from 'components/withGetListAgents'
 import { useMarketGGR } from 'hooks/useMarketGGR'
+import { CURRENCY } from 'types/currency'
 
 import MarketTab from '../MarketTab'
 
@@ -24,7 +26,7 @@ const MarketGGR = () => {
 
   return (
     <Box className='market-stats-wrapper'>
-      <PageTitle title='GGR Stats by Market' />
+      <PageTitle title='GGR Stats by Market' haveRate />
       <MarketTab />
       <MarketFilter
         loading={loading}
@@ -40,10 +42,11 @@ const MarketGGR = () => {
           loading={loading}
           data={data}
           error={error}
+          currency={filter?.currency && filter?.currency !== 'all' ? filter?.currency : CURRENCY.KRW}
         />
       }
     </Box>
   )
 }
 
-export default MarketGGR
+export default withGetListAgent(MarketGGR)

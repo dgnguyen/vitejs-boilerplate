@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { API_ENDPOINT } from 'api/endpoint'
 import axios, { AxiosError } from 'axios'
 import { langEnum } from 'constants/market'
-import { AppDispatch } from 'redux/store'
+import { AppDispatch, RootState } from 'redux/store'
 
 export type IMarketData = {
   dependancy: Array<number>
@@ -26,8 +26,9 @@ export type IBetAllowed = {
 
 type IMarketSearchValues = {
   gameType: number | null
-  agent: number | string | null
+  agent: string | null
   isTester: string
+  currency: string | null
 }
 
 export type MarketState = {
@@ -41,8 +42,9 @@ export type MarketState = {
 
 const initialSearchValues = {
   gameType: null,
-  agent: null,
+  agent: 'all',
   isTester: 'false',
+  currency: 'all',
 }
 
 const initialState: MarketState = {
@@ -181,14 +183,15 @@ export const updateTicketEventOdd = (
   num: number,
   gameTypeId: number
 ) => {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
       dispatch(setLoading(true))
-
+      const partnerId = getState()?.market?.searchValues?.agent
       const json = JSON.stringify({
-        oddId: id,
         coefficient: num,
         gameType: gameTypeId,
+        partnerId,
+        oddId: id,
       })
 
       const response = await axios.post(
