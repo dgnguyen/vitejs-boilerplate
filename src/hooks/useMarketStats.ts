@@ -14,6 +14,7 @@ type FilterProps = {
   isNextRound: string
   gameType: number
   agent: string | number
+  currency: string
 }
 
 export type DataMarketStat = {
@@ -33,6 +34,7 @@ export type MarketStatProps = {
   isRunningBallGame: boolean
   gamesList: GamesProps[]
   handleChangeAgent: (e: SelectChangeEvent) => void
+  handleChangeCurrency: (e: SelectChangeEvent) => void
 }
 
 export function useMarketStats(): MarketStatProps {
@@ -47,6 +49,7 @@ export function useMarketStats(): MarketStatProps {
     isNextRound: 'false',
     gameType: gamesList[0].id,
     agent: 'all',
+    currency: 'all',
   })
 
   const checkIsRunningBallGame = (gameType: number) => {
@@ -64,18 +67,23 @@ export function useMarketStats(): MarketStatProps {
 
   const isRunningBallGame = checkIsRunningBallGame(filterMarket?.gameType)
 
-  function handleSelectGame(value: string | number) {
+  function handleChangeFilter(key: string, value: string | number) {
     setFilterMarket((prevState: any) => ({
       ...prevState,
-      gameType: value,
+      [key]: value,
     }))
   }
 
+  function handleSelectGame(value: string | number) {
+    handleChangeFilter('gameType', value)
+  }
+
   function handleChangeAgent(e: SelectChangeEvent) {
-    setFilterMarket((prevState: FilterProps) => ({
-      ...prevState,
-      agent: e.target.value,
-    }))
+    handleChangeFilter('agent', e.target.value)
+  }
+
+  function handleChangeCurrency(e: SelectChangeEvent) {
+    handleChangeFilter('currency', e.target.value)
   }
 
   async function fetchStatisticMarket() {
@@ -93,6 +101,9 @@ export function useMarketStats(): MarketStatProps {
             : {}),
           ...(filterMarket?.isNextRound !== 'null' && isRunningBallGame
             ? { isNextRound: filterMarket?.isNextRound === 'true' }
+            : {}),
+          ...(filterMarket?.currency !== 'all'
+            ? { currency: filterMarket.currency }
             : {}),
         }
       )
@@ -126,5 +137,6 @@ export function useMarketStats(): MarketStatProps {
     isRunningBallGame,
     gamesList,
     handleChangeAgent,
+    handleChangeCurrency,
   }
 }

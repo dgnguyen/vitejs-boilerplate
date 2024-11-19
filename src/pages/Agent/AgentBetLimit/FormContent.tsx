@@ -7,18 +7,22 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material'
 
 import MuiButton from 'components/Commons/MuiButton'
+import CurrencySelect from 'components/CurrencySelect'
 import { Form, FormikProps, useFormikContext } from 'formik'
-import { getUser, isOperator, isSuperAdmin } from 'helpers/auth'
+import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { IMarketSelect, useFetchMarketByGame } from 'hooks/useFecthMarketByGame'
 import { useFetchEventByMarket } from 'hooks/useFetchEventByMarket'
 import { IGamesSelect, useFetchGamesByAgent } from 'hooks/useFetchGamesByAgent'
+import { getCurrencyByAgent } from 'pages/Dashboard/helpers'
 import { NumericFormat } from 'react-number-format'
 import { useSelector } from 'react-redux'
+import { listAgentsSelector } from 'redux/reducers/listAgents'
 import { RootState } from 'redux/store'
 
 import AgentSelectForBetLimit from './AgentSelectForBetLimit'
@@ -47,36 +51,46 @@ const FormContent = ({
     gameId: values?.gameSelect,
     agentId: agentToAPI,
   })
-  
-    useEffect(() => {
-      if (isEdit) {
-        // Set initial values for editing
-        setFieldValue('minBet', props.values.minBet || '')
-        setFieldValue('maxBet', props.values.maxBet || '')
-        setFieldValue('agentSelect', props.values.agentSelect || '')
-        setFieldValue('gameSelect', props.values.gameSelect || '')
-        setFieldValue('marketSelect', props.values.marketSelect || '')
-        setFieldValue('eventSelect', props.values.eventSelect || '')
-      }
-    }, [isEdit, props.values, setFieldValue])
 
-    useEffect(() => {
-      if (!isEdit) {
-        setFieldValue('gameSelect', '')
-      }
-    }, [values.agentSelect])
-  
-    useEffect(() => {
-      if (!isEdit) {
-        setFieldValue('marketSelect', '')
-      }
-    }, [values.gameSelect])
-  
-    useEffect(() => {
-      if (!isEdit) {
-        setFieldValue('eventSelect', '')
-      }
-    }, [values.marketSelect])
+  const listAgents = useSelector(listAgentsSelector)
+  const { data: agents, loading, error } = listAgents
+  const currencyTabs = getCurrencyByAgent(props.values.agentSelect, agents, true)
+
+
+
+  useEffect(() => {
+    if (isEdit) {
+      // Set initial values for editing
+      setFieldValue('minBet', props.values.minBet || '')
+      setFieldValue('maxBet', props.values.maxBet || '')
+      setFieldValue('agentSelect', props.values.agentSelect || '')
+      setFieldValue('gameSelect', props.values.gameSelect || '')
+      setFieldValue('marketSelect', props.values.marketSelect || '')
+      setFieldValue('eventSelect', props.values.eventSelect || '')
+    }
+  }, [isEdit, props.values, setFieldValue])
+
+  useEffect(() => {
+    if (!isEdit) {
+      setFieldValue('gameSelect', '')
+    }
+  }, [values.agentSelect])
+
+  useEffect(() => {
+    if (!isEdit) {
+      setFieldValue('marketSelect', '')
+    }
+  }, [values.gameSelect])
+
+  useEffect(() => {
+    if (!isEdit) {
+      setFieldValue('eventSelect', '')
+    }
+  }, [values.marketSelect])
+
+  const handleChangeCurrency = (e: SelectChangeEvent) => {
+    props.setFieldValue('currencySelect', e.target.value as string)
+  }
 
   return (
     <Box>
@@ -135,7 +149,20 @@ const FormContent = ({
             gap={2}
             alignItems='center'
           >
-            {(isSuperAdmin() || isOperator()) && <AgentSelectForBetLimit props={props} />}
+            {(isSuperAdmin() || isOperator()) &&
+              <AgentSelectForBetLimit
+                agents={agents}
+                error={error}
+                loadingAgents={loading}
+                props={props} />
+            }
+            <CurrencySelect
+              loading={loading}
+              error={error}
+              currencySelected={props.values.currencySelect}
+              currenciesList={currencyTabs}
+              handleChangeCurrency={handleChangeCurrency}
+            />
             <FormControl sx={{ width: 150 }}>
               <InputLabel id='select-game-label'>
                 {loadingGames ? <CircularProgress size={14} /> : 'Select Game'}

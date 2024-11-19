@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
+import ConversionRate from 'components/ConversionRate'
+import withGetListAgent from 'components/withGetListAgents'
 import { useMarketStats } from 'hooks/useMarketStats'
 
 import MarketFilter from './MarketFilter'
@@ -17,6 +19,7 @@ const MarketStats = () => {
     handleSearch,
     handleSelectGame,
     handleChangeAgent,
+    handleChangeCurrency,
     isRunningBallGame,
     error,
   } = useMarketStats()
@@ -24,6 +27,7 @@ const MarketStats = () => {
   return (
     <Box className='market-stats-wrapper'>
       <PageTitle title='Market Stats' />
+      <ConversionRate />
       <MarketTab />
       <MarketFilter
         loading={loading}
@@ -34,14 +38,16 @@ const MarketStats = () => {
         handleSelectGame={handleSelectGame}
         handleSearch={handleSearch}
         isRunningBallGame={isRunningBallGame}
+        handleChangeCurrency={handleChangeCurrency}
       />
       <MarketStatsContent
         loading={loading}
         data={data}
         error={error}
+        currency={filter?.currency}
       />
     </Box>
   )
 }
 
-export default MarketStats
+export default withGetListAgent(MarketStats)

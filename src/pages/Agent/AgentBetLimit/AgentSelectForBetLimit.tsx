@@ -1,16 +1,17 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 
 import { FormikProps } from 'formik'
-import { useFetchAgents } from 'hooks/useFetchAgents'
 import { IAgentData } from 'types/agent'
 
 import { AgentBetLimitValuesProps } from './FormBetLimit'
 
 type Props = {
   props: FormikProps<AgentBetLimitValuesProps>
+  agents: any[]
+  loadingAgents: boolean
+  error: boolean
 }
-const AgentSelectForBetLimit = ({ props }: Props) => {
-  const { agents, loadingAgents } = useFetchAgents()
+const AgentSelectForBetLimit = ({ props, agents, loadingAgents, error }: Props) => {
   return (
     <FormControl sx={{ width: 150 }}>
       <InputLabel id='select-agent-label'>Select Agent</InputLabel>
@@ -25,7 +26,7 @@ const AgentSelectForBetLimit = ({ props }: Props) => {
         onChange={(e) =>
           props.setFieldValue('agentSelect', e.target.value as string)
         }
-        // error={formik.touched.userType && Boolean(formik.errors.userType)}
+      // error={formik.touched.userType && Boolean(formik.errors.userType)}
       >
         <MenuItem value='all'>All</MenuItem>
         {agents.map((agent: IAgentData) => (

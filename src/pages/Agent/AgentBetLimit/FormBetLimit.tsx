@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { addNewAgentBetLimit } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
 import { IAgentBetLimit } from 'types/agent'
+import { CURRENCY } from 'types/currency'
 
 import FormContent from './FormContent'
 import { getInitState } from './helpers'
@@ -21,6 +22,7 @@ export type AgentBetLimitValuesProps = {
   minBet: string
   maxBet: string
   agentSelect: string
+  currencySelect: string
   gameSelect: string
   marketSelect: string
   eventSelect: string
@@ -43,7 +45,7 @@ export type AgentBetLimitEditValuesProps = {
 }
 
 const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?: (msg: string) => void }) => {
-  
+
   const agentBetLimitDataSelector = useSelector(
     (state: RootState) => state.agent
   )
@@ -54,6 +56,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
     minBet: '',
     maxBet: '',
     agentSelect: '',
+    currencySelect: CURRENCY.KRW,
     gameSelect: '',
     marketSelect: '',
     eventSelect: '',
@@ -63,7 +66,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
 
   const editState = betLimitData.find((item) => item.id === editBetId)
   const initialState = editBetId && editState ? getInitState(editState) : initialStateCreate
-  const isEdit = (editBetId !== undefined && editState !==  undefined)
+  const isEdit = (editBetId !== undefined && editState !== undefined)
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
@@ -98,7 +101,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
         if (response?.data?.isSuccess) {
           dispatch(addNewAgentBetLimit(response?.data?.data))
           if (onSuccess) {
-              onSuccess(response?.data?.message)
+            onSuccess(response?.data?.message)
           }
           openSnackbar({
             message: response?.data?.message,

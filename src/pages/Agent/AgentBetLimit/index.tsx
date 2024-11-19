@@ -6,6 +6,7 @@ import { Box, Button, Divider } from '@mui/material'
 import PageTitle from 'components/Commons/PageTitle'
 import DateBlock from 'components/DateBlock'
 import ExportExcel from 'components/ExportExcel'
+import withGetListAgent from 'components/withGetListAgents'
 import { isOperator, isSuperAdmin } from 'helpers/auth'
 import { useSelector } from 'react-redux'
 import { resetAgentState } from 'redux/reducers/agent'
@@ -63,4 +64,4 @@ const AgentBetLimit = () => {
   )
 }
 
-export default AgentBetLimit
+export default withGetListAgent(AgentBetLimit)

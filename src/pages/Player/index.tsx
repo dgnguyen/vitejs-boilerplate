@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 
 import PageTitle from 'components/Commons/PageTitle'
+import ConversionRate from 'components/ConversionRate'
 import DateBlock from 'components/DateBlock'
 import withGetListAgent from 'components/withGetListAgents'
 
@@ -14,6 +15,7 @@ const Player = () => {
   return (
     <Box className='player-wrapper'>
       <PageTitle title='Player' />
+      <ConversionRate />
       <DateBlock />
       <FilterPlayer />
       <PlayerContent />

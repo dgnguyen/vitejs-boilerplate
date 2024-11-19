@@ -12,8 +12,7 @@ export const headersAgentList = [
   'Agent Name',
   'Register Date',
   ['Category', '(Agent Tag)'],
-  'Min Bet',
-  'Max Bet',
+  'Min/Max Bet By Currency',
   'Wallet Type',
   'Status',
 ]

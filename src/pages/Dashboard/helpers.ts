@@ -7,7 +7,8 @@ export function getStyledButton(route: string) {
 
 export function getCurrencyByAgent(
   agentSelected: string | null,
-  listAgents: IAgent[]
+  listAgents: IAgent[],
+  noAllValue?: boolean
 ) {
   let listCurrencies = [] as string[]
   if (agentSelected === 'all') {
@@ -22,5 +23,5 @@ export function getCurrencyByAgent(
         (agent) => agent.id.toString() === agentSelected?.toString()
       )?.currency as string[]) || []
 
-  return ['all', ...listCurrencies]
+  return noAllValue ? listCurrencies : ['all', ...listCurrencies]
 }

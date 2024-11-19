@@ -1,3 +1,5 @@
+import { ICURRENCY } from './currency'
+
 export type IAgentData = {
   id: number
   externalId: string
@@ -8,8 +10,14 @@ export type IAgentData = {
   isBlock: boolean
   walletTypeId: number
   tag: string
-  minBet: number
-  maxBet: number
+  betLimitByCurrency: IBetLimitByCurrency
+}
+
+type IBetLimitByCurrency = {
+  [key: string]: {
+    minBet: number
+    maxBet: number
+  }
 }
 
 type OptionSelect = {
