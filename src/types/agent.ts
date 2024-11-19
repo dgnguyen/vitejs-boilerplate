@@ -37,4 +37,5 @@ export type IAgentBetLimit = {
   appliedDate: string
   appliedBy: string
   groupPermissionId: number
+  currency: string
 }

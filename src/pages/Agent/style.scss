@@ -1,9 +1,31 @@
-.agentFilter-wrapper {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  .MuiOutlinedInput-root {
-    background-color: white;
+.agent-wrapper {
+  .agentFilter-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    .MuiOutlinedInput-root {
+      background-color: white;
+    }
+  }
+  .agentBody-wrapper {
+    height: calc(100vh - 300px);
+    margin: 16px 0;
+    .agent-table {
+      min-width: 650px;
+      .minMaxBetCell {
+        width: 200px;
+        margin: 0 auto;
+        div {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+    }
   }
 }
 

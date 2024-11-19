@@ -10,8 +10,6 @@ import { useSnackbar } from 'hooks/useSnackbar'
 import { useSelector } from 'react-redux'
 import { addNewAgentBetLimit } from 'redux/reducers/agent'
 import { RootState, useAppDispatch } from 'redux/store'
-import { IAgentBetLimit } from 'types/agent'
-import { CURRENCY } from 'types/currency'
 
 import FormContent from './FormContent'
 import { getInitState } from './helpers'
@@ -22,7 +20,7 @@ export type AgentBetLimitValuesProps = {
   minBet: string
   maxBet: string
   agentSelect: string
-  currencySelect: string
+  currency: string
   gameSelect: string
   marketSelect: string
   eventSelect: string
@@ -45,6 +43,7 @@ export type AgentBetLimitEditValuesProps = {
 }
 
 const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?: (msg: string) => void }) => {
+  const dispatch = useAppDispatch()
 
   const agentBetLimitDataSelector = useSelector(
     (state: RootState) => state.agent
@@ -56,7 +55,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
     minBet: '',
     maxBet: '',
     agentSelect: '',
-    currencySelect: CURRENCY.KRW,
+    currency: '',
     gameSelect: '',
     marketSelect: '',
     eventSelect: '',
@@ -70,7 +69,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
   const [submitting, setSubmiting] = useState(false)
   const { snackbar, openSnackbar, closeSnackbar } = useSnackbar()
 
-  const dispatch = useAppDispatch()
+
 
   const onSubmit = (values: AgentBetLimitValuesProps) => {
     setSubmiting(true)
@@ -83,6 +82,7 @@ const FormBetLimit = ({ editBetId, onSuccess }: { editBetId?: number, onSuccess?
           : null,
       minBet: values?.minBet,
       maxBet: values?.maxBet,
+      currency: values?.currency,
       marketId:
         values?.marketSelect !== 'all' ? values?.marketSelect || null : null,
       eventId:

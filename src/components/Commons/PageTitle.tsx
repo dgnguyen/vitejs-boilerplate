@@ -1,10 +1,9 @@
 import { Box } from '@mui/material'
 import Typography from '@mui/material/Typography'
 
-const PageTitle = ({
-  title,
-  subTitle,
-}: {
+import ConversionRate from 'components/ConversionRate'
+
+const PageTitleContent = ({ title, subTitle }: {
   title: string
   subTitle?: string
 }) => {
@@ -30,6 +29,29 @@ const PageTitle = ({
       )}
     </Box>
   )
+}
+
+const PageTitle = ({
+  title,
+  subTitle,
+  haveRate,
+}: {
+  title: string
+  subTitle?: string
+  haveRate?: boolean
+}) => {
+  if (haveRate) {
+    return (
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <PageTitleContent title={title} subTitle={subTitle} />
+        <ConversionRate />
+      </Box>
+    )
+  }
+  return (
+    <PageTitleContent title={title} subTitle={subTitle} />
+  )
+
 }
 
 export default PageTitle

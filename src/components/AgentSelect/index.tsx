@@ -18,16 +18,15 @@ type SelectProps = {
 
 const AgentSelect = ({
   handleChange,
-  agentSelected: initialAgentSelected,
+  agentSelected,
   disableSelectAll,
   cb,
 }: {
-  agentSelected: string | number
+  agentSelected?: string | number | null
   disableSelectAll?: boolean
   handleChange: (event: SelectChangeEvent) => void
   cb?: (e?: string) => void
 }) => {
-  const agentSelected = initialAgentSelected || "all"
   const { agents, loadingAgents } = useFetchAgents()
   const agentsOptions = (agents || []).reduce(
     (acc: SelectProps, curr: IAgentData) => [

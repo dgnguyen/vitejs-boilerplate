@@ -19,7 +19,6 @@ import MuiDialog from 'components/Commons/MuiDialog'
 import MuiModal from 'components/Commons/MuiModal'
 import EmptyData from 'components/EmptyData'
 import { FORMAT_DATE_TIME } from 'constants/date'
-import { previousDay } from 'date-fns'
 import { thousandSeparator } from 'helpers/currency'
 import useSetHeightInfiniteScroll from 'hooks/useSetHeightInfiniteScroll'
 import { useSnackbar } from 'hooks/useSnackbar'
@@ -118,7 +117,7 @@ const BetLimitHistory = () => {
       <Box
         ref={inputRef}
         sx={{
-          height: 'calc(100vh - 450px)',
+          height: 'calc(100vh - 530px)',
           marginY: 1,
         }}
       >
@@ -133,7 +132,7 @@ const BetLimitHistory = () => {
                 dataLength={betLimitData?.length || 0}
                 next={() => dispatch(getHistoryChangeBetLimitAction())}
                 hasMore={hasMore}
-                height={height ? height - 100 : 600}
+                height={height ? height : 600}
                 loader={loading && <LinearProgress />}
                 scrollableTarget='scrollableDiv'
               >
@@ -201,7 +200,7 @@ const BetLimitHistory = () => {
           handleClose={handleCloseModalEdit}
           open={openModal.edit}
         >
-          <FormBetLimit editBetId={openModal.id} onSuccess={handleEditSuccess}/>
+          <FormBetLimit editBetId={openModal.id} onSuccess={handleEditSuccess} />
         </MuiModal>
       }
       {

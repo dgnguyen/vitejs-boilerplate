@@ -13,10 +13,12 @@ export function useFetchEventByMarket({
   agentId,
   gameId,
   marketId,
+  currency,
 }: {
   agentId?: string
   gameId?: string
   marketId?: string
+  currency?: string
 }) {
   const [events, setEvents] = useState<IEventSelect[]>([])
   const [loading, setLoading] = useState(false)
@@ -29,6 +31,7 @@ export function useFetchEventByMarket({
         partnerId: agentId,
         gameTypeId: gameId,
         marketId,
+        currency,
       })
       const response: any = await axios.post(
         API_ENDPOINT.GET_EVENT_BY_MARKET,
@@ -51,6 +54,7 @@ export function useFetchEventByMarket({
       gameId &&
       agentId &&
       marketId &&
+      currency &&
       gameId !== 'all' &&
       agentId !== 'all' &&
       marketId !== 'all'
@@ -59,7 +63,7 @@ export function useFetchEventByMarket({
     } else {
       setEvents([])
     }
-  }, [gameId, agentId, marketId])
+  }, [gameId, agentId, marketId, currency])
 
   return {
     events,
